@@ -94,7 +94,7 @@ export default function AboutPage() {
                   src="/images/our-story.jpg"
                   alt="BedBug Treatment technician fumigating a living room sofa"
                   fill
-                  priority
+                  loading="eager"
                   sizes="(min-width: 1024px) 50vw, 100vw"
                   className="object-cover"
                 />

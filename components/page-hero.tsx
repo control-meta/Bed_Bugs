@@ -13,7 +13,7 @@ export function PageHero({
   breadcrumb: string;
 }) {
   return (
-    <section className="relative isolate overflow-hidden bg-ink pb-14 pt-24 lg:pb-16 lg:pt-28">
+    <section className="relative isolate overflow-hidden bg-ink pb-14 pt-24 max-sm:pb-8 lg:pb-16 lg:pt-28">
       <div className="absolute inset-0" aria-hidden>
         <div className="absolute inset-0 bg-[radial-gradient(120%_140%_at_80%_10%,#7f1024_0%,#3d0a12_40%,#170609_75%)]" />
         <div className="absolute inset-0 bg-grid-dark opacity-25" />

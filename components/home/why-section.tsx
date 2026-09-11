@@ -15,21 +15,25 @@ const reasons = [
     icon: ShieldCheck,
     title: "100% money-back guarantee",
     description: "Backed by a 30-day guarantee and a 12-month service warranty.",
+    mobileDescription: "30-day guarantee, 12-month warranty",
   },
   {
     icon: Sparkles,
     title: "100% safe for children & pets",
     description: "Low-toxicity, family-safe formulations only.",
+    mobileDescription: "Low-toxicity, family-safe formulas",
   },
   {
     icon: Leaf,
     title: "Eco-friendly & 100% odorless",
     description: "No harsh smell and no need to throw away your belongings.",
+    mobileDescription: "Odorless, no need to discard items",
   },
   {
     icon: PiggyBank,
     title: "Affordable, transparent pricing",
     description: "Free inspection and a clear estimate before we begin.",
+    mobileDescription: "Free inspection, clear estimate",
   },
 ];
 
@@ -55,9 +59,12 @@ export function WhySection() {
               }
               description="We focus entirely on solving one serious problem, effectively and permanently. Every treatment is performed by trained technicians who understand exactly where bed bugs hide."
             />
-            <ul className="mt-8 space-y-4">
+            <ul className="mt-8 space-y-4 max-sm:mx-auto max-sm:w-fit max-sm:max-w-full">
               {reasons.map((reason) => (
-                <li key={reason.title} className="flex gap-3.5">
+                <li
+                  key={reason.title}
+                  className="flex gap-3.5 max-sm:grid max-sm:grid-cols-[auto_1fr] max-sm:items-center max-sm:text-left"
+                >
                   <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-brand-600/10">
                     <reason.icon className="h-5 w-5 text-brand-600" />
                   </span>
@@ -66,13 +73,18 @@ export function WhySection() {
                       {reason.title}
                     </h3>
                     <p className="mt-1 text-sm leading-relaxed text-ink/60">
-                      {reason.description}
+                      <span className="max-sm:hidden">
+                        {reason.description}
+                      </span>
+                      <span className="hidden max-sm:inline">
+                        {reason.mobileDescription}
+                      </span>
                     </p>
                   </div>
                 </li>
               ))}
             </ul>
-            <div className="mt-8 flex flex-wrap items-center gap-4">
+            <div className="mt-8 flex flex-wrap items-center gap-4 max-sm:justify-center">
               <Link
                 href="/about"
                 className="group inline-flex items-center gap-2.5 rounded-full bg-ink px-6 py-3 text-sm font-semibold text-white transition hover:bg-maroon-800"
@@ -80,7 +92,7 @@ export function WhySection() {
                 More About Us
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
-              <p className="flex items-center gap-2 text-sm font-medium text-ink/70">
+              <p className="flex items-center gap-2 text-sm font-medium text-ink/70 max-sm:hidden">
                 <CheckCircle2 className="h-5 w-5 text-brand-600" />
                 100% money-back guaranteed
               </p>

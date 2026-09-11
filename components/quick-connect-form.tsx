@@ -4,7 +4,7 @@ import { useState } from "react";
 import { CheckCircle2, Loader2, Phone, User, Zap } from "lucide-react";
 
 const fieldClass =
-  "w-full rounded-[0.7em] border border-white/15 bg-white/10 py-[0.7em] pl-[2.3em] pr-[0.9em] text-[0.9em] text-white outline-none transition placeholder:text-white/45 focus:border-brand-400 focus:bg-white/15 focus:ring-2 focus:ring-brand-500/25";
+  "w-full rounded-[0.7em] border border-white/15 bg-white/10 py-[0.7em] pl-[2.3em] pr-[0.9em] text-[0.9em] text-white outline-none transition placeholder:text-white/45 focus:border-brand-400 focus:bg-white/15 focus:ring-2 focus:ring-brand-500/25 max-sm:py-[0.6em]";
 
 export function QuickConnectForm() {
   const [name, setName] = useState("");
@@ -53,7 +53,7 @@ export function QuickConnectForm() {
       <form
         onSubmit={handleSubmit}
         noValidate
-        className="flex flex-col gap-[0.6em] rounded-[1.1em] border border-white/20 bg-white/10 p-[0.7em] backdrop-blur-xl sm:flex-row sm:items-center"
+        className="flex flex-col gap-[0.6em] rounded-[1.1em] border border-white/20 bg-white/10 p-[0.7em] backdrop-blur-xl max-sm:gap-[0.5em] max-sm:p-[0.55em] sm:flex-row sm:items-center"
       >
         <div className="relative flex-1">
           <User className="pointer-events-none absolute left-[0.9em] top-1/2 h-[1em] w-[1em] -translate-y-1/2 text-white/45" />
@@ -83,13 +83,13 @@ export function QuickConnectForm() {
             placeholder="Phone number"
             autoComplete="tel-national"
             aria-label="Phone number"
-            className="w-full bg-transparent py-[0.7em] pl-[0.6em] pr-[0.9em] text-[0.9em] text-white outline-none placeholder:text-white/45"
+            className="w-full bg-transparent py-[0.7em] pl-[0.6em] pr-[0.9em] text-[0.9em] text-white outline-none placeholder:text-white/45 max-sm:py-[0.6em]"
           />
         </div>
         <button
           type="submit"
           disabled={status === "submitting"}
-          className="inline-flex shrink-0 items-center justify-center gap-[0.5em] rounded-[0.7em] bg-brand-600 px-[1.3em] py-[0.75em] text-[0.9em] font-semibold text-white shadow-lg shadow-brand-600/30 transition hover:bg-brand-500 disabled:cursor-not-allowed disabled:opacity-70"
+          className="inline-flex shrink-0 items-center justify-center gap-[0.5em] rounded-[0.7em] bg-brand-600 px-[1.3em] py-[0.75em] text-[0.9em] font-semibold text-white shadow-lg shadow-brand-600/30 transition hover:bg-brand-500 disabled:cursor-not-allowed disabled:opacity-70 max-sm:py-[0.65em]"
         >
           {status === "submitting" ? (
             <Loader2 className="h-[1.1em] w-[1.1em] animate-spin" />

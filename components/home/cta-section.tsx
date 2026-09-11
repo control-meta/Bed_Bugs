@@ -23,35 +23,40 @@ const ctaImages = [
 ];
 
 export function CtaSection({
-  className = "py-12 lg:py-16",
+  className = "py-12 max-sm:pb-2 max-sm:pt-2 lg:py-16",
 }: {
   className?: string;
 }) {
   return (
     <section className={`bg-white ${className}`}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="relative overflow-hidden rounded-[2.5rem] bg-ink">
+        <div className="relative overflow-hidden rounded-[2.5rem] bg-ink max-sm:rounded-[2rem] max-sm:ring-1 max-sm:ring-white/10">
           <div className="absolute inset-0 bg-[radial-gradient(110%_140%_at_15%_10%,#7f1024_0%,#3d0a12_45%,#170609_80%)]" />
           <div className="absolute inset-0 bg-grid-dark opacity-20" aria-hidden />
 
-          <div className="relative grid items-center gap-10 lg:grid-cols-2">
-            <div className="px-7 pb-10 pt-14 sm:px-12 lg:py-20">
-              <p className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.28em] text-brand-400">
+          <div className="relative grid items-center gap-10 max-sm:gap-2 lg:grid-cols-2">
+            <div className="px-7 pb-10 pt-14 max-sm:px-6 max-sm:pb-2 max-sm:pt-8 max-sm:text-center sm:px-12 lg:py-20">
+              <p className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.28em] text-brand-400 max-sm:justify-center max-sm:text-[0.65rem] max-sm:tracking-[0.2em]">
                 <span className="h-px w-8 bg-brand-500" />
                 Book Your Free Inspection
               </p>
-              <h2 className="mt-5 font-display text-3xl font-extrabold leading-tight tracking-tight text-white sm:text-4xl lg:text-[2.75rem]">
+              <h2 className="mt-5 font-display text-3xl font-extrabold leading-tight tracking-tight text-white max-sm:mt-3 max-sm:text-[1.6rem] sm:text-4xl lg:text-[2.75rem]">
                 Say goodbye to bed bugs{" "}
                 <span className="text-brand-500">permanently.</span>
               </h2>
-              <p className="mt-5 max-w-lg text-base leading-relaxed text-white/70">
-                Schedule your free inspection today. Same-day service available
-                across Pune, Mumbai, Bangalore, Delhi &amp; Noida.
+              <p className="mt-5 max-w-lg text-base leading-relaxed text-white/70 max-sm:mx-auto max-sm:mt-3 max-sm:text-sm">
+                <span className="max-sm:hidden">
+                  Schedule your free inspection today. Same-day service available
+                  across Pune, Mumbai, Bangalore, Delhi &amp; Noida.
+                </span>
+                <span className="hidden max-sm:inline">
+                  Free inspection with same-day service available.
+                </span>
               </p>
-              <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
+              <div className="mt-8 flex flex-col gap-4 max-sm:mt-5 max-sm:gap-[0.6rem] sm:flex-row sm:items-center">
                 <Link
                   href="/contact"
-                  className="group inline-flex items-center justify-center gap-3 rounded-full bg-brand-600 px-7 py-4 text-sm font-semibold text-white shadow-xl shadow-brand-600/40 transition hover:bg-brand-500"
+                  className="group inline-flex items-center justify-center gap-3 rounded-full bg-brand-600 px-7 py-4 text-sm font-semibold text-white shadow-xl shadow-brand-600/40 transition hover:bg-brand-500 max-sm:w-full max-sm:py-3"
                 >
                   <CalendarCheck className="h-5 w-5" />
                   Get Free Quote
@@ -59,19 +64,19 @@ export function CtaSection({
                 </Link>
                 <a
                   href={site.phoneHref}
-                  className="inline-flex items-center justify-center gap-3 rounded-full border border-white/30 px-7 py-4 text-sm font-semibold text-white transition hover:border-white/70 hover:bg-white/10"
+                  className="inline-flex items-center justify-center gap-3 rounded-full border border-white/30 px-7 py-4 text-sm font-semibold text-white transition hover:border-white/70 hover:bg-white/10 max-sm:w-full max-sm:py-3"
                 >
                   <PhoneCall className="h-5 w-5 text-brand-400" />
                   {site.phoneDisplay}
                 </a>
               </div>
-              <p className="mt-6 flex items-center gap-2 text-sm text-white/60">
-                <ShieldCheck className="h-5 w-5 text-brand-400" />
+              <p className="mt-6 flex items-center gap-2 text-sm text-white/60 max-sm:hidden max-sm:mt-4 max-sm:justify-center max-sm:text-xs">
+                <ShieldCheck className="h-5 w-5 shrink-0 text-brand-400 max-sm:h-4 max-sm:w-4" />
                 100% money-back guarantee · 12-month warranty
               </p>
             </div>
 
-            <div className="relative h-72 w-full overflow-hidden sm:h-96 lg:h-full lg:min-h-[30rem]">
+            <div className="relative h-72 w-full overflow-hidden max-sm:h-40 sm:h-96 lg:h-full lg:min-h-[30rem]">
               {ctaImages.map((image, index) => (
                 <div
                   key={image.src}

@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   BedDouble,
   Building2,
+  Check,
   CheckCircle2,
   ChevronDown,
   Clock,
@@ -63,6 +64,122 @@ function FieldIcon({ children }: { children: React.ReactNode }) {
     <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-ink/35">
       {children}
     </span>
+  );
+}
+
+function CitySelect({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState(-1);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onPointerDown = (event: MouseEvent) => {
+      if (!containerRef.current?.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("mousedown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open]);
+
+  const openMenu = () => {
+    setOpen(true);
+    setActive(Math.max(0, cities.findIndex((city) => city.name === value)));
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      if (!open) return openMenu();
+      setActive((index) => Math.min(index + 1, cities.length - 1));
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      if (!open) return openMenu();
+      setActive((index) => Math.max(index - 1, 0));
+    } else if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      if (!open) return openMenu();
+      if (active >= 0) {
+        onChange(cities[active].name);
+        setOpen(false);
+      }
+    }
+  };
+
+  return (
+    <div className="relative" ref={containerRef}>
+      <FieldIcon>
+        <MapPin className="h-4 w-4" />
+      </FieldIcon>
+      <button
+        type="button"
+        id="city"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        onClick={() => (open ? setOpen(false) : openMenu())}
+        onKeyDown={handleKeyDown}
+        className={`${inputClass} flex items-center justify-between gap-2 text-left ${
+          value ? "text-ink" : "text-ink/35"
+        }`}
+      >
+        <span className="truncate">{value || "Select your city"}</span>
+        <ChevronDown
+          className={`h-4 w-4 shrink-0 text-ink/40 transition-transform duration-200 ${
+            open ? "rotate-180" : ""
+          }`}
+        />
+      </button>
+
+      {open && (
+        <ul
+          role="listbox"
+          aria-label="City"
+          className="absolute inset-x-0 z-30 mt-2 max-h-56 origin-top overflow-y-auto rounded-2xl border border-ink/10 bg-white p-1.5 shadow-[0_24px_60px_-25px_rgba(23,6,9,0.5)] ring-1 ring-black/5"
+        >
+          {cities.map((city, index) => {
+            const selected = value === city.name;
+            return (
+              <li key={city.name}>
+                <button
+                  type="button"
+                  role="option"
+                  aria-selected={selected}
+                  onClick={() => {
+                    onChange(city.name);
+                    setOpen(false);
+                  }}
+                  onMouseEnter={() => setActive(index)}
+                  className={`flex w-full items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-left text-sm transition ${
+                    selected
+                      ? "bg-brand-50 font-semibold text-brand-700"
+                      : active === index
+                        ? "bg-cream text-ink"
+                        : "text-ink/75"
+                  }`}
+                >
+                  <span>{city.name}</span>
+                  {selected && <Check className="h-4 w-4 text-brand-600" />}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </div>
   );
 }
 
@@ -159,11 +276,11 @@ export function ContactForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="overflow-hidden rounded-[2rem] border border-ink/10 bg-white shadow-[0_30px_80px_-40px_rgba(23,6,9,0.35)]"
+      className="rounded-[2rem] border border-ink/10 bg-white shadow-[0_30px_80px_-40px_rgba(23,6,9,0.35)]"
       noValidate
     >
       {/* Header — single-service focus */}
-      <div className="relative bg-ink px-6 py-5 sm:px-7">
+      <div className="relative rounded-t-[2rem] bg-ink px-6 py-5 sm:px-7">
         <div className="bg-grid-dark absolute inset-0" aria-hidden="true" />
         <div className="relative">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-600 px-3 py-1 text-[11px] font-bold text-white">
@@ -238,26 +355,10 @@ export function ContactForm() {
               City *
             </label>
             <div className="relative">
-              <FieldIcon>
-                <MapPin className="h-4 w-4" />
-              </FieldIcon>
-              <select
-                id="city"
-                name="city"
+              <CitySelect
                 value={form.city}
-                onChange={update("city")}
-                className={`${inputClass} appearance-none pr-10 ${form.city ? "" : "text-ink/35"}`}
-              >
-                <option value="">Select your city</option>
-                {cities.map((city) => (
-                  <option key={city.name} value={city.name}>
-                    {city.name}
-                  </option>
-                ))}
-              </select>
-              <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-ink/35">
-                <ChevronDown className="h-4 w-4" />
-              </span>
+                onChange={(city) => setForm((prev) => ({ ...prev, city }))}
+              />
             </div>
           </div>
           <div>
@@ -359,7 +460,7 @@ export function ContactForm() {
           href={site.whatsappHref}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-2.5 inline-flex w-full items-center justify-center gap-2 rounded-full border border-ink/15 px-7 py-3 text-sm font-semibold text-ink transition hover:border-brand-600/40 hover:text-brand-600"
+          className="mt-2.5 inline-flex w-full items-center justify-center gap-2 rounded-full border border-ink/15 px-7 py-3 text-sm font-semibold text-ink transition hover:border-brand-600/40 hover:text-brand-600 max-sm:text-center"
         >
           <MessageCircle className="h-4 w-4" />
           Or WhatsApp photos of bites & mattress spots

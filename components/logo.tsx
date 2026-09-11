@@ -1,65 +1,176 @@
 "use client";
 
 import Link from "next/link";
+import { useId } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
 export function LogoMark({ className = "h-11 w-auto" }: { className?: string }) {
+  const uid = useId().replace(/:/g, "");
+  const shield = `logo-shield-${uid}`;
+  const trim = `logo-trim-${uid}`;
+  const body = `logo-body-${uid}`;
+  const head = `logo-head-${uid}`;
+  const shade = `logo-shade-${uid}`;
+  const gloss = `logo-gloss-${uid}`;
+  const clip = `logo-clip-${uid}`;
+
   return (
-    <svg viewBox="0 0 48 56" className={className} aria-hidden="true">
+    <svg viewBox="0 0 64 66" className={className} aria-hidden="true">
       <defs>
-        <linearGradient id="bgt-shield" x1="0.1" y1="0" x2="0.9" y2="1">
-          <stop offset="0%" stopColor="#ff5a69" />
-          <stop offset="52%" stopColor="#e11931" />
-          <stop offset="100%" stopColor="#93101f" />
+        <linearGradient id={shield} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#ff6471" />
+          <stop offset="45%" stopColor="#e11931" />
+          <stop offset="100%" stopColor="#7f1024" />
         </linearGradient>
-        <linearGradient id="bgt-gloss" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.4" />
-          <stop offset="42%" stopColor="#ffffff" stopOpacity="0" />
+        <linearGradient id={trim} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#f8e3a1" />
+          <stop offset="55%" stopColor="#d9a441" />
+          <stop offset="100%" stopColor="#9c6414" />
         </linearGradient>
+        <linearGradient id={body} x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="#ffffff" />
+          <stop offset="55%" stopColor="#dbe1ea" />
+          <stop offset="100%" stopColor="#9aa3b5" />
+        </linearGradient>
+        <linearGradient id={head} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#ffffff" />
+          <stop offset="100%" stopColor="#c3cad7" />
+        </linearGradient>
+        <linearGradient id={shade} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#000000" stopOpacity="0.35" />
+          <stop offset="35%" stopColor="#000000" stopOpacity="0" />
+        </linearGradient>
+        <linearGradient id={gloss} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.28" />
+          <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+        </linearGradient>
+        <clipPath id={clip}>
+          <path d="M32 8.2 50.3 14.8V34c0 12.9-9 21-18.3 24C22.7 55 13.7 46.9 13.7 34V14.8Z" />
+        </clipPath>
       </defs>
 
+      {/* Shield base */}
       <path
-        d="M24 2 43 9.6V28c0 13.8-9.4 22.2-19 25.5C14.4 50.2 5 41.8 5 28V9.6L24 2Z"
-        fill="url(#bgt-shield)"
+        d="M32 2.5 56 11v23c0 15.8-11.2 25.6-24 29.2C19.2 59.6 8 49.8 8 34V11Z"
+        fill="#1a0308"
       />
       <path
-        d="M24 2 43 9.6V28c0 13.8-9.4 22.2-19 25.5C14.4 50.2 5 41.8 5 28V9.6L24 2Z"
-        fill="url(#bgt-gloss)"
-      />
-      <path
-        d="M24 6.6 39 12.7V28c0 10.7-7.2 17.6-15 20.7-7.8-3.1-15-10-15-20.7V12.7Z"
-        fill="none"
-        stroke="rgba(255,255,255,0.32)"
-        strokeWidth="1.2"
+        d="M32 4.5 54 12.4V34c0 14.9-10.6 24.2-22 27.6C20.6 58.2 10 48.9 10 34V12.4Z"
+        fill={`url(#${shield})`}
       />
 
-      <g>
+      <g clipPath={`url(#${clip})`}>
+        {/* Top inner shadow + gloss for a metallic finish */}
+        <rect x="8" y="4" width="48" height="30" fill={`url(#${shade})`} />
+        <ellipse
+          cx="22"
+          cy="14"
+          rx="17"
+          ry="7"
+          fill="#ffffff"
+          opacity="0.16"
+          transform="rotate(-16 22 14)"
+        />
+
+        {/* Ground shadow */}
+        <ellipse cx="32" cy="55.5" rx="8.5" ry="1.8" fill="#000" opacity="0.28" />
+
+        {/* Legs */}
+        <g stroke="#eef1f6" strokeWidth="1.7" strokeLinecap="round" fill="none">
+          <path d="M24.5 29.5 18.5 26.5 15.5 29.5" />
+          <path d="M39.5 29.5 45.5 26.5 48.5 29.5" />
+          <path d="M24 34.5 17.5 34.5 14.5 38" />
+          <path d="M40 34.5 46.5 34.5 49.5 38" />
+          <path d="M24.5 39.5 18.5 42.5 16.2 47" />
+          <path d="M39.5 39.5 45.5 42.5 47.8 47" />
+        </g>
+
+        {/* Abdomen with segmented tergites */}
+        <ellipse cx="32" cy="42" rx="9.5" ry="12" fill={`url(#${body})`} />
         <g
-          stroke="#fff"
-          strokeWidth="1.7"
+          stroke="#7d8698"
+          strokeWidth="1"
+          fill="none"
+          opacity="0.85"
+          strokeLinecap="round"
+        >
+          <path d="M23.6 37.2Q32 40.4 40.4 37.2" />
+          <path d="M23 41.2Q32 44.6 41 41.2" />
+          <path d="M23.4 45.2Q32 48.6 40.6 45.2" />
+          <path d="M24.2 49.2Q32 52.2 39.8 49.2" />
+        </g>
+        <ellipse cx="28.4" cy="41" rx="2.6" ry="8" fill="#ffffff" opacity="0.45" />
+
+        {/* Pronotum */}
+        <path
+          d="M23.5 27.5Q32 22.8 40.5 27.5L38.7 31.8Q32 28.2 25.3 31.8Z"
+          fill="#c9d1de"
+        />
+        <path
+          d="M23.5 27.5Q32 22.8 40.5 27.5"
+          fill="none"
+          stroke="#8b94a7"
+          strokeWidth="1"
+        />
+
+        {/* Head, eyes, antennae */}
+        <ellipse cx="32" cy="22.8" rx="3.4" ry="2.7" fill={`url(#${head})`} />
+        <circle cx="30.1" cy="22.4" r="0.95" fill="#7f1024" />
+        <circle cx="33.9" cy="22.4" r="0.95" fill="#7f1024" />
+        <circle cx="30.4" cy="22.1" r="0.3" fill="#fff" />
+        <circle cx="34.2" cy="22.1" r="0.3" fill="#fff" />
+        <g
+          stroke="#eef1f6"
+          strokeWidth="1.4"
           strokeLinecap="round"
           fill="none"
         >
-          <path d="M15.6 29.4 10.2 26.7" />
-          <path d="M15 34.6 9.4 34.9" />
-          <path d="M15.6 39.8 10.4 42.7" />
-          <path d="M32.4 29.4 37.8 26.7" />
-          <path d="M33 34.6 38.6 34.9" />
-          <path d="M32.4 39.8 37.6 42.7" />
-          <path d="M20.4 21.4 17.6 15.8" />
-          <path d="M27.6 21.4 30.4 15.8" />
+          <path d="M29.3 20.8C27 18.6 25.2 17.2 22.8 16.6" />
+          <path d="M34.7 20.8C37 18.6 38.8 17.2 41.2 16.6" />
         </g>
 
-        <circle cx="24" cy="21.6" r="4.4" fill="#fff" />
-        <ellipse cx="24" cy="33.4" rx="9.1" ry="11.2" fill="#fff" />
-
-        <g stroke="#e11931" strokeWidth="1.45" fill="none">
-          <path d="M16.2 30.2h15.6M15.6 34.8h16.8M16.2 39.4h15.6M17.4 43.4h13.2" />
-        </g>
-
-        <circle cx="22.3" cy="21" r="1" fill="#93101f" />
-        <circle cx="25.7" cy="21" r="1" fill="#93101f" />
+        {/* Elimination slash */}
+        <rect
+          x="27.5"
+          y="4"
+          width="6.5"
+          height="60"
+          fill="#000"
+          opacity="0.3"
+          transform="rotate(38 32 34) translate(1.4 1.4)"
+        />
+        <rect
+          x="27.5"
+          y="4"
+          width="6.5"
+          height="60"
+          rx="3.25"
+          fill="#f6d789"
+          transform="rotate(38 32 34)"
+        />
+        <rect
+          x="28.7"
+          y="4"
+          width="4.1"
+          height="60"
+          rx="2.05"
+          fill="#ffffff"
+          opacity="0.95"
+          transform="rotate(38 32 34)"
+        />
       </g>
+
+      {/* Champagne-gold rim + gloss */}
+      <path
+        d="M32 4.5 54 12.4V34c0 14.9-10.6 24.2-22 27.6C20.6 58.2 10 48.9 10 34V12.4Z"
+        fill="none"
+        stroke={`url(#${trim})`}
+        strokeWidth="1.6"
+      />
+      <path
+        d="M32 4.5 54 12.4V34c0 14.9-10.6 24.2-22 27.6C20.6 58.2 10 48.9 10 34V12.4Z"
+        fill={`url(#${gloss})`}
+      />
     </svg>
   );
 }
@@ -106,13 +217,20 @@ export function Logo({
           compact ? "h-8" : "h-11"
         }`}
       />
-      <span
-        className={`whitespace-nowrap font-display font-bold leading-none tracking-tight transition-all duration-300 ${
-          compact ? "text-lg" : "text-2xl"
-        }`}
-      >
-        <span className="text-white">BedBug</span>{" "}
-        <span className="text-brand-500">Treatment</span>
+      <span className="flex flex-col">
+        <span
+          className={`whitespace-nowrap font-display font-extrabold leading-none tracking-tight transition-all duration-300 ${
+            compact ? "text-lg" : "text-2xl"
+          }`}
+        >
+          <span className="text-white">BedBug</span>{" "}
+          <span className="text-brand-500">Treatment</span>
+        </span>
+        {!compact && (
+          <span className="mt-1.5 whitespace-nowrap font-sans text-[9px] font-semibold uppercase tracking-[0.32em] text-white/55">
+            Bed Bug Experts · Est. 2011
+          </span>
+        )}
       </span>
     </Link>
   );

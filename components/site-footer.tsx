@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Clock, Mail, MessageCircle, Phone } from "lucide-react";
+import { Mail, MessageCircle, Phone } from "lucide-react";
 import { LogoMark } from "@/components/logo";
 import { cities, navLinks, site } from "@/lib/site";
 
@@ -13,16 +13,16 @@ export function SiteFooter() {
       />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-8 border-b border-white/10 py-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-6">
-          <div className="lg:col-span-5">
-            <div className="flex items-center gap-2.5">
+        <div className="grid gap-8 border-b border-white/10 py-10 max-sm:grid-cols-2 max-sm:gap-6 max-sm:pt-6 max-sm:text-center sm:grid-cols-2 lg:grid-cols-12 lg:gap-6">
+          <div className="lg:col-span-5 max-sm:col-span-2">
+            <div className="flex items-center gap-2.5 max-sm:justify-center">
               <LogoMark className="h-9 w-auto" />
               <span className="font-display text-lg font-bold leading-none tracking-tight">
                 <span className="text-white">BedBug</span>{" "}
                 <span className="text-brand-500">Treatment</span>
               </span>
             </div>
-            <p className="mt-3 max-w-xs text-xs leading-relaxed text-white/55">
+            <p className="mt-3 max-w-xs text-xs leading-relaxed text-white/55 max-sm:mx-auto">
               Safe, effective and guaranteed bed bug treatment for homes, hotels
               and businesses across India.
             </p>
@@ -32,12 +32,12 @@ export function SiteFooter() {
             <h3 className="text-xs font-semibold uppercase tracking-widest text-brand-400">
               Quick Links
             </h3>
-            <ul className="mt-3 space-y-2 text-sm">
+            <ul className="mt-3 space-y-2 text-sm max-sm:mt-3 max-sm:space-y-2">
               {navLinks.slice(1).map((link) => (
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-white/65 transition hover:text-white"
+                    className="text-white/65 transition hover:text-white max-sm:flex max-sm:min-h-[3.25rem] max-sm:w-full max-sm:items-center max-sm:justify-center max-sm:rounded-full max-sm:border max-sm:border-white/10 max-sm:bg-white/[0.06] max-sm:px-3 max-sm:py-2 max-sm:text-center max-sm:text-[0.78rem] max-sm:font-medium max-sm:text-white/80"
                   >
                     {link.label}
                   </Link>
@@ -50,13 +50,13 @@ export function SiteFooter() {
             <h3 className="text-xs font-semibold uppercase tracking-widest text-brand-400">
               Contact
             </h3>
-            <ul className="mt-3 space-y-2 text-sm">
+            <ul className="mt-3 space-y-2 text-sm max-sm:mt-3 max-sm:space-y-2">
               <li>
                 <a
                   href={site.phoneHref}
-                  className="inline-flex items-center gap-2.5 text-white/70 transition hover:text-white"
+                  className="inline-flex items-center gap-2.5 text-white/70 transition hover:text-white max-sm:relative max-sm:flex max-sm:min-h-[3.25rem] max-sm:w-full max-sm:items-center max-sm:justify-center max-sm:rounded-full max-sm:border max-sm:border-white/10 max-sm:bg-white/[0.06] max-sm:py-2 max-sm:pl-9 max-sm:pr-3 max-sm:text-center max-sm:text-[0.78rem] max-sm:font-medium max-sm:text-white/80"
                 >
-                  <Phone className="h-3.5 w-3.5 shrink-0 text-brand-400" />
+                  <Phone className="h-3.5 w-3.5 shrink-0 text-brand-400 max-sm:absolute max-sm:left-3 max-sm:top-1/2 max-sm:-translate-y-1/2" />
                   {site.phoneDisplay}
                 </a>
               </li>
@@ -65,24 +65,20 @@ export function SiteFooter() {
                   href={site.whatsappHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2.5 text-white/70 transition hover:text-white"
+                  className="inline-flex items-center gap-2.5 text-white/70 transition hover:text-white max-sm:relative max-sm:flex max-sm:min-h-[3.25rem] max-sm:w-full max-sm:items-center max-sm:justify-center max-sm:rounded-full max-sm:border max-sm:border-white/10 max-sm:bg-white/[0.06] max-sm:py-2 max-sm:pl-9 max-sm:pr-3 max-sm:text-center max-sm:text-[0.78rem] max-sm:font-medium max-sm:text-white/80"
                 >
-                  <MessageCircle className="h-3.5 w-3.5 shrink-0 text-brand-400" />
+                  <MessageCircle className="h-3.5 w-3.5 shrink-0 text-brand-400 max-sm:absolute max-sm:left-3 max-sm:top-1/2 max-sm:-translate-y-1/2" />
                   Chat on WhatsApp
                 </a>
               </li>
               <li>
                 <a
                   href={site.emailHref}
-                  className="inline-flex items-center gap-2.5 text-white/70 transition hover:text-white"
+                  className="inline-flex items-center gap-2.5 text-white/70 transition hover:text-white max-sm:relative max-sm:flex max-sm:min-h-[3.25rem] max-sm:w-full max-sm:items-center max-sm:justify-center max-sm:rounded-full max-sm:border max-sm:border-white/10 max-sm:bg-white/[0.06] max-sm:py-2 max-sm:pl-9 max-sm:pr-3 max-sm:text-center max-sm:text-[0.72rem] max-sm:font-medium max-sm:text-white/80 max-sm:break-all"
                 >
-                  <Mail className="h-3.5 w-3.5 shrink-0 text-brand-400" />
+                  <Mail className="h-3.5 w-3.5 shrink-0 text-brand-400 max-sm:absolute max-sm:left-3 max-sm:top-1/2 max-sm:-translate-y-1/2" />
                   {site.email}
                 </a>
-              </li>
-              <li className="inline-flex items-center gap-2.5 text-white/70">
-                <Clock className="h-3.5 w-3.5 shrink-0 text-brand-400" />
-                {site.hours}
               </li>
             </ul>
           </div>

@@ -76,7 +76,7 @@ export default function ContactPage() {
         description="Call, WhatsApp or send us a message — our team responds quickly and can often schedule a same-day visit. 24/7 support across all service cities."
       />
 
-      <section className="relative z-20 -mt-10 bg-transparent">
+      <section className="relative z-20 bg-transparent max-sm:pt-6 sm:-mt-10">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {contactCards.map((card) => {
@@ -101,14 +101,14 @@ export default function ContactPage() {
                   {...(card.external
                     ? { target: "_blank", rel: "noopener noreferrer" }
                     : {})}
-                  className="rounded-3xl border border-ink/10 bg-white p-5 shadow-[0_20px_50px_-30px_rgba(23,6,9,0.4)] transition hover:-translate-y-1 hover:border-brand-600/30 hover:shadow-xl"
+                  className="rounded-3xl border border-ink/10 bg-white p-5 shadow-[0_20px_50px_-30px_rgba(23,6,9,0.4)] transition hover:-translate-y-1 hover:border-brand-600/30 hover:shadow-xl max-sm:flex max-sm:flex-col max-sm:items-center max-sm:text-center"
                 >
                   {content}
                 </a>
               ) : (
                 <div
                   key={card.title}
-                  className="rounded-3xl border border-ink/10 bg-white p-5 shadow-[0_20px_50px_-30px_rgba(23,6,9,0.4)]"
+                  className="rounded-3xl border border-ink/10 bg-white p-5 shadow-[0_20px_50px_-30px_rgba(23,6,9,0.4)] max-sm:flex max-sm:flex-col max-sm:items-center max-sm:text-center"
                 >
                   {content}
                 </div>

@@ -6,7 +6,7 @@ import { faqs, site } from "@/lib/site";
 
 export function FaqSection() {
   return (
-    <section id="faq" className="bg-cream py-10 lg:py-14">
+    <section id="faq" className="bg-cream py-10 max-sm:pb-4 lg:py-14">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:items-start lg:gap-14">
           <div className="lg:sticky lg:top-24 lg:self-start">
@@ -22,7 +22,7 @@ export function FaqSection() {
               }
               description="Everything you need to know before booking your bed bug treatment. Still unsure? Our team is one call away."
             />
-            <div className="mt-8 rounded-2xl border border-ink/10 bg-white p-5 text-center">
+            <div className="mt-8 rounded-2xl border border-ink/10 bg-white p-5 text-center max-sm:hidden">
               <h3 className="font-display text-base font-bold text-ink">
                 {site.hours}
               </h3>
