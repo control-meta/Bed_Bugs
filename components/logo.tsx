@@ -7,44 +7,70 @@ export function LogoMark({ className = "h-11 w-auto" }: { className?: string }) 
   return (
     <svg viewBox="0 0 48 56" className={className} aria-hidden="true">
       <defs>
-        <linearGradient id="shieldGrad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#ff4d5e" />
-          <stop offset="55%" stopColor="#e11931" />
-          <stop offset="100%" stopColor="#9d1023" />
+        <linearGradient id="bgt-shield" x1="0.1" y1="0" x2="0.9" y2="1">
+          <stop offset="0%" stopColor="#ff5a69" />
+          <stop offset="52%" stopColor="#e11931" />
+          <stop offset="100%" stopColor="#93101f" />
+        </linearGradient>
+        <linearGradient id="bgt-gloss" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.4" />
+          <stop offset="42%" stopColor="#ffffff" stopOpacity="0" />
         </linearGradient>
       </defs>
+
       <path
-        d="M24 2 44 10v18c0 14-9.5 22.5-20 26C13.5 50.5 4 42 4 28V10L24 2Z"
-        fill="url(#shieldGrad)"
+        d="M24 2 43 9.6V28c0 13.8-9.4 22.2-19 25.5C14.4 50.2 5 41.8 5 28V9.6L24 2Z"
+        fill="url(#bgt-shield)"
       />
       <path
-        d="M24 6 40 12.7V28c0 11.4-7.6 18.6-16 21.7C15.6 46.6 8 39.4 8 28V12.7L24 6Z"
+        d="M24 2 43 9.6V28c0 13.8-9.4 22.2-19 25.5C14.4 50.2 5 41.8 5 28V9.6L24 2Z"
+        fill="url(#bgt-gloss)"
+      />
+      <path
+        d="M24 6.6 39 12.7V28c0 10.7-7.2 17.6-15 20.7-7.8-3.1-15-10-15-20.7V12.7Z"
         fill="none"
-        stroke="rgba(255,255,255,.45)"
-        strokeWidth="1.4"
+        stroke="rgba(255,255,255,0.32)"
+        strokeWidth="1.2"
       />
-      <g stroke="#fff" strokeWidth="1.6" strokeLinecap="round" fill="none">
-        <path d="M24 20.5c1.2-2 1.2-3.6.4-5.2M24 20.5c-1.2-2-1.2-3.6-.4-5.2" />
-        <path d="M15.8 25.5 11 23m4.8 6.4L10.4 31m5.4 5.2-4.2 3.6" />
-        <path d="M32.2 25.5 37 23m-4.8 6.4 5.4 1.6m-5.4 5.2 4.2 3.6" />
+
+      <g>
+        <g
+          stroke="#fff"
+          strokeWidth="1.7"
+          strokeLinecap="round"
+          fill="none"
+        >
+          <path d="M15.6 29.4 10.2 26.7" />
+          <path d="M15 34.6 9.4 34.9" />
+          <path d="M15.6 39.8 10.4 42.7" />
+          <path d="M32.4 29.4 37.8 26.7" />
+          <path d="M33 34.6 38.6 34.9" />
+          <path d="M32.4 39.8 37.6 42.7" />
+          <path d="M20.4 21.4 17.6 15.8" />
+          <path d="M27.6 21.4 30.4 15.8" />
+        </g>
+
+        <circle cx="24" cy="21.6" r="4.4" fill="#fff" />
+        <ellipse cx="24" cy="33.4" rx="9.1" ry="11.2" fill="#fff" />
+
+        <g stroke="#e11931" strokeWidth="1.45" fill="none">
+          <path d="M16.2 30.2h15.6M15.6 34.8h16.8M16.2 39.4h15.6M17.4 43.4h13.2" />
+        </g>
+
+        <circle cx="22.3" cy="21" r="1" fill="#93101f" />
+        <circle cx="25.7" cy="21" r="1" fill="#93101f" />
       </g>
-      <ellipse cx="24" cy="33" rx="8.6" ry="10.4" fill="#fff" />
-      <path
-        d="M24 22.6a4 4 0 0 1 4 4v12.8a4 4 0 0 1-8 0V26.6a4 4 0 0 1 4-4Z"
-        fill="#fff"
-      />
-      <g stroke="#e11931" strokeWidth="1.5" fill="none">
-        <path d="M16.5 29.5h15M16 33.5h16M16.5 37.5h15M17.5 41h13" />
-        <path d="M24 22.6v22.4" />
-      </g>
-      <circle cx="24" cy="24.5" r="3.6" fill="#fff" />
-      <circle cx="22.7" cy="24" r="1" fill="#9d1023" />
-      <circle cx="25.3" cy="24" r="1" fill="#9d1023" />
     </svg>
   );
 }
 
-export function Logo({ className = "" }: { className?: string }) {
+export function Logo({
+  className = "",
+  compact = false,
+}: {
+  className?: string;
+  compact?: boolean;
+}) {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -70,17 +96,23 @@ export function Logo({ className = "" }: { className?: string }) {
     <Link
       href="/"
       onClick={handleClick}
-      className={`group inline-flex items-center gap-3 ${className}`}
+      className={`group inline-flex items-center transition-all duration-300 ${
+        compact ? "gap-2" : "gap-3"
+      } ${className}`}
       aria-label="Bed Bug Treatment — Back to homepage"
     >
-      <LogoMark className="h-11 w-auto transition-transform duration-300 group-hover:scale-105" />
-      <span className="flex flex-col leading-none">
-        <span className="font-display text-2xl font-bold tracking-tight text-white">
-          BedBug
-        </span>
-        <span className="font-display text-2xl font-bold tracking-tight text-brand-500 -mt-0.5">
-          Treatment
-        </span>
+      <LogoMark
+        className={`w-auto transition-all duration-300 group-hover:scale-105 ${
+          compact ? "h-8" : "h-11"
+        }`}
+      />
+      <span
+        className={`whitespace-nowrap font-display font-bold leading-none tracking-tight transition-all duration-300 ${
+          compact ? "text-lg" : "text-2xl"
+        }`}
+      >
+        <span className="text-white">BedBug</span>{" "}
+        <span className="text-brand-500">Treatment</span>
       </span>
     </Link>
   );

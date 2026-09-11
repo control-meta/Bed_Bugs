@@ -19,7 +19,7 @@ const reasons = [
   {
     icon: Sparkles,
     title: "100% safe for children & pets",
-    description: "Government-approved, low-toxicity formulations only.",
+    description: "Low-toxicity, family-safe formulations only.",
   },
   {
     icon: Leaf,
@@ -35,16 +35,17 @@ const reasons = [
 
 export function WhySection() {
   return (
-    <section className="relative overflow-hidden bg-cream py-20 lg:py-28">
+    <section className="relative overflow-hidden bg-cream py-10 lg:py-14">
       <div
         className="absolute -right-32 top-10 h-96 w-96 rounded-full bg-brand-100/70 blur-3xl"
         aria-hidden
       />
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
+        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <div>
             <SectionHeading
               align="left"
+              size="compact"
               eyebrow="Why Choose Us"
               title={
                 <>
@@ -52,13 +53,13 @@ export function WhySection() {
                   <span className="text-brand-600">bed bug specialists.</span>
                 </>
               }
-              description="We focus entirely on solving one serious problem, effectively and permanently. Every treatment is performed by trained and verified technicians who understand exactly where bed bugs hide."
+              description="We focus entirely on solving one serious problem, effectively and permanently. Every treatment is performed by trained technicians who understand exactly where bed bugs hide."
             />
-            <ul className="mt-10 space-y-6">
+            <ul className="mt-8 space-y-4">
               {reasons.map((reason) => (
-                <li key={reason.title} className="flex gap-4">
-                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-brand-600/10">
-                    <reason.icon className="h-6 w-6 text-brand-600" />
+                <li key={reason.title} className="flex gap-3.5">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-brand-600/10">
+                    <reason.icon className="h-5 w-5 text-brand-600" />
                   </span>
                   <div>
                     <h3 className="font-display text-base font-semibold text-ink">
@@ -71,10 +72,10 @@ export function WhySection() {
                 </li>
               ))}
             </ul>
-            <div className="mt-10 flex flex-wrap items-center gap-5">
+            <div className="mt-8 flex flex-wrap items-center gap-4">
               <Link
                 href="/about"
-                className="group inline-flex items-center gap-3 rounded-full bg-ink px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-maroon-800"
+                className="group inline-flex items-center gap-2.5 rounded-full bg-ink px-6 py-3 text-sm font-semibold text-white transition hover:bg-maroon-800"
               >
                 More About Us
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -87,25 +88,25 @@ export function WhySection() {
           </div>
 
           <div className="relative">
-            <div className="relative aspect-square overflow-hidden rounded-[2.5rem] border-8 border-white shadow-2xl">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] border-[6px] border-white shadow-2xl">
               <Image
-                src="/images/treatment-3.png"
-                alt="Before and after professional bed bug treatment of a mattress"
+                src="/images/why-choose-us.webp"
+                alt="Technician treating a bedroom while a family sleeps peacefully, bed bug free"
                 fill
                 sizes="(min-width: 1024px) 50vw, 100vw"
                 className="object-cover"
               />
             </div>
-            <div className="absolute -bottom-6 -left-4 w-56 rounded-2xl bg-ink p-5 text-white shadow-2xl sm:left-8">
-              <p className="font-display text-3xl font-extrabold text-brand-500">
+            <div className="absolute -bottom-5 -left-3 w-48 rounded-2xl bg-ink p-4 text-white shadow-2xl sm:left-6">
+              <p className="font-display text-2xl font-extrabold text-brand-500">
                 30 min
               </p>
-              <p className="mt-1 text-sm text-white/70">
+              <p className="mt-1 text-xs text-white/70">
                 Bed bugs killed with advanced professional treatment
               </p>
             </div>
-            <div className="absolute -right-2 -top-6 hidden items-center gap-3 rounded-2xl bg-white px-5 py-4 shadow-2xl sm:flex">
-              <ShieldCheck className="h-8 w-8 text-brand-600" />
+            <div className="absolute -right-2 -top-5 hidden items-center gap-2.5 rounded-2xl bg-white px-4 py-3 shadow-2xl sm:flex">
+              <ShieldCheck className="h-7 w-7 text-brand-600" />
               <p className="text-sm font-bold text-ink">
                 12-Month
                 <span className="block font-medium text-ink/55">

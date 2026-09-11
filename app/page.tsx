@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Hero } from "@/components/hero";
 import { WhySection } from "@/components/home/why-section";
-import { ServicesSection } from "@/components/home/services-section";
+import { SignsSection } from "@/components/home/signs-section";
 import { ProcessSection } from "@/components/home/process-section";
 import { LocationsSection } from "@/components/home/locations-section";
 import { TestimonialsSection } from "@/components/home/testimonials-section";
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title:
     "Bed Bug Treatment in Pune, Mumbai, Bangalore, Delhi & Noida | BedBug Treatment",
   description:
-    "Professional bed bug treatment for homes, apartments, hotels and businesses. Same-day free inspection, odorless & family-safe, 12-month warranty. Call +91 92203 12345.",
+    "Professional bed bug treatment for homes, apartments, hotels and businesses. Same-day free inspection, odorless & family-safe, 12-month warranty. Call +91 97693 21234.",
 };
 
 export default function Home() {
@@ -20,7 +20,7 @@ export default function Home() {
     <>
       <Hero />
       <WhySection />
-      <ServicesSection />
+      <SignsSection />
       <ProcessSection />
       <LocationsSection />
       <TestimonialsSection />

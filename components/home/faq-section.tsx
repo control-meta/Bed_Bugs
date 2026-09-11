@@ -1,16 +1,18 @@
-import { MessageCircle, PhoneCall, Plus } from "lucide-react";
+import { MessageCircle, PhoneCall } from "lucide-react";
 import Link from "next/link";
 import { SectionHeading } from "@/components/section-heading";
+import { FaqAccordion } from "@/components/faq-accordion";
 import { faqs, site } from "@/lib/site";
 
 export function FaqSection() {
   return (
-    <section id="faq" className="bg-cream py-20 lg:py-28">
+    <section id="faq" className="bg-cream py-10 lg:py-14">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-14 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
-          <div>
+        <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:items-start lg:gap-14">
+          <div className="lg:sticky lg:top-24 lg:self-start">
             <SectionHeading
               align="left"
+              size="compact"
               eyebrow="FAQ"
               title={
                 <>
@@ -20,18 +22,18 @@ export function FaqSection() {
               }
               description="Everything you need to know before booking your bed bug treatment. Still unsure? Our team is one call away."
             />
-            <div className="mt-10 rounded-3xl border border-ink/10 bg-white p-7">
-              <h3 className="font-display text-lg font-bold text-ink">
+            <div className="mt-8 rounded-2xl border border-ink/10 bg-white p-5 text-center">
+              <h3 className="font-display text-base font-bold text-ink">
                 {site.hours}
               </h3>
               <p className="mt-2 text-sm text-ink/60">
                 Have questions or need a quote? Reach out and our team will
                 respond quickly.
               </p>
-              <div className="mt-6 flex flex-wrap gap-3">
+              <div className="mt-5 flex flex-wrap justify-center gap-3">
                 <a
                   href={site.phoneHref}
-                  className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-500"
+                  className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-500"
                 >
                   <PhoneCall className="h-4 w-4" />
                   {site.phoneDisplay}
@@ -40,7 +42,7 @@ export function FaqSection() {
                   href={site.whatsappHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-ink/15 px-5 py-3 text-sm font-semibold text-ink transition hover:border-brand-600/40 hover:text-brand-600"
+                  className="inline-flex items-center gap-2 rounded-full border border-ink/15 px-4 py-2.5 text-sm font-semibold text-ink transition hover:border-brand-600/40 hover:text-brand-600"
                 >
                   <MessageCircle className="h-4 w-4" />
                   WhatsApp
@@ -49,29 +51,20 @@ export function FaqSection() {
             </div>
           </div>
 
-          <div className="space-y-4">
-            {faqs.map((faq) => (
-              <details
-                key={faq.question}
-                className="group rounded-2xl border border-ink/10 bg-white px-6 py-5 open:border-brand-600/30 open:shadow-lg open:shadow-brand-600/5"
+          <div>
+            <FaqAccordion
+              items={faqs.slice(0, 5)}
+              pageSize={5}
+              defaultOpen={-1}
+            />
+            <div className="mt-4 text-center">
+              <Link
+                href="/faq"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-brand-600 hover:text-brand-500"
               >
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-base font-semibold text-ink marker:hidden [&::-webkit-details-marker]:hidden">
-                  {faq.question}
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-600/10 text-brand-600 transition-transform duration-300 group-open:rotate-45">
-                    <Plus className="h-4 w-4" />
-                  </span>
-                </summary>
-                <p className="mt-4 border-t border-ink/10 pt-4 text-sm leading-relaxed text-ink/60">
-                  {faq.answer}
-                </p>
-              </details>
-            ))}
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 pt-2 text-sm font-semibold text-brand-600 hover:text-brand-500"
-            >
-              Still have questions? Contact us
-            </Link>
+                See all FAQs
+              </Link>
+            </div>
           </div>
         </div>
       </div>

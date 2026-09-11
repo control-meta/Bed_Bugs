@@ -16,7 +16,7 @@ import { cities, site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Contact Us",
   description:
-    "Book a free bed bug inspection or get a quote. Call +91 92203 12345, WhatsApp us or fill the form — same-day service across Pune, Mumbai, Bangalore, Delhi & Noida.",
+    "Book a free bed bug inspection or get a quote. Call +91 97693 21234, WhatsApp us or fill the form — same-day service across Pune, Mumbai, Bangalore, Delhi & Noida.",
 };
 
 const contactCards = [
@@ -57,7 +57,7 @@ const contactCards = [
 const assurances = [
   "Same-day FREE inspection",
   "100% odorless & family-safe",
-  "Trained & verified technicians",
+  "Trained technicians",
   "12-month service warranty",
 ];
 
@@ -78,14 +78,14 @@ export default function ContactPage() {
 
       <section className="relative z-20 -mt-10 bg-transparent">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {contactCards.map((card) => {
               const content = (
                 <>
-                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-600/10 text-brand-600">
-                    <card.icon className="h-6 w-6" />
+                  <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-600/10 text-brand-600">
+                    <card.icon className="h-5 w-5" />
                   </span>
-                  <h2 className="mt-5 font-display text-base font-bold text-ink">
+                  <h2 className="mt-4 font-display text-base font-bold text-ink">
                     {card.title}
                   </h2>
                   <p className="mt-1 text-sm font-semibold text-brand-700">
@@ -101,14 +101,14 @@ export default function ContactPage() {
                   {...(card.external
                     ? { target: "_blank", rel: "noopener noreferrer" }
                     : {})}
-                  className="rounded-3xl border border-ink/10 bg-white p-6 shadow-[0_20px_50px_-30px_rgba(23,6,9,0.4)] transition hover:-translate-y-1 hover:border-brand-600/30 hover:shadow-xl"
+                  className="rounded-3xl border border-ink/10 bg-white p-5 shadow-[0_20px_50px_-30px_rgba(23,6,9,0.4)] transition hover:-translate-y-1 hover:border-brand-600/30 hover:shadow-xl"
                 >
                   {content}
                 </a>
               ) : (
                 <div
                   key={card.title}
-                  className="rounded-3xl border border-ink/10 bg-white p-6 shadow-[0_20px_50px_-30px_rgba(23,6,9,0.4)]"
+                  className="rounded-3xl border border-ink/10 bg-white p-5 shadow-[0_20px_50px_-30px_rgba(23,6,9,0.4)]"
                 >
                   {content}
                 </div>
@@ -118,29 +118,29 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="bg-white py-20 lg:py-24">
+      <section className="bg-white py-12 lg:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-14 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+          <div className="grid gap-8 lg:grid-cols-[1fr_1.1fr] lg:items-start lg:gap-10">
             <div>
-              <p className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.25em] text-brand-600">
-                <span className="h-px w-8 bg-current" />
+              <p className="flex items-center gap-2.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-brand-600">
+                <span className="h-px w-6 bg-current" />
                 Service Coverage
               </p>
-              <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
+              <h2 className="mt-3 font-display text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">
                 We come to you,{" "}
                 <span className="text-brand-600">same day.</span>
               </h2>
-              <p className="mt-5 text-base leading-relaxed text-ink/65">
+              <p className="mt-4 text-sm leading-relaxed text-ink/65">
                 Our local teams cover the cities below and surrounding areas.
                 Share your location when you contact us and we will confirm the
                 nearest available slot.
               </p>
 
-              <ul className="mt-8 divide-y divide-ink/10 overflow-hidden rounded-3xl border border-ink/10">
+              <ul className="mt-6 divide-y divide-ink/10 overflow-hidden rounded-3xl border border-ink/10">
                 {cities.map((city) => (
                   <li
                     key={city.name}
-                    className="flex items-start gap-4 bg-white px-6 py-5 transition hover:bg-cream/60"
+                    className="flex items-start gap-4 bg-white px-5 py-4 transition hover:bg-cream/60"
                   >
                     <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-brand-600" />
                     <div>
@@ -155,14 +155,14 @@ export default function ContactPage() {
                 ))}
               </ul>
 
-              <div className="mt-8 rounded-3xl bg-ink p-7 text-white">
+              <div className="mt-6 rounded-3xl bg-ink p-6 text-white">
                 <div className="flex items-center gap-3">
                   <Zap className="h-6 w-6 text-brand-400" />
-                  <h3 className="font-display text-lg font-bold">
+                  <h3 className="font-display text-base font-bold">
                     Same-day service available
                   </h3>
                 </div>
-                <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+                <ul className="mt-4 grid gap-3 sm:grid-cols-2">
                   {assurances.map((item) => (
                     <li
                       key={item}
@@ -176,12 +176,14 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <ContactForm />
+            <div className="lg:sticky lg:top-24">
+              <ContactForm />
+            </div>
           </div>
         </div>
       </section>
 
-      <CtaSection />
+      <CtaSection className="-mt-6 pb-12 pt-2 lg:-mt-10 lg:pb-16 lg:pt-4" />
     </>
   );
 }

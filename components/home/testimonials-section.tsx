@@ -4,9 +4,10 @@ import { site, testimonials } from "@/lib/site";
 
 export function TestimonialsSection() {
   return (
-    <section id="reviews" className="relative overflow-hidden bg-white py-20 lg:py-28">
+    <section id="reviews" className="relative overflow-hidden bg-white py-10 lg:py-14">
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
+          size="compact"
           eyebrow="Customer Reviews"
           title={
             <>
@@ -17,14 +18,14 @@ export function TestimonialsSection() {
           description="Real results from real homes and businesses across India."
         />
 
-        <div className="mt-14 grid gap-6 lg:grid-cols-3">
+        <div className="mt-10 grid gap-5 lg:grid-cols-3">
           {testimonials.slice(0, 3).map((testimonial) => (
             <figure
               key={testimonial.name}
-              className="relative flex h-full flex-col rounded-3xl border border-ink/10 bg-cream/60 p-8 transition hover:shadow-xl hover:shadow-brand-600/5"
+              className="relative flex h-full flex-col rounded-2xl border border-ink/10 bg-cream/60 p-6 transition hover:shadow-xl hover:shadow-brand-600/5"
             >
-              <Quote className="h-9 w-9 text-brand-200" fill="currentColor" />
-              <div className="mt-5 flex gap-1">
+              <Quote className="h-7 w-7 text-brand-200" fill="currentColor" />
+              <div className="mt-4 flex gap-1">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star
                     key={i}
@@ -32,11 +33,11 @@ export function TestimonialsSection() {
                   />
                 ))}
               </div>
-              <blockquote className="mt-4 flex-1 text-sm leading-relaxed text-ink/70">
+              <blockquote className="mt-3 flex-1 text-sm leading-relaxed text-ink/70">
                 &ldquo;{testimonial.quote}&rdquo;
               </blockquote>
-              <figcaption className="mt-6 flex items-center gap-3 border-t border-ink/10 pt-5">
-                <span className="flex h-11 w-11 items-center justify-center rounded-full bg-brand-600 text-sm font-bold text-white">
+              <figcaption className="mt-5 flex items-center gap-3 border-t border-ink/10 pt-4">
+                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-600 text-sm font-bold text-white">
                   {testimonial.name
                     .split(" ")
                     .map((part) => part[0])

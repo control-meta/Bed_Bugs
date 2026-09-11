@@ -4,10 +4,10 @@ export const site = {
   tagline: "Professional Bed Bug Treatment",
   description:
     "Safe, effective and long-lasting bed bug treatment for homes, apartments, hotels and businesses across Pune, Mumbai, Bangalore, Delhi & Noida.",
-  phoneDisplay: "+91 92203 12345",
-  phoneHref: "tel:+919220312345",
+  phoneDisplay: "+91 97693 21234",
+  phoneHref: "tel:+919769321234",
   whatsappHref:
-    "https://wa.me/919220312345?text=Hi%2C%20I%20need%20a%20free%20bed%20bug%20inspection",
+    "https://wa.me/919769321234?text=Hi%2C%20I%20need%20a%20free%20bed%20bug%20inspection",
   email: "support@bedbugstreatment.co.in",
   emailHref: "mailto:support@bedbugstreatment.co.in",
   hours: "Open 24/7 for bookings & support",
@@ -21,6 +21,7 @@ export const site = {
 export const navLinks = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
+  { label: "FAQ", href: "/faq" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -28,7 +29,7 @@ export const services = [
   {
     title: "Bed Bug Treatment",
     description:
-      "Complete elimination of adults, nymphs and eggs using targeted, government-approved treatments.",
+      "Complete elimination of adults, nymphs and eggs using targeted, low-toxicity treatments.",
     icon: "bug",
   },
   {
@@ -68,13 +69,13 @@ export const processSteps = [
     step: "01",
     title: "Inspection & Assessment",
     description:
-      "Certified inspectors check mattresses, bed frames, carpets, upholstery, skirting boards and hidden cracks to map the infestation and recommend the right treatment.",
+      "Inspectors check mattresses, frames, carpets, upholstery and hidden cracks to map the infestation and plan the right treatment.",
   },
   {
     step: "02",
     title: "Extermination & Application",
     description:
-      "Trained technicians apply safe, approved treatments to affected zones, targeting adult bed bugs, nymphs and eggs without damaging your belongings.",
+      "Technicians apply safe treatments to affected zones, targeting adult bed bugs, nymphs and eggs without harming your home.",
   },
   {
     step: "03",
@@ -86,7 +87,7 @@ export const processSteps = [
     step: "04",
     title: "Prevention & Education",
     description:
-      "We share practical prevention advice — inspecting luggage, sealing cracks and maintaining clutter-free rooms — so bed bugs never return.",
+      "We share practical prevention advice: inspecting luggage, sealing cracks and keeping clutter-free rooms so bed bugs never return.",
   },
 ];
 
@@ -121,12 +122,12 @@ export const faqs = [
   {
     question: "How long does a bed bug treatment take?",
     answer:
-      "Depending on the infestation, size and method, treatments may take 1 to 3 hours per room. Follow-up visits may be needed.",
+      "Depending on the infestation, size and method, treatments may take 1 to 3 hours per room. Follow-up visits may be scheduled to confirm complete elimination.",
   },
   {
     question: "Is bed bug treatment safe for children and pets?",
     answer:
-      "Yes. We use low-toxicity, eco-friendly formulations and follow strict safety protocols. Our team guides you on vacating and reoccupying the space safely.",
+      "Yes. We use low-toxicity, family-safe formulations and follow strict safety protocols. Our team guides you on vacating and reoccupying the space safely.",
   },
   {
     question: "How soon can I sleep in the treated room?",
@@ -136,12 +137,37 @@ export const faqs = [
   {
     question: "What is the cost of bed bug treatment?",
     answer:
-      "Costs depend on area size, infestation severity and the method used (heat, chemical or steam). Contact us for a free inspection and estimate.",
+      "Costs depend on area size, infestation severity and the method used (heat, chemical or steam). Contact us for a free inspection and a clear estimate.",
   },
   {
     question: "Will bed bugs come back?",
     answer:
       "Not if proper prevention is followed — seal entry points, inspect second-hand furniture, avoid clutter and maintain periodic checks. Our preventive plans help.",
+  },
+  {
+    question: "How do I prepare my home before treatment?",
+    answer:
+      "Clear personal items and clutter from floors and furniture, wash and bag bedding where possible, and give our team access to beds, wardrobes, skirting boards and cracks. We share a simple checklist before the visit.",
+  },
+  {
+    question: "Do I need to throw away my mattress or furniture?",
+    answer:
+      "In most cases, no. Our targeted treatment reaches bed bugs in seams, joints and cracks without you discarding belongings. We only advise disposal for items that are badly damaged or impossible to treat.",
+  },
+  {
+    question: "Do you offer a warranty or guarantee?",
+    answer:
+      "Yes. Every treatment is covered by a 12-month service warranty and a 30-day money-back guarantee. If activity returns within the covered period, we re-treat at no extra cost.",
+  },
+  {
+    question: "Do you treat hotels, hostels, PGs and offices?",
+    answer:
+      "Absolutely. We handle single rooms and full floors for hotels, hostels, PGs, offices and commercial properties, with discreet scheduling to minimise downtime.",
+  },
+  {
+    question: "How do I know it is bed bugs and not something else?",
+    answer:
+      "Itchy bites in rows, blood spots on sheets, dark droppings along mattress seams and shed skins are the clearest signs. If you are unsure, book a free inspection and we will confirm it for you.",
   },
 ];
 

@@ -3,9 +3,32 @@ import Link from "next/link";
 import { ArrowRight, CalendarCheck, PhoneCall, ShieldCheck } from "lucide-react";
 import { site } from "@/lib/site";
 
-export function CtaSection() {
+const ctaImages = [
+  {
+    src: "/images/treatment-1.png",
+    alt: "Family sleeping peacefully after professional bed bug treatment",
+  },
+  {
+    src: "/images/treatment-2.png",
+    alt: "Certified technician carrying out a bed bug inspection",
+  },
+  {
+    src: "/images/treatment-3.png",
+    alt: "Safe and effective bed bug treatment in progress",
+  },
+  {
+    src: "/images/hero-tech-bed.webp",
+    alt: "Technician treating a mattress for bed bugs",
+  },
+];
+
+export function CtaSection({
+  className = "py-12 lg:py-16",
+}: {
+  className?: string;
+}) {
   return (
-    <section className="bg-white py-20 lg:py-28">
+    <section className={`bg-white ${className}`}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="relative overflow-hidden rounded-[2.5rem] bg-ink">
           <div className="absolute inset-0 bg-[radial-gradient(110%_140%_at_15%_10%,#7f1024_0%,#3d0a12_45%,#170609_80%)]" />
@@ -48,15 +71,37 @@ export function CtaSection() {
               </p>
             </div>
 
-            <div className="relative h-72 w-full sm:h-96 lg:h-full lg:min-h-[30rem]">
-              <Image
-                src="/images/treatment-1.png"
-                alt="Family sleeping peacefully after professional bed bug treatment"
-                fill
-                sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover object-center lg:[mask-image:linear-gradient(to_right,transparent,black_18%)]"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent lg:bg-gradient-to-l lg:from-transparent lg:via-transparent lg:to-ink/40" />
+            <div className="relative h-72 w-full overflow-hidden sm:h-96 lg:h-full lg:min-h-[30rem]">
+              {ctaImages.map((image, index) => (
+                <div
+                  key={image.src}
+                  className="absolute inset-0 animate-cta-slide will-change-transform"
+                  style={{
+                    animationDelay: `-${(ctaImages.length - index) * 5}s`,
+                  }}
+                >
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    fill
+                    sizes="(min-width: 1024px) 50vw, 100vw"
+                    className="object-cover object-center lg:[mask-image:linear-gradient(to_right,transparent,black_18%)]"
+                  />
+                </div>
+              ))}
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent lg:bg-gradient-to-l lg:from-transparent lg:via-transparent lg:to-ink/40" />
+
+              <div className="absolute bottom-6 left-1/2 z-10 flex w-40 -translate-x-1/2 items-center gap-2 lg:left-10 lg:translate-x-0">
+                {ctaImages.map((image, index) => (
+                  <span
+                    key={image.src}
+                    className="h-1 flex-1 origin-left animate-cta-bar rounded-full bg-white"
+                    style={{
+                      animationDelay: `-${(ctaImages.length - index) * 5}s`,
+                    }}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>

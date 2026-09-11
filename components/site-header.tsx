@@ -9,15 +9,28 @@ import { navLinks, site } from "@/lib/site";
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
+  const [shrink, setShrink] = useState(false);
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 12);
+      const hero = document.getElementById("hero");
+      const threshold = (hero ? hero.offsetHeight : window.innerHeight) - 80;
+      setShrink(y > threshold);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
+
+  const compact = shrink && !open;
 
   return (
     <header
@@ -27,8 +40,12 @@ export function SiteHeader() {
           : "border-b border-transparent bg-transparent"
       }`}
     >
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
-        <Logo />
+      <div
+        className={`mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 transition-all duration-300 sm:px-6 lg:px-8 ${
+          compact ? "h-16" : "h-20"
+        }`}
+      >
+        <Logo compact={compact} />
 
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Main">
           {navLinks.map((link) => {
@@ -40,7 +57,9 @@ export function SiteHeader() {
               <Link
                 key={link.label}
                 href={link.href}
-                className={`relative whitespace-nowrap rounded-full px-3.5 py-2 text-sm font-medium transition ${
+                className={`relative whitespace-nowrap rounded-full px-3.5 text-sm font-medium transition ${
+                  compact ? "py-1.5" : "py-2"
+                } ${
                   active
                     ? "text-white after:absolute after:inset-x-3.5 after:-bottom-0.5 after:h-0.5 after:rounded-full after:bg-brand-500"
                     : "text-white/85 hover:bg-white/10 hover:text-white"
@@ -55,14 +74,18 @@ export function SiteHeader() {
         <div className="flex items-center gap-3">
           <a
             href={site.phoneHref}
-            className="hidden items-center gap-2 whitespace-nowrap rounded-full border border-white/25 px-3.5 py-2.5 text-[13px] font-semibold text-white transition hover:border-white/60 hover:bg-white/10 xl:inline-flex"
+            className={`hidden items-center gap-2 whitespace-nowrap rounded-full border border-white/25 px-3.5 text-[13px] font-semibold text-white transition hover:border-white/60 hover:bg-white/10 xl:inline-flex ${
+              compact ? "py-2" : "py-2.5"
+            }`}
           >
             <Phone className="h-4 w-4 text-brand-400" />
             {site.phoneDisplay}
           </a>
           <Link
             href="/contact"
-            className="hidden items-center gap-2 whitespace-nowrap rounded-full bg-brand-600 px-4 py-2.5 text-[13px] font-semibold text-white shadow-lg shadow-brand-600/30 transition hover:bg-brand-500 sm:inline-flex"
+            className={`hidden items-center gap-2 whitespace-nowrap rounded-full bg-brand-600 px-4 text-[13px] font-semibold text-white shadow-lg shadow-brand-600/30 transition hover:bg-brand-500 sm:inline-flex ${
+              compact ? "py-2" : "py-2.5"
+            }`}
           >
             <CalendarCheck className="h-4 w-4" />
             Book Free Inspection

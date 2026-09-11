@@ -13,6 +13,7 @@ import {
   Star,
 } from "lucide-react";
 import { site, stats } from "@/lib/site";
+import { QuickConnectForm } from "@/components/quick-connect-form";
 
 const features = [
   { icon: ShieldCheck, title: "Safe for", subtitle: "Your Family & Pets" },
@@ -33,7 +34,7 @@ function StatIcon({ index }: { index: number }) {
   const Icon = icons[index];
   return (
     <Icon
-      className="h-[1.45em] w-[1.45em] shrink-0 text-brand-600"
+      className="h-[1.45em] w-[1.45em] shrink-0 text-brand-400"
       strokeWidth={1.8}
     />
   );
@@ -41,7 +42,10 @@ function StatIcon({ index }: { index: number }) {
 
 export function Hero() {
   return (
-    <section className="relative isolate flex min-h-svh flex-col bg-ink">
+    <section
+      id="hero"
+      className="relative isolate flex min-h-svh flex-col bg-ink"
+    >
       <div className="absolute inset-0 overflow-hidden" aria-hidden>
         <div className="absolute inset-0 bg-[radial-gradient(120%_120%_at_78%_20%,#7f1024_0%,#3d0a12_38%,#170609_72%)]" />
         <div className="absolute inset-0 bg-grid-dark opacity-30 mask-fade-b" />
@@ -81,7 +85,7 @@ export function Hero() {
             alt=""
             fill
             priority
-            sizes="54vw"
+            sizes="(min-width: 1280px) 54vw, 52vw"
             className="object-cover object-center"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/35 to-transparent" />
@@ -108,7 +112,7 @@ export function Hero() {
       </div>
 
       <div className="hero-fluid relative z-20 mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center px-4 pb-[3em] pt-[max(5.5rem,7em)] sm:px-6 lg:px-8 lg:pb-[1.5em] lg:pt-[7.5em]">
-        <div className="flex max-w-[45em] flex-col gap-[1.05em]">
+        <div className="flex max-w-[45em] flex-col gap-[1.05em] lg:-translate-y-[2em]">
           <p className="flex items-center gap-[1em] text-[0.78em] font-semibold uppercase tracking-[0.28em] text-white/85">
             <span className="h-px w-[2.6em] shrink-0 bg-brand-500" />
             Professional Bed Bug Treatment
@@ -142,6 +146,8 @@ export function Hero() {
             ))}
           </div>
 
+          <QuickConnectForm />
+
           <div className="flex flex-col gap-[0.9em] sm:flex-row sm:items-center">
             <Link
               href="/contact"
@@ -170,7 +176,7 @@ export function Hero() {
               alt="Technician treating a bed for bed bugs"
               fill
               priority
-              sizes="100vw"
+              sizes="(min-width: 640px) calc(100vw - 3rem), calc(100vw - 2rem)"
               className="object-cover object-center"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent" />
@@ -188,32 +194,32 @@ export function Hero() {
       </div>
 
       <div className="hero-fluid relative z-20 mx-auto w-full max-w-[66em] px-4 pb-[max(1rem,2em)] sm:px-6 lg:px-8">
-        <div className="grid gap-[1.2em] rounded-[1.5em] border border-white/60 bg-white/95 p-[1.3em] shadow-[0_30px_80px_-25px_rgba(0,0,0,0.55)] backdrop-blur lg:grid-cols-[minmax(0,1.35fr)_repeat(3,minmax(0,1fr))] lg:gap-0">
+        <div className="grid gap-[1.2em] rounded-[1.5em] border border-white/20 bg-gradient-to-b from-white/20 to-white/5 p-[1.3em] shadow-[0_30px_80px_-25px_rgba(0,0,0,0.65)] ring-1 ring-inset ring-white/10 backdrop-blur-xl lg:grid-cols-[1.2fr_repeat(3,1fr)] lg:gap-0">
           <div className="flex items-center gap-[0.9em] lg:pr-[2em]">
             <div className="flex -space-x-[0.45em]">
               {avatars.map((avatar) => (
                 <span
                   key={avatar.initials}
-                  className={`flex h-[2.4em] w-[2.4em] items-center justify-center rounded-full border-[0.12em] border-white bg-gradient-to-br ${avatar.color} text-[0.62em] font-bold text-white`}
+                  className={`flex h-[2.4em] w-[2.4em] items-center justify-center rounded-full border-[0.12em] border-white/70 bg-gradient-to-br ${avatar.color} text-[0.62em] font-bold text-white`}
                 >
                   {avatar.initials}
                 </span>
               ))}
             </div>
             <div>
-              <div className="flex items-center gap-[0.15em]">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star
-                    key={i}
-                    className="h-[0.9em] w-[0.9em] fill-brand-600 text-brand-600"
-                  />
-                ))}
-              </div>
-              <p className="mt-[0.15em] text-[0.88em] font-bold leading-tight text-ink">
+              <p className="flex items-center gap-[0.4em] whitespace-nowrap text-[0.88em] font-bold leading-tight text-white">
                 {site.rating}
-                <span className="block font-medium text-ink/60">
-                  Customer Rating
+                <span className="flex items-center gap-[0.12em]">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star
+                      key={i}
+                      className="h-[0.85em] w-[0.85em] fill-brand-500 text-brand-500"
+                    />
+                  ))}
                 </span>
+              </p>
+              <p className="mt-[0.15em] text-[0.88em] font-medium leading-tight text-white/60">
+                Customer Rating
               </p>
             </div>
           </div>
@@ -221,12 +227,12 @@ export function Hero() {
           {stats.slice(0, 3).map((stat, index) => (
             <div
               key={stat.label}
-              className="flex items-center gap-[0.9em] lg:border-l lg:border-ink/10 lg:px-[2em]"
+              className="flex items-center gap-[0.9em] lg:border-l lg:border-white/15 lg:px-[2em]"
             >
               <StatIcon index={index} />
-              <p className="text-[0.88em] font-bold leading-tight text-ink">
+              <p className="whitespace-nowrap text-[0.88em] font-bold leading-tight text-white">
                 {stat.value}
-                <span className="block font-medium text-ink/60">
+                <span className="block font-medium text-white/60">
                   {stat.label}
                 </span>
               </p>
