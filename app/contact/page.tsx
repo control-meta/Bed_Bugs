@@ -70,7 +70,7 @@ export default function ContactPage() {
         title={
           <>
             Book a free{" "}
-            <span className="text-brand-500">bed bug inspection</span>
+            <span className="text-brand-600">bed bug inspection</span>
           </>
         }
         description="Call, WhatsApp or send us a message — our team responds quickly and can often schedule a same-day visit. 24/7 support across all service cities."

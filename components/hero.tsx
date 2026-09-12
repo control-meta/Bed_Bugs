@@ -36,7 +36,7 @@ function StatIcon({ index }: { index: number }) {
   const Icon = icons[index];
   return (
     <Icon
-      className="h-[1.45em] w-[1.45em] shrink-0 text-brand-400"
+      className="h-[1.45em] w-[1.45em] shrink-0 text-brand-600"
       strokeWidth={1.8}
     />
   );
@@ -46,18 +46,18 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative isolate flex min-h-svh flex-col bg-ink"
+      className="relative isolate flex min-h-svh flex-col bg-cream"
     >
       <div className="absolute inset-0 overflow-hidden" aria-hidden>
-        <div className="absolute inset-0 bg-[radial-gradient(120%_120%_at_78%_20%,#7f1024_0%,#3d0a12_38%,#170609_72%)]" />
-        <div className="absolute inset-0 bg-grid-dark opacity-30 mask-fade-b" />
-        <div className="absolute -left-32 -top-24 h-96 w-96 rounded-full bg-brand-700/30 blur-3xl" />
+        <div className="absolute inset-0 bg-[radial-gradient(90%_80%_at_12%_0%,#fff1f2_0%,#fdf7f4_45%,#ffffff_100%)]" />
+        <div className="absolute inset-0 bg-grid-light opacity-70 mask-fade-b" />
+        <div className="absolute -left-32 -top-24 h-96 w-96 rounded-full bg-brand-200/40 blur-3xl" />
 
-        <div className="absolute left-0 top-0 h-[130%] w-[62%] -rotate-12 bg-gradient-to-b from-brand-600/[0.07] to-transparent" />
-        <div className="absolute left-[30%] top-0 h-[140%] w-px -rotate-12 bg-gradient-to-b from-transparent via-brand-500/60 to-transparent" />
-        <div className="absolute left-[42%] top-0 h-[140%] w-px -rotate-12 bg-gradient-to-b from-transparent via-brand-500/30 to-transparent" />
+        <div className="absolute left-0 top-0 h-[130%] w-[62%] -rotate-12 bg-gradient-to-b from-brand-600/[0.04] to-transparent" />
+        <div className="absolute left-[30%] top-0 h-[140%] w-px -rotate-12 bg-gradient-to-b from-transparent via-brand-500/40 to-transparent" />
+        <div className="absolute left-[42%] top-0 h-[140%] w-px -rotate-12 bg-gradient-to-b from-transparent via-brand-500/20 to-transparent" />
         <svg
-          className="absolute bottom-0 left-0 w-full opacity-70"
+          className="absolute bottom-0 left-0 w-full opacity-60"
           viewBox="0 0 1440 140"
           fill="none"
           preserveAspectRatio="none"
@@ -70,7 +70,7 @@ export function Hero() {
           <defs>
             <linearGradient id="curve" x1="0" y1="0" x2="1440" y2="0">
               <stop offset="0" stopColor="#e11931" stopOpacity="0" />
-              <stop offset="0.5" stopColor="#ff4d5e" stopOpacity="0.8" />
+              <stop offset="0.5" stopColor="#ff4d5e" stopOpacity="0.7" />
               <stop offset="1" stopColor="#e11931" stopOpacity="0" />
             </linearGradient>
           </defs>
@@ -78,21 +78,19 @@ export function Hero() {
       </div>
 
       <div
-        className="absolute inset-y-0 right-0 hidden w-[52%] xl:w-[54%] lg:block"
+        className="absolute inset-y-0 right-0 hidden w-[44%] xl:w-[46%] lg:block"
         aria-hidden
       >
-        <div className="relative h-full w-full [clip-path:polygon(22%_0,100%_0,100%_100%,0_100%)]">
+        <div className="relative h-full w-full [clip-path:polygon(28%_0,100%_0,100%_100%,0_100%)]">
           <Image
             src="/images/hero-tech-bed.webp"
             alt=""
             fill
             loading="eager"
             fetchPriority="high"
-            sizes="(min-width: 1280px) 54vw, 52vw"
+            sizes="(min-width: 1280px) 46vw, 44vw"
             className="object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/35 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-ink/30" />
         </div>
       </div>
 
@@ -100,7 +98,7 @@ export function Hero() {
         <div className="relative h-[11.5em] w-[11.5em]">
           <div className="absolute -inset-[0.75em] rounded-full border border-brand-500/40" />
           <div className="absolute inset-0 animate-pulse-ring rounded-full" />
-          <div className="relative h-full w-full overflow-hidden rounded-full border-[0.28em] border-brand-600 shadow-[0_25px_60px_-15px_rgba(225,25,49,0.65)]">
+          <div className="relative h-full w-full overflow-hidden rounded-full border-[0.28em] border-brand-600 shadow-[0_25px_60px_-20px_rgba(225,25,49,0.5)]">
             <Image
               src="/images/bedbug-closeup.jpg"
               alt="Close-up of a bed bug"
@@ -110,25 +108,25 @@ export function Hero() {
             />
           </div>
           <span className="absolute -right-[6em] bottom-[2em] hidden h-px w-[6em] bg-gradient-to-r from-brand-500 to-transparent xl:block" />
-          <span className="absolute -right-[6em] bottom-[1.9em] hidden h-[0.55em] w-[0.55em] rounded-full bg-brand-500 shadow-[0_0_12px_2px_rgba(225,25,49,0.8)] xl:block" />
+          <span className="absolute -right-[6em] bottom-[1.9em] hidden h-[0.55em] w-[0.55em] rounded-full bg-brand-500 shadow-[0_0_12px_2px_rgba(225,25,49,0.6)] xl:block" />
         </div>
       </div>
 
       <div className="hero-fluid relative z-20 mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center px-4 pb-[3em] pt-[max(5.5rem,7em)] max-sm:pb-[1.5em] max-sm:pt-20 sm:px-6 lg:px-8 lg:pb-[1.5em] lg:pt-[7.5em]">
-        <div className="flex max-w-[45em] flex-col gap-[1.05em] max-sm:gap-[0.65em] lg:-translate-y-[2em]">
-          <p className="flex items-center gap-[1em] text-[0.78em] font-semibold uppercase tracking-[0.28em] text-white/85">
+        <div className="flex max-w-[45em] flex-col gap-[1.05em] max-sm:gap-[0.65em] lg:max-w-[46em] lg:-translate-y-[2em]">
+          <p className="flex items-center gap-[1em] text-[0.78em] font-semibold uppercase tracking-[0.28em] text-brand-700">
             <span className="h-px w-[2.6em] shrink-0 bg-brand-500" />
             Professional Bed Bug Treatment
           </p>
 
-          <h1 className="font-display text-[2.4em] font-extrabold leading-[1.06] tracking-tight text-white max-sm:text-[2em] sm:text-[2.9em] lg:text-[3.4em]">
+          <h1 className="font-display text-[2.4em] font-extrabold leading-[1.06] tracking-tight text-ink max-sm:text-[2em] sm:text-[2.9em] lg:text-[3.4em]">
             Bed Bugs?
             <span className="block">
-              Get Your <span className="text-brand-500">Home Back.</span>
+              Get Your <span className="text-brand-600">Home Back.</span>
             </span>
           </h1>
 
-          <p className="max-w-[33em] text-[1.05em] leading-relaxed text-white/75 max-sm:whitespace-nowrap max-sm:text-[0.82em] max-sm:leading-snug">
+          <p className="max-w-[33em] text-[1.05em] leading-relaxed text-ink/65 max-sm:whitespace-nowrap max-sm:text-[0.82em] max-sm:leading-snug">
             <span className="max-sm:hidden">
               Safe, effective and long-lasting bed bug treatment for homes,
               apartments, hotels and businesses. Sleep peacefully again.
@@ -139,7 +137,7 @@ export function Hero() {
           </p>
 
           <div className="relative mb-[1.6em] sm:order-last sm:mb-0 sm:mt-[1.8em] lg:hidden">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-[1.4em] border border-white/10">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[1.4em] border border-ink/10">
               <Image
                 src="/images/hero-tech-bed.webp"
                 alt="Technician treating a bed for bed bugs"
@@ -149,9 +147,8 @@ export function Hero() {
                 sizes="(min-width: 640px) calc(100vw - 3rem), calc(100vw - 2rem)"
                 className="object-cover object-center"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent" />
             </div>
-            <div className="absolute -bottom-[1.8em] -right-[0.6em] h-[8em] w-[8em] overflow-hidden rounded-full border-[0.22em] border-brand-600 bg-ink shadow-2xl sm:h-[9em] sm:w-[9em]">
+            <div className="absolute -bottom-[1.8em] -right-[0.6em] h-[8em] w-[8em] overflow-hidden rounded-full border-[0.22em] border-brand-600 bg-white shadow-2xl sm:h-[9em] sm:w-[9em]">
               <Image
                 src="/images/bedbug-closeup.jpg"
                 alt="Close-up of a bed bug"
@@ -162,18 +159,18 @@ export function Hero() {
             </div>
           </div>
 
-          <div className="flex max-w-[46em] flex-wrap gap-x-[1.8em] gap-y-[0.9em] max-sm:grid max-sm:grid-cols-4 max-sm:gap-x-[0.4em] max-sm:gap-y-[0.55em]">
+          <div className="flex max-w-[46em] flex-wrap gap-x-[1.8em] gap-y-[0.9em] max-sm:grid max-sm:grid-cols-4 max-sm:gap-x-[0.4em] max-sm:gap-y-[0.55em] lg:max-w-none lg:flex-nowrap">
             {features.map((feature) => (
               <div
                 key={feature.title}
                 className="flex items-center gap-[0.7em] max-sm:flex-col max-sm:gap-[0.3em] max-sm:text-center"
               >
-                <span className="flex h-[2.6em] w-[2.6em] shrink-0 items-center justify-center rounded-full border border-brand-500/50 bg-brand-600/10 max-sm:h-[1.9em] max-sm:w-[1.9em]">
-                  <feature.icon className="h-[1.3em] w-[1.3em] text-brand-400 max-sm:h-[1.05em] max-sm:w-[1.05em]" />
+                <span className="flex h-[2.6em] w-[2.6em] shrink-0 items-center justify-center rounded-full border border-brand-500/40 bg-brand-600/10 max-sm:h-[1.9em] max-sm:w-[1.9em]">
+                  <feature.icon className="h-[1.3em] w-[1.3em] text-brand-600 max-sm:h-[1.05em] max-sm:w-[1.05em]" />
                 </span>
-                <span className="text-[0.92em] font-medium leading-tight text-white/90 max-sm:text-[0.68em]">
+                <span className="text-[0.92em] font-medium leading-tight text-ink/90 max-sm:text-[0.68em]">
                   {feature.title}
-                  <span className="block text-white/65">
+                  <span className="block text-ink/55">
                     {feature.subtitle}
                   </span>
                 </span>
@@ -186,7 +183,7 @@ export function Hero() {
           <div className="flex flex-col gap-[0.9em] max-sm:gap-[0.55em] sm:flex-row sm:items-center">
             <Link
               href="/contact"
-              className="group inline-flex items-center justify-center gap-[0.7em] rounded-full bg-brand-600 px-[1.8em] py-[0.95em] text-[0.92em] font-semibold text-white shadow-xl shadow-brand-600/40 transition hover:bg-brand-500 max-sm:py-[0.8em]"
+              className="group inline-flex items-center justify-center gap-[0.7em] rounded-full bg-brand-600 px-[1.8em] py-[0.95em] text-[0.92em] font-semibold text-white shadow-xl shadow-brand-600/30 transition hover:bg-brand-500 max-sm:py-[0.8em]"
             >
               <CalendarCheck className="h-[1.2em] w-[1.2em]" />
               Book Free Inspection
@@ -196,9 +193,9 @@ export function Hero() {
               href={site.whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-[0.7em] rounded-full border border-white/30 px-[1.8em] py-[0.95em] text-[0.92em] font-semibold text-white transition hover:border-white/70 hover:bg-white/10 max-sm:py-[0.8em]"
+              className="inline-flex items-center justify-center gap-[0.7em] rounded-full border border-ink/20 bg-white/70 px-[1.8em] py-[0.95em] text-[0.92em] font-semibold text-ink transition hover:border-ink/45 hover:bg-white max-sm:py-[0.8em]"
             >
-              <MessageCircle className="h-[1.2em] w-[1.2em] text-brand-400" />
+              <MessageCircle className="h-[1.2em] w-[1.2em] text-brand-600" />
               Chat on WhatsApp
             </a>
           </div>
@@ -206,20 +203,20 @@ export function Hero() {
       </div>
 
       <div className="hero-fluid relative z-20 mx-auto w-full max-w-[66em] px-4 pb-[max(1rem,2em)] sm:px-6 lg:px-8">
-        <div className="grid gap-[1.2em] rounded-[1.5em] border border-white/20 bg-gradient-to-b from-white/20 to-white/5 p-[1.3em] shadow-[0_30px_80px_-25px_rgba(0,0,0,0.65)] ring-1 ring-inset ring-white/10 backdrop-blur-xl max-sm:grid-cols-3 max-sm:gap-[0.6em] lg:grid-cols-[1.2fr_repeat(3,1fr)] lg:gap-0">
+        <div className="grid gap-[1.2em] rounded-[1.5em] border border-ink/10 bg-white/85 p-[1.3em] shadow-[0_30px_80px_-35px_rgba(23,6,9,0.4)] ring-1 ring-inset ring-white/60 backdrop-blur-xl max-sm:grid-cols-3 max-sm:gap-[0.6em] lg:grid-cols-[1.2fr_repeat(3,1fr)] lg:gap-0">
           <div className="flex items-center gap-[0.9em] max-sm:col-span-3 max-sm:flex-col max-sm:gap-[0.4em] lg:pr-[2em]">
             <div className="flex -space-x-[0.45em]">
               {avatars.map((avatar) => (
                 <span
                   key={avatar.initials}
-                  className={`flex h-[2.4em] w-[2.4em] items-center justify-center rounded-full border-[0.12em] border-white/70 bg-gradient-to-br ${avatar.color} text-[0.62em] font-bold text-white`}
+                  className={`flex h-[2.4em] w-[2.4em] items-center justify-center rounded-full border-[0.12em] border-white bg-gradient-to-br ${avatar.color} text-[0.62em] font-bold text-white`}
                 >
                   {avatar.initials}
                 </span>
               ))}
             </div>
             <div className="max-sm:text-center">
-              <p className="flex items-center gap-[0.4em] whitespace-nowrap text-[0.88em] font-bold leading-tight text-white max-sm:justify-center">
+              <p className="flex items-center gap-[0.4em] whitespace-nowrap text-[0.88em] font-bold leading-tight text-ink max-sm:justify-center">
                 {site.rating}
                 <span className="flex items-center gap-[0.12em]">
                   {Array.from({ length: 5 }).map((_, i) => (
@@ -230,7 +227,7 @@ export function Hero() {
                   ))}
                 </span>
               </p>
-              <p className="mt-[0.15em] text-[0.88em] font-medium leading-tight text-white/60">
+              <p className="mt-[0.15em] text-[0.88em] font-medium leading-tight text-ink/55">
                 Customer Rating
               </p>
             </div>
@@ -239,12 +236,12 @@ export function Hero() {
           {stats.slice(0, 3).map((stat, index) => (
             <div
               key={stat.label}
-              className="flex items-center gap-[0.9em] max-sm:flex-col max-sm:gap-[0.3em] max-sm:text-center lg:border-l lg:border-white/15 lg:px-[2em]"
+              className="flex items-center gap-[0.9em] max-sm:flex-col max-sm:gap-[0.3em] max-sm:text-center lg:border-l lg:border-ink/10 lg:px-[2em]"
             >
               <StatIcon index={index} />
-              <p className="whitespace-nowrap text-[0.88em] font-bold leading-tight text-white max-sm:whitespace-normal max-sm:text-[0.78em]">
+              <p className="whitespace-nowrap text-[0.88em] font-bold leading-tight text-ink max-sm:whitespace-normal max-sm:text-[0.78em]">
                 {stat.value}
-                <span className="block font-medium text-white/60">
+                <span className="block font-medium text-ink/55">
                   <span className="max-sm:hidden">{stat.label}</span>
                   <span className="hidden max-sm:inline">
                     {statsMobileLabels[index]}

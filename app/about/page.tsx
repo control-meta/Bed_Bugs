@@ -79,7 +79,7 @@ export default function AboutPage() {
         title={
           <>
             India&apos;s trusted{" "}
-            <span className="text-brand-500">bed bug control experts</span>
+            <span className="text-brand-600">bed bug control experts</span>
           </>
         }
         description="Since 2011, we have helped families, hotels and businesses across India sleep peacefully again — safely, discreetly and permanently."

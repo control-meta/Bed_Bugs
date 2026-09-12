@@ -121,6 +121,13 @@ body {
   background-size: 56px 56px;
 }
 
+.bg-grid-light {
+  background-image:
+    linear-gradient(rgba(23, 6, 9, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(23, 6, 9, 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
 .mask-fade-b {
   mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
 }

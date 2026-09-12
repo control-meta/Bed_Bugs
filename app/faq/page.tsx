@@ -35,7 +35,7 @@ export default function FaqPage() {
         title={
           <>
             Frequently asked{" "}
-            <span className="text-brand-500">questions</span>
+            <span className="text-brand-600">questions</span>
           </>
         }
         description="Everything you need to know about our bed bug treatment — safety, pricing, preparation and warranties. Open a question to read the answer."

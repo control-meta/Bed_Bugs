@@ -16,7 +16,7 @@ function WhatsAppIcon({ className }: { className?: string }) {
 
 export function FloatingContact() {
   return (
-    <div className="fixed bottom-4 right-4 z-40 flex items-center gap-2 rounded-full border border-white/15 bg-ink/80 p-2 shadow-[0_18px_45px_-12px_rgba(0,0,0,0.7)] backdrop-blur-xl sm:bottom-7 sm:right-7 sm:gap-2.5 sm:p-2.5">
+    <div className="fixed bottom-4 right-4 z-40 flex items-center gap-2 rounded-full border border-ink/10 bg-white/90 p-2 shadow-[0_18px_45px_-12px_rgba(23,6,9,0.35)] backdrop-blur-xl sm:bottom-7 sm:right-7 sm:gap-2.5 sm:p-2.5">
       <a
         href={site.whatsappHref}
         target="_blank"

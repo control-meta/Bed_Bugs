@@ -36,7 +36,7 @@ export function SiteHeader() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled || open
-          ? "border-b border-white/10 bg-ink/95 shadow-lg shadow-black/20 backdrop-blur-md"
+          ? "border-b border-ink/10 bg-white/95 shadow-lg shadow-black/5 backdrop-blur-md"
           : "border-b border-transparent bg-transparent"
       }`}
     >
@@ -61,8 +61,8 @@ export function SiteHeader() {
                   compact ? "py-1.5" : "py-2"
                 } ${
                   active
-                    ? "text-white after:absolute after:inset-x-3.5 after:-bottom-0.5 after:h-0.5 after:rounded-full after:bg-brand-500"
-                    : "text-white/85 hover:bg-white/10 hover:text-white"
+                    ? "text-ink after:absolute after:inset-x-3.5 after:-bottom-0.5 after:h-0.5 after:rounded-full after:bg-brand-600"
+                    : "text-ink/70 hover:bg-ink/5 hover:text-ink"
                 }`}
               >
                 {link.label}
@@ -74,11 +74,11 @@ export function SiteHeader() {
         <div className="flex items-center gap-3">
           <a
             href={site.phoneHref}
-            className={`hidden items-center gap-2 whitespace-nowrap rounded-full border border-white/25 px-3.5 text-[13px] font-semibold text-white transition hover:border-white/60 hover:bg-white/10 xl:inline-flex ${
+            className={`hidden items-center gap-2 whitespace-nowrap rounded-full border border-ink/15 bg-white/90 px-3.5 text-[13px] font-semibold text-ink shadow-sm backdrop-blur-md transition hover:border-ink/40 hover:bg-white xl:inline-flex ${
               compact ? "py-2" : "py-2.5"
             }`}
           >
-            <Phone className="h-4 w-4 text-brand-400" />
+            <Phone className="h-4 w-4 text-brand-600" />
             {site.phoneDisplay}
           </a>
           <Link
@@ -93,7 +93,7 @@ export function SiteHeader() {
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 text-white transition hover:bg-white/10 lg:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-ink/20 text-ink transition hover:bg-ink/5 lg:hidden"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
           >
@@ -103,7 +103,7 @@ export function SiteHeader() {
       </div>
 
       {open && (
-        <div className="border-t border-white/10 bg-ink/95 backdrop-blur-xl lg:hidden">
+        <div className="border-t border-ink/10 bg-white/95 backdrop-blur-xl lg:hidden">
           <nav
             className="mx-auto flex max-w-7xl flex-col px-4 py-4 sm:px-6"
             aria-label="Mobile"
@@ -113,17 +113,17 @@ export function SiteHeader() {
                 key={link.label}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="rounded-xl px-4 py-3 text-base font-medium text-white/90 transition hover:bg-white/10"
+                className="rounded-xl px-4 py-3 text-base font-medium text-ink/80 transition hover:bg-ink/5"
               >
                 {link.label}
               </Link>
             ))}
-            <div className="mt-3 flex flex-col gap-3 border-t border-white/10 pt-4">
+            <div className="mt-3 flex flex-col gap-3 border-t border-ink/10 pt-4">
               <a
                 href={site.phoneHref}
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/25 px-5 py-3 text-sm font-semibold text-white"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-ink/20 px-5 py-3 text-sm font-semibold text-ink"
               >
-                <Phone className="h-4 w-4 text-brand-400" />
+                <Phone className="h-4 w-4 text-brand-600" />
                 {site.phoneDisplay}
               </a>
               <Link

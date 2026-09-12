@@ -223,11 +223,11 @@ export function Logo({
             compact ? "text-lg" : "text-2xl"
           }`}
         >
-          <span className="text-white">BedBug</span>{" "}
-          <span className="text-brand-500">Treatment</span>
+          <span className="text-ink">BedBug</span>{" "}
+          <span className="text-brand-600">Treatment</span>
         </span>
         {!compact && (
-          <span className="mt-1.5 whitespace-nowrap font-sans text-[9px] font-semibold uppercase tracking-[0.32em] text-white/55">
+          <span className="mt-1.5 whitespace-nowrap font-sans text-[9px] font-semibold uppercase tracking-[0.32em] text-ink/50">
             Bed Bug Experts · Est. 2011
           </span>
         )}
