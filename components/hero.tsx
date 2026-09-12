@@ -4,13 +4,15 @@ import {
   ArrowRight,
   Award,
   BadgeCheck,
+  BedDouble,
+  Building2,
   CalendarCheck,
   Clock,
   Crosshair,
   Home,
+  Leaf,
   MessageCircle,
   ShieldCheck,
-  Star,
 } from "lucide-react";
 import { site, stats } from "@/lib/site";
 import { QuickConnectForm } from "@/components/quick-connect-form";
@@ -22,17 +24,29 @@ const features = [
   { icon: BadgeCheck, title: "12-Month", subtitle: "Warranty" },
 ];
 
-const avatars = [
-  { initials: "RK", color: "from-brand-400 to-brand-600" },
-  { initials: "AM", color: "from-ink/70 to-ink" },
-  { initials: "SR", color: "from-brand-300 to-brand-500" },
-  { initials: "PN", color: "from-accent-400 to-accent-600" },
+const categories = [
+  {
+    icon: Home,
+    title: "Homes & Apartments",
+    description: "Bedrooms, mattresses and living spaces",
+    image: "/images/treatment-3.png",
+  },
+  {
+    icon: BedDouble,
+    title: "Hotels & Guest Rooms",
+    description: "Professional service for hospitality properties",
+    image: "/images/treatment-1.png",
+  },
+  {
+    icon: Building2,
+    title: "Offices & Businesses",
+    description: "Treatment solutions for commercial spaces",
+    image: "/images/treatment-2.png",
+  },
 ];
 
-const statsMobileLabels = ["Housings", "Available", "Warranty"];
-
 function StatIcon({ index }: { index: number }) {
-  const icons = [Home, ShieldCheck, Award];
+  const icons = [Home, ShieldCheck, Award, Leaf];
   const Icon = icons[index];
   return (
     <Icon
@@ -46,7 +60,7 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative isolate flex min-h-svh flex-col bg-cream"
+      className="relative isolate flex min-h-svh flex-col bg-cream lg:justify-center-safe"
     >
       <div className="absolute inset-0 overflow-hidden" aria-hidden>
         <div className="absolute inset-0 bg-[radial-gradient(90%_80%_at_12%_0%,#f1faf5_0%,#fdf7f4_45%,#ffffff_100%)]" />
@@ -112,8 +126,8 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="hero-fluid relative z-20 mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center px-4 pb-[3em] pt-[max(5.5rem,7em)] max-sm:pb-[1.5em] max-sm:pt-20 sm:px-6 lg:px-8 lg:pb-[1.5em] lg:pt-[7.5em]">
-        <div className="flex max-w-[45em] flex-col gap-[1.05em] max-sm:gap-[0.65em] lg:max-w-[46em] lg:-translate-y-[2em]">
+      <div className="hero-fluid relative z-20 mx-auto flex w-full max-w-7xl flex-col px-4 pt-[max(5.5rem,7em)] max-sm:pt-20 sm:px-6 lg:px-8 lg:pt-[7.5em]">
+        <div className="flex max-w-[45em] flex-col gap-[1.05em] max-sm:gap-[0.65em] lg:max-w-[46em]">
           <p className="flex items-center gap-[1em] text-[0.78em] font-semibold uppercase tracking-[0.28em] text-brand-700">
             <span className="h-px w-[2.6em] shrink-0 bg-brand-500" />
             Professional Bed Bug Treatment
@@ -202,51 +216,54 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="hero-fluid relative z-20 mx-auto w-full max-w-[66em] px-4 pb-[max(1rem,2em)] sm:px-6 lg:px-8">
-        <div className="grid gap-[1.2em] rounded-[1.5em] border border-ink/10 bg-white/85 p-[1.3em] shadow-[0_30px_80px_-35px_rgba(23,6,9,0.4)] ring-1 ring-inset ring-white/60 backdrop-blur-xl max-sm:grid-cols-3 max-sm:gap-[0.6em] lg:grid-cols-[1.2fr_repeat(3,1fr)] lg:gap-0">
-          <div className="flex items-center gap-[0.9em] max-sm:col-span-3 max-sm:flex-col max-sm:gap-[0.4em] lg:pr-[2em]">
-            <div className="flex -space-x-[0.45em]">
-              {avatars.map((avatar) => (
-                <span
-                  key={avatar.initials}
-                  className={`flex h-[2.4em] w-[2.4em] items-center justify-center rounded-full border-[0.12em] border-white bg-gradient-to-br ${avatar.color} text-[0.62em] font-bold text-white`}
-                >
-                  {avatar.initials}
-                </span>
-              ))}
-            </div>
-            <div className="max-sm:text-center">
-              <p className="flex items-center gap-[0.4em] whitespace-nowrap text-[0.88em] font-bold leading-tight text-ink max-sm:justify-center">
-                {site.rating}
-                <span className="flex items-center gap-[0.12em]">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star
-                      key={i}
-                      className="h-[0.85em] w-[0.85em] fill-accent-500 text-accent-500"
-                    />
-                  ))}
-                </span>
-              </p>
-              <p className="mt-[0.15em] text-[0.88em] font-medium leading-tight text-ink/55">
-                Customer Rating
-              </p>
-            </div>
-          </div>
+      <div className="hero-fluid relative z-20 mx-auto w-full max-w-[66em] px-4 py-[1.5em] sm:px-6 lg:px-8">
+        <div className="grid gap-[0.9em] sm:grid-cols-2 lg:grid-cols-3">
+          {categories.map((category) => (
+            <div
+              key={category.title}
+              className="relative flex items-center gap-[0.9em] overflow-hidden rounded-[1.1em] border border-brand-500/25 bg-brand-50 p-[1em] shadow-[0_18px_45px_-32px_rgba(23,6,9,0.5)]"
+            >
+              <div className="pointer-events-none absolute inset-0" aria-hidden>
+                <Image
+                  src={category.image}
+                  alt=""
+                  fill
+                  sizes="(min-width: 1024px) 22vw, 50vw"
+                  className="scale-[1.14] object-cover object-right opacity-60"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-brand-50 from-45% via-brand-50/90 to-brand-50/15" />
+              </div>
 
-          {stats.slice(0, 3).map((stat, index) => (
+              <div className="relative z-10 flex h-[2.8em] w-[2.8em] shrink-0 items-center justify-center rounded-full border border-brand-500/20 bg-white shadow-sm">
+                <category.icon
+                  className="h-[1.4em] w-[1.4em] text-brand-600"
+                  strokeWidth={1.9}
+                />
+              </div>
+              <div className="relative z-10 min-w-0">
+                <p className="text-[0.95em] font-bold leading-tight text-ink">
+                  {category.title}
+                </p>
+                <p className="mt-[0.25em] text-[0.8em] font-medium leading-snug text-ink/75">
+                  {category.description}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="hero-fluid relative z-20 mx-auto w-full max-w-[66em] px-4 pb-[max(1rem,2em)] sm:px-6 lg:px-8">
+        <div className="grid gap-[1.2em] rounded-[1.5em] border border-ink/10 bg-white/85 p-[1.3em] shadow-[0_30px_80px_-35px_rgba(23,6,9,0.4)] ring-1 ring-inset ring-white/60 backdrop-blur-xl max-sm:grid-cols-2 max-sm:gap-[0.7em] lg:grid-cols-4 lg:gap-0">
+          {stats.map((stat, index) => (
             <div
               key={stat.label}
-              className="flex items-center gap-[0.9em] max-sm:flex-col max-sm:gap-[0.3em] max-sm:text-center lg:border-l lg:border-ink/10 lg:px-[2em]"
+              className="flex items-center gap-[0.7em] max-sm:flex-col max-sm:gap-[0.3em] max-sm:text-center lg:justify-center lg:border-l lg:border-ink/10 lg:px-[1.2em] lg:first:border-l-0"
             >
               <StatIcon index={index} />
-              <p className="whitespace-nowrap text-[0.88em] font-bold leading-tight text-ink max-sm:whitespace-normal max-sm:text-[0.78em]">
-                {stat.value}
-                <span className="block font-medium text-ink/55">
-                  <span className="max-sm:hidden">{stat.label}</span>
-                  <span className="hidden max-sm:inline">
-                    {statsMobileLabels[index]}
-                  </span>
-                </span>
+              <p className="whitespace-nowrap text-[0.82em] font-bold leading-tight text-ink max-sm:whitespace-normal max-sm:text-[0.72em]">
+                {stat.value}{" "}
+                <span className="font-medium text-ink/55">{stat.label}</span>
               </p>
             </div>
           ))}
