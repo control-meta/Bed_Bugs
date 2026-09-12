@@ -29,7 +29,7 @@ export function TestimonialsSection() {
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star
                     key={i}
-                    className="h-4 w-4 fill-amber-400 text-amber-400"
+                    className="h-4 w-4 fill-accent-500 text-accent-500"
                   />
                 ))}
               </div>

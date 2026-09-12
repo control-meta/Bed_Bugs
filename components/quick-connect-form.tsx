@@ -100,7 +100,7 @@ export function QuickConnectForm() {
         </button>
       </form>
       {error && (
-        <p className="pl-[0.5em] text-[0.8em] font-medium text-brand-600">
+        <p className="pl-[0.5em] text-[0.8em] font-medium text-accent-600">
           {error}
         </p>
       )}

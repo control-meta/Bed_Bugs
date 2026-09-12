@@ -237,7 +237,7 @@ export default function AboutPage() {
             {values.map((value) => (
               <div
                 key={value.title}
-                className="group flex gap-4 rounded-2xl border border-ink/10 bg-cream/60 p-5 transition hover:-translate-y-1 hover:border-brand-600/30 hover:bg-white hover:shadow-[0_30px_60px_-25px_rgba(225,25,49,0.25)]"
+                className="group flex gap-4 rounded-2xl border border-ink/10 bg-cream/60 p-5 transition hover:-translate-y-1 hover:border-brand-600/30 hover:bg-white hover:shadow-[0_30px_60px_-25px_rgba(31,128,85,0.2)]"
               >
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-brand-600/10 text-brand-600 transition group-hover:bg-brand-600 group-hover:text-white">
                   <value.icon className="h-5 w-5" strokeWidth={1.8} />

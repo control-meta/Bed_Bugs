@@ -18,9 +18,9 @@ export function LogoMark({ className = "h-11 w-auto" }: { className?: string }) 
     <svg viewBox="0 0 64 66" className={className} aria-hidden="true">
       <defs>
         <linearGradient id={shield} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#ff6471" />
-          <stop offset="45%" stopColor="#e11931" />
-          <stop offset="100%" stopColor="#7f1024" />
+          <stop offset="0%" stopColor="#55ba8b" />
+          <stop offset="45%" stopColor="#1f8055" />
+          <stop offset="100%" stopColor="#0b3a27" />
         </linearGradient>
         <linearGradient id={trim} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#f8e3a1" />
@@ -52,7 +52,7 @@ export function LogoMark({ className = "h-11 w-auto" }: { className?: string }) 
       {/* Shield base */}
       <path
         d="M32 2.5 56 11v23c0 15.8-11.2 25.6-24 29.2C19.2 59.6 8 49.8 8 34V11Z"
-        fill="#1a0308"
+        fill="#09261b"
       />
       <path
         d="M32 4.5 54 12.4V34c0 14.9-10.6 24.2-22 27.6C20.6 58.2 10 48.9 10 34V12.4Z"
@@ -115,8 +115,8 @@ export function LogoMark({ className = "h-11 w-auto" }: { className?: string }) 
 
         {/* Head, eyes, antennae */}
         <ellipse cx="32" cy="22.8" rx="3.4" ry="2.7" fill={`url(#${head})`} />
-        <circle cx="30.1" cy="22.4" r="0.95" fill="#7f1024" />
-        <circle cx="33.9" cy="22.4" r="0.95" fill="#7f1024" />
+        <circle cx="30.1" cy="22.4" r="0.95" fill="#0b3a27" />
+        <circle cx="33.9" cy="22.4" r="0.95" fill="#0b3a27" />
         <circle cx="30.4" cy="22.1" r="0.3" fill="#fff" />
         <circle cx="34.2" cy="22.1" r="0.3" fill="#fff" />
         <g

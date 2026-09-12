@@ -24,9 +24,9 @@ const features = [
 
 const avatars = [
   { initials: "RK", color: "from-brand-400 to-brand-600" },
-  { initials: "AM", color: "from-amber-400 to-orange-500" },
-  { initials: "SR", color: "from-sky-400 to-blue-600" },
-  { initials: "PN", color: "from-emerald-400 to-teal-600" },
+  { initials: "AM", color: "from-ink/70 to-ink" },
+  { initials: "SR", color: "from-brand-300 to-brand-500" },
+  { initials: "PN", color: "from-accent-400 to-accent-600" },
 ];
 
 const statsMobileLabels = ["Housings", "Available", "Warranty"];
@@ -49,7 +49,7 @@ export function Hero() {
       className="relative isolate flex min-h-svh flex-col bg-cream"
     >
       <div className="absolute inset-0 overflow-hidden" aria-hidden>
-        <div className="absolute inset-0 bg-[radial-gradient(90%_80%_at_12%_0%,#fff1f2_0%,#fdf7f4_45%,#ffffff_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(90%_80%_at_12%_0%,#f1faf5_0%,#fdf7f4_45%,#ffffff_100%)]" />
         <div className="absolute inset-0 bg-grid-light opacity-70 mask-fade-b" />
         <div className="absolute -left-32 -top-24 h-96 w-96 rounded-full bg-brand-200/40 blur-3xl" />
 
@@ -69,9 +69,9 @@ export function Hero() {
           />
           <defs>
             <linearGradient id="curve" x1="0" y1="0" x2="1440" y2="0">
-              <stop offset="0" stopColor="#e11931" stopOpacity="0" />
-              <stop offset="0.5" stopColor="#ff4d5e" stopOpacity="0.7" />
-              <stop offset="1" stopColor="#e11931" stopOpacity="0" />
+              <stop offset="0" stopColor="#1f8055" stopOpacity="0" />
+              <stop offset="0.5" stopColor="#55ba8b" stopOpacity="0.7" />
+              <stop offset="1" stopColor="#1f8055" stopOpacity="0" />
             </linearGradient>
           </defs>
         </svg>
@@ -96,9 +96,9 @@ export function Hero() {
 
       <div className="hero-fluid pointer-events-none absolute bottom-[24%] right-[15%] z-10 hidden lg:block">
         <div className="relative h-[11.5em] w-[11.5em]">
-          <div className="absolute -inset-[0.75em] rounded-full border border-brand-500/40" />
+          <div className="absolute -inset-[0.75em] rounded-full border border-accent-500/40" />
           <div className="absolute inset-0 animate-pulse-ring rounded-full" />
-          <div className="relative h-full w-full overflow-hidden rounded-full border-[0.28em] border-brand-600 shadow-[0_25px_60px_-20px_rgba(225,25,49,0.5)]">
+          <div className="relative h-full w-full overflow-hidden rounded-full border-[0.28em] border-accent-600 shadow-[0_25px_60px_-20px_rgba(200,57,44,0.45)]">
             <Image
               src="/images/bedbug-closeup.jpg"
               alt="Close-up of a bed bug"
@@ -107,8 +107,8 @@ export function Hero() {
               className="object-cover"
             />
           </div>
-          <span className="absolute -right-[6em] bottom-[2em] hidden h-px w-[6em] bg-gradient-to-r from-brand-500 to-transparent xl:block" />
-          <span className="absolute -right-[6em] bottom-[1.9em] hidden h-[0.55em] w-[0.55em] rounded-full bg-brand-500 shadow-[0_0_12px_2px_rgba(225,25,49,0.6)] xl:block" />
+          <span className="absolute -right-[6em] bottom-[2em] hidden h-px w-[6em] bg-gradient-to-r from-accent-500 to-transparent xl:block" />
+          <span className="absolute -right-[6em] bottom-[1.9em] hidden h-[0.55em] w-[0.55em] rounded-full bg-accent-500 shadow-[0_0_12px_2px_rgba(200,57,44,0.6)] xl:block" />
         </div>
       </div>
 
@@ -148,7 +148,7 @@ export function Hero() {
                 className="object-cover object-center"
               />
             </div>
-            <div className="absolute -bottom-[1.8em] -right-[0.6em] h-[8em] w-[8em] overflow-hidden rounded-full border-[0.22em] border-brand-600 bg-white shadow-2xl sm:h-[9em] sm:w-[9em]">
+            <div className="absolute -bottom-[1.8em] -right-[0.6em] h-[8em] w-[8em] overflow-hidden rounded-full border-[0.22em] border-accent-600 bg-white shadow-2xl sm:h-[9em] sm:w-[9em]">
               <Image
                 src="/images/bedbug-closeup.jpg"
                 alt="Close-up of a bed bug"
@@ -222,7 +222,7 @@ export function Hero() {
                   {Array.from({ length: 5 }).map((_, i) => (
                     <Star
                       key={i}
-                      className="h-[0.85em] w-[0.85em] fill-brand-500 text-brand-500"
+                      className="h-[0.85em] w-[0.85em] fill-accent-500 text-accent-500"
                     />
                   ))}
                 </span>

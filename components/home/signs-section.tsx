@@ -60,7 +60,7 @@ export function SignsSection() {
           title={
             <>
               Signs you might have{" "}
-              <span className="text-brand-600">bed bugs</span>
+              <span className="text-accent-600">bed bugs</span>
             </>
           }
           description="Bed bugs are experts at hiding. If you notice any of these signs, a same-day inspection can confirm the problem early — before it spreads."
@@ -70,9 +70,9 @@ export function SignsSection() {
           {signs.map((sign) => (
             <div
               key={sign.title}
-              className="group flex gap-4 rounded-2xl border border-ink/10 bg-cream/60 p-5 transition hover:-translate-y-1 hover:border-brand-600/30 hover:bg-white hover:shadow-[0_30px_60px_-25px_rgba(225,25,49,0.25)]"
+              className="group flex gap-4 rounded-2xl border border-ink/10 bg-cream/60 p-5 transition hover:-translate-y-1 hover:border-accent-600/30 hover:bg-white hover:shadow-[0_30px_60px_-25px_rgba(200,57,44,0.22)]"
             >
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-brand-600/10 text-brand-600 transition group-hover:bg-brand-600 group-hover:text-white">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-accent-600/10 text-accent-600 transition group-hover:bg-accent-600 group-hover:text-white">
                 <sign.icon className="h-5 w-5" strokeWidth={1.8} />
               </span>
               <div>
@@ -90,7 +90,7 @@ export function SignsSection() {
         <div className="relative mt-10 overflow-hidden rounded-2xl bg-ink p-5 text-white sm:p-6">
           <div className="absolute inset-0 bg-grid-dark opacity-20" aria-hidden />
           <div
-            className="absolute -right-16 -top-16 h-44 w-44 rounded-full bg-brand-700/30 blur-3xl"
+            className="absolute -right-16 -top-16 h-44 w-44 rounded-full bg-accent-700/25 blur-3xl"
             aria-hidden
           />
           <div className="relative flex flex-col items-center gap-5 text-center sm:flex-row sm:text-left">

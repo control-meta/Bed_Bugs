@@ -433,7 +433,7 @@ export function ContactForm() {
         </div>
 
         {error && (
-          <p className="mt-4 rounded-xl bg-brand-50 px-4 py-2.5 text-sm font-medium text-brand-700">
+          <p className="mt-4 rounded-xl bg-accent-50 px-4 py-2.5 text-sm font-medium text-accent-700">
             {error}
           </p>
         )}
