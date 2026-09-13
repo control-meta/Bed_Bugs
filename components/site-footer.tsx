@@ -34,7 +34,7 @@ export function SiteFooter() {
               Quick Links
             </h3>
             <ul className="mt-3 space-y-2 text-sm max-sm:mt-3 max-sm:space-y-2">
-              {navLinks.slice(1).map((link) => (
+              {navLinks.map((link) => (
                 <li key={link.label}>
                   <Link
                     href={link.href}
