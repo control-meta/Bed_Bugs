@@ -17,8 +17,8 @@ const ctaImages = [
     alt: "Safe and effective bed bug treatment in progress",
   },
   {
-    src: "/images/hero-tech-bed.webp",
-    alt: "Technician treating a mattress for bed bugs",
+    src: "/images/services/service-spray.jpg",
+    alt: "Targeted bed bug spray treatment",
   },
 ];
 

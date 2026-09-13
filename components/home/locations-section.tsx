@@ -20,24 +20,35 @@ export function LocationsSection() {
         />
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {cities.map((city) => (
-            <div
-              key={city.name}
-              className="group flex items-start gap-3.5 rounded-2xl border border-ink/10 bg-white p-5 transition hover:border-brand-600/30 hover:shadow-xl hover:shadow-brand-600/5"
-            >
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-brand-600/10 text-brand-600">
-                <MapPin className="h-5 w-5" />
-              </span>
-              <div>
-                <h3 className="font-display text-base font-bold text-ink">
-                  {city.name}
-                </h3>
-                <p className="mt-1 text-sm leading-relaxed text-ink/55">
-                  {city.areas}
-                </p>
-              </div>
-            </div>
-          ))}
+          {cities.map((city) => {
+            const slug = city.name.toLowerCase();
+            return (
+              <Link
+                key={city.name}
+                href={`/locations/${slug}`}
+                className="group flex items-start justify-between gap-3.5 rounded-2xl border border-ink/10 bg-white p-5 transition-all duration-300 hover:border-brand-600/40 hover:shadow-xl hover:shadow-brand-600/10 hover:-translate-y-0.5"
+              >
+                <div className="flex items-start gap-3.5">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-brand-600/10 text-brand-600 transition-colors group-hover:bg-brand-600 group-hover:text-white">
+                    <MapPin className="h-5 w-5" />
+                  </span>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h3 className="font-display text-base font-bold text-ink group-hover:text-brand-700 transition-colors">
+                        {city.name}
+                      </h3>
+                      <span className="rounded-full bg-brand-50 px-2 py-0.5 text-[10px] font-semibold text-brand-700 opacity-0 transition-opacity group-hover:opacity-100 max-sm:opacity-100">
+                        View City
+                      </span>
+                    </div>
+                    <p className="mt-1 text-sm leading-relaxed text-ink/55">
+                      {city.areas}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
 
           <div className="flex h-full flex-col justify-between rounded-2xl bg-ink p-5 text-white">
             <div className="flex items-start gap-3.5">

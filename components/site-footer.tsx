@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { Mail, MessageCircle, Phone } from "lucide-react";
+import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { LogoMark } from "@/components/logo";
-import { cities, navLinks, site } from "@/lib/site";
+import { navLinks, site } from "@/lib/site";
+import { locations } from "@/lib/locations";
 
 export function SiteFooter() {
   return (
@@ -14,7 +15,7 @@ export function SiteFooter() {
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-8 border-b border-white/10 py-10 max-sm:grid-cols-2 max-sm:gap-6 max-sm:pt-6 max-sm:text-center sm:grid-cols-2 lg:grid-cols-12 lg:gap-6">
-          <div className="lg:col-span-5 max-sm:col-span-2">
+          <div className="lg:col-span-4 max-sm:col-span-2">
             <div className="flex items-center gap-2.5 max-sm:justify-center">
               <LogoMark className="h-9 w-auto" />
               <span className="font-display text-lg font-bold leading-none tracking-tight">
@@ -28,7 +29,7 @@ export function SiteFooter() {
             </p>
           </div>
 
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-2 max-sm:col-span-1">
             <h3 className="text-xs font-semibold uppercase tracking-widest text-brand-400">
               Quick Links
             </h3>
@@ -46,7 +47,25 @@ export function SiteFooter() {
             </ul>
           </div>
 
-          <div className="lg:col-span-4">
+          <div className="lg:col-span-3 max-sm:col-span-1">
+            <h3 className="text-xs font-semibold uppercase tracking-widest text-brand-400">
+              Locations
+            </h3>
+            <ul className="mt-3 space-y-2 text-sm max-sm:mt-3 max-sm:space-y-2">
+              {locations.map((loc) => (
+                <li key={loc.slug}>
+                  <Link
+                    href={`/locations/${loc.slug}`}
+                    className="text-white/65 transition hover:text-white max-sm:flex max-sm:min-h-[3.25rem] max-sm:w-full max-sm:items-center max-sm:justify-center max-sm:rounded-full max-sm:border max-sm:border-white/10 max-sm:bg-white/[0.06] max-sm:px-3 max-sm:py-2 max-sm:text-center max-sm:text-[0.78rem] max-sm:font-medium max-sm:text-white/80"
+                  >
+                    {loc.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="lg:col-span-3 max-sm:col-span-2">
             <h3 className="text-xs font-semibold uppercase tracking-widest text-brand-400">
               Contact
             </h3>
@@ -84,12 +103,27 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="flex flex-col items-center gap-1.5 py-5 text-center text-xs text-white/45">
+        <div className="flex flex-col items-center gap-2.5 py-6 text-center text-xs text-white/45">
           <p>
             © {site.foundedYear}–{new Date().getFullYear()} {site.legalName}. All
             Rights Reserved.
           </p>
-          <p>{cities.map((city) => city.name).join(" · ")}</p>
+          <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-white/50">
+            <span className="text-white/35">Service Cities:</span>
+            {locations.map((loc, idx) => (
+              <span key={loc.slug} className="inline-flex items-center gap-2">
+                <Link
+                  href={`/locations/${loc.slug}`}
+                  className="transition hover:text-brand-400 hover:underline"
+                >
+                  {loc.name}
+                </Link>
+                {idx < locations.length - 1 && (
+                  <span className="text-white/20">·</span>
+                )}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </footer>

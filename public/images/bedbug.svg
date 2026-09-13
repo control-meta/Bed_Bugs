@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <radialGradient id="bodyGrad" cx="50%" cy="36%" r="72%">
+      <stop offset="0%" stop-color="#c67c42" />
+      <stop offset="45%" stop-color="#9c4a22" />
+      <stop offset="100%" stop-color="#5f2a12" />
+    </radialGradient>
+    <linearGradient id="plateGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ad5a2c" />
+      <stop offset="100%" stop-color="#6b3014" />
+    </linearGradient>
+    <linearGradient id="legGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8f4420" />
+      <stop offset="100%" stop-color="#49200c" />
+    </linearGradient>
+  </defs>
+
+  <!-- legs -->
+  <g fill="none" stroke="url(#legGrad)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M158 150 C128 126 104 118 84 126 C70 132 60 146 56 164" />
+    <path d="M146 182 C112 176 88 178 70 188 C56 196 48 214 46 234" />
+    <path d="M156 216 C122 220 100 232 84 250 C72 264 66 288 64 312" />
+    <path d="M242 150 C272 126 296 118 316 126 C330 132 340 146 344 164" />
+    <path d="M254 182 C288 176 312 178 330 188 C344 196 352 214 354 234" />
+    <path d="M244 216 C278 220 300 232 316 250 C328 264 334 288 336 312" />
+  </g>
+
+  <!-- antennae -->
+  <g fill="none" stroke="#5f2a12" stroke-width="6" stroke-linecap="round">
+    <path d="M186 96 C170 76 152 64 134 56" />
+    <path d="M214 96 C230 76 248 64 266 56" />
+  </g>
+
+  <!-- abdomen -->
+  <ellipse cx="200" cy="252" rx="80" ry="98" fill="url(#bodyGrad)" stroke="#4a1f0d" stroke-opacity="0.5" stroke-width="3" />
+  <g fill="none" stroke="#3f1c0b" stroke-opacity="0.36" stroke-width="3">
+    <path d="M131 208 Q200 246 269 208" />
+    <path d="M126 238 Q200 278 274 238" />
+    <path d="M130 268 Q200 304 270 268" />
+    <path d="M141 296 Q200 326 259 296" />
+  </g>
+  <ellipse cx="176" cy="224" rx="26" ry="42" fill="#e0a86f" opacity="0.22" transform="rotate(-12 176 224)" />
+
+  <!-- thorax / pronotum -->
+  <path d="M200 118 C158 118 136 142 134 170 C132 194 160 208 200 208 C240 208 268 194 266 170 C264 142 242 118 200 118 Z" fill="url(#plateGrad)" stroke="#4a1f0d" stroke-opacity="0.45" stroke-width="3" />
+  <ellipse cx="184" cy="150" rx="9" ry="13" fill="#3f1c0b" opacity="0.32" />
+  <ellipse cx="216" cy="150" rx="9" ry="13" fill="#3f1c0b" opacity="0.32" />
+
+  <!-- head -->
+  <ellipse cx="200" cy="104" rx="30" ry="23" fill="#6b3014" />
+  <circle cx="182" cy="99" r="6" fill="#2b1106" />
+  <circle cx="218" cy="99" r="6" fill="#2b1106" />
+  <ellipse cx="184" cy="88" rx="14" ry="8" fill="#e0a86f" opacity="0.3" />
+</svg>

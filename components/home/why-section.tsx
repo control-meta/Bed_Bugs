@@ -2,129 +2,196 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
-  CheckCircle2,
+  CalendarCheck,
+  CalendarDays,
+  Crosshair,
   Leaf,
-  PiggyBank,
+  Search,
   ShieldCheck,
-  Sparkles,
+  UserRound,
 } from "lucide-react";
-import { SectionHeading } from "@/components/section-heading";
 
-const reasons = [
+const features = [
+  {
+    icon: UserRound,
+    title: "Bed Bug Specialists",
+    description: "Focused expertise for bed bug infestations.",
+  },
+  {
+    icon: Search,
+    title: "Thorough Inspection",
+    description:
+      "We look beyond the mattress, inspecting beds, furniture, frames and nearby areas.",
+  },
+  {
+    icon: CalendarCheck,
+    title: "One-Time & 1-Year Plans",
+    description: "Choose the service that fits your needs.",
+  },
   {
     icon: ShieldCheck,
-    title: "100% money-back guarantee",
-    description: "Backed by a 30-day guarantee and a 12-month service warranty.",
-    mobileDescription: "30-day guarantee, 12-month warranty",
-  },
-  {
-    icon: Sparkles,
-    title: "100% safe for children & pets",
-    description: "Low-toxicity, family-safe formulations only.",
-    mobileDescription: "Low-toxicity, family-safe formulas",
-  },
-  {
-    icon: Leaf,
-    title: "Eco-friendly & 100% odorless",
-    description: "No harsh smell and no need to throw away your belongings.",
-    mobileDescription: "Odorless, no need to discard items",
-  },
-  {
-    icon: PiggyBank,
-    title: "Affordable, transparent pricing",
-    description: "Free inspection and a clear estimate before we begin.",
-    mobileDescription: "Free inspection, clear estimate",
+    title: "Clear, Professional Service",
+    description: "Straightforward treatment and guidance.",
   },
 ];
 
+const planPoints = ["One-Time Service", "1-Year Plan", "3 Scheduled Visits"];
+
 export function WhySection() {
   return (
-    <section className="relative overflow-hidden bg-cream py-10 lg:py-14">
-      <div
-        className="absolute -right-32 top-10 h-96 w-96 rounded-full bg-brand-100/70 blur-3xl"
-        aria-hidden
-      />
+    <section className="relative overflow-hidden bg-white py-10 lg:py-14">
+      <div className="absolute inset-0" aria-hidden>
+        <div className="absolute inset-0 bg-[radial-gradient(120%_120%_at_88%_8%,#f1faf5_0%,#ffffff_55%,#ffffff_100%)]" />
+        <div className="absolute inset-0 bg-grid-light opacity-40" />
+      </div>
+
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+        <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
           <div>
-            <SectionHeading
-              align="left"
-              size="compact"
-              eyebrow="Why Choose Us"
-              title={
-                <>
-                  Not just another pest control —{" "}
-                  <span className="text-brand-600">bed bug specialists.</span>
-                </>
-              }
-              description="We focus entirely on solving one serious problem, effectively and permanently. Every treatment is performed by trained technicians who understand exactly where bed bugs hide."
-            />
-            <ul className="mt-8 space-y-4 max-sm:mx-auto max-sm:w-fit max-sm:max-w-full">
-              {reasons.map((reason) => (
-                <li
-                  key={reason.title}
-                  className="flex gap-3.5 max-sm:grid max-sm:grid-cols-[auto_1fr] max-sm:items-center max-sm:text-left"
-                >
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-brand-600/10">
-                    <reason.icon className="h-5 w-5 text-brand-600" />
+            <p className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.28em] text-brand-700">
+              <span className="h-px w-8 bg-brand-500" />
+              Why Choose Us
+            </p>
+            <h2 className="mt-3 font-display text-2xl font-extrabold leading-tight tracking-tight text-ink sm:text-3xl lg:text-[2.2rem]">
+              Not just pest control —
+              <span className="block text-brand-600">bed bug specialists.</span>
+            </h2>
+            <p className="mt-3.5 max-w-lg text-sm leading-relaxed text-ink/65 sm:text-[0.92rem]">
+              We focus specifically on bed bug treatment, with trained
+              technicians who inspect sleeping areas, furniture and common
+              hiding spots before applying a targeted treatment approach.
+            </p>
+
+            <ul className="mt-6 grid gap-x-5 gap-y-4 sm:grid-cols-2">
+              {features.map((feature) => (
+                <li key={feature.title} className="flex gap-3">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-100 text-brand-600">
+                    <feature.icon className="h-4 w-4" strokeWidth={1.9} />
                   </span>
                   <div>
-                    <h3 className="font-display text-base font-semibold text-ink">
-                      {reason.title}
+                    <h3 className="font-display text-sm font-bold text-ink">
+                      {feature.title}
                     </h3>
-                    <p className="mt-1 text-sm leading-relaxed text-ink/60">
-                      <span className="max-sm:hidden">
-                        {reason.description}
-                      </span>
-                      <span className="hidden max-sm:inline">
-                        {reason.mobileDescription}
-                      </span>
+                    <p className="mt-0.5 text-xs leading-relaxed text-ink/60">
+                      {feature.description}
                     </p>
                   </div>
                 </li>
               ))}
             </ul>
-            <div className="mt-8 flex flex-wrap items-center gap-4 max-sm:justify-center">
+
+            <div className="mt-7 flex flex-wrap items-center gap-x-4 gap-y-3">
               <Link
                 href="/about"
-                className="group inline-flex items-center gap-2.5 rounded-full bg-ink px-6 py-3 text-sm font-semibold text-white transition hover:bg-maroon-800"
+                className="group inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-xs font-semibold text-white transition hover:bg-brand-900"
               >
                 More About Us
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
               </Link>
-              <p className="flex items-center gap-2 text-sm font-medium text-ink/70 max-sm:hidden">
-                <CheckCircle2 className="h-5 w-5 text-brand-600" />
-                100% money-back guaranteed
+              <span className="hidden h-6 w-px bg-ink/10 sm:block" />
+              <p className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs font-medium text-ink/75">
+                <span className="flex items-center gap-1.5">
+                  <CalendarCheck className="h-4 w-4 text-brand-600" />
+                  {planPoints[0]}
+                </span>
+                {planPoints.slice(1).map((point) => (
+                  <span key={point} className="flex items-center gap-x-2.5">
+                    <span className="h-1 w-1 rounded-full bg-brand-500" />
+                    {point}
+                  </span>
+                ))}
               </p>
             </div>
           </div>
 
-          <div className="relative">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] border-[6px] border-white shadow-2xl">
-              <Image
-                src="/images/why-choose-us.webp"
-                alt="Technician treating a bedroom while a family sleeps peacefully, bed bug free"
-                fill
-                sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover"
-              />
-            </div>
-            <div className="absolute -bottom-5 -left-3 w-48 rounded-2xl bg-ink p-4 text-white shadow-2xl sm:left-6">
-              <p className="font-display text-2xl font-extrabold text-brand-500">
-                30 min
-              </p>
-              <p className="mt-1 text-xs text-white/70">
-                Bed bugs killed with advanced professional treatment
-              </p>
-            </div>
-            <div className="absolute -right-2 -top-5 hidden items-center gap-2.5 rounded-2xl bg-white px-4 py-3 shadow-2xl sm:flex">
-              <ShieldCheck className="h-7 w-7 text-brand-600" />
-              <p className="text-sm font-bold text-ink">
-                12-Month
-                <span className="block font-medium text-ink/55">
-                  Warranty
+          <div className="mx-auto w-full max-w-[27rem] lg:mx-0 lg:ml-auto lg:max-w-[29rem] xl:max-w-[31rem]">
+            <div className="relative">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border-4 border-white shadow-xl">
+                <Image
+                  src="/images/why-choose-us.webp"
+                  alt="Technician applying a targeted bed bug treatment to a room"
+                  fill
+                  sizes="(min-width: 1024px) 38vw, 90vw"
+                  className="object-cover"
+                />
+              </div>
+
+              <div className="absolute -top-3 right-2 flex items-center gap-2 rounded-xl bg-white px-3 py-2 shadow-lg sm:right-4">
+                <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand-600/10 text-brand-600">
+                  <CalendarDays className="h-4 w-4" />
                 </span>
-              </p>
+                <p className="text-xs font-bold leading-tight text-ink">
+                  1-Year Service Plan
+                  <span className="block text-[10px] font-medium text-ink/55">
+                    3 Scheduled Visits
+                  </span>
+                </p>
+              </div>
+
+              <div className="absolute -bottom-2 left-2 flex items-center gap-2.5 rounded-xl bg-ink px-3 py-2 text-white shadow-lg sm:left-4">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-600/25 text-brand-300">
+                  <Crosshair className="h-4 w-4" />
+                </span>
+                <p className="text-xs font-bold leading-tight">
+                  Targeted Treatment
+                  <span className="block text-[10px] font-medium text-white/60">
+                    Based on inspection level
+                  </span>
+                </p>
+              </div>
+
+              <div className="absolute -bottom-2 right-4 hidden h-20 w-28 overflow-hidden rounded-xl border-2 border-white shadow-lg sm:block lg:h-24 lg:w-32">
+                <Image
+                  src="/images/bedbug-closeup.jpg"
+                  alt="Close-up inspection of a mattress for bed bugs"
+                  fill
+                  sizes="130px"
+                  className="object-cover"
+                />
+              </div>
+            </div>
+
+            {/* A safer, healthier home for you badge */}
+            <div className="mt-6 hidden justify-end pr-2 sm:flex lg:mt-7">
+              <div className="flex items-center gap-2 rotate-[-5deg] select-none">
+                <span className="flex items-center text-brand-600">
+                  <Leaf className="h-5 w-5 -rotate-12 fill-brand-600/20 text-brand-600" />
+                </span>
+                <div className="text-left font-semibold text-brand-700">
+                  <p
+                    className="text-[0.95rem] leading-tight"
+                    style={{
+                      fontFamily:
+                        "'Caveat', 'Segoe Script', 'Bradley Hand', 'Comic Sans MS', cursive",
+                    }}
+                  >
+                    A safer, healthier
+                  </p>
+                  <div className="relative inline-block">
+                    <p
+                      className="text-[0.95rem] leading-tight"
+                      style={{
+                        fontFamily:
+                          "'Caveat', 'Segoe Script', 'Bradley Hand', 'Comic Sans MS', cursive",
+                      }}
+                    >
+                      home for you
+                    </p>
+                    <svg
+                      className="absolute -bottom-1.5 left-0 h-2 w-full overflow-visible text-brand-600"
+                      viewBox="0 0 100 8"
+                      fill="none"
+                    >
+                      <path
+                        d="M1 5.5C28 2 68 7 99 2.5"
+                        stroke="currentColor"
+                        strokeWidth="2.2"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

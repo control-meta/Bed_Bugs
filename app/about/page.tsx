@@ -20,7 +20,7 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "India's trusted bed bug control experts. Learn about our mission, vision and the team behind 10,000+ bed bug-free homes across Pune, Mumbai, Bangalore, Delhi & Noida.",
+    "India's trusted bed bug control experts. Learn about our mission, vision and the team behind 50,000+ bed bug-free homes across Pune, Mumbai, Bangalore, Delhi & Noida.",
 };
 
 const highlights = [
@@ -112,7 +112,7 @@ export default function AboutPage() {
               <div className="absolute -left-3 top-8 hidden items-center gap-3 rounded-2xl bg-white px-5 py-4 shadow-2xl sm:flex">
                 <BadgeCheck className="h-8 w-8 text-brand-600" />
                 <p className="text-sm font-bold text-ink">
-                  10,000+
+                  50,000+
                   <span className="block font-medium text-ink/55">
                     Homes served
                   </span>

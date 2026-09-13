@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Hero } from "@/components/hero";
 import { WhySection } from "@/components/home/why-section";
-import { SignsSection } from "@/components/home/signs-section";
-import { ProcessSection } from "@/components/home/process-section";
 import { LocationsSection } from "@/components/home/locations-section";
 import { TestimonialsSection } from "@/components/home/testimonials-section";
 import { FaqSection } from "@/components/home/faq-section";
@@ -20,8 +18,6 @@ export default function Home() {
     <>
       <Hero />
       <WhySection />
-      <SignsSection />
-      <ProcessSection />
       <LocationsSection />
       <TestimonialsSection />
       <FaqSection />

@@ -183,8 +183,11 @@ function CitySelect({
   );
 }
 
-export function ContactForm() {
-  const [form, setForm] = useState<FormState>(initialState);
+export function ContactForm({ defaultCity }: { defaultCity?: string } = {}) {
+  const [form, setForm] = useState<FormState>(() => ({
+    ...initialState,
+    city: defaultCity || "",
+  }));
   const [status, setStatus] = useState<"idle" | "submitting" | "success">(
     "idle",
   );

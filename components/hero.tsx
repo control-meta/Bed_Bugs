@@ -13,6 +13,7 @@ import {
   Leaf,
   MessageCircle,
   ShieldCheck,
+  Star,
 } from "lucide-react";
 import { site, stats } from "@/lib/site";
 import { QuickConnectForm } from "@/components/quick-connect-form";
@@ -46,7 +47,7 @@ const categories = [
 ];
 
 function StatIcon({ index }: { index: number }) {
-  const icons = [Home, ShieldCheck, Award, Leaf];
+  const icons = [Star, Home, ShieldCheck, Award];
   const Icon = icons[index];
   return (
     <Icon
@@ -63,32 +64,39 @@ export function Hero() {
       className="relative isolate flex min-h-svh flex-col bg-cream lg:justify-center-safe"
     >
       <div className="absolute inset-0 overflow-hidden" aria-hidden>
+        {/* Base Gradient */}
         <div className="absolute inset-0 bg-[radial-gradient(90%_80%_at_12%_0%,#f1faf5_0%,#fdf7f4_45%,#ffffff_100%)]" />
-        <div className="absolute inset-0 bg-grid-light opacity-70 mask-fade-b" />
-        <div className="absolute -left-32 -top-24 h-96 w-96 rounded-full bg-brand-200/40 blur-3xl" />
 
-        <div className="absolute left-0 top-0 h-[130%] w-[62%] -rotate-12 bg-gradient-to-b from-brand-600/[0.04] to-transparent" />
-        <div className="absolute left-[30%] top-0 h-[140%] w-px -rotate-12 bg-gradient-to-b from-transparent via-brand-500/40 to-transparent" />
-        <div className="absolute left-[42%] top-0 h-[140%] w-px -rotate-12 bg-gradient-to-b from-transparent via-brand-500/20 to-transparent" />
-        <svg
-          className="absolute bottom-0 left-0 w-full opacity-60"
-          viewBox="0 0 1440 140"
-          fill="none"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M0 118C300 60 620 150 900 96C1120 54 1300 40 1440 74"
-            stroke="url(#curve)"
-            strokeWidth="2"
-          />
-          <defs>
-            <linearGradient id="curve" x1="0" y1="0" x2="1440" y2="0">
-              <stop offset="0" stopColor="#1f8055" stopOpacity="0" />
-              <stop offset="0.5" stopColor="#55ba8b" stopOpacity="0.7" />
-              <stop offset="1" stopColor="#1f8055" stopOpacity="0" />
-            </linearGradient>
-          </defs>
-        </svg>
+        {/* Animated Moving Mesh Gradients (BEHIND the blur layer) */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          {/* Gradient Blob 1 - Lush Emerald Green */}
+          <div className="absolute -left-20 -top-16 h-[34rem] w-[34rem] rounded-full bg-gradient-to-tr from-brand-500 via-emerald-400 to-teal-300 opacity-60 blur-2xl animate-gradient-blob-1" />
+
+          {/* Gradient Blob 2 - Warm Coral & Apricot Glow */}
+          <div className="absolute left-[16%] top-[24%] h-[30rem] w-[30rem] rounded-full bg-gradient-to-br from-accent-400 via-amber-200 to-brand-300 opacity-50 blur-2xl animate-gradient-blob-2" />
+
+          {/* Gradient Blob 3 - Spring Mint & Forest Green */}
+          <div className="absolute -left-10 bottom-12 h-[32rem] w-[32rem] rounded-full bg-gradient-to-tr from-brand-600 via-teal-400 to-emerald-200 opacity-55 blur-2xl animate-gradient-blob-3" />
+
+          {/* Gradient Blob 4 - Luminous Cyan/Teal Flare */}
+          <div className="absolute left-[34%] top-[8%] h-[26rem] w-[26rem] rounded-full bg-gradient-to-r from-emerald-300 via-brand-200 to-teal-100 opacity-50 blur-xl animate-gradient-blob-4" />
+        </div>
+
+        {/* Frosted Glass Blur Layer */}
+        <div className="pointer-events-none absolute inset-0 backdrop-blur-[42px] bg-cream/55 sm:bg-cream/50" />
+
+        {/* Minimal Soft Ambient Sunlight Shimmer (No lines, pure soft light wash) */}
+        <div className="pointer-events-none absolute -left-20 -top-20 h-[150%] w-80 -rotate-12 bg-gradient-to-r from-transparent via-white/45 to-transparent blur-3xl animate-shimmer-slide" />
+
+        {/* Minimal Ambient Floating Particles (Zero lines, soft luminous dots drifting in air) */}
+        <div className="pointer-events-none absolute inset-0">
+          <span className="absolute left-[14%] top-[26%] h-2.5 w-2.5 rounded-full bg-brand-400/60 shadow-[0_0_10px_rgba(47,158,108,0.7)] animate-float" />
+          <span className="absolute left-[36%] top-[18%] h-2 w-2 rounded-full bg-emerald-400/70 shadow-[0_0_8px_rgba(52,211,153,0.75)] animate-float-slow" />
+          <span className="absolute left-[24%] top-[58%] h-3 w-3 rounded-full bg-brand-300/50 shadow-[0_0_12px_rgba(139,212,177,0.8)] animate-float-slower" />
+          <span className="absolute left-[44%] top-[38%] h-2 w-2 rounded-full bg-accent-300/50 shadow-[0_0_8px_rgba(238,123,109,0.7)] animate-float" />
+          <span className="absolute left-[8%] top-[72%] h-2.5 w-2.5 rounded-full bg-brand-400/50 shadow-[0_0_10px_rgba(47,158,108,0.6)] animate-float-slow" />
+          <span className="absolute left-[30%] top-[82%] h-2 w-2 rounded-full bg-emerald-500/55 shadow-[0_0_8px_rgba(16,185,129,0.65)] animate-float-slower" />
+        </div>
       </div>
 
       <div
@@ -194,7 +202,7 @@ export function Hero() {
 
           <QuickConnectForm />
 
-          <div className="flex flex-col gap-[0.9em] max-sm:gap-[0.55em] sm:flex-row sm:items-center">
+          <div className="flex max-w-[38em] flex-col items-center justify-center gap-[0.9em] max-sm:gap-[0.55em] sm:flex-row">
             <Link
               href="/contact"
               className="group inline-flex items-center justify-center gap-[0.7em] rounded-full bg-brand-600 px-[1.8em] py-[0.95em] text-[0.92em] font-semibold text-white shadow-xl shadow-brand-600/30 transition hover:bg-brand-500 max-sm:py-[0.8em]"
@@ -263,7 +271,16 @@ export function Hero() {
               <StatIcon index={index} />
               <p className="whitespace-nowrap text-[0.82em] font-bold leading-tight text-ink max-sm:whitespace-normal max-sm:text-[0.72em]">
                 {stat.value}{" "}
-                <span className="font-medium text-ink/55">{stat.label}</span>
+                <span className="font-medium text-ink/55">
+                  {stat.labelBold && stat.label.startsWith(stat.labelBold) ? (
+                    <>
+                      <span className="font-bold text-ink">{stat.labelBold}</span>
+                      {stat.label.slice(stat.labelBold.length)}
+                    </>
+                  ) : (
+                    stat.label
+                  )}
+                </span>
               </p>
             </div>
           ))}

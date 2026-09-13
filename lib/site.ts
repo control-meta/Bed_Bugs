@@ -13,13 +13,14 @@ export const site = {
   hours: "Open 24/7 for bookings & support",
   rating: "4.9/5",
   reviewCount: "1,200+",
-  homesServed: "10,000+",
+  homesServed: "50,000+",
   warranty: "12-Month",
   foundedYear: 2011,
 };
 
 export const navLinks = [
   { label: "Home", href: "/" },
+  { label: "Services", href: "/services" },
   { label: "About Us", href: "/about" },
   { label: "FAQ", href: "/faq" },
   { label: "Contact", href: "/contact" },
@@ -37,24 +38,6 @@ export const services = [
     description:
       "Same-day inspection of mattresses, sofas, furniture and hidden cracks before any treatment.",
     icon: "search",
-  },
-  {
-    title: "Mattress & Bed Frames",
-    description:
-      "Deep treatment of seams, tufts and joints where bed bugs hide and lay their eggs.",
-    icon: "bed",
-  },
-  {
-    title: "Sofas & Upholstery",
-    description:
-      "Fabric-safe treatment for sofas, cushions, curtains and carpets that removes every life stage.",
-    icon: "sofa",
-  },
-  {
-    title: "Hotels, Hostels & PGs",
-    description:
-      "Discreet, scheduled programs that keep rooms guest-ready with minimal downtime.",
-    icon: "building",
   },
   {
     title: "Follow-up & Warranty",
@@ -137,7 +120,7 @@ export const faqs = [
   {
     question: "What is the cost of bed bug treatment?",
     answer:
-      "Costs depend on area size, infestation severity and the method used (heat, chemical or steam). Contact us for a free inspection and a clear estimate.",
+      "Costs depend on area size, property type and infestation severity. Contact us for a free inspection and a clear upfront estimate.",
   },
   {
     question: "Will bed bugs come back?",
@@ -171,11 +154,11 @@ export const faqs = [
   },
 ];
 
-export const stats = [
+export const stats: { value: string; label: string; labelBold?: string }[] = [
+  { value: site.rating, label: "Customer Rating" },
   { value: site.homesServed, label: "Homes Served" },
-  { value: "Same-Day", label: "Service Available" },
+  { value: "Same-Day", label: "Service Available", labelBold: "Service" },
   { value: site.warranty, label: "Warranty Protection" },
-  { value: "100%", label: "Odorless & Family Safe" },
 ];
 
 export const cities = [

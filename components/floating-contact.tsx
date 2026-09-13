@@ -33,9 +33,9 @@ export function FloatingContact() {
       <a
         href={site.phoneHref}
         aria-label={`Call ${site.phoneDisplay}`}
-        className="group relative flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-lg shadow-brand-600/35 ring-1 ring-inset ring-white/25 transition-all duration-200 hover:scale-105 hover:shadow-brand-600/55 sm:h-12 sm:w-12"
+        className="group relative flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-red-500 to-red-600 text-white shadow-lg shadow-red-600/30 ring-1 ring-inset ring-white/25 transition-all duration-200 hover:scale-105 hover:shadow-red-600/50 sm:h-12 sm:w-12"
       >
-        <PhoneCall className="h-5 w-5 drop-shadow" />
+        <PhoneCall className="h-5 w-5 fill-current drop-shadow" />
         <span className="pointer-events-none absolute bottom-full left-1/2 mb-3 hidden -translate-x-1/2 whitespace-nowrap rounded-lg bg-ink px-3 py-1.5 text-xs font-medium text-white opacity-0 shadow-xl ring-1 ring-white/10 transition-opacity duration-200 group-hover:opacity-100 lg:block">
           Call {site.phoneDisplay}
         </span>
