@@ -70,32 +70,47 @@ export function Hero() {
         {/* Animated Moving Mesh Gradients (BEHIND the blur layer) */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           {/* Gradient Blob 1 - Lush Emerald Green */}
-          <div className="absolute -left-20 -top-16 h-[34rem] w-[34rem] rounded-full bg-gradient-to-tr from-brand-500 via-emerald-400 to-teal-300 opacity-60 blur-2xl animate-gradient-blob-1" />
+          <div className="absolute -left-20 -top-16 h-[34rem] w-[34rem] rounded-full bg-gradient-to-tr from-brand-500 via-emerald-400 to-teal-300 opacity-20 blur-3xl animate-gradient-blob-1" />
 
           {/* Gradient Blob 2 - Warm Coral & Apricot Glow */}
-          <div className="absolute left-[16%] top-[24%] h-[30rem] w-[30rem] rounded-full bg-gradient-to-br from-accent-400 via-amber-200 to-brand-300 opacity-50 blur-2xl animate-gradient-blob-2" />
+          <div className="absolute left-[16%] top-[24%] h-[30rem] w-[30rem] rounded-full bg-gradient-to-br from-accent-400 via-amber-200 to-brand-300 opacity-20 blur-3xl animate-gradient-blob-2" />
 
           {/* Gradient Blob 3 - Spring Mint & Forest Green */}
-          <div className="absolute -left-10 bottom-12 h-[32rem] w-[32rem] rounded-full bg-gradient-to-tr from-brand-600 via-teal-400 to-emerald-200 opacity-55 blur-2xl animate-gradient-blob-3" />
+          <div className="absolute -left-10 bottom-12 h-[32rem] w-[32rem] rounded-full bg-gradient-to-tr from-brand-600 via-teal-400 to-emerald-200 opacity-15 blur-3xl animate-gradient-blob-3" />
 
           {/* Gradient Blob 4 - Luminous Cyan/Teal Flare */}
-          <div className="absolute left-[34%] top-[8%] h-[26rem] w-[26rem] rounded-full bg-gradient-to-r from-emerald-300 via-brand-200 to-teal-100 opacity-50 blur-xl animate-gradient-blob-4" />
+          <div className="absolute left-[34%] top-[8%] h-[26rem] w-[26rem] rounded-full bg-gradient-to-r from-emerald-300 via-brand-200 to-teal-100 opacity-15 blur-3xl animate-gradient-blob-4" />
         </div>
 
         {/* Frosted Glass Blur Layer */}
-        <div className="pointer-events-none absolute inset-0 backdrop-blur-[42px] bg-cream/55 sm:bg-cream/50" />
+        <div className="pointer-events-none absolute inset-0 backdrop-blur-[64px] bg-cream/75 sm:bg-cream/70" />
 
         {/* Minimal Soft Ambient Sunlight Shimmer (No lines, pure soft light wash) */}
         <div className="pointer-events-none absolute -left-20 -top-20 h-[150%] w-80 -rotate-12 bg-gradient-to-r from-transparent via-white/45 to-transparent blur-3xl animate-shimmer-slide" />
 
         {/* Minimal Ambient Floating Particles (Zero lines, soft luminous dots drifting in air) */}
         <div className="pointer-events-none absolute inset-0">
-          <span className="absolute left-[14%] top-[26%] h-2.5 w-2.5 rounded-full bg-brand-400/60 shadow-[0_0_10px_rgba(47,158,108,0.7)] animate-float" />
-          <span className="absolute left-[36%] top-[18%] h-2 w-2 rounded-full bg-emerald-400/70 shadow-[0_0_8px_rgba(52,211,153,0.75)] animate-float-slow" />
-          <span className="absolute left-[24%] top-[58%] h-3 w-3 rounded-full bg-brand-300/50 shadow-[0_0_12px_rgba(139,212,177,0.8)] animate-float-slower" />
-          <span className="absolute left-[44%] top-[38%] h-2 w-2 rounded-full bg-accent-300/50 shadow-[0_0_8px_rgba(238,123,109,0.7)] animate-float" />
-          <span className="absolute left-[8%] top-[72%] h-2.5 w-2.5 rounded-full bg-brand-400/50 shadow-[0_0_10px_rgba(47,158,108,0.6)] animate-float-slow" />
-          <span className="absolute left-[30%] top-[82%] h-2 w-2 rounded-full bg-emerald-500/55 shadow-[0_0_8px_rgba(16,185,129,0.65)] animate-float-slower" />
+          {/* Left/Center Cluster */}
+          <span className="absolute left-[14%] top-[26%] h-2.5 w-2.5 rounded-full bg-brand-400/60 shadow-[0_0_10px_rgba(47,158,108,0.7)] animate-[float_5s_ease-in-out_infinite_0s]" />
+          <span className="absolute left-[36%] top-[18%] h-2 w-2 rounded-full bg-emerald-400/70 shadow-[0_0_8px_rgba(52,211,153,0.75)] animate-[float_6s_ease-in-out_infinite_1s]" />
+          <span className="absolute left-[24%] top-[58%] h-3 w-3 rounded-full bg-brand-300/50 shadow-[0_0_12px_rgba(139,212,177,0.8)] animate-[float_7s_ease-in-out_infinite_0.5s]" />
+          <span className="absolute left-[44%] top-[38%] h-2 w-2 rounded-full bg-accent-300/50 shadow-[0_0_8px_rgba(238,123,109,0.7)] animate-[float_4.5s_ease-in-out_infinite_2s]" />
+          <span className="absolute left-[8%] top-[72%] h-2.5 w-2.5 rounded-full bg-brand-400/50 shadow-[0_0_10px_rgba(47,158,108,0.6)] animate-[float_8s_ease-in-out_infinite_0s]" />
+          <span className="absolute left-[30%] top-[82%] h-2 w-2 rounded-full bg-emerald-500/55 shadow-[0_0_8px_rgba(16,185,129,0.65)] animate-[float_5.5s_ease-in-out_infinite_1.5s]" />
+          <span className="absolute left-[40%] top-[65%] h-1.5 w-1.5 rounded-full bg-accent-400/60 shadow-[0_0_6px_rgba(238,123,109,0.6)] animate-[float_6s_ease-in-out_infinite_3s]" />
+          <span className="absolute left-[5%] top-[40%] h-2 w-2 rounded-full bg-teal-400/60 shadow-[0_0_8px_rgba(45,212,191,0.6)] animate-[float_5s_ease-in-out_infinite_0.2s]" />
+          <span className="absolute left-[18%] top-[12%] h-1.5 w-1.5 rounded-full bg-brand-300/60 shadow-[0_0_6px_rgba(139,212,177,0.6)] animate-[float_4s_ease-in-out_infinite_1s]" />
+
+          {/* Right/Center Cluster */}
+          <span className="absolute right-[22%] top-[32%] h-2.5 w-2.5 rounded-full bg-accent-400/60 shadow-[0_0_10px_rgba(238,123,109,0.7)] animate-[float_6s_ease-in-out_infinite_0.8s]" />
+          <span className="absolute right-[12%] top-[15%] h-2 w-2 rounded-full bg-brand-400/70 shadow-[0_0_8px_rgba(47,158,108,0.75)] animate-[float_5s_ease-in-out_infinite_2s]" />
+          <span className="absolute right-[35%] top-[55%] h-3 w-3 rounded-full bg-emerald-300/50 shadow-[0_0_12px_rgba(110,231,183,0.8)] animate-[float_7s_ease-in-out_infinite_0s]" />
+          <span className="absolute right-[45%] top-[75%] h-1.5 w-1.5 rounded-full bg-brand-500/60 shadow-[0_0_6px_rgba(16,185,129,0.6)] animate-[float_4s_ease-in-out_infinite_1.5s]" />
+          <span className="absolute right-[15%] top-[65%] h-2.5 w-2.5 rounded-full bg-accent-300/50 shadow-[0_0_10px_rgba(252,165,165,0.6)] animate-[float_5.5s_ease-in-out_infinite_1s]" />
+          <span className="absolute right-[28%] top-[85%] h-2 w-2 rounded-full bg-brand-400/60 shadow-[0_0_8px_rgba(47,158,108,0.65)] animate-[float_8s_ease-in-out_infinite_2.5s]" />
+          <span className="absolute right-[5%] top-[45%] h-2 w-2 rounded-full bg-teal-400/50 shadow-[0_0_8px_rgba(45,212,191,0.6)] animate-[float_6s_ease-in-out_infinite_0s]" />
+          <span className="absolute right-[38%] top-[20%] h-1.5 w-1.5 rounded-full bg-accent-400/70 shadow-[0_0_6px_rgba(238,123,109,0.7)] animate-[float_4.5s_ease-in-out_infinite_0.5s]" />
+          <span className="absolute right-[18%] top-[8%] h-2.5 w-2.5 rounded-full bg-emerald-400/50 shadow-[0_0_10px_rgba(52,211,153,0.6)] animate-[float_7s_ease-in-out_infinite_1.2s]" />
         </div>
       </div>
 
@@ -116,21 +131,23 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="hero-fluid pointer-events-none absolute bottom-[24%] right-[15%] z-10 hidden lg:block">
-        <div className="relative h-[11.5em] w-[11.5em]">
-          <div className="absolute -inset-[0.75em] rounded-full border border-accent-500/40" />
-          <div className="absolute inset-0 animate-pulse-ring rounded-full" />
-          <div className="relative h-full w-full overflow-hidden rounded-full border-[0.28em] border-accent-600 shadow-[0_25px_60px_-20px_rgba(200,57,44,0.45)]">
+      <div className="hero-fluid pointer-events-none absolute bottom-[19%] right-[11%] z-10 hidden lg:block">
+        <div className="relative h-[14em] w-[14em]">
+          <div className="absolute inset-[1.3em] rounded-full bg-brand-400/15 blur-2xl animate-pulse-glow" />
+          <div className="absolute inset-0 rounded-full border border-brand-600/20" />
+          <div className="absolute inset-[0.65em] rounded-full border border-dashed border-brand-600/25 animate-[radar-spin_30s_linear_infinite]">
+            <span className="absolute -right-[0.25em] top-1/2 h-[0.5em] w-[0.5em] -translate-y-1/2 rounded-full bg-brand-500 shadow-[0_0_0_0.3em_rgba(47,158,108,0.12)]" />
+          </div>
+          <div className="absolute inset-[1.55em] overflow-hidden rounded-full border-[0.28em] border-white bg-cream shadow-[0_25px_60px_-20px_rgba(23,82,58,0.4)]">
             <Image
               src="/images/bedbug-closeup.jpg"
               alt="Close-up of a bed bug"
               fill
-              sizes="224px"
+              sizes="170px"
               className="object-cover"
             />
+            <span className="absolute inset-x-[18%] top-1/2 h-px bg-white/80 shadow-[0_0_10px_2px_rgba(255,255,255,0.7)] animate-scan" />
           </div>
-          <span className="absolute -right-[6em] bottom-[2em] hidden h-px w-[6em] bg-gradient-to-r from-accent-500 to-transparent xl:block" />
-          <span className="absolute -right-[6em] bottom-[1.9em] hidden h-[0.55em] w-[0.55em] rounded-full bg-accent-500 shadow-[0_0_12px_2px_rgba(200,57,44,0.6)] xl:block" />
         </div>
       </div>
 

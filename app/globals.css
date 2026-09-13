@@ -284,6 +284,13 @@
       transform: scaleX(0.3);
     }
   }
+
+  @keyframes radar-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
 }
 
 html {

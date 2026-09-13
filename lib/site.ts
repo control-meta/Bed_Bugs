@@ -101,57 +101,133 @@ export const testimonials = [
   },
 ];
 
-export const faqs = [
+export const homeFaqs = [
   {
-    question: "How long does a bed bug treatment take?",
-    answer:
-      "Depending on the infestation, size and method, treatments may take 1 to 3 hours per room. Follow-up visits may be scheduled to confirm complete elimination.",
+    question: "How do I know if I need professional bed bug treatment?",
+    answer: "Look for live bugs, dark spots, shed skins, blood marks or recurring bites. A professional inspection can help confirm bed bug activity."
   },
   {
-    question: "Is bed bug treatment safe for children and pets?",
-    answer:
-      "Yes. We use low-toxicity, family-safe formulations and follow strict safety protocols. Our team guides you on vacating and reoccupying the space safely.",
+    question: "Can bed bug treatment be done in rented homes or apartments?",
+    answer: "Yes. Bed bug treatment can be provided in rented homes, apartments and other properties, with the service adapted to the affected rooms and areas."
   },
   {
-    question: "How soon can I sleep in the treated room?",
-    answer:
-      "Usually within a few hours once the area is ventilated. Your technician will advise based on the treatment method used.",
+    question: "What preparation is needed before bed bug treatment?",
+    answer: "Preparation may include reducing clutter, washing bedding and providing access to beds, furniture and nearby areas. Instructions are provided before treatment."
   },
   {
-    question: "What is the cost of bed bug treatment?",
-    answer:
-      "Costs depend on area size, property type and infestation severity. Contact us for a free inspection and a clear upfront estimate.",
+    question: "Is bed bug treatment suitable for homes with children and pets?",
+    answer: "Treatment instructions and precautions are provided according to the selected service. Children and pets may need to stay away during treatment as advised."
   },
   {
-    question: "Will bed bugs come back?",
-    answer:
-      "Not if proper prevention is followed — seal entry points, inspect second-hand furniture, avoid clutter and maintain periodic checks. Our preventive plans help.",
+    question: "How can I prevent bed bugs after professional treatment?",
+    answer: "Inspect luggage and used furniture, reduce clutter, maintain bedding hygiene and monitor sleeping areas for signs of bed bug activity after treatment."
+  }
+];
+
+export const mainFaqs = [
+  {
+    question: "What are the common signs of a bed bug infestation?",
+    answer: "Common signs include live bed bugs, dark spots, shed skins, blood marks on bedding, and bites around sleeping areas. Professional inspection can confirm activity."
   },
   {
-    question: "How do I prepare my home before treatment?",
-    answer:
-      "Clear personal items and clutter from floors and furniture, wash and bag bedding where possible, and give our team access to beds, wardrobes, skirting boards and cracks. We share a simple checklist before the visit.",
+    question: "How do bed bugs enter a home?",
+    answer: "Bed bugs can enter through luggage, clothing, used furniture, mattresses, and other items brought from an infested location. Inspect used items before bringing them home."
   },
   {
-    question: "Do I need to throw away my mattress or furniture?",
-    answer:
-      "In most cases, no. Our targeted treatment reaches bed bugs in seams, joints and cracks without you discarding belongings. We only advise disposal for items that are badly damaged or impossible to treat.",
+    question: "Where do bed bugs usually hide?",
+    answer: "Bed bugs commonly hide in mattress seams, bed frames, headboards, furniture joints, cracks, and dark areas near sleeping spaces where they remain difficult to notice."
   },
   {
-    question: "Do you offer a warranty or guarantee?",
-    answer:
-      "Yes. Every treatment is covered by a 12-month service warranty and a 30-day money-back guarantee. If activity returns within the covered period, we re-treat at no extra cost.",
+    question: "How does professional bed bug treatment work?",
+    answer: "Professional bed bug treatment begins with an inspection, followed by targeted treatment of identified hiding areas based on the property and infestation level."
   },
   {
-    question: "Do you treat hotels, hostels, PGs and offices?",
-    answer:
-      "Absolutely. We handle single rooms and full floors for hotels, hostels, PGs, offices and commercial properties, with discreet scheduling to minimise downtime.",
+    question: "How long does bed bug treatment take?",
+    answer: "Treatment time depends on property size, number of rooms, infestation level, and areas requiring treatment. Your technician can provide an estimated service time."
   },
   {
-    question: "How do I know it is bed bugs and not something else?",
-    answer:
-      "Itchy bites in rows, blood spots on sheets, dark droppings along mattress seams and shed skins are the clearest signs. If you are unsure, book a free inspection and we will confirm it for you.",
+    question: "How many bed bug treatments are usually needed?",
+    answer: "The number of treatments depends on infestation severity, property conditions, and treatment response. Follow-up visits may be recommended when additional service is needed."
   },
+  {
+    question: "Do I need to leave my home during bed bug treatment?",
+    answer: "Temporary vacating may be required depending on the treatment used. Your technician will provide preparation and re-entry instructions before the service begins."
+  },
+  {
+    question: "Can mattresses and furniture be treated for bed bugs?",
+    answer: "Yes. Mattresses, bed frames, sofas, furniture, and nearby hiding areas can be inspected and treated when suitable for the selected service and property."
+  },
+  {
+    question: "Do I need to throw away my mattress if I have bed bugs?",
+    answer: "Not always. A professional inspection can determine whether the mattress and furniture can be treated or if replacement is advisable in specific situations."
+  },
+  {
+    question: "What preparation is needed before bed bug treatment?",
+    answer: "Preparation may include removing clutter, washing bedding, and providing access to furniture and sleeping areas. Follow your technician's instructions before treatment."
+  },
+  {
+    question: "What is the difference between one-time service and a service plan?",
+    answer: "One-time service addresses a current infestation, while service plans may include scheduled visits and follow-up support based on your property and service requirements."
+  },
+  {
+    question: "How much does professional bed bug treatment cost?",
+    answer: "Bed bug treatment cost depends on property size, infestation level, number of rooms, and service selected. Pricing can be confirmed after assessing your requirements."
+  },
+  {
+    question: "Can bed bugs come back after treatment?",
+    answer: "Bed bugs can return if new bugs are introduced or hidden activity remains. Follow-up checks and preventive measures can help manage the risk of reinfestation."
+  },
+  {
+    question: "How can I prevent bed bugs from coming back?",
+    answer: "Reduce clutter, inspect luggage and used furniture, wash bedding regularly, and arrange professional inspection if signs of bed bug activity appear again."
+  },
+  {
+    question: "How can I book a professional bed bug inspection?",
+    answer: "You can contact our bed bug treatment team to discuss the infestation, arrange an inspection, and understand suitable treatment and service options for your property."
+  }
+];
+
+export const serviceFaqs = [
+  {
+    question: "What does your professional bed bug treatment service include?",
+    answer: "Our service includes inspection of common hiding areas, targeted treatment and guidance on preparation, follow-up and prevention based on your infestation."
+  },
+  {
+    question: "What is a one-time bed bug treatment?",
+    answer: "One-time service is designed for customers seeking treatment for a current bed bug infestation, with the treatment approach based on property and infestation conditions."
+  },
+  {
+    question: "What is included in the One-Year Bed Bug Service Plan?",
+    answer: "The One-Year Plan includes three scheduled service visits during the year, providing continued treatment support and follow-up based on service requirements."
+  },
+  {
+    question: "How many visits are included in the One-Year Bed Bug Plan?",
+    answer: "Our One-Year Bed Bug Plan includes three scheduled visits. Visit timing and service requirements are discussed based on the property and infestation condition."
+  },
+  {
+    question: "Should I choose one-time service or the One-Year Plan?",
+    answer: "The right option depends on infestation level, property conditions and service requirements. Our team can help you choose between one-time and three-visit plans."
+  },
+  {
+    question: "Does bed bug treatment cover mattresses and furniture?",
+    answer: "Yes, suitable areas such as mattresses, bed frames, headboards, sofas and furniture can be inspected and treated as part of the selected service."
+  },
+  {
+    question: "Do you use smoke, steam or heat for bed bug treatment?",
+    answer: "No. Our bed bug service does not use smoke, steam or heat treatment. We use targeted treatment methods selected according to the property and infestation."
+  },
+  {
+    question: "Do I need to prepare my home before bed bug treatment?",
+    answer: "Preparation may include reducing clutter, washing bedding and providing access to beds, furniture and other areas requiring treatment. Instructions are provided before service."
+  },
+  {
+    question: "Is follow-up included with bed bug treatment?",
+    answer: "Follow-up depends on the service selected. The One-Year Plan includes three scheduled visits, while one-time service is provided according to its agreed service terms."
+  },
+  {
+    question: "How do I book your bed bug treatment service?",
+    answer: "Contact our team to discuss your bed bug problem, arrange an inspection and choose between one-time service or the One-Year Plan with three scheduled visits."
+  }
 ];
 
 export const stats: { value: string; label: string; labelBold?: string }[] = [

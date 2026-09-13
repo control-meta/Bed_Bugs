@@ -2,6 +2,7 @@ export type LocationInfo = {
   slug: string;
   name: string;
   state: string;
+  image: string;
   tagline: string;
   title: string;
   metaDescription: string;
@@ -41,6 +42,7 @@ export const locations: LocationInfo[] = [
     slug: "pune",
     name: "Pune",
     state: "Maharashtra",
+    image: "/images/cities/pune.jpg",
     tagline: "Same-Day Bed Bug Eradication Across Pune & PCMC",
     title: "Bed Bug Treatment in Pune | Same-Day Service & 12-Month Warranty",
     metaDescription:
@@ -78,10 +80,6 @@ export const locations: LocationInfo[] = [
         zone: "East Pune & Kharadi Tech Zone",
         localities: ["Viman Nagar", "Kharadi", "Kalyani Nagar", "Hadapsar", "Magarpatta City", "Wagholi", "Yerawada", "Chandan Nagar", "Mundhwa"],
       },
-      {
-        zone: "PCMC & Industrial Belt",
-        localities: ["Pimpri", "Chinchwad", "Akurdi", "Nigdi", "Bhosari", "Ravet", "Moshi", "Chakan"],
-      },
     ],
     pricing: [
       { propertyType: "1 RK / Studio", startingPrice: "₹1,199", duration: "1 Hour", warranty: "12 Months" },
@@ -102,10 +100,6 @@ export const locations: LocationInfo[] = [
       {
         title: "100% Odorless & Non-Toxic",
         description: "Safe for kids, elderly, and pets. No chemical smell or need to evacuate your Pune home overnight.",
-      },
-      {
-        title: "12-Month Service Guarantee",
-        description: "Complete elimination guarantee with free scheduled follow-up visits until every bug and egg is gone.",
       },
     ],
     faqs: [
@@ -155,6 +149,7 @@ export const locations: LocationInfo[] = [
     slug: "mumbai",
     name: "Mumbai",
     state: "Maharashtra",
+    image: "/images/cities/mumbai.jpg",
     tagline: "Targeted Bed Bug Elimination Across Mumbai, Thane & Navi Mumbai",
     title: "Bed Bug Treatment in Mumbai | Fast Same-Day Service & 1-Year Warranty",
     metaDescription:
@@ -192,10 +187,6 @@ export const locations: LocationInfo[] = [
         zone: "Thane & Beyond",
         localities: ["Thane West", "Ghodbunder Road", "Majiwada", "Kalyan", "Dombivli", "Mira Road", "Bhayandar"],
       },
-      {
-        zone: "Navi Mumbai",
-        localities: ["Vashi", "Nerul", "Kharghar", "Seawoods", "Belapur", "Kopar Khairane", "Ghansoli", "Airoli", "Panvel"],
-      },
     ],
     pricing: [
       { propertyType: "1 RK / Compact Flat", startingPrice: "₹1,299", duration: "1 Hour", warranty: "12 Months" },
@@ -216,10 +207,6 @@ export const locations: LocationInfo[] = [
       {
         title: "Zero Furniture Disposal",
         description: "Our targeted steam and chemical treatment reaches deep into mattress seams so you never have to discard costly beds or sofas.",
-      },
-      {
-        title: "Discreet Service for Mumbai Societies",
-        description: "Unmarked equipment and professional technicians respecting your society regulations and privacy.",
       },
     ],
     faqs: [
@@ -269,6 +256,7 @@ export const locations: LocationInfo[] = [
     slug: "bangalore",
     name: "Bangalore",
     state: "Karnataka",
+    image: "/images/cities/bangalore.jpg",
     tagline: "Professional Bed Bug Extermination in Bangalore Tech City",
     title: "Bed Bug Treatment in Bangalore | Same-Day Service & 12-Month Warranty",
     metaDescription:
@@ -306,10 +294,6 @@ export const locations: LocationInfo[] = [
         zone: "Central & North Bangalore",
         localities: ["Indiranagar", "Domlur", "MG Road", "Hebbal", "Yelahanka", "Thanisandra", "Hennur", "RT Nagar", "Malleshwaram", "Rajajinagar"],
       },
-      {
-        zone: "West Bangalore",
-        localities: ["Vijayanagar", "Basaveshwaranagar", "Kengeri", "Nagarbhavi", "Yeshwanthpur"],
-      },
     ],
     pricing: [
       { propertyType: "1 RK / Studio Flat", startingPrice: "₹1,199", duration: "1 Hour", warranty: "12 Months" },
@@ -330,10 +314,6 @@ export const locations: LocationInfo[] = [
       {
         title: "Child & Pet Approved",
         description: "Low-toxicity, safe formulations that protect your family and companion animals without toxic fumes.",
-      },
-      {
-        title: "1-Year Peace-of-Mind Guarantee",
-        description: "Comprehensive 12-month coverage ensuring your Bengaluru home stays permanently bed bug free.",
       },
     ],
     faqs: [
@@ -383,6 +363,7 @@ export const locations: LocationInfo[] = [
     slug: "delhi",
     name: "Delhi",
     state: "Delhi NCR",
+    image: "/images/cities/delhi.jpg",
     tagline: "Licensed Bed Bug Treatment & Control Across Delhi NCR",
     title: "Bed Bug Treatment in Delhi | Same-Day Service & 12-Month Guarantee",
     metaDescription:
@@ -420,10 +401,6 @@ export const locations: LocationInfo[] = [
         zone: "North & Central Delhi",
         localities: ["Rohini", "Pitampura", "Karol Bagh", "Connaught Place", "Civil Lines", "Model Town", "Shalimar Bagh", "Kamla Nagar"],
       },
-      {
-        zone: "East Delhi",
-        localities: ["Laxmi Nagar", "Mayur Vihar (Phases 1, 2, 3)", "Preet Vihar", "Patparganj", "IP Extension", "Shahdara"],
-      },
     ],
     pricing: [
       { propertyType: "1 RK / Room", startingPrice: "₹1,199", duration: "1 Hour", warranty: "12 Months" },
@@ -444,10 +421,6 @@ export const locations: LocationInfo[] = [
       {
         title: "100% Family & Pet Safe",
         description: "Zero harmful fumes. Safe for children, asthma patients, and household pets with quick room re-occupancy.",
-      },
-      {
-        title: "1-Year Free Re-Treatment Protection",
-        description: "Includes a 12-month guarantee with scheduled follow-up check-ins to certify complete elimination.",
       },
     ],
     faqs: [
@@ -497,6 +470,7 @@ export const locations: LocationInfo[] = [
     slug: "noida",
     name: "Noida",
     state: "Uttar Pradesh",
+    image: "/images/cities/noida.jpg",
     tagline: "Guaranteed Bed Bug Treatment in Noida & Greater Noida",
     title: "Bed Bug Treatment in Noida | Same-Day Service & 12-Month Warranty",
     metaDescription:
@@ -534,10 +508,6 @@ export const locations: LocationInfo[] = [
         zone: "Greater Noida West (Noida Extension)",
         localities: ["Gaur City 1 & 2", "Sector 1", "Sector 4", "Sector 16", "Techzone 4", "Crossings Republik"],
       },
-      {
-        zone: "Greater Noida Central",
-        localities: ["Alpha 1 & 2", "Beta 1 & 2", "Gamma", "Delta", "Omega", "Knowledge Park (1, 2, 3)", "Pari Chowk"],
-      },
     ],
     pricing: [
       { propertyType: "Studio / 1 RK Flat", startingPrice: "₹1,199", duration: "1 Hour", warranty: "12 Months" },
@@ -558,10 +528,6 @@ export const locations: LocationInfo[] = [
       {
         title: "100% Odorless & Safe Formulations",
         description: "Safe for kids, senior citizens, and pets. Does not leave unpleasant smells in closed apartment towers.",
-      },
-      {
-        title: "12-Month Comprehensive Guarantee",
-        description: "Backed by free scheduled follow-up visits and our 30-day money-back assurance.",
       },
     ],
     faqs: [

@@ -3,7 +3,7 @@ import { PageHero } from "@/components/page-hero";
 import { SectionHeading } from "@/components/section-heading";
 import { FaqAccordion } from "@/components/faq-accordion";
 import { CtaSection } from "@/components/home/cta-section";
-import { faqs } from "@/lib/site";
+import { mainFaqs } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "FAQ",
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  mainEntity: faqs.map((faq) => ({
+  mainEntity: mainFaqs.map((faq) => ({
     "@type": "Question",
     name: faq.question,
     acceptedAnswer: { "@type": "Answer", text: faq.answer },
@@ -56,7 +56,7 @@ export default function FaqPage() {
             description="Tap a question to reveal the answer. Only one answer stays open at a time, so it is easy to follow."
           />
           <div className="mt-6">
-            <FaqAccordion items={faqs} defaultOpen={-1} pageSize={3} />
+            <FaqAccordion items={mainFaqs} defaultOpen={-1} pageSize={3} />
           </div>
         </div>
       </section>

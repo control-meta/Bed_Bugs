@@ -8,7 +8,7 @@ export function ProcessSection() {
   return (
     <section
       id="process"
-      className="relative scroll-mt-20 overflow-hidden bg-brand-50/50 py-12 lg:py-16"
+      className="relative scroll-mt-20 overflow-hidden bg-brand-50/50 py-8 lg:py-10"
     >
       <div className="absolute inset-0 bg-grid-light opacity-60" aria-hidden />
       <div

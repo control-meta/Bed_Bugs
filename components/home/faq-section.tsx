@@ -2,7 +2,7 @@ import { MessageCircle, PhoneCall } from "lucide-react";
 import Link from "next/link";
 import { SectionHeading } from "@/components/section-heading";
 import { FaqAccordion } from "@/components/faq-accordion";
-import { faqs, site } from "@/lib/site";
+import { homeFaqs, site } from "@/lib/site";
 
 export function FaqSection() {
   return (
@@ -53,7 +53,7 @@ export function FaqSection() {
 
           <div>
             <FaqAccordion
-              items={faqs.slice(0, 5)}
+              items={homeFaqs}
               pageSize={5}
               defaultOpen={-1}
             />

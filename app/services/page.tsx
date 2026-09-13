@@ -23,7 +23,8 @@ import { SectionHeading } from "@/components/section-heading";
 import { SignsSection } from "@/components/home/signs-section";
 import { ProcessSection } from "@/components/home/process-section";
 import { CtaSection } from "@/components/home/cta-section";
-import { services, site } from "@/lib/site";
+import { FaqAccordion } from "@/components/faq-accordion";
+import { services, site, serviceFaqs } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Bed Bug Treatment Services",
@@ -40,12 +41,6 @@ const serviceIcons: Record<string, LucideIcon> = {
   shield: ShieldCheck,
 };
 
-const assurances = [
-  { icon: SearchCheck, label: "Free same-day inspection" },
-  { icon: ShieldCheck, label: "12-month service warranty" },
-  { icon: Leaf, label: "Odorless & family-safe" },
-  { icon: Zap, label: "Single-visit solutions" },
-];
 
 const inclusions = [
   "Free same-day inspection & written estimate",
@@ -55,7 +50,6 @@ const inclusions = [
   "Wardrobes, drawers & furniture joints",
   "Follow-up visits under 12-month warranty",
   "Prevention guidance & post-treatment support",
-  "30-day money-back guarantee",
 ];
 
 const spaces: { icon: LucideIcon; title: string; description: string }[] = [
@@ -104,24 +98,12 @@ export default function ServicesPage() {
             for every space
           </>
         }
-        description="From a single mattress to a full hotel floor, our specialists deliver safe, odorless and guaranteed bed bug elimination — with free inspection and a 12-month warranty on every job."
+        description="From a single mattress to a full hotel floor, our specialists deliver safe, odorless and guaranteed bed bug elimination — with free inspection and a 12-month warranty"
       />
 
-      <section className="bg-white pb-12 pt-8 lg:pb-16 lg:pt-10">
+      <section className="bg-white py-8 lg:py-10">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap justify-center gap-3">
-            {assurances.map((item) => (
-              <span
-                key={item.label}
-                className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-cream/70 px-4 py-2 text-xs font-semibold text-ink/75 shadow-sm"
-              >
-                <item.icon className="h-4 w-4 text-brand-600" />
-                {item.label}
-              </span>
-            ))}
-          </div>
-
-          <div className="mt-10">
+          <div>
             <SectionHeading
               size="compact"
               eyebrow="What We Offer"
@@ -162,8 +144,15 @@ export default function ServicesPage() {
       <SignsSection />
 
       <ProcessSection />
-      <section className="bg-white py-12 lg:py-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <section className="relative overflow-hidden bg-white py-8 lg:py-10">
+        {/* Animated Particles */}
+        <div className="pointer-events-none absolute inset-0">
+          <span className="absolute left-[5%] top-[10%] h-2.5 w-2.5 rounded-full bg-brand-400/30 shadow-[0_0_10px_rgba(47,158,108,0.4)] animate-[float_6s_ease-in-out_infinite_0s]" />
+          <span className="absolute left-[95%] top-[30%] h-2 w-2 rounded-full bg-emerald-400/40 shadow-[0_0_8px_rgba(52,211,153,0.5)] animate-[float_5s_ease-in-out_infinite_1s]" />
+          <span className="absolute left-[20%] top-[85%] h-3 w-3 rounded-full bg-brand-300/30 shadow-[0_0_12px_rgba(139,212,177,0.4)] animate-[float_7s_ease-in-out_infinite_2s]" />
+          <span className="absolute left-[85%] top-[80%] h-1.5 w-1.5 rounded-full bg-accent-400/30 shadow-[0_0_6px_rgba(238,123,109,0.4)] animate-[float_4.5s_ease-in-out_infinite_0.5s]" />
+        </div>
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
             <div className="order-1 lg:order-1">
               <SectionHeading
@@ -188,22 +177,16 @@ export default function ServicesPage() {
                     {item}
                   </li>
                 ))}
+                <li className="flex items-center justify-center">
+                  <Link
+                    href="/contact"
+                    className="group inline-flex items-center gap-2.5 rounded-full bg-brand-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-600/30 transition hover:bg-brand-500"
+                  >
+                    Book Free Inspection
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                </li>
               </ul>
-              <div className="mt-8 flex flex-wrap items-center gap-4">
-                <Link
-                  href="/contact"
-                  className="group inline-flex items-center gap-2.5 rounded-full bg-brand-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-600/30 transition hover:bg-brand-500"
-                >
-                  Book Free Inspection
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Link>
-                <div className="flex items-center gap-3 rounded-full border border-ink/10 bg-white px-4 py-2 shadow-sm">
-                  <ShieldCheck className="h-5 w-5 text-brand-600" />
-                  <span className="text-sm font-semibold text-ink">
-                    100% Money-back
-                  </span>
-                </div>
-              </div>
             </div>
 
             <div className="relative order-2 lg:order-2">
@@ -231,8 +214,17 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="bg-cream py-12 lg:py-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <section className="relative overflow-hidden bg-cream py-8 lg:py-10">
+        {/* Animated Particles */}
+        <div className="pointer-events-none absolute inset-0">
+          <span className="absolute left-[10%] top-[20%] h-2 w-2 rounded-full bg-brand-400/40 shadow-[0_0_8px_rgba(47,158,108,0.5)] animate-[float_6s_ease-in-out_infinite_0s]" />
+          <span className="absolute left-[80%] top-[15%] h-2.5 w-2.5 rounded-full bg-accent-400/50 shadow-[0_0_10px_rgba(238,123,109,0.5)] animate-[float_5s_ease-in-out_infinite_1s]" />
+          <span className="absolute left-[30%] top-[70%] h-3 w-3 rounded-full bg-emerald-400/40 shadow-[0_0_12px_rgba(52,211,153,0.5)] animate-[float_7s_ease-in-out_infinite_2s]" />
+          <span className="absolute left-[70%] top-[80%] h-2 w-2 rounded-full bg-brand-300/60 shadow-[0_0_8px_rgba(139,212,177,0.6)] animate-[float_4.5s_ease-in-out_infinite_0.5s]" />
+          <span className="absolute left-[50%] top-[40%] h-1.5 w-1.5 rounded-full bg-teal-400/50 shadow-[0_0_6px_rgba(45,212,191,0.5)] animate-[float_8s_ease-in-out_infinite_1.5s]" />
+          <span className="absolute left-[90%] top-[50%] h-2.5 w-2.5 rounded-full bg-accent-300/40 shadow-[0_0_10px_rgba(252,165,165,0.4)] animate-[float_5.5s_ease-in-out_infinite_3s]" />
+        </div>
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
             size="compact"
             eyebrow="Spaces We Treat"
@@ -280,7 +272,26 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <CtaSection className="-mt-6 pb-12 pt-2 lg:-mt-10 lg:pb-16 lg:pt-4" />
+      <section className="bg-white py-8 lg:py-10">
+        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            size="compact"
+            eyebrow="Service FAQ"
+            title={
+              <>
+                Questions about our{" "}
+                <span className="text-brand-600">services</span>
+              </>
+            }
+            description="Everything you need to know about our treatment plans, preparation, and follow-ups."
+          />
+          <div className="mt-8">
+            <FaqAccordion items={serviceFaqs} defaultOpen={-1} pageSize={5} />
+          </div>
+        </div>
+      </section>
+
+      <CtaSection className="py-8 lg:py-10" />
     </>
   );
 }

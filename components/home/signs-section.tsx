@@ -52,7 +52,7 @@ const signs = [
 
 export function SignsSection() {
   return (
-    <section id="signs" className="bg-white py-10 lg:py-14">
+    <section id="signs" className="bg-white py-8 lg:py-10">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           size="compact"
