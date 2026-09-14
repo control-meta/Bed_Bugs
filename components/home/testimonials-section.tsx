@@ -28,6 +28,9 @@ export interface TestimonialsSectionProps {
   size?: "default" | "compact";
 }
 
+const CARD_WIDTH = 250;
+const CARD_GAP = 12;
+const CARD_STEP = CARD_WIDTH + CARD_GAP; // 262px
 const SPEED = 34;
 
 export function TestimonialsSection({
@@ -36,21 +39,18 @@ export function TestimonialsSection({
   title = "What Our Customers Say About Our Bed Bug Treatment",
   description = "See what customers across India say about their experience with our bed bug treatment service.",
   id = "reviews",
-  className = "relative overflow-hidden bg-white py-10 lg:py-14",
+  className = "relative overflow-hidden bg-white py-6 sm:py-8 lg:py-9",
   cardBg = "bg-brand-50/50",
   rating = site.rating,
   reviewCount = site.reviewCount,
-  size = "default",
 }: TestimonialsSectionProps) {
   const trackRef = useRef<HTMLDivElement>(null);
   const state = useRef({ offset: 0, target: 0 });
-  const isCompact = size === "compact";
-  const cardStep = isCompact ? 250 : 298;
 
   const safeItems: TestimonialItem[] = items && items.length > 0 ? items : testimonials;
   const repeatCount = Math.max(4, Math.ceil(16 / safeItems.length));
   const loop: TestimonialItem[] = Array.from({ length: repeatCount }).flatMap((): TestimonialItem[] => safeItems);
-  const pitch = safeItems.length * cardStep;
+  const pitch = safeItems.length * CARD_STEP;
 
   useEffect(() => {
     const track = trackRef.current;
@@ -102,48 +102,33 @@ export function TestimonialsSection({
   }, [pitch]);
 
   const move = (direction: -1 | 1) => {
-    state.current.target -= direction * cardStep;
+    state.current.target -= direction * CARD_STEP;
   };
 
   return (
     <section id={id} className={className}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {isCompact ? (
-          <div className="flex flex-col items-start text-left">
-            <p className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-brand-600">
-              <span className="h-px w-5 bg-current" />
-              {eyebrow}
+        <div className="flex flex-col items-start text-left">
+          <p className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-brand-600">
+            <span className="h-px w-5 bg-current" />
+            {eyebrow}
+          </p>
+          <h2 className="mt-1.5 text-xl sm:text-2xl lg:text-[1.65rem] font-display font-extrabold tracking-tight text-ink">
+            {title}
+          </h2>
+          {description && (
+            <p className="mt-1 max-w-2xl text-xs sm:text-[13px] leading-relaxed text-ink/65">
+              {description}
             </p>
-            <h2 className="mt-1.5 text-xl sm:text-2xl lg:text-[1.65rem] font-display font-extrabold tracking-tight text-ink">
-              {title}
-            </h2>
-            {description && (
-              <p className="mt-1 max-w-2xl text-xs sm:text-[13px] leading-relaxed text-ink/65">
-                {description}
-              </p>
-            )}
-          </div>
-        ) : (
-          <SectionHeading
-            align="left"
-            size="compact"
-            eyebrow={eyebrow}
-            title={title}
-            description={description}
-          />
-        )}
+          )}
+        </div>
       </div>
 
-      <div className={`relative ${isCompact ? "mt-4 sm:mt-5" : "mt-8"}`}>
-        <div
-          className={`mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ${
-            isCompact
-              ? "lg:pr-[15rem] xl:pr-[16.5rem]"
-              : "lg:pr-[19rem] xl:pr-[20rem]"
-          }`}
-        >
-          <div className="relative min-w-0">
-            <div className="overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)]">
+      <div className="mx-auto mt-5 max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col lg:flex-row lg:items-center gap-4">
+          {/* Carousel Track: flex-1 min-w-0 guarantees zero overlap with the right card */}
+          <div className="relative min-w-0 flex-1">
+            <div className="overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_3%,black_97%,transparent)]">
               <div ref={trackRef} className="flex w-max will-change-transform">
                 {loop.map((testimonial, index) => {
                   const place = testimonial.city || testimonial.locality;
@@ -151,36 +136,21 @@ export function TestimonialsSection({
                   return (
                     <figure
                       key={`${testimonial.name}-${index}`}
-                      className={`relative mr-2.5 flex ${
-                        isCompact
-                          ? "w-60 rounded-xl p-3.5"
-                          : "w-72 rounded-2xl p-5"
-                      } shrink-0 flex-col border border-brand-600/10 ${cardBg} transition hover:border-brand-600/25 hover:shadow-xl hover:shadow-brand-600/5`}
+                      style={{ width: `${CARD_WIDTH}px`, height: "180px" }}
+                      className={`relative mr-3 flex shrink-0 flex-col justify-between rounded-xl border border-brand-600/10 ${cardBg} p-3.5 transition hover:border-brand-600/25 hover:shadow-lg`}
                     >
-                      <div className="flex gap-1">
+                      <div className="flex items-center gap-1 shrink-0">
                         {Array.from({ length: testimonial.rating ?? 5 }).map((_, i) => (
                           <Star
                             key={i}
-                            className={`${
-                              isCompact ? "h-3.5 w-3.5" : "h-4 w-4"
-                            } fill-amber-400 text-amber-400`}
+                            className="h-3.5 w-3.5 fill-amber-400 text-amber-400"
                           />
                         ))}
                       </div>
-                      <blockquote
-                        className={`mt-2 flex-1 ${
-                          isCompact
-                            ? "text-xs leading-relaxed line-clamp-4"
-                            : "text-sm leading-relaxed"
-                        } text-ink/75`}
-                      >
+                      <blockquote className="my-auto text-xs leading-relaxed text-ink/75 line-clamp-4">
                         &ldquo;{testimonial.quote}&rdquo;
                       </blockquote>
-                      <figcaption
-                        className={`mt-2.5 ${
-                          isCompact ? "text-[11px]" : "text-sm"
-                        } font-medium text-ink/55`}
-                      >
+                      <figcaption className="shrink-0 text-[11px] font-medium text-ink/55 truncate">
                         &mdash;{" "}
                         <span className="font-bold text-ink">{testimonial.name}</span>
                         {place ? `, ${place}` : ""}
@@ -195,71 +165,42 @@ export function TestimonialsSection({
               type="button"
               onClick={() => move(-1)}
               aria-label="Previous reviews"
-              className={`absolute left-0 top-1/2 z-10 flex ${
-                isCompact ? "h-8 w-8" : "h-11 w-11"
-              } -translate-y-1/2 items-center justify-center rounded-full border border-ink/10 bg-white/95 text-ink/70 shadow-lg backdrop-blur transition hover:bg-brand-600 hover:text-white`}
+              className="absolute left-1 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-ink/10 bg-white/95 text-ink/70 shadow-md backdrop-blur transition hover:bg-brand-600 hover:text-white"
             >
-              <ChevronLeft className={isCompact ? "h-4 w-4" : "h-5 w-5"} />
+              <ChevronLeft className="h-4 w-4" />
             </button>
             <button
               type="button"
               onClick={() => move(1)}
               aria-label="Next reviews"
-              className={`absolute right-0 top-1/2 z-10 flex ${
-                isCompact ? "h-8 w-8" : "h-11 w-11"
-              } -translate-y-1/2 items-center justify-center rounded-full border border-ink/10 bg-white/95 text-ink/70 shadow-lg backdrop-blur transition hover:bg-brand-600 hover:text-white`}
+              className="absolute right-1 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-ink/10 bg-white/95 text-ink/70 shadow-md backdrop-blur transition hover:bg-brand-600 hover:text-white"
             >
-              <ChevronRight className={isCompact ? "h-4 w-4" : "h-5 w-5"} />
+              <ChevronRight className="h-4 w-4" />
             </button>
           </div>
-        </div>
 
-        <div
-          className={`mx-auto mt-6 w-full max-w-xs lg:absolute lg:inset-y-0 lg:right-12 lg:mx-0 lg:mt-0 lg:flex ${
-            isCompact ? "lg:w-52 xl:w-56" : "lg:w-64"
-          } lg:max-w-none lg:items-center xl:right-16`}
-        >
-          <div
-            className={`flex w-full flex-col items-center justify-center rounded-2xl border border-brand-600/15 bg-brand-50/70 ${
-              isCompact ? "p-3.5" : "p-6"
-            } text-center shadow-sm`}
-          >
-            <span
-              className={`flex ${
-                isCompact ? "h-8 w-8" : "h-11 w-11"
-              } items-center justify-center rounded-full bg-brand-600/10 text-brand-600`}
+          {/* Right-side Badge Card: Equal in height (180px) and placed side-by-side */}
+          <div className="w-full lg:w-56 xl:w-60 shrink-0 flex justify-center">
+            <div
+              style={{ height: "180px" }}
+              className="flex w-full flex-col items-center justify-center rounded-xl border border-brand-600/15 bg-brand-50/70 p-3.5 text-center shadow-sm"
             >
-              <ShieldCheck
-                className={isCompact ? "h-4 w-4" : "h-6 w-6"}
-                strokeWidth={1.8}
-              />
-            </span>
-            <p
-              className={`mt-2 font-display ${
-                isCompact ? "text-xs" : "text-sm"
-              } font-bold text-ink`}
-            >
-              Trusted by Homeowners across India
-            </p>
-            <p className="mt-1">
-              <span
-                className={`font-display ${
-                  isCompact ? "text-xl font-extrabold" : "text-2xl font-extrabold"
-                } text-brand-600`}
-              >
-                {rating}
-              </span>{" "}
-              <span className={`${isCompact ? "text-[11px]" : "text-xs"} text-ink/60`}>
-                Customer Rating
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-600/10 text-brand-600">
+                <ShieldCheck className="h-4 w-4" strokeWidth={1.8} />
               </span>
-            </p>
-            <p
-              className={`mt-0.5 ${
-                isCompact ? "text-[11px]" : "text-xs"
-              } font-semibold text-brand-700`}
-            >
-              {reviewCount} Customer Reviews
-            </p>
+              <p className="mt-2 font-display text-xs font-bold text-ink leading-tight">
+                Trusted by Homeowners across India
+              </p>
+              <p className="mt-1">
+                <span className="font-display text-xl font-extrabold text-brand-600">
+                  {rating}
+                </span>{" "}
+                <span className="text-[11px] text-ink/60">Customer Rating</span>
+              </p>
+              <p className="mt-0.5 text-[11px] font-semibold text-brand-700">
+                {reviewCount} Customer Reviews
+              </p>
+            </div>
           </div>
         </div>
       </div>
