@@ -1133,9 +1133,16 @@ export default function BedBugTreatment() {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 20px;
+  gap: 24px;
   padding: 20px 0 11px 165px;
   position: relative;
+}
+.bb-bottom-cta-inner > div:first-child {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.bb-bottom-cta-inner > div:last-child {
+  flex-shrink: 0;
 }
 .bb-bottom-cta h2 {
   font-size: 15px;
@@ -1148,15 +1155,16 @@ export default function BedBugTreatment() {
 }
 .bb-bottom-buttons {
   display: flex;
-  gap: 12px;
+  flex-direction: row;
   align-items: center;
-  flex-wrap: wrap;
+  gap: 10px;
+  flex-wrap: nowrap;
 }
 .bb-button-white {
   color: #087c55 !important;
   background: #fff;
-  min-height: 35px;
-  padding: 8px 18px;
+  min-height: 36px;
+  padding: 8px 16px;
   font-size: 11px;
   white-space: nowrap;
   flex-shrink: 0;
@@ -1302,10 +1310,12 @@ export default function BedBugTreatment() {
   }
   .bb-bottom-buttons {
     gap: 8px;
+    flex-wrap: nowrap;
   }
   .bb-button-white {
-    padding-inline: 14px;
+    padding-inline: 12px;
     white-space: nowrap;
+    font-size: 10.5px;
   }
   .bb-locations {
     flex-wrap: wrap;
@@ -1761,14 +1771,25 @@ export default function BedBugTreatment() {
     width: 100%;
   }
   .bb-bottom-buttons {
-    flex-wrap: wrap;
-    gap: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .bb-bottom-buttons::-webkit-scrollbar {
+    display: none;
   }
   .bb-bottom-buttons .bb-button {
-    min-height: 42px;
-    flex: 1 1 auto;
-    font-size: 11px;
+    min-height: 38px;
+    padding: 8px 12px;
+    font-size: 10.5px;
     white-space: nowrap;
+    flex-shrink: 0;
   }
   .bb-bottom-cta small {
     font-size: 9px;
