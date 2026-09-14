@@ -2220,7 +2220,8 @@ export default function BedBugTreatment() {
           <div className="bb-modern-section" id="reviews">
             <TestimonialsSection
               id="service-reviews"
-              className="relative overflow-hidden bg-white py-10 lg:py-14 border-t border-slate-100"
+              size="compact"
+              className="relative overflow-hidden bg-white py-6 sm:py-8 lg:py-9 border-t border-slate-100"
               eyebrow="Customer Reviews"
               title={
                 <>
