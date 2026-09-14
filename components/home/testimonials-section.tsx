@@ -27,7 +27,7 @@ export interface TestimonialsSectionProps {
   reviewCount?: string;
 }
 
-const CARD_STEP = 410;
+const CARD_STEP = 298;
 const SPEED = 34;
 
 export function TestimonialsSection({
@@ -125,21 +125,22 @@ export function TestimonialsSection({
                   return (
                     <figure
                       key={`${testimonial.name}-${index}`}
-                      className={`relative mr-2.5 flex w-[25rem] shrink-0 flex-col rounded-2xl border border-brand-600/10 ${cardBg} p-6 transition hover:border-brand-600/25 hover:shadow-xl hover:shadow-brand-600/5`}
+                      className={`relative mr-2.5 flex w-72 shrink-0 flex-col rounded-2xl border border-brand-600/10 ${cardBg} p-5 transition hover:border-brand-600/25 hover:shadow-xl hover:shadow-brand-600/5`}
                     >
                       <div className="flex gap-1">
                         {Array.from({ length: testimonial.rating ?? 5 }).map((_, i) => (
                           <Star
                             key={i}
-                            className="h-[18px] w-[18px] fill-amber-400 text-amber-400"
+                            className="h-4 w-4 fill-amber-400 text-amber-400"
                           />
                         ))}
                       </div>
-                      <blockquote className="mt-3 flex-1 text-[15px] leading-relaxed text-ink/75">
+                      <blockquote className="mt-3 flex-1 text-sm leading-relaxed text-ink/75">
                         &ldquo;{testimonial.quote}&rdquo;
                       </blockquote>
                       <figcaption className="mt-4 text-sm font-medium text-ink/55">
-                        &mdash; {testimonial.name}
+                        &mdash;{" "}
+                        <span className="font-bold text-ink">{testimonial.name}</span>
                         {place ? `, ${place}` : ""}
                       </figcaption>
                     </figure>
