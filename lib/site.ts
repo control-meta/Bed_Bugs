@@ -3,7 +3,7 @@ export const site = {
   legalName: "Bed Bugs Treatment India",
   tagline: "Professional Bed Bug Treatment",
   description:
-    "Safe, effective and long-lasting bed bug treatment for homes, apartments, hotels and businesses across Pune, Mumbai, Bangalore, Delhi & Noida.",
+    "Professional odorless bed bug treatment for homes & hotels across India. Same-day free inspection, safe methods & 12-month warranty. Call +91 97693 21234.",
   phoneDisplay: "+91 97693 21234",
   phoneHref: "tel:+919769321234",
   whatsappHref:

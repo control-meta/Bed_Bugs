@@ -18,9 +18,11 @@ import { CtaSection } from "@/components/home/cta-section";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "About Us",
+  title: {
+    absolute: "About Us | Certified Bed Bug Treatment Specialists",
+  },
   description:
-    "India's trusted bed bug control experts. Learn about our mission, vision and the team behind 50,000+ bed bug-free homes across Pune, Mumbai, Bangalore, Delhi & Noida.",
+    "India's trusted bed bug control specialists. Learn about our mission and the certified team behind 50,000+ bug-free homes in Pune, Mumbai & Bangalore.",
 };
 
 const highlights = [

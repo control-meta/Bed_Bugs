@@ -51,9 +51,9 @@ export const locations: LocationInfo[] = [
     state: "Maharashtra",
     image: "/images/cities/pune.jpg",
     tagline: "Same-Day Bed Bug Eradication Across Pune & PCMC",
-    title: "Bed Bug Treatment in Pune | Same-Day Service & 12-Month Warranty",
+    title: "Bed Bug Treatment in Pune | Same-Day Service & Warranty",
     metaDescription:
-      "Expert bed bug treatment in Pune. 100% odorless & pet-safe solutions across Kothrud, Hinjewadi, Wakad, Baner, Viman Nagar & PCMC. Free same-day inspection with 12-month warranty.",
+      "Bed bug treatment in Pune. 100% odorless & pet-safe solutions across Hinjewadi, Wakad, Baner & Kothrud. Free same-day inspection with 12-month warranty.",
     keywords: [
       "bed bug treatment pune",
       "bed bug control pune",
@@ -200,9 +200,9 @@ export const locations: LocationInfo[] = [
     state: "Maharashtra",
     image: "/images/cities/mumbai.jpg",
     tagline: "Targeted Bed Bug Elimination Across Mumbai, Thane & Navi Mumbai",
-    title: "Bed Bug Treatment in Mumbai | Fast Same-Day Service & 1-Year Warranty",
+    title: "Bed Bug Treatment in Mumbai | Same-Day Pest Control",
     metaDescription:
-      "Licensed bed bug control in Mumbai, Thane & Navi Mumbai. 100% odorless, eco-friendly treatment for apartments, high-rises & hotels. Call +91 97693 21234 for free same-day inspection.",
+      "Bed bug treatment in Mumbai, Thane & Navi Mumbai. 100% odorless, eco-friendly solutions for flats and hotels. Schedule a free same-day inspection today.",
     keywords: [
       "bed bug treatment mumbai",
       "bed bug control mumbai",
@@ -349,9 +349,9 @@ export const locations: LocationInfo[] = [
     state: "Karnataka",
     image: "/images/cities/bangalore.jpg",
     tagline: "Professional Bed Bug Extermination in Bangalore Tech City",
-    title: "Bed Bug Treatment in Bangalore | Same-Day Service & 12-Month Warranty",
+    title: "Bed Bug Treatment in Bangalore | Fast Same-Day Control",
     metaDescription:
-      "Reliable bed bug treatment in Bangalore. Same-day inspection in Whitefield, HSR Layout, Koramangala, Indiranagar, Electronic City & all Bengaluru areas. Odorless, safe & 1-year warranty.",
+      "Professional bed bug treatment in Bangalore. Safe, odorless solutions across Whitefield, HSR Layout, Koramangala & Indiranagar. Free same-day inspection.",
     keywords: [
       "bed bug treatment bangalore",
       "bed bug control bangalore",
@@ -498,9 +498,9 @@ export const locations: LocationInfo[] = [
     state: "Delhi NCR",
     image: "/images/cities/delhi.jpg",
     tagline: "Licensed Bed Bug Treatment & Control Across Delhi NCR",
-    title: "Bed Bug Treatment in Delhi | Same-Day Service & 12-Month Guarantee",
+    title: "Bed Bug Treatment in Delhi | Same-Day Pest Eradication",
     metaDescription:
-      "Safe and certified bed bug treatment across Delhi NCR. Same-day inspection in Dwarka, Rohini, Saket, Lajpat Nagar, Karol Bagh & South Delhi. 100% odorless with a 1-year service warranty.",
+      "Bed bug treatment across Delhi NCR. Same-day inspection in Dwarka, Rohini, Saket & South Delhi. 100% odorless formula with a guaranteed 12-month warranty.",
     keywords: [
       "bed bug treatment delhi",
       "bed bug control delhi",
@@ -647,9 +647,9 @@ export const locations: LocationInfo[] = [
     state: "Uttar Pradesh",
     image: "/images/cities/noida.jpg",
     tagline: "Guaranteed Bed Bug Treatment in Noida & Greater Noida",
-    title: "Bed Bug Treatment in Noida | Same-Day Service & 12-Month Warranty",
+    title: "Bed Bug Treatment in Noida | Same-Day Pest Eradication",
     metaDescription:
-      "Top-rated bed bug treatment in Noida & Greater Noida. Specializing in high-rise societies, Sector 62, 137, 75, Noida Extension. 100% odorless, eco-friendly with a 1-year service warranty.",
+      "Bed bug treatment in Noida & Greater Noida high-rise societies. 100% odorless, pet-safe treatments with free same-day inspection and 12-month warranty.",
     keywords: [
       "bed bug treatment noida",
       "bed bug control noida",

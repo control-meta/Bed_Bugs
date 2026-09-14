@@ -11,12 +11,10 @@ import {
   CheckCircle2,
   Home,
   Hotel,
-  Leaf,
   SearchCheck,
   ShieldCheck,
   Sofa,
   Store,
-  Zap,
 } from "lucide-react";
 import { PageHero } from "@/components/page-hero";
 import { SectionHeading } from "@/components/section-heading";
@@ -29,9 +27,11 @@ import { TreatmentOptionsSection } from "@/components/treatment-options-section"
 import { services, site, serviceFaqs, serviceReviews } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Bed Bug Treatment Services",
+  title: {
+    absolute: "Bed Bug Treatment Services | 100% Odorless & Safe",
+  },
   description:
-    "Complete bed bug treatment services for homes, apartments, hotels, hostels, PGs and offices. Targeted, odorless and eco-friendly treatments with free inspection and a 12-month warranty. Call +91 97693 21234.",
+    "Complete bed bug treatment for homes, apartments & hotels. Targeted, odorless treatments with free inspection and a 12-month warranty. Call +91 97693 21234.",
 };
 
 const serviceIcons: Record<string, LucideIcon> = {
@@ -195,7 +195,7 @@ export default function ServicesPage() {
               <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] border-8 border-white shadow-2xl">
                 <Image
                   src="/images/services/fully-equipped-new.jpg"
-                  alt="High-tech professional pest control equipment"
+                  alt="High-tech bed bug eradication equipment and pressurized steam systems"
                   fill
                   sizes="(min-width: 1024px) 50vw, 100vw"
                   className="object-cover"
@@ -281,7 +281,6 @@ export default function ServicesPage() {
       <TestimonialsSection
         id="service-reviews"
         className="relative overflow-hidden bg-white pt-2 pb-8 sm:pt-3 sm:pb-10 lg:pt-4 lg:pb-12"
-        cardBg="bg-cream/60"
         eyebrow="Customer Reviews"
         title={
           <>

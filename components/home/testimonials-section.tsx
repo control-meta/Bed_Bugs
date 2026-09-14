@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { ChevronLeft, ChevronRight, Quote, Star } from "lucide-react";
+import { ChevronLeft, ChevronRight, ShieldCheck, Star } from "lucide-react";
 import { SectionHeading } from "@/components/section-heading";
 import { site, testimonials } from "@/lib/site";
 
@@ -23,19 +23,23 @@ export interface TestimonialsSectionProps {
   id?: string;
   className?: string;
   cardBg?: string;
+  rating?: string;
+  reviewCount?: string;
 }
 
-const CARD_STEP = 340;
+const CARD_STEP = 410;
 const SPEED = 34;
 
 export function TestimonialsSection({
   testimonials: items = testimonials,
   eyebrow = "Customer Reviews",
-  title,
-  description = "Real results from real homes and businesses across India.",
+  title = "What Our Customers Say About Our Bed Bug Treatment",
+  description = "See what customers across India say about their experience with our bed bug treatment service.",
   id = "reviews",
   className = "relative overflow-hidden bg-white py-10 lg:py-14",
-  cardBg = "bg-cream/60",
+  cardBg = "bg-brand-50/50",
+  rating = site.rating,
+  reviewCount = site.reviewCount,
 }: TestimonialsSectionProps) {
   const trackRef = useRef<HTMLDivElement>(null);
   const state = useRef({ offset: 0, target: 0 });
@@ -98,89 +102,89 @@ export function TestimonialsSection({
     state.current.target -= direction * CARD_STEP;
   };
 
-  const defaultTitle = (
-    <>
-      Rated <span className="text-brand-600">{site.rating}</span> by thousands of
-      happy customers
-    </>
-  );
-
   return (
     <section id={id} className={className}>
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
+          align="left"
           size="compact"
           eyebrow={eyebrow}
-          title={title || defaultTitle}
+          title={title}
           description={description}
         />
+      </div>
 
-        <div className="relative mt-10">
-          <div className="overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
-            <div ref={trackRef} className="flex w-max will-change-transform">
-              {loop.map((testimonial, index) => {
-                const subtext = testimonial.locality
-                  ? `${testimonial.locality}, ${testimonial.city || ""}`
-                  : testimonial.service || testimonial.role || testimonial.city;
+      <div className="relative mt-8">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 lg:pr-[19rem] xl:pr-[20rem]">
+          <div className="relative min-w-0">
+            <div className="overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)]">
+              <div ref={trackRef} className="flex w-max will-change-transform">
+                {loop.map((testimonial, index) => {
+                  const place = testimonial.city || testimonial.locality;
 
-                return (
-                  <figure
-                    key={`${testimonial.name}-${index}`}
-                    className={`relative mr-5 flex w-80 shrink-0 flex-col rounded-2xl border border-ink/10 ${cardBg} p-6 transition hover:shadow-xl hover:shadow-brand-600/5`}
-                  >
-                    <Quote className="h-7 w-7 text-brand-200" fill="currentColor" />
-                    <div className="mt-4 flex gap-1">
-                      {Array.from({ length: testimonial.rating ?? 5 }).map((_, i) => (
-                        <Star
-                          key={i}
-                          className="h-4 w-4 fill-accent-500 text-accent-500"
-                        />
-                      ))}
-                    </div>
-                    <blockquote className="mt-3 flex-1 text-sm leading-relaxed text-ink/70">
-                      &ldquo;{testimonial.quote}&rdquo;
-                    </blockquote>
-                    <figcaption className="mt-5 flex items-center gap-3 border-t border-ink/10 pt-4">
-                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-600 text-sm font-bold text-white">
-                        {testimonial.name
-                          .split(" ")
-                          .map((part) => part[0])
-                          .slice(0, 2)
-                          .join("")}
-                      </span>
-                      <span className="min-w-0">
-                        <span className="block truncate text-sm font-bold text-ink">
-                          {testimonial.name}
-                        </span>
-                        {subtext && (
-                          <span className="block truncate text-xs text-ink/55">
-                            {subtext}
-                          </span>
-                        )}
-                      </span>
-                    </figcaption>
-                  </figure>
-                );
-              })}
+                  return (
+                    <figure
+                      key={`${testimonial.name}-${index}`}
+                      className={`relative mr-2.5 flex w-[25rem] shrink-0 flex-col rounded-2xl border border-brand-600/10 ${cardBg} p-6 transition hover:border-brand-600/25 hover:shadow-xl hover:shadow-brand-600/5`}
+                    >
+                      <div className="flex gap-1">
+                        {Array.from({ length: testimonial.rating ?? 5 }).map((_, i) => (
+                          <Star
+                            key={i}
+                            className="h-[18px] w-[18px] fill-amber-400 text-amber-400"
+                          />
+                        ))}
+                      </div>
+                      <blockquote className="mt-3 flex-1 text-[15px] leading-relaxed text-ink/75">
+                        &ldquo;{testimonial.quote}&rdquo;
+                      </blockquote>
+                      <figcaption className="mt-4 text-sm font-medium text-ink/55">
+                        &mdash; {testimonial.name}
+                        {place ? `, ${place}` : ""}
+                      </figcaption>
+                    </figure>
+                  );
+                })}
+              </div>
             </div>
-          </div>
 
-          <button
-            type="button"
-            onClick={() => move(-1)}
-            aria-label="Previous reviews"
-            className="absolute left-1 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-ink/10 bg-white/90 text-ink shadow-lg backdrop-blur transition hover:bg-brand-600 hover:text-white sm:left-2"
-          >
-            <ChevronLeft className="h-5 w-5" />
-          </button>
-          <button
-            type="button"
-            onClick={() => move(1)}
-            aria-label="Next reviews"
-            className="absolute right-1 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-ink/10 bg-white/90 text-ink shadow-lg backdrop-blur transition hover:bg-brand-600 hover:text-white sm:right-2"
-          >
-            <ChevronRight className="h-5 w-5" />
-          </button>
+            <button
+              type="button"
+              onClick={() => move(-1)}
+              aria-label="Previous reviews"
+              className="absolute left-0 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-ink/10 bg-white/95 text-ink/70 shadow-lg backdrop-blur transition hover:bg-brand-600 hover:text-white"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <button
+              type="button"
+              onClick={() => move(1)}
+              aria-label="Next reviews"
+              className="absolute right-0 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-ink/10 bg-white/95 text-ink/70 shadow-lg backdrop-blur transition hover:bg-brand-600 hover:text-white"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+
+        <div className="mx-auto mt-6 w-full max-w-xs lg:absolute lg:inset-y-0 lg:right-12 lg:mx-0 lg:mt-0 lg:flex lg:w-64 lg:max-w-none lg:items-center xl:right-16">
+          <div className="flex w-full flex-col items-center justify-center rounded-2xl border border-brand-600/15 bg-brand-50/70 p-6 text-center shadow-sm">
+            <span className="flex h-11 w-11 items-center justify-center rounded-full bg-brand-600/10 text-brand-600">
+              <ShieldCheck className="h-6 w-6" strokeWidth={1.8} />
+            </span>
+            <p className="mt-3 font-display text-sm font-bold text-ink">
+              Trusted by Homeowners across India
+            </p>
+            <p className="mt-2">
+              <span className="font-display text-2xl font-extrabold text-brand-600">
+                {rating}
+              </span>{" "}
+              <span className="text-xs text-ink/60">Customer Rating</span>
+            </p>
+            <p className="mt-1 text-xs font-semibold text-brand-700">
+              {reviewCount} Customer Reviews
+            </p>
+          </div>
         </div>
       </div>
     </section>

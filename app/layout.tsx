@@ -16,17 +16,28 @@ const inter = Inter({
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["600", "700", "800"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
   title: {
-    default:
-      "Bed Bug Treatment in Pune, Mumbai, Bangalore, Delhi & Noida | BedBug Treatment",
+    default: "Bed Bug Treatment & Pest Control Services in India",
     template: "%s | BedBug Treatment",
   },
   description: site.description,
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   keywords: [
     "bed bug treatment",
     "bed bug control",

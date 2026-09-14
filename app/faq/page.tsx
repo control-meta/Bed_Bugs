@@ -6,9 +6,11 @@ import { CtaSection } from "@/components/home/cta-section";
 import { mainFaqs } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "FAQ",
+  title: {
+    absolute: "Bed Bug Treatment FAQs | Expert Solutions & Pricing",
+  },
   description:
-    "Answers to common questions about bed bug treatment — safety, cost, preparation, warranties and what to expect. Still unsure? Call +91 97693 21234.",
+    "Find answers to common bed bug questions: treatment cost, safety, preparation and 12-month warranty. For immediate expert help, call +91 97693 21234.",
 };
 
 const faqJsonLd = {

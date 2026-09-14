@@ -121,7 +121,7 @@ export function Hero() {
         <div className="relative h-full w-full [clip-path:polygon(28%_0,100%_0,100%_100%,0_100%)]">
           <Image
             src="/images/hero-tech-bed.webp"
-            alt=""
+            alt="Certified pest control technician treating mattress and bed frame for bed bugs"
             fill
             loading="eager"
             fetchPriority="high"
@@ -141,7 +141,7 @@ export function Hero() {
           <div className="absolute inset-[1.55em] overflow-hidden rounded-full border-[0.28em] border-white bg-cream shadow-[0_25px_60px_-20px_rgba(23,82,58,0.4)]">
             <Image
               src="/images/bedbug-closeup.jpg"
-              alt="Close-up of a bed bug"
+              alt="Macro view of Cimex lectularius bed bug during inspection and detection"
               fill
               sizes="170px"
               className="object-cover"
@@ -179,7 +179,7 @@ export function Hero() {
             <div className="relative aspect-[4/3] overflow-hidden rounded-[1.4em] border border-ink/10">
               <Image
                 src="/images/hero-tech-bed.webp"
-                alt="Technician treating a bed for bed bugs"
+                alt="Professional exterminator applying targeted bed bug heat and spray treatment to bed frame"
                 fill
                 loading="eager"
                 fetchPriority="high"
@@ -190,7 +190,7 @@ export function Hero() {
             <div className="absolute -bottom-[1.8em] -right-[0.6em] h-[8em] w-[8em] overflow-hidden rounded-full border-[0.22em] border-accent-600 bg-white shadow-2xl sm:h-[9em] sm:w-[9em]">
               <Image
                 src="/images/bedbug-closeup.jpg"
-                alt="Close-up of a bed bug"
+                alt="Magnified view of adult bed bug for pest identification and eradication"
                 fill
                 sizes="160px"
                 className="object-cover"
@@ -251,7 +251,7 @@ export function Hero() {
               <div className="pointer-events-none absolute inset-0" aria-hidden>
                 <Image
                   src={category.image}
-                  alt=""
+                  alt={`${category.title} bed bug treatment and extermination service`}
                   fill
                   sizes="(min-width: 1024px) 22vw, 50vw"
                   className="scale-[1.14] object-cover object-right opacity-60"

@@ -7,10 +7,11 @@ import { FaqSection } from "@/components/home/faq-section";
 import { CtaSection } from "@/components/home/cta-section";
 
 export const metadata: Metadata = {
-  title:
-    "Bed Bug Treatment in Pune, Mumbai, Bangalore, Delhi & Noida | BedBug Treatment",
+  title: {
+    absolute: "Bed Bug Treatment & Pest Control Services in India",
+  },
   description:
-    "Professional bed bug treatment for homes, apartments, hotels and businesses. Same-day free inspection, odorless & family-safe, 12-month warranty. Call +91 97693 21234.",
+    "Professional odorless bed bug treatment for homes & hotels across India. Same-day free inspection, safe methods & 12-month warranty. Call +91 97693 21234.",
 };
 
 export default function Home() {

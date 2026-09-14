@@ -13,7 +13,6 @@ import {
   Phone,
   ShieldCheck,
   Sparkles,
-  Zap,
 } from "lucide-react";
 import {
   getAllLocationSlugs,
@@ -21,7 +20,6 @@ import {
   locations,
 } from "@/lib/locations";
 import { site } from "@/lib/site";
-import { ContactForm } from "@/components/contact-form";
 import { FaqAccordion } from "@/components/faq-accordion";
 import { CtaSection } from "@/components/home/cta-section";
 import { TestimonialsSection } from "@/components/home/testimonials-section";
@@ -49,9 +47,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return {
-    title: location.title,
+    title: {
+      absolute: location.title,
+    },
     description: location.metaDescription,
     keywords: location.keywords,
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    },
     alternates: {
       canonical: `https://bedbugstreatment.co.in/${location.slug}`,
     },
@@ -189,7 +200,7 @@ export default async function LocationCityPage({ params }: Props) {
           {/* City Skyline Background Image */}
           <Image
             src={location.image}
-            alt=""
+            alt={`Bed bug pest control and eradication service coverage in ${location.name}`}
             fill
             priority
             sizes="100vw"
@@ -243,7 +254,7 @@ export default async function LocationCityPage({ params }: Props) {
                 <div className="relative aspect-[16/10] w-full max-w-sm overflow-hidden rounded-2xl border-2 border-white bg-white shadow-xl shadow-brand-900/10 ring-1 ring-black/5 sm:max-w-md">
                   <Image
                     src={location.image}
-                    alt={`${location.name} cityscape`}
+                    alt={`Bed bug inspection and extermination unit serving ${location.name}`}
                     fill
                     priority
                     sizes="(max-width: 1023px) 90vw, 40vw"
@@ -298,13 +309,13 @@ export default async function LocationCityPage({ params }: Props) {
 
               {/* Action Buttons */}
               <div className="mt-6 flex flex-wrap items-center justify-center gap-3 lg:justify-center">
-                <a
-                  href="#book-inspection"
+                <Link
+                  href="/contact"
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-600 px-6 py-3 text-xs font-semibold text-white shadow-lg shadow-brand-600/25 transition hover:bg-brand-500 hover:shadow-brand-600/35 max-sm:w-full"
                 >
                   <CalendarCheck className="h-4 w-4" />
                   Book Free Inspection in {location.name}
-                </a>
+                </Link>
                 <a
                   href={site.phoneHref}
                   className="inline-flex items-center justify-center gap-2 rounded-full border border-ink/15 bg-white px-5 py-3 text-xs font-semibold text-ink shadow-sm transition hover:border-brand-600 hover:text-brand-700 max-sm:w-full"
@@ -329,7 +340,7 @@ export default async function LocationCityPage({ params }: Props) {
               <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[2rem] border-4 border-white bg-white shadow-2xl shadow-brand-900/10 ring-1 ring-black/5">
                 <Image
                   src={location.image}
-                  alt={`${location.name} cityscape`}
+                  alt={`Certified bed bug treatment specialists operating in ${location.name}`}
                   fill
                   priority
                   sizes="(min-width: 1024px) 40vw, 90vw"
@@ -561,8 +572,7 @@ export default async function LocationCityPage({ params }: Props) {
       {/* Customer Reviews for this Location */}
       <TestimonialsSection
         id="local-reviews"
-        className="relative overflow-hidden bg-white pt-2 pb-8 sm:pt-3 sm:pb-10 lg:pt-4 lg:pb-12"
-        cardBg="bg-cream/60"
+        className="relative overflow-hidden bg-white pt-2 pb-4 sm:pt-3 sm:pb-5 lg:pt-4 lg:pb-6"
         eyebrow="Local Customer Reviews"
         title={
           <>
@@ -571,11 +581,13 @@ export default async function LocationCityPage({ params }: Props) {
           </>
         }
         description={`Real reviews from homeowners, tenants, and property managers in ${location.name} who became 100% bed bug-free.`}
+        rating={location.rating}
+        reviewCount={location.reviewCount}
         testimonials={location.reviews}
       />
 
       {/* Local FAQs */}
-      <section className="bg-cream/40 pt-8 pb-3 sm:pt-9 sm:pb-3.5 lg:pt-10 lg:pb-4">
+      <section className="bg-cream/40 pt-5 pb-3 sm:pt-6 sm:pb-3.5 lg:pt-6 lg:pb-4">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
             align="center"
@@ -592,29 +604,6 @@ export default async function LocationCityPage({ params }: Props) {
 
           <div className="mt-8">
             <FaqAccordion items={location.faqs} defaultOpen={-1} pageSize={3} />
-          </div>
-        </div>
-      </section>
-
-      {/* Centered Booking Section */}
-      <section id="book-inspection" className="bg-cream/60 pt-2 pb-8 sm:pt-3 sm:pb-9 lg:pt-4 lg:pb-10 scroll-mt-16">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <div className="inline-flex items-center gap-2 rounded-full border border-brand-500/20 bg-brand-500/10 px-4 py-1 text-xs font-semibold text-brand-800">
-              <Zap className="h-3.5 w-3.5 text-brand-600" />
-              <span>Same-Day Inspection Available</span>
-            </div>
-            <h2 className="mt-3 font-display text-2xl font-extrabold text-ink sm:text-3xl lg:text-4xl">
-              Book Bed Bug Inspection in{" "}
-              <span className="text-brand-600">{location.name}</span>
-            </h2>
-            <p className="mx-auto mt-2 max-w-xl text-sm text-ink/70 sm:text-base">
-              Fill out the form below. A licensed {location.name} technician will call you within 15 minutes to confirm your time slot.
-            </p>
-          </div>
-
-          <div className="mt-8">
-            <ContactForm defaultCity={location.name} />
           </div>
         </div>
       </section>

@@ -14,9 +14,11 @@ import { CtaSection } from "@/components/home/cta-section";
 import { cities, site } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Contact Us",
+  title: {
+    absolute: "Contact Us | Book Bed Bug Pest Control & Inspection",
+  },
   description:
-    "Book a free bed bug inspection or get a quote. Call +91 97693 21234, WhatsApp us or fill the form — same-day service across Pune, Mumbai, Bangalore, Delhi & Noida.",
+    "Book your same-day bed bug inspection. Call +91 97693 21234, chat on WhatsApp or request a quote for fast service in Pune, Mumbai, Bangalore & Delhi.",
 };
 
 const contactCards = [
