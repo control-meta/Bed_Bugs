@@ -14,7 +14,7 @@ const DEFAULT_CONTACT = {
   whatsapp: '919769321234',
   email: 'support@bedbugtreatment.co.in',
 };
-const asset = (name) => '/images/services-react/' + name + '.webp';
+const asset = (name) => '/images/services-react/' + name + '-hd.webp?v=hd-final';
 
 function Icon({ name = 'shield', size = 24, ...props }) {
   const shapes = {
@@ -695,7 +695,7 @@ export default function BedBugTreatment() {
   box-shadow: 0 3px 8px #10493303;
 }
 .bb-service-card > img {
-  height: 95px;
+  height: 140px;
 }
 .bb-service-body {
   padding: 21px 25px 15px;
@@ -908,7 +908,7 @@ export default function BedBugTreatment() {
   overflow: hidden;
 }
 .bb-property-card > img {
-  height: 83px;
+  height: 105px;
 }
 .bb-property-card > div {
   padding: 13px 15px 12px;
@@ -1591,7 +1591,7 @@ export default function BedBugTreatment() {
     gap: 24px;
   }
   .bb-service-card > img {
-    height: 118px;
+    height: 140px;
   }
   .bb-service-body {
     padding: 29px 21px 18px;
