@@ -1169,6 +1169,12 @@ export default function BedBugTreatment() {
   white-space: nowrap;
   flex-shrink: 0;
 }
+.bb-btn-text-mobile {
+  display: none;
+}
+.bb-btn-text-desktop {
+  display: inline;
+}
 .bb-bottom-cta small {
   display: flex;
   gap: 5px;
@@ -1715,10 +1721,12 @@ export default function BedBugTreatment() {
     margin-bottom: 32px;
   }
   .bb-signs-grid {
-    gap: 26px 10px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px 10px;
   }
   .bb-sign-card {
-    padding: 38px 11px 13px;
+    padding: 36px 10px 14px;
+    min-width: 0;
   }
   .bb-sign-card p {
     font-size: 11px;
@@ -1726,21 +1734,30 @@ export default function BedBugTreatment() {
   .bb-sign-icon {
     left: 12px;
   }
+  .bb-sign-help {
+    grid-column: 1 / -1;
+    margin-top: 6px;
+    padding: 14px 12px;
+  }
   .bb-sign-help > div {
-    gap: 10px;
-    flex-wrap: wrap;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    min-width: 0;
   }
   .bb-sign-help h3 {
     font-size: 12px;
   }
   .bb-sign-help p {
     font-size: 11px;
-    flex: 1;
+    margin: 0;
   }
   .bb-sign-help .bb-button {
-    min-height: 39px;
-    flex-basis: 100%;
+    min-height: 38px;
+    width: 100%;
     font-size: 12px;
+    margin-top: 4px;
   }
   .bb-locations-section {
     padding-block: 32px 24px;
@@ -1757,9 +1774,16 @@ export default function BedBugTreatment() {
     opacity: 0.13;
     mask-image: none;
   }
+  .bb-btn-text-desktop {
+    display: none;
+  }
+  .bb-btn-text-mobile {
+    display: inline;
+  }
   .bb-bottom-cta-inner {
     padding: 25px 0;
-    gap: 18px;
+    gap: 16px;
+    overflow: hidden;
   }
   .bb-bottom-cta h2 {
     font-size: 20px;
@@ -1774,22 +1798,21 @@ export default function BedBugTreatment() {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    gap: 8px;
+    gap: 6px;
     justify-content: center;
     align-items: center;
     width: 100%;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  .bb-bottom-buttons::-webkit-scrollbar {
-    display: none;
+    box-sizing: border-box;
   }
   .bb-bottom-buttons .bb-button {
+    flex: 1 1 0;
+    min-width: 0;
     min-height: 38px;
-    padding: 8px 12px;
-    font-size: 10.5px;
+    padding: 8px 4px;
+    font-size: 11px;
     white-space: nowrap;
-    flex-shrink: 0;
+    justify-content: center;
+    gap: 5px;
   }
   .bb-bottom-cta small {
     font-size: 9px;
@@ -2306,8 +2329,9 @@ export default function BedBugTreatment() {
                     Book Now
                   </BookButton>
                   <a className="bb-button bb-button-white" href={phoneHref}>
-                    <Icon name="phone" size={17} />
-                    Call {contact.phone}
+                    <Icon name="phone" size={15} />
+                    <span className="bb-btn-text-desktop">Call {contact.phone}</span>
+                    <span className="bb-btn-text-mobile">Call Now</span>
                   </a>
                   <a
                     className="bb-button bb-button-white"
@@ -2315,8 +2339,9 @@ export default function BedBugTreatment() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Icon name="whatsapp" size={18} />
-                    WhatsApp Us
+                    <Icon name="whatsapp" size={16} />
+                    <span className="bb-btn-text-desktop">WhatsApp Us</span>
+                    <span className="bb-btn-text-mobile">WhatsApp</span>
                   </a>
                 </div>
                 <small>
