@@ -473,6 +473,7 @@ export default function BedBugTreatment() {
   line-height: 1.3;
   font-weight: 650;
   text-align: center;
+  white-space: nowrap;
   transition:
     box-shadow 0.2s,
     transform 0.2s;
@@ -1148,13 +1149,17 @@ export default function BedBugTreatment() {
 .bb-bottom-buttons {
   display: flex;
   gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
 }
 .bb-button-white {
   color: #087c55 !important;
   background: #fff;
   min-height: 35px;
-  padding: 8px 19px;
-  font-size: 10px;
+  padding: 8px 18px;
+  font-size: 11px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 .bb-bottom-cta small {
   display: flex;
@@ -1299,7 +1304,8 @@ export default function BedBugTreatment() {
     gap: 8px;
   }
   .bb-button-white {
-    padding-inline: 12px;
+    padding-inline: 14px;
+    white-space: nowrap;
   }
   .bb-locations {
     flex-wrap: wrap;
@@ -1762,6 +1768,7 @@ export default function BedBugTreatment() {
     min-height: 42px;
     flex: 1 1 auto;
     font-size: 11px;
+    white-space: nowrap;
   }
   .bb-bottom-cta small {
     font-size: 9px;
