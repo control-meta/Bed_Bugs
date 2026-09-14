@@ -13,7 +13,6 @@ import {
   Phone,
   ShieldCheck,
   Sparkles,
-  Users,
   Zap,
 } from "lucide-react";
 import {
@@ -25,6 +24,8 @@ import { site } from "@/lib/site";
 import { ContactForm } from "@/components/contact-form";
 import { FaqAccordion } from "@/components/faq-accordion";
 import { CtaSection } from "@/components/home/cta-section";
+import { TestimonialsSection } from "@/components/home/testimonials-section";
+import { TreatmentOptionsSection } from "@/components/treatment-options-section";
 import { SectionHeading } from "@/components/section-heading";
 
 type Props = {
@@ -52,12 +53,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: location.metaDescription,
     keywords: location.keywords,
     alternates: {
-      canonical: `https://bedbugstreatment.co.in/locations/${location.slug}`,
+      canonical: `https://bedbugstreatment.co.in/${location.slug}`,
     },
     openGraph: {
       title: location.title,
       description: location.metaDescription,
-      url: `https://bedbugstreatment.co.in/locations/${location.slug}`,
+      url: `https://bedbugstreatment.co.in/${location.slug}`,
       siteName: "Bed Bug Treatment India",
       locale: "en_IN",
       type: "website",
@@ -83,7 +84,7 @@ export default async function LocationCityPage({ params }: Props) {
     image: "https://bedbugstreatment.co.in/images/treatment-1.png",
     telephone: location.phone,
     priceRange: "₹1499 - ₹4999",
-    url: `https://bedbugstreatment.co.in/locations/${location.slug}`,
+    url: `https://bedbugstreatment.co.in/${location.slug}`,
     description: location.metaDescription,
     address: {
       "@type": "PostalAddress",
@@ -102,6 +103,19 @@ export default async function LocationCityPage({ params }: Props) {
       bestRating: "5",
       worstRating: "1",
     },
+    review: (location.reviews || []).map((r) => ({
+      "@type": "Review",
+      author: {
+        "@type": "Person",
+        name: r.name,
+      },
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: r.rating,
+        bestRating: "5",
+      },
+      reviewBody: r.quote,
+    })),
     openingHoursSpecification: [
       {
         "@type": "OpeningHoursSpecification",
@@ -146,14 +160,8 @@ export default async function LocationCityPage({ params }: Props) {
       {
         "@type": "ListItem",
         position: 2,
-        name: "Locations",
-        item: "https://bedbugstreatment.co.in/locations",
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
         name: location.name,
-        item: `https://bedbugstreatment.co.in/locations/${location.slug}`,
+        item: `https://bedbugstreatment.co.in/${location.slug}`,
       },
     ],
   };
@@ -206,10 +214,6 @@ export default async function LocationCityPage({ params }: Props) {
               >
                 <Link href="/" className="transition hover:text-brand-600">
                   Home
-                </Link>
-                <ChevronRight className="h-3.5 w-3.5 text-ink/30" />
-                <Link href="/locations" className="transition hover:text-brand-600">
-                  Locations
                 </Link>
                 <ChevronRight className="h-3.5 w-3.5 text-ink/30" />
                 <span className="font-semibold text-brand-700">{location.name}</span>
@@ -271,17 +275,11 @@ export default async function LocationCityPage({ params }: Props) {
               </p>
 
               {/* Metric Stats Pills - Desktop Only */}
-              <div className="hidden mt-6 flex-wrap items-center justify-center gap-2 sm:gap-2.5 lg:flex lg:justify-start">
+              <div className="hidden mt-6 flex-wrap items-center justify-center gap-2 sm:gap-2.5 lg:flex lg:justify-center">
                 <div className="inline-flex items-center gap-1.5 rounded-xl border border-ink/10 bg-white/90 px-3 py-1.5 text-xs font-medium text-ink shadow-sm backdrop-blur-sm">
                   <Clock className="h-3.5 w-3.5 text-brand-600" />
                   <span>
                     Response: <strong className="font-semibold">{location.responseTime}</strong>
-                  </span>
-                </div>
-                <div className="inline-flex items-center gap-1.5 rounded-xl border border-ink/10 bg-white/90 px-3 py-1.5 text-xs font-medium text-ink shadow-sm backdrop-blur-sm">
-                  <Users className="h-3.5 w-3.5 text-brand-600" />
-                  <span>
-                    Specialists: <strong className="font-semibold">{location.activeTechnicians}</strong>
                   </span>
                 </div>
                 <div className="inline-flex items-center gap-1.5 rounded-xl border border-ink/10 bg-white/90 px-3 py-1.5 text-xs font-medium text-ink shadow-sm backdrop-blur-sm">
@@ -299,7 +297,7 @@ export default async function LocationCityPage({ params }: Props) {
               </div>
 
               {/* Action Buttons */}
-              <div className="mt-6 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
+              <div className="mt-6 flex flex-wrap items-center justify-center gap-3 lg:justify-center">
                 <a
                   href="#book-inspection"
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-600 px-6 py-3 text-xs font-semibold text-white shadow-lg shadow-brand-600/25 transition hover:bg-brand-500 hover:shadow-brand-600/35 max-sm:w-full"
@@ -480,7 +478,7 @@ export default async function LocationCityPage({ params }: Props) {
       </section>
 
       {/* 4-Step Elimination Process */}
-      <section className="bg-cream/40 pt-4 pb-8 lg:pt-5 lg:pb-10">
+      <section className="bg-cream/40 pt-4 pb-4 lg:pt-5 lg:pb-6">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
             size="compact"
@@ -554,8 +552,30 @@ export default async function LocationCityPage({ params }: Props) {
         </div>
       </section>
 
+      {/* Bed Bug Treatment Options */}
+      <TreatmentOptionsSection
+        cityName={location.name}
+        whatsappPhone={location.phone}
+      />
+
+      {/* Customer Reviews for this Location */}
+      <TestimonialsSection
+        id="local-reviews"
+        className="relative overflow-hidden bg-white pt-2 pb-8 sm:pt-3 sm:pb-10 lg:pt-4 lg:pb-12"
+        cardBg="bg-cream/60"
+        eyebrow="Local Customer Reviews"
+        title={
+          <>
+            Rated <span className="text-brand-600">{location.rating}</span> in{" "}
+            {location.name}
+          </>
+        }
+        description={`Real reviews from homeowners, tenants, and property managers in ${location.name} who became 100% bed bug-free.`}
+        testimonials={location.reviews}
+      />
+
       {/* Local FAQs */}
-      <section className="bg-white py-8 lg:py-10">
+      <section className="bg-cream/40 pt-8 pb-3 sm:pt-9 sm:pb-3.5 lg:pt-10 lg:pb-4">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
             align="center"
@@ -577,7 +597,7 @@ export default async function LocationCityPage({ params }: Props) {
       </section>
 
       {/* Centered Booking Section */}
-      <section id="book-inspection" className="bg-cream/60 py-8 lg:py-10 scroll-mt-16">
+      <section id="book-inspection" className="bg-cream/60 pt-2 pb-8 sm:pt-3 sm:pb-9 lg:pt-4 lg:pb-10 scroll-mt-16">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-brand-500/20 bg-brand-500/10 px-4 py-1 text-xs font-semibold text-brand-800">
@@ -617,7 +637,7 @@ export default async function LocationCityPage({ params }: Props) {
               .map((otherCity) => (
                 <Link
                   key={otherCity.slug}
-                  href={`/locations/${otherCity.slug}`}
+                  href={`/${otherCity.slug}`}
                   className="inline-flex items-center gap-2 rounded-xl border border-ink/10 bg-cream/40 px-4 py-2 text-xs font-medium text-ink transition hover:border-brand-600/30 hover:bg-brand-50 hover:text-brand-700"
                 >
                   <MapPin className="h-3.5 w-3.5 text-brand-600" />

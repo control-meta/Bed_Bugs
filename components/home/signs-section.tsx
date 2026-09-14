@@ -1,7 +1,4 @@
-import Image from "next/image";
-import Link from "next/link";
 import {
-  ArrowRight,
   Bug,
   CircleDot,
   Droplets,
@@ -85,41 +82,6 @@ export function SignsSection() {
               </div>
             </div>
           ))}
-        </div>
-
-        <div className="relative mt-10 overflow-hidden rounded-2xl bg-ink p-5 text-white sm:p-6">
-          <div className="absolute inset-0 bg-grid-dark opacity-20" aria-hidden />
-          <div
-            className="absolute -right-16 -top-16 h-44 w-44 rounded-full bg-accent-700/25 blur-3xl"
-            aria-hidden
-          />
-          <div className="relative flex flex-col items-center gap-5 text-center sm:flex-row sm:text-left">
-            <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-2xl border border-white/10 sm:h-16 sm:w-16">
-              <Image
-                src="/images/bedbug-closeup.jpg"
-                alt="Close-up of a bed bug on a mattress"
-                fill
-                sizes="80px"
-                className="object-cover"
-              />
-            </div>
-            <div className="flex-1">
-              <h3 className="font-display text-base font-bold text-white sm:text-lg">
-                Seeing any of these signs?
-              </h3>
-              <p className="mt-1 text-sm leading-relaxed text-white/65">
-                Book a free same-day inspection — we will confirm the
-                infestation and give you a clear, honest quote.
-              </p>
-            </div>
-            <Link
-              href="/contact"
-              className="group inline-flex shrink-0 items-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-500"
-            >
-              Book Free Inspection
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-          </div>
         </div>
       </div>
     </section>

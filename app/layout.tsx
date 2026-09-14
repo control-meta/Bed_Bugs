@@ -4,6 +4,7 @@ import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { FloatingContact } from "@/components/floating-contact";
+import { FloatingForm } from "@/components/floating-form";
 import { site } from "@/lib/site";
 
 const inter = Inter({
@@ -53,10 +54,39 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${inter.variable} ${poppins.variable} h-full antialiased`}
     >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                if (typeof window !== 'undefined' && window.performance && window.performance.measure) {
+                  var origMeasure = window.performance.measure.bind(window.performance);
+                  window.performance.measure = function(name, startOrOptions, end) {
+                    try {
+                      if (typeof startOrOptions === 'object' && startOrOptions !== null) {
+                        if (typeof startOrOptions.end === 'number' && startOrOptions.end < 0) {
+                          startOrOptions.end = Math.max(0, startOrOptions.start || 0);
+                        }
+                        if (typeof startOrOptions.start === 'number' && startOrOptions.start < 0) {
+                          startOrOptions.start = 0;
+                        }
+                      }
+                      return origMeasure(name, startOrOptions, end);
+                    } catch (e) {
+                      // Silently guard against React 19 / Turbopack DevTools negative timestamp measure bug
+                    }
+                  };
+                }
+              })();
+            `,
+          }}
+        />
+      </head>
       <body className="flex min-h-full flex-col bg-white">
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />
+        <FloatingForm />
         <FloatingContact />
       </body>
     </html>

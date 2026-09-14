@@ -5,14 +5,45 @@ import { ChevronLeft, ChevronRight, Quote, Star } from "lucide-react";
 import { SectionHeading } from "@/components/section-heading";
 import { site, testimonials } from "@/lib/site";
 
-const CARD_STEP = 340;
-const PITCH = testimonials.length * CARD_STEP;
-const SPEED = 34;
-const loop = [...testimonials, ...testimonials];
+export type TestimonialItem = {
+  name: string;
+  city?: string;
+  locality?: string;
+  service?: string;
+  role?: string;
+  quote: string;
+  rating?: number;
+};
 
-export function TestimonialsSection() {
+export interface TestimonialsSectionProps {
+  testimonials?: TestimonialItem[];
+  eyebrow?: string;
+  title?: React.ReactNode;
+  description?: string;
+  id?: string;
+  className?: string;
+  cardBg?: string;
+}
+
+const CARD_STEP = 340;
+const SPEED = 34;
+
+export function TestimonialsSection({
+  testimonials: items = testimonials,
+  eyebrow = "Customer Reviews",
+  title,
+  description = "Real results from real homes and businesses across India.",
+  id = "reviews",
+  className = "relative overflow-hidden bg-white py-10 lg:py-14",
+  cardBg = "bg-cream/60",
+}: TestimonialsSectionProps) {
   const trackRef = useRef<HTMLDivElement>(null);
   const state = useRef({ offset: 0, target: 0 });
+
+  const safeItems: TestimonialItem[] = items && items.length > 0 ? items : testimonials;
+  const repeatCount = Math.max(4, Math.ceil(16 / safeItems.length));
+  const loop: TestimonialItem[] = Array.from({ length: repeatCount }).flatMap((): TestimonialItem[] => safeItems);
+  const pitch = safeItems.length * CARD_STEP;
 
   useEffect(() => {
     const track = trackRef.current;
@@ -25,13 +56,13 @@ export function TestimonialsSection() {
 
     const wrap = () => {
       const s = state.current;
-      while (s.offset <= -PITCH) {
-        s.offset += PITCH;
-        s.target += PITCH;
+      while (s.offset <= -pitch) {
+        s.offset += pitch;
+        s.target += pitch;
       }
       while (s.offset > 0) {
-        s.offset -= PITCH;
-        s.target -= PITCH;
+        s.offset -= pitch;
+        s.target -= pitch;
       }
     };
 
@@ -61,65 +92,76 @@ export function TestimonialsSection() {
       track.removeEventListener("pointerenter", onEnter);
       track.removeEventListener("pointerleave", onLeave);
     };
-  }, []);
+  }, [pitch]);
 
   const move = (direction: -1 | 1) => {
     state.current.target -= direction * CARD_STEP;
   };
 
+  const defaultTitle = (
+    <>
+      Rated <span className="text-brand-600">{site.rating}</span> by thousands of
+      happy customers
+    </>
+  );
+
   return (
-    <section id="reviews" className="relative overflow-hidden bg-white py-10 lg:py-14">
+    <section id={id} className={className}>
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           size="compact"
-          eyebrow="Customer Reviews"
-          title={
-            <>
-              Rated <span className="text-brand-600">{site.rating}</span> by
-              thousands of happy customers
-            </>
-          }
-          description="Real results from real homes and businesses across India."
+          eyebrow={eyebrow}
+          title={title || defaultTitle}
+          description={description}
         />
 
         <div className="relative mt-10">
           <div className="overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
             <div ref={trackRef} className="flex w-max will-change-transform">
-              {loop.map((testimonial, index) => (
-                <figure
-                  key={`${testimonial.name}-${index}`}
-                  className="relative mr-5 flex w-80 shrink-0 flex-col rounded-2xl border border-ink/10 bg-cream/60 p-6 transition hover:shadow-xl hover:shadow-brand-600/5"
-                >
-                  <Quote className="h-7 w-7 text-brand-200" fill="currentColor" />
-                  <div className="mt-4 flex gap-1">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star
-                        key={i}
-                        className="h-4 w-4 fill-accent-500 text-accent-500"
-                      />
-                    ))}
-                  </div>
-                  <blockquote className="mt-3 flex-1 text-sm leading-relaxed text-ink/70">
-                    &ldquo;{testimonial.quote}&rdquo;
-                  </blockquote>
-                  <figcaption className="mt-5 flex items-center gap-3 border-t border-ink/10 pt-4">
-                    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-600 text-sm font-bold text-white">
-                      {testimonial.name
-                        .split(" ")
-                        .map((part) => part[0])
-                        .join("")}
-                    </span>
-                    <span>
-                      <span className="block text-sm font-bold text-ink">
-                        {testimonial.name}
+              {loop.map((testimonial, index) => {
+                const subtext = testimonial.locality
+                  ? `${testimonial.locality}, ${testimonial.city || ""}`
+                  : testimonial.service || testimonial.role || testimonial.city;
+
+                return (
+                  <figure
+                    key={`${testimonial.name}-${index}`}
+                    className={`relative mr-5 flex w-80 shrink-0 flex-col rounded-2xl border border-ink/10 ${cardBg} p-6 transition hover:shadow-xl hover:shadow-brand-600/5`}
+                  >
+                    <Quote className="h-7 w-7 text-brand-200" fill="currentColor" />
+                    <div className="mt-4 flex gap-1">
+                      {Array.from({ length: testimonial.rating ?? 5 }).map((_, i) => (
+                        <Star
+                          key={i}
+                          className="h-4 w-4 fill-accent-500 text-accent-500"
+                        />
+                      ))}
+                    </div>
+                    <blockquote className="mt-3 flex-1 text-sm leading-relaxed text-ink/70">
+                      &ldquo;{testimonial.quote}&rdquo;
+                    </blockquote>
+                    <figcaption className="mt-5 flex items-center gap-3 border-t border-ink/10 pt-4">
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-600 text-sm font-bold text-white">
+                        {testimonial.name
+                          .split(" ")
+                          .map((part) => part[0])
+                          .slice(0, 2)
+                          .join("")}
                       </span>
-                      <span className="block text-xs text-ink/55">
-                        {testimonial.city}
+                      <span className="min-w-0">
+                        <span className="block truncate text-sm font-bold text-ink">
+                          {testimonial.name}
+                        </span>
+                        {subtext && (
+                          <span className="block truncate text-xs text-ink/55">
+                            {subtext}
+                          </span>
+                        )}
                       </span>
-                    </span>
-                  </figcaption>
-                </figure>
-              ))}
+                    </figcaption>
+                  </figure>
+                );
+              })}
             </div>
           </div>
 

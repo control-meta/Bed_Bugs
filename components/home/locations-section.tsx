@@ -25,7 +25,7 @@ export function LocationsSection() {
             return (
               <Link
                 key={city.name}
-                href={`/locations/${slug}`}
+                href={`/${slug}`}
                 className="group flex items-start justify-between gap-3.5 rounded-2xl border border-ink/10 bg-white p-5 transition-all duration-300 hover:border-brand-600/40 hover:shadow-xl hover:shadow-brand-600/10 hover:-translate-y-0.5"
               >
                 <div className="flex items-start gap-3.5">

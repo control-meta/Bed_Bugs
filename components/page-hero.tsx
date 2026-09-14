@@ -7,12 +7,16 @@ export function PageHero({
   title,
   description,
   breadcrumb,
+  radarSize = "default",
 }: {
   eyebrow: string;
   title: React.ReactNode;
   description?: string;
   breadcrumb: string;
+  radarSize?: "default" | "compact";
 }) {
+  const isCompact = radarSize === "compact";
+
   return (
     <section className="relative isolate overflow-hidden bg-cream pb-14 pt-24 max-sm:pb-8 lg:pb-16 lg:pt-28">
       <div className="absolute inset-0" aria-hidden>
@@ -24,28 +28,64 @@ export function PageHero({
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* High-Tech Circular Radar & Bedbug Center Animation */}
         <div
-          className="pointer-events-none absolute inset-y-0 right-0 hidden w-[45%] items-center justify-center lg:flex xl:right-4 xl:w-[48%]"
+          className={`pointer-events-none absolute inset-y-0 right-0 hidden items-center justify-center lg:flex ${
+            isCompact
+              ? "w-[40%] xl:right-8 xl:w-[42%]"
+              : "w-[45%] xl:right-4 xl:w-[48%]"
+          }`}
           aria-hidden
         >
-          <div className="relative flex h-[24rem] w-[24rem] items-center justify-center">
-            <div className="absolute inset-14 rounded-full bg-brand-300/30 blur-3xl animate-pulse-glow" />
+          <div
+            className={`relative flex items-center justify-center ${
+              isCompact
+                ? "h-[16.5rem] w-[16.5rem] -translate-y-4"
+                : "h-[24rem] w-[24rem]"
+            }`}
+          >
+            <div
+              className={`absolute rounded-full bg-brand-300/30 blur-3xl animate-pulse-glow ${
+                isCompact ? "inset-10" : "inset-14"
+              }`}
+            />
 
-            <div className="absolute inset-8 overflow-hidden rounded-full animate-[radar-spin_9s_linear_infinite]">
+            <div
+              className={`absolute overflow-hidden rounded-full animate-[radar-spin_9s_linear_infinite] ${
+                isCompact ? "inset-5" : "inset-8"
+              }`}
+            >
               <div className="h-full w-full rounded-full bg-[conic-gradient(from_0deg,transparent_0deg,transparent_305deg,rgba(47,158,108,0.14)_360deg)]" />
             </div>
 
-            <div className="absolute inset-9 rounded-full border border-brand-600/15" />
-            <div className="absolute inset-9 rounded-full border border-dashed border-brand-600/25 animate-[radar-spin_26s_linear_infinite]">
-              <span className="absolute -top-1.5 left-1/2 h-3 w-3 -translate-x-1/2 rounded-full bg-brand-600 shadow-[0_0_0_5px_rgba(31,128,85,0.12)]" />
+            <div
+              className={`absolute rounded-full border border-brand-600/15 ${
+                isCompact ? "inset-6" : "inset-9"
+              }`}
+            />
+            <div
+              className={`absolute rounded-full border border-dashed border-brand-600/25 animate-[radar-spin_26s_linear_infinite] ${
+                isCompact ? "inset-6" : "inset-9"
+              }`}
+            >
+              <span
+                className={`absolute left-1/2 -translate-x-1/2 rounded-full bg-brand-600 shadow-[0_0_0_5px_rgba(31,128,85,0.12)] ${
+                  isCompact ? "-top-1.5 h-2.5 w-2.5" : "-top-1.5 h-3 w-3"
+                }`}
+              />
             </div>
 
-            <div className="relative z-10 h-48 w-48 overflow-hidden rounded-full border-[0.5rem] border-white bg-white shadow-[0_28px_70px_-24px_rgba(23,82,58,0.45)]">
+            <div
+              className={`relative z-10 overflow-hidden rounded-full border-white bg-white shadow-[0_28px_70px_-24px_rgba(23,82,58,0.45)] ${
+                isCompact
+                  ? "h-32 w-32 border-[0.375rem]"
+                  : "h-48 w-48 border-[0.5rem]"
+              }`}
+            >
               <Image
-                src="/images/bedbug.png"
-                alt="Realistic bed bug"
+                src="/images/real-bedbug-macro.png"
+                alt="Real bed bug macro photograph"
                 fill
-                sizes="190px"
-                className="object-contain p-6"
+                sizes={isCompact ? "130px" : "190px"}
+                className={`object-contain ${isCompact ? "p-3.5" : "p-5"}`}
                 priority
               />
             </div>

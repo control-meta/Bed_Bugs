@@ -32,6 +32,7 @@ export default function FaqPage() {
       <PageHero
         breadcrumb="FAQ"
         eyebrow="Help Center"
+        radarSize="compact"
         title={
           <>
             Frequently asked{" "}

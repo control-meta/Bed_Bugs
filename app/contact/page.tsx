@@ -67,6 +67,7 @@ export default function ContactPage() {
       <PageHero
         breadcrumb="Contact Us"
         eyebrow="Get In Touch"
+        radarSize="compact"
         title={
           <>
             Book a free{" "}

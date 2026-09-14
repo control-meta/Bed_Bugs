@@ -24,7 +24,9 @@ import { SignsSection } from "@/components/home/signs-section";
 import { ProcessSection } from "@/components/home/process-section";
 import { CtaSection } from "@/components/home/cta-section";
 import { FaqAccordion } from "@/components/faq-accordion";
-import { services, site, serviceFaqs } from "@/lib/site";
+import { TestimonialsSection } from "@/components/home/testimonials-section";
+import { TreatmentOptionsSection } from "@/components/treatment-options-section";
+import { services, site, serviceFaqs, serviceReviews } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Bed Bug Treatment Services",
@@ -214,7 +216,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-cream py-8 lg:py-10">
+      <section className="relative overflow-hidden bg-cream pt-8 pb-4 lg:pt-10 lg:pb-6">
         {/* Animated Particles */}
         <div className="pointer-events-none absolute inset-0">
           <span className="absolute left-[10%] top-[20%] h-2 w-2 rounded-full bg-brand-400/40 shadow-[0_0_8px_rgba(47,158,108,0.5)] animate-[float_6s_ease-in-out_infinite_0s]" />
@@ -272,7 +274,26 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="bg-white py-8 lg:py-10">
+      {/* Bed Bug Treatment Options */}
+      <TreatmentOptionsSection />
+
+      {/* Customer Reviews for Services */}
+      <TestimonialsSection
+        id="service-reviews"
+        className="relative overflow-hidden bg-white pt-2 pb-8 sm:pt-3 sm:pb-10 lg:pt-4 lg:pb-12"
+        cardBg="bg-cream/60"
+        eyebrow="Customer Reviews"
+        title={
+          <>
+            Rated <span className="text-brand-600">{site.rating}</span> by{" "}
+            thousands of happy customers
+          </>
+        }
+        description="Real results from homeowners, tenants, and businesses who eliminated bed bugs with our specialized services."
+        testimonials={serviceReviews}
+      />
+
+      <section className="bg-cream/40 py-8 lg:py-10">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
             size="compact"

@@ -101,6 +101,49 @@ export const testimonials = [
   },
 ];
 
+export const serviceReviews = [
+  {
+    name: "Ananya Roy",
+    service: "Bed & Mattress Heat Treatment",
+    city: "Mumbai",
+    rating: 5,
+    quote:
+      "Booked the Intensive Bed & Mattress Heat Treatment for our 3 BHK. The combination of dry steam and odorless micro-spray destroyed all bugs and eggs without damaging our memory foam mattress.",
+  },
+  {
+    name: "Rohit Singhania",
+    service: "Commercial Hotel Bed Bug Elimination",
+    city: "Bangalore",
+    rating: 5,
+    quote:
+      "Contracted their commercial team for our 45-room boutique hotel. Discreet after-hours execution, zero downtime for guests, and complete documentation provided for our records.",
+  },
+  {
+    name: "Kavita Deshpande",
+    service: "Hostel & PG Eradication",
+    city: "Pune",
+    rating: 5,
+    quote:
+      "Managing a 60-bed student hostel with recurring bed bug complaints was tough. Their scheduled room-by-room eradication and quarterly monitoring solved the issue permanently.",
+  },
+  {
+    name: "Aditya Varma",
+    service: "Odorless Chemical Spray Treatment",
+    city: "Delhi",
+    rating: 5,
+    quote:
+      "The 100% Odorless Chemical Treatment was a lifesaver. We didn't have to vacate the house for days or deal with unbearable fumes. Completely bed bug free for over 7 months.",
+  },
+  {
+    name: "Meenakshi Sundaram",
+    service: "Eco-Safe Family & Pet Safe Treatment",
+    city: "Noida",
+    rating: 5,
+    quote:
+      "We have two cats and an elderly parent, so safety was our top priority. Their eco-safe certified solution was gentle on the home environment while 100% lethal to bed bugs.",
+  },
+];
+
 export const homeFaqs = [
   {
     question: "How do I know if I need professional bed bug treatment?",

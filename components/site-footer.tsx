@@ -55,7 +55,7 @@ export function SiteFooter() {
               {locations.map((loc) => (
                 <li key={loc.slug}>
                   <Link
-                    href={`/locations/${loc.slug}`}
+                    href={`/${loc.slug}`}
                     className="text-white/65 transition hover:text-white max-sm:flex max-sm:min-h-[3.25rem] max-sm:w-full max-sm:items-center max-sm:justify-center max-sm:rounded-full max-sm:border max-sm:border-white/10 max-sm:bg-white/[0.06] max-sm:px-3 max-sm:py-2 max-sm:text-center max-sm:text-[0.78rem] max-sm:font-medium max-sm:text-white/80"
                   >
                     {loc.name}
@@ -113,7 +113,7 @@ export function SiteFooter() {
             {locations.map((loc, idx) => (
               <span key={loc.slug} className="inline-flex items-center gap-2">
                 <Link
-                  href={`/locations/${loc.slug}`}
+                  href={`/${loc.slug}`}
                   className="transition hover:text-brand-400 hover:underline"
                 >
                   {loc.name}

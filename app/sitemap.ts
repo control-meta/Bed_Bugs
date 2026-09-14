@@ -19,12 +19,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/locations`,
-      lastModified: currentDate,
-      changeFrequency: "weekly" as const,
-      priority: 0.9,
-    },
-    {
       url: `${baseUrl}/about`,
       lastModified: currentDate,
       changeFrequency: "monthly" as const,
@@ -45,7 +39,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   const locationRoutes = locations.map((loc) => ({
-    url: `${baseUrl}/locations/${loc.slug}`,
+    url: `${baseUrl}/${loc.slug}`,
     lastModified: currentDate,
     changeFrequency: "weekly" as const,
     priority: 0.9,
