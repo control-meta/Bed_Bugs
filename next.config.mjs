@@ -3,6 +3,11 @@ const nextConfig = {
   allowedDevOrigins: ["192.168.29.7", "192.168.162.189"],
   compress: true,
   poweredByHeader: false,
+  experimental: {
+    // The CLI capture path returns empty stdout in this Node 20 environment.
+    // Use the installed TypeScript compiler API for Next's build-time check.
+    useTypeScriptCli: false,
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 2592000,

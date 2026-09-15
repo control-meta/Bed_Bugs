@@ -45,7 +45,7 @@ export function FloatingForm() {
     if (error) setError("");
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (name.trim().length < 2) {
       setError("Please enter your full name.");
@@ -59,9 +59,32 @@ export function FloatingForm() {
     setError("");
     setStatus("submitting");
 
-    setTimeout(() => {
+    try {
+      const response = await fetch("/api/enquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name.trim(),
+          phone: phone.trim(),
+          source: "floating_widget",
+          sourceUrl: typeof window !== "undefined" ? window.location.pathname : "/",
+        }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to submit request.");
+      }
+
       setStatus("success");
-    }, 750);
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Could not request callback right now. Please call us directly.",
+      );
+      setStatus("idle");
+    }
   };
 
   const handleReset = () => {

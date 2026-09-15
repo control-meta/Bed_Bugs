@@ -18,7 +18,7 @@ export function QuickConnectForm() {
     setPhone(event.target.value.replace(/\D/g, "").slice(0, 10));
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (name.trim().length < 2) {
       setError("Please enter your name.");
@@ -30,7 +30,33 @@ export function QuickConnectForm() {
     }
     setError("");
     setStatus("submitting");
-    window.setTimeout(() => setStatus("success"), 800);
+
+    try {
+      const response = await fetch("/api/enquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name.trim(),
+          phone: phone.trim(),
+          source: "hero_quick_connect",
+          sourceUrl: typeof window !== "undefined" ? window.location.pathname : "/",
+        }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to submit enquiry.");
+      }
+
+      setStatus("success");
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Could not submit right now. Please call us directly.",
+      );
+      setStatus("idle");
+    }
   };
 
   if (status === "success") {

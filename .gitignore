@@ -24,6 +24,8 @@
 .DS_Store
 *.pem
 scratch/
+.local_enquiries.json
+.local_blog_articles.json
 
 
 # debug

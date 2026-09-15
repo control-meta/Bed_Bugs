@@ -209,7 +209,7 @@ export function ContactForm({ defaultCity }: { defaultCity?: string } = {}) {
     }));
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (form.name.trim().length < 2) {
       setError("Please enter your full name.");
@@ -225,7 +225,37 @@ export function ContactForm({ defaultCity }: { defaultCity?: string } = {}) {
     }
     setError("");
     setStatus("submitting");
-    window.setTimeout(() => setStatus("success"), 900);
+
+    try {
+      const response = await fetch("/api/enquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name.trim(),
+          phone: form.phone.trim(),
+          email: form.email?.trim() || undefined,
+          city: form.city,
+          property: form.property || undefined,
+          message: form.message?.trim() || undefined,
+          source: "contact_page",
+          sourceUrl: typeof window !== "undefined" ? window.location.pathname : "/contact",
+        }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to submit your enquiry.");
+      }
+
+      setStatus("success");
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Could not send enquiry right now. Please call or WhatsApp us directly.",
+      );
+      setStatus("idle");
+    }
   };
 
   if (status === "success") {

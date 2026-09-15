@@ -5,6 +5,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { FloatingContact } from "@/components/floating-contact";
 import { FloatingForm } from "@/components/floating-form";
+import { MarketingOnly } from "@/components/marketing-only";
 import { site } from "@/lib/site";
 
 const inter = Inter({
@@ -98,11 +99,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         />
       </head>
       <body className="flex min-h-full flex-col bg-white">
-        <SiteHeader />
-        <main className="flex-1">{children}</main>
-        <SiteFooter />
-        <FloatingForm />
-        <FloatingContact />
+        <MarketingOnly>
+          <SiteHeader />
+        </MarketingOnly>
+        <main className="flex-1 flex flex-col">{children}</main>
+        <MarketingOnly>
+          <SiteFooter />
+          <FloatingForm />
+          <FloatingContact />
+        </MarketingOnly>
       </body>
     </html>
   );
