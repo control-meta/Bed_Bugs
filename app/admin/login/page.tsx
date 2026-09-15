@@ -171,19 +171,6 @@ function LoginForm() {
               </>
             )}
           </button>
-
-          <div className="pt-2 text-center">
-            <button
-              type="button"
-              onClick={() => {
-                window.location.href = redirect;
-              }}
-              className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 hover:text-emerald-800 hover:underline"
-            >
-              <span>Access Admin Dashboard Directly</span>
-              <span aria-hidden="true">&rarr;</span>
-            </button>
-          </div>
         </form>
 
         {/* Security Reassurance & Default Dev Info */}

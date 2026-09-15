@@ -50,10 +50,9 @@ export default function AdminLayout({
     setIsLoggingOut(true);
     try {
       await fetch("/api/admin/logout", { method: "POST" });
-      router.push("/admin/login");
-      router.refresh();
+      window.location.href = "/admin/login";
     } catch {
-      router.push("/admin/login");
+      window.location.href = "/admin/login";
     }
   };
 

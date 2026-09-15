@@ -21,42 +21,29 @@ export async function proxy(request: NextRequest) {
     return addSecurityHeaders(NextResponse.next());
   }
 
-  // 2. Allow direct access to Admin UI routes (/admin, /admin/...) from address bar.
-  // Auto-provision admin session token so all features and APIs work seamlessly.
+  // 2. Protect Admin UI routes (/admin, /admin/...)
+  // Require valid login session. Redirect unauthenticated visitors to /admin/login.
   if (isAdminPage) {
-    const response = NextResponse.next();
     if (!isAuthenticated) {
-      const token = await createAdminToken("admin");
-      response.cookies.set({
-        name: SESSION_COOKIE_NAME,
-        value: token,
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
-        path: "/",
-        maxAge: 30 * 24 * 60 * 60, // 30 days
-      });
+      const loginUrl = new URL("/admin/login", request.url);
+      if (pathname !== "/admin") {
+        loginUrl.searchParams.set("redirect", pathname);
+      }
+      return NextResponse.redirect(loginUrl);
     }
-    return addSecurityHeaders(response);
+    return addSecurityHeaders(NextResponse.next());
   }
 
-  // 3. Admin API routes (/api/admin/...)
-  // Ensure admin APIs always succeed and auto-provision session if missing.
+  // 3. Protect Admin API routes (/api/admin/...)
+  // Exclude /api/admin/login from the block
   if (isAdminApi && pathname !== "/api/admin/login") {
-    const response = NextResponse.next();
     if (!isAuthenticated) {
-      const token = await createAdminToken("admin");
-      response.cookies.set({
-        name: SESSION_COOKIE_NAME,
-        value: token,
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
-        path: "/",
-        maxAge: 30 * 24 * 60 * 60,
-      });
+      return NextResponse.json(
+        { error: "Unauthorized. Admin session required." },
+        { status: 401 },
+      );
     }
-    return addSecurityHeaders(response);
+    return addSecurityHeaders(NextResponse.next());
   }
 
   return addSecurityHeaders(NextResponse.next());
