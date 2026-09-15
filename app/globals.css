@@ -371,3 +371,13 @@ body {
     font-size: clamp(11.5px, 1.95vmin, 26px);
   }
 }
+
+/* Strict Admin Portal Isolation - Never show public site header/footer on /admin */
+body:has(#admin-root) [data-marketing="true"],
+body:has(#admin-root) header:not(#admin-root header),
+body:has(#admin-root) footer,
+body:has([data-admin-portal="true"]) [data-marketing="true"],
+body:has([data-admin-portal="true"]) header:not([data-admin-portal="true"] header),
+body:has([data-admin-portal="true"]) footer {
+  display: none !important;
+}

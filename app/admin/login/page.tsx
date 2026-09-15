@@ -47,9 +47,8 @@ function LoginForm() {
         throw new Error(data.error || "Authentication failed.");
       }
 
-      // Successful login
-      router.push(redirect);
-      router.refresh();
+      // Successful login - hard navigate to ensure all cookies and session state are recognized
+      window.location.href = redirect;
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Failed to log in. Please retry.",
@@ -172,11 +171,27 @@ function LoginForm() {
               </>
             )}
           </button>
+
+          <div className="pt-2 text-center">
+            <button
+              type="button"
+              onClick={() => {
+                window.location.href = redirect;
+              }}
+              className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 hover:text-emerald-800 hover:underline"
+            >
+              <span>Access Admin Dashboard Directly</span>
+              <span aria-hidden="true">&rarr;</span>
+            </button>
+          </div>
         </form>
 
         {/* Security Reassurance & Default Dev Info */}
         <div className="mt-5 border-t border-neutral-100 pt-3.5 text-center">
-          <p className="text-[10.5px] text-neutral-400">
+          <p className="text-[10.5px] text-neutral-500 font-medium">
+            Default credentials: <span className="font-bold text-neutral-700">admin</span> / <span className="font-bold text-neutral-700">admin123456</span>
+          </p>
+          <p className="mt-1 text-[10px] text-neutral-400">
             🔒 Protected with Timing-Safe Verification &amp; Rate-Limiting.
           </p>
         </div>

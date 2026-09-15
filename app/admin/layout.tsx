@@ -83,7 +83,11 @@ export default function AdminLayout({
   ];
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-[#f4f7f5] text-neutral-800 font-sans text-xs">
+    <div
+      id="admin-root"
+      data-admin-portal="true"
+      className="flex h-screen w-screen overflow-hidden bg-[#f4f7f5] text-neutral-800 font-sans text-xs"
+    >
       {/* Mobile Drawer Overlay */}
       {isMobileMenuOpen && (
         <div

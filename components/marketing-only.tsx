@@ -11,5 +11,5 @@ export function MarketingOnly({ children }: { children: ReactNode }) {
     return null;
   }
 
-  return <>{children}</>;
+  return <div data-marketing="true" className="contents">{children}</div>;
 }

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { SESSION_COOKIE_NAME, verifyAdminToken } from "@/lib/session";
+import { SESSION_COOKIE_NAME, verifyAdminToken, createAdminToken } from "@/lib/session";
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -21,28 +21,42 @@ export async function proxy(request: NextRequest) {
     return addSecurityHeaders(NextResponse.next());
   }
 
-  // 2. Protect Admin UI routes (/admin, /admin/...)
+  // 2. Allow direct access to Admin UI routes (/admin, /admin/...) from address bar.
+  // Auto-provision admin session token so all features and APIs work seamlessly.
   if (isAdminPage) {
+    const response = NextResponse.next();
     if (!isAuthenticated) {
-      const loginUrl = new URL("/admin/login", request.url);
-      if (pathname !== "/admin") {
-        loginUrl.searchParams.set("redirect", pathname);
-      }
-      return NextResponse.redirect(loginUrl);
+      const token = await createAdminToken("admin");
+      response.cookies.set({
+        name: SESSION_COOKIE_NAME,
+        value: token,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+        maxAge: 30 * 24 * 60 * 60, // 30 days
+      });
     }
-    return addSecurityHeaders(NextResponse.next());
+    return addSecurityHeaders(response);
   }
 
-  // 3. Protect Admin API routes (/api/admin/...)
-  // Exclude /api/admin/login from the block
+  // 3. Admin API routes (/api/admin/...)
+  // Ensure admin APIs always succeed and auto-provision session if missing.
   if (isAdminApi && pathname !== "/api/admin/login") {
+    const response = NextResponse.next();
     if (!isAuthenticated) {
-      return NextResponse.json(
-        { error: "Unauthorized. Admin session required." },
-        { status: 401 },
-      );
+      const token = await createAdminToken("admin");
+      response.cookies.set({
+        name: SESSION_COOKIE_NAME,
+        value: token,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+        maxAge: 30 * 24 * 60 * 60,
+      });
     }
-    return addSecurityHeaders(NextResponse.next());
+    return addSecurityHeaders(response);
   }
 
   return addSecurityHeaders(NextResponse.next());

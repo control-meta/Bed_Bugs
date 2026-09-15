@@ -26,9 +26,21 @@ type UsageStats = {
   totalTokens: number;
 };
 
+type ResearchData = {
+  searchIntent: {
+    primaryIntent: string;
+    targetAudience: string;
+    expectedAnswer: string;
+  };
+  informationGainPlan?: {
+    uniqueUsefulElements: string[];
+    contentGaps: string[];
+  };
+};
+
 type GeneratedData = {
   blogContent: string;
-  research?: any;
+  research?: ResearchData;
   audit?: any;
   claims?: any[];
   redFlags?: string[];
@@ -95,7 +107,7 @@ export default function BlogGeneratorPage() {
       const decoder = new TextDecoder();
       let buffer = "";
       let tempContent = "";
-      let tempResearch = null;
+      let tempResearch: ResearchData | undefined;
 
       setData({ blogContent: "" });
 
