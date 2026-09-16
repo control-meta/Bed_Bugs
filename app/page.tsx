@@ -5,6 +5,7 @@ import { LocationsSection } from "@/components/home/locations-section";
 import { TestimonialsSection } from "@/components/home/testimonials-section";
 import { FaqSection } from "@/components/home/faq-section";
 import { CtaSection } from "@/components/home/cta-section";
+import { TreatmentOptionsSection } from "@/components/treatment-options-section";
 
 export const metadata: Metadata = {
   title: {
@@ -19,6 +20,7 @@ export default function Home() {
     <>
       <Hero />
       <WhySection />
+      <TreatmentOptionsSection />
       <LocationsSection />
       <TestimonialsSection />
       <FaqSection />
