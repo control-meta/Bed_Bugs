@@ -1046,19 +1046,16 @@ export default function BedBugTreatment() {
   position: relative;
   border: 1px solid #e2efea;
   border-radius: 10px;
-  padding: 38px 12px 14px;
+  padding: 18px 12px;
   background: #fff;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
+  gap: 10px;
 }
 .bb-sign-icon {
-  position: absolute;
-  top: -9px;
-  left: 50%;
-  transform: translateX(-50%);
   display: grid;
   place-items: center;
   width: 41px;
@@ -1096,7 +1093,7 @@ export default function BedBugTreatment() {
   padding: 14px 13px 13px;
   display: flex;
   gap: 10px;
-  align-items: flex-start;
+  align-items: center;
   background: linear-gradient(165deg, #fffdf6, #fff5dd);
   box-shadow: 0 4px 14px rgba(214, 158, 46, 0.08);
   margin-top: -17px;
@@ -1856,18 +1853,15 @@ export default function BedBugTreatment() {
     gap: 22px 10px;
   }
   .bb-sign-card {
-    padding: 36px 10px 14px;
+    padding: 16px 10px;
     min-width: 0;
     text-align: center;
     align-items: center;
+    gap: 8px;
   }
   .bb-sign-card p {
     font-size: 11px;
     text-align: center;
-  }
-  .bb-sign-icon {
-    left: 50%;
-    transform: translateX(-50%);
   }
   .bb-sign-help {
     grid-column: 1 / -1;
