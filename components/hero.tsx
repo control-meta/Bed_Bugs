@@ -165,13 +165,13 @@ export function Hero() {
             </span>
           </h1>
 
-          <p className="max-w-[33em] text-[1.05em] leading-relaxed text-ink/65 max-sm:whitespace-nowrap max-sm:text-[0.82em] max-sm:leading-snug">
+          <p className="max-w-[33em] text-[1.05em] font-medium leading-relaxed text-ink max-sm:whitespace-nowrap max-sm:text-[0.85em] max-sm:leading-snug">
             <span className="max-sm:hidden">
               Safe, effective and long-lasting bed bug treatment for homes,
               apartments, hotels and businesses. Sleep peacefully again.
             </span>
             <span className="hidden max-sm:inline">
-              Safe, effective &amp; lasting bed bug treatment.
+              Safe, effective and lasting bed bug treatment.
             </span>
           </p>
 

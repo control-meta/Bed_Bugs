@@ -26,6 +26,7 @@
 scratch/
 .local_enquiries.json
 .local_blog_articles.json
+.local_reviews.json
 
 
 # debug

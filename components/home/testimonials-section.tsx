@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, ShieldCheck, Star } from "lucide-react";
 import { SectionHeading } from "@/components/section-heading";
 import { site, testimonials } from "@/lib/site";
+import { WriteReviewSection } from "@/components/write-review-section";
 
 export type TestimonialItem = {
   name: string;
@@ -26,6 +27,7 @@ export interface TestimonialsSectionProps {
   rating?: string;
   reviewCount?: string;
   size?: "default" | "compact";
+  city?: string;
 }
 
 const CARD_WIDTH = 250;
@@ -43,11 +45,23 @@ export function TestimonialsSection({
   cardBg = "bg-brand-50/50",
   rating = site.rating,
   reviewCount = site.reviewCount,
+  city,
 }: TestimonialsSectionProps) {
   const trackRef = useRef<HTMLDivElement>(null);
   const state = useRef({ offset: 0, target: 0 });
 
-  const safeItems: TestimonialItem[] = items && items.length > 0 ? items : testimonials;
+  const [reviewList, setReviewList] = useState<TestimonialItem[]>(() =>
+    items && items.length > 0 ? items : testimonials
+  );
+  const [reviewOpen, setReviewOpen] = useState(false);
+
+  useEffect(() => {
+    if (items && items.length > 0) {
+      setReviewList(items);
+    }
+  }, [items]);
+
+  const safeItems: TestimonialItem[] = reviewList.length > 0 ? reviewList : testimonials;
   const repeatCount = Math.max(4, Math.ceil(16 / safeItems.length));
   const loop: TestimonialItem[] = Array.from({ length: repeatCount }).flatMap((): TestimonialItem[] => safeItems);
   const pitch = safeItems.length * CARD_STEP;
@@ -179,30 +193,51 @@ export function TestimonialsSection({
             </button>
           </div>
 
-          {/* Right-side Badge Card: Equal in height (180px) and placed side-by-side */}
+          {/* Right-side Badge Card */}
           <div className="w-full lg:w-56 xl:w-60 shrink-0 flex justify-center">
-            <div
-              style={{ height: "180px" }}
-              className="flex w-full flex-col items-center justify-center rounded-xl border border-brand-600/15 bg-brand-50/70 p-3.5 text-center shadow-sm"
-            >
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-600/10 text-brand-600">
+            <div className="flex w-full flex-col items-center justify-center gap-1.5 rounded-xl border border-brand-600/15 bg-brand-50/70 p-3.5 text-center shadow-sm lg:min-h-[180px]">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-600/10 text-brand-600">
                 <ShieldCheck className="h-4 w-4" strokeWidth={1.8} />
               </span>
-              <p className="mt-2 font-display text-xs font-bold text-ink leading-tight">
-                Trusted by Homeowners across India
-              </p>
-              <p className="mt-1">
-                <span className="font-display text-xl font-extrabold text-brand-600">
-                  {rating}
-                </span>{" "}
-                <span className="text-[11px] text-ink/60">Customer Rating</span>
-              </p>
-              <p className="mt-0.5 text-[11px] font-semibold text-brand-700">
-                {reviewCount} Customer Reviews
-              </p>
+              <div className="min-w-0">
+                <p className="font-display text-xs font-bold text-ink leading-tight">
+                  Trusted by Homeowners across India
+                </p>
+                <p className="mt-0.5">
+                  <span className="font-display text-lg font-extrabold text-brand-600 lg:text-xl">
+                    {rating}
+                  </span>{" "}
+                  <span className="text-[11px] text-ink/60">Customer Rating</span>
+                </p>
+                <p className="text-[11px] font-semibold text-brand-700">
+                  {reviewCount} Customer Reviews
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setReviewOpen(true)}
+                className="mt-1 inline-flex w-full items-center justify-center gap-1.5 rounded-full bg-brand-600 px-3.5 py-1.5 text-[11px] font-bold text-white shadow-xs transition hover:bg-brand-700 active:scale-95 lg:w-auto lg:py-1"
+              >
+                <Star className="h-3 w-3 fill-amber-300 text-amber-300" />
+                Leave a Review
+              </button>
             </div>
           </div>
         </div>
+
+        {/* Expandable write-a-review form (opened by the "Leave a Review" button) */}
+        {reviewOpen && (
+          <div className="mt-6 sm:mt-8">
+            <WriteReviewSection
+              defaultCity={city}
+              open={reviewOpen}
+              onOpenChange={setReviewOpen}
+              onReviewAdded={(newReview) => {
+                setReviewList((prev) => [newReview, ...prev]);
+              }}
+            />
+          </div>
+        )}
       </div>
     </section>
   );

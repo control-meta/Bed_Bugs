@@ -3,6 +3,8 @@
 import React, { useId, useState } from 'react';
 import Link from 'next/link';
 import { TestimonialsSection } from '@/components/home/testimonials-section';
+import { CtaSection } from '@/components/home/cta-section';
+import { PopularBadge } from '@/components/popular-badge';
 import { FaqAccordion } from '@/components/faq-accordion';
 import { SectionHeading as PageSectionHeading } from '@/components/section-heading';
 import { serviceReviews, serviceFaqs, cities } from '@/lib/site';
@@ -509,8 +511,8 @@ export default function BedBugTreatment() {
 }
 .bb-hero-image {
   position: absolute;
-  inset: 0 0 0 49%;
-  background: url('/images/services-react/hero.png') var(--hero-img-x) center / cover no-repeat;
+  inset: calc(var(--hero-top-gap) + 20px) 0 0 49%;
+  background: url('/images/services-react/hero-treatment.png?v=2') var(--hero-img-x) center / cover no-repeat;
   image-rendering: high-quality;
   -webkit-backface-visibility: hidden;
   transform: translateZ(0);
@@ -524,6 +526,9 @@ export default function BedBugTreatment() {
   width: 17%;
   height: 16%;
   background: linear-gradient(to right, #f0f9f8 65%, transparent);
+}
+.bb-hero-image-mobile {
+  display: none;
 }
 .bb-hero-inner {
   position: relative;
@@ -819,8 +824,83 @@ export default function BedBugTreatment() {
 }
 .bb-included-grid {
   display: grid;
-  grid-template-columns: 1.7fr 1fr 0.9fr 1fr;
-  gap: 17px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.bb-included-card {
+  background: #ffffff;
+  border: 1px solid #e1eeea;
+  border-radius: 11px;
+  padding: 16px 14px;
+  box-shadow: 0 3px 10px rgba(19, 80, 56, 0.04);
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+.bb-included-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(19, 80, 56, 0.08);
+}
+.bb-included-card-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding-bottom: 11px;
+  border-bottom: 1px solid #edf5f1;
+}
+.bb-included-card-head .bb-solid-icon {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  margin-bottom: 0;
+  background: #13795b;
+  border: 3px solid #e1f3e9;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: white;
+}
+.bb-included-card-head .bb-solid-icon svg {
+  width: 17px;
+  height: 17px;
+}
+.bb-included-card-head h3 {
+  font-size: 13.5px;
+  font-weight: 750;
+  color: #10261c;
+  line-height: 1.25;
+  margin: 0;
+}
+.bb-included-card-head h4 {
+  font-size: 11px;
+  font-weight: 600;
+  color: #1b8560;
+  margin: 3px 0 0;
+  line-height: 1.3;
+}
+.bb-included-card .bb-checks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6.5px;
+}
+.bb-included-card .bb-checks li {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  font-size: 11px;
+  line-height: 1.35;
+  color: #385247;
+}
+.bb-included-card .bb-checks svg {
+  flex-shrink: 0;
+  width: 13px;
+  height: 13px;
+  color: #008c5a;
+  margin-top: 1.5px;
 }
 .bb-mini-card {
   background: #ffffffba;
@@ -848,42 +928,6 @@ export default function BedBugTreatment() {
 .bb-mini-card p {
   font-size: 12px;
   line-height: 1.55;
-}
-.bb-included-grid > .bb-mini-card:not(:first-child) h3 {
-  font-weight: 500;
-}
-.bb-included-feature {
-  display: flex;
-  gap: 12px;
-  padding: 10px 23px;
-}
-.bb-included-feature .bb-solid-icon {
-  flex-shrink: 0;
-  width: 45px;
-  height: 45px;
-}
-.bb-included-feature h3 {
-  font-size: 11px;
-  margin-top: 5px;
-}
-.bb-included-feature h4 {
-  color: #289570;
-  font-size: 12px;
-  font-weight: 500;
-  margin: 4px 0;
-}
-.bb-included-feature .bb-checks {
-  margin-left: -31px;
-}
-.bb-included-feature .bb-checks li {
-  font-size: 9px;
-  line-height: 1.3;
-  gap: 12px;
-  margin: 3px 0;
-}
-.bb-included-feature .bb-checks svg {
-  width: 13px;
-  height: 13px;
 }
 .bb-properties {
   padding-top: 14px;
@@ -913,12 +957,15 @@ export default function BedBugTreatment() {
 }
 .bb-property-card > div {
   padding: 13px 15px 12px;
+  text-align: center;
 }
 .bb-property-card h3 {
   font-size: 10px;
   display: flex;
   gap: 9px;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   margin-bottom: 7px;
 }
 .bb-property-card h3 svg {
@@ -1004,11 +1051,14 @@ export default function BedBugTreatment() {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 .bb-sign-icon {
   position: absolute;
   top: -9px;
-  left: 20px;
+  left: 50%;
+  transform: translateX(-50%);
   display: grid;
   place-items: center;
   width: 41px;
@@ -1022,6 +1072,7 @@ export default function BedBugTreatment() {
   font-size: 10.5px;
   line-height: 1.45;
   margin: 0;
+  text-align: center;
 }
 .bb-sign-line {
   display: block;
@@ -1040,25 +1091,37 @@ export default function BedBugTreatment() {
 }
 
 .bb-sign-help {
-  border: 1px solid #e0ece5;
-  border-radius: 8px;
-  padding: 12px 10px 6px;
+  border: 1px solid #ffe3ad;
+  border-radius: 12px;
+  padding: 14px 13px 13px;
   display: flex;
-  gap: 7px;
-  background: #f2faf5;
+  gap: 10px;
+  align-items: flex-start;
+  background: linear-gradient(165deg, #fffdf6, #fff5dd);
+  box-shadow: 0 4px 14px rgba(214, 158, 46, 0.08);
   margin-top: -17px;
 }
-.bb-sign-help > svg {
-  color: #15885e;
+.bb-sign-help-icon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #fef3c7;
+  color: #e0a112;
+  border: 3px solid #fff9e8;
 }
 .bb-sign-help h3 {
-  font-size: 10px;
+  font-size: 11px;
   line-height: 1.35;
+  color: #23302a;
 }
 .bb-sign-help p {
-  font-size: 9px;
-  line-height: 1.6;
+  font-size: 9.5px;
+  line-height: 1.55;
   margin-top: 3px;
+  color: #6b7a72;
 }
 .bb-sign-help .bb-button {
   padding: 6px 16px;
@@ -1380,7 +1443,8 @@ export default function BedBugTreatment() {
     padding-inline: 22px;
   }
   .bb-included-grid {
-    grid-template-columns: 1.6fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
   }
   .bb-mini-card {
     padding-inline: 20px;
@@ -1499,66 +1563,137 @@ export default function BedBugTreatment() {
     align-items: center;
   }
   .bb-hero {
-    display: flex;
-    flex-direction: column;
+    display: block;
+    min-height: auto;
+    background: linear-gradient(180deg, #f0f9f5 0%, #ffffff 100%);
   }
   .bb-hero-image {
-    position: relative;
-    order: 2;
-    inset: auto;
-    width: 100%;
-    height: 230px;
-    opacity: 1;
-    background-position: right center;
-    mask-image: linear-gradient(to right, transparent, #000 20%);
+    display: none !important;
   }
   .bb-hero-inner {
-    padding-block: 18px 14px;
+    padding-top: 14px;
+    padding-bottom: 22px;
   }
   .bb-hero-content {
     width: 100%;
     max-width: none;
+    display: flex;
+    flex-direction: column;
   }
   .bb-hero-label {
-    font-size: 8px;
+    order: 1;
+    align-self: flex-start;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    padding: 5px 11px;
+    border-radius: 20px;
+    background: #0d774a;
+    box-shadow: 0 2px 6px rgba(13, 119, 74, 0.2);
   }
   .bb-hero h1 {
-    font-size: clamp(28px, 7.5vw, 42px);
-    margin-top: 12px;
+    order: 2;
+    font-size: clamp(26px, 7.5vw, 34px);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    line-height: 1.15;
+    margin: 10px 0 6px;
+    color: #0c1e15;
+  }
+  .bb-hero h1 span {
+    color: #008c5a;
   }
   .bb-hero h2 {
-    font-size: 14px;
+    order: 3;
+    font-size: 13.5px;
     line-height: 1.45;
-    margin-top: 10px;
+    color: #38574a;
+    font-weight: 500;
+    margin: 0 0 4px;
+  }
+  .bb-hero-image-mobile {
+    order: 4;
+    display: block;
+    width: 100%;
+    margin: 14px 0 16px;
+  }
+  .bb-hero-image-mobile img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 16px;
+    border: 1px solid rgba(0, 140, 90, 0.16);
+    box-shadow: 0 8px 24px -4px rgba(0, 70, 40, 0.15), 0 2px 6px rgba(0, 0, 0, 0.04);
   }
   .bb-desktop-break {
     display: none;
   }
-  .bb-hero-content > p {
-    font-size: 13px;
-    line-height: 1.65;
-  }
   .bb-hero-features {
+    order: 5;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 13px;
-    margin-block: 18px;
+    gap: 10px;
+    margin: 0 0 14px;
   }
   .bb-hero-features > div {
-    font-size: 10px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    background: #ffffff;
+    border: 1px solid #d9ece2;
+    border-radius: 12px;
+    padding: 8px 10px;
+    box-shadow: 0 2px 5px rgba(0, 50, 30, 0.03);
+    font-size: 10.5px;
+    font-weight: 600;
+    color: #17382a;
+    line-height: 1.35;
+  }
+  .bb-hero-features .bb-icon-bubble {
+    width: 32px;
+    height: 32px;
+    background: radial-gradient(ellipse at center, #d8f5e7, #eefaf3 70%);
+    color: #008c5a;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .bb-hero-content > p {
+    order: 6;
+    font-size: 13px;
+    line-height: 1.55;
+    color: #446054;
+    margin: 0 0 16px;
   }
   .bb-hero-actions {
+    order: 7;
     width: 100%;
+    display: flex;
+    flex-wrap: wrap;
     gap: 10px;
   }
   .bb-hero-actions .bb-button {
     min-height: 44px;
-    flex: 1 1 45%;
-    font-size: 10px;
-    padding-inline: 8px;
+    flex: 1 1 calc(50% - 5px);
+    font-size: 11px;
+    font-weight: 650;
+    padding: 10px 12px;
+    border-radius: 24px;
+    justify-content: center;
+    white-space: nowrap;
   }
   .bb-hero-actions .bb-button:first-child {
-    flex-basis: 100%;
+    flex: 1 1 100%;
+    min-height: 48px;
+    font-size: 13.5px;
+    font-weight: 700;
+    background: linear-gradient(110deg, #008c5a, #006c4a);
+    box-shadow: 0 4px 14px rgba(0, 140, 90, 0.35);
+  }
+  .bb-hero-actions .bb-button-outline {
+    background: #ffffff;
+    border-color: #9cd5c1;
+    color: #00734b !important;
+    box-shadow: 0 2px 6px rgba(0, 120, 80, 0.08);
   }
   .bb-odorless {
     flex-wrap: wrap;
@@ -1649,29 +1784,25 @@ export default function BedBugTreatment() {
     margin-top: 15px !important;
   }
   .bb-included-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .bb-included-card {
+    padding: 18px 16px;
+  }
+  .bb-included-card-head {
     gap: 12px;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
   }
-  .bb-included-feature {
-    grid-column: 1 / -1;
-    padding: 18px;
+  .bb-included-card-head h3 {
+    font-size: 15px;
   }
-  .bb-included-feature .bb-checks li {
-    font-size: 11px;
-    line-height: 1.5;
+  .bb-included-card-head h4 {
+    font-size: 12px;
   }
-  .bb-included-feature h3 {
-    font-size: 13px;
-  }
-  .bb-included-grid > .bb-mini-card:last-child {
-    grid-column: 1 / -1;
-  }
-  .bb-included-grid > .bb-mini-card:not(.bb-included-feature) {
-    text-align: center;
-  }
-  .bb-mini-card h3,
-  .bb-mini-card p {
-    font-size: 13px;
+  .bb-included-card .bb-checks li {
+    font-size: 12px;
   }
   .bb-property-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1727,27 +1858,35 @@ export default function BedBugTreatment() {
   .bb-sign-card {
     padding: 36px 10px 14px;
     min-width: 0;
+    text-align: center;
+    align-items: center;
   }
   .bb-sign-card p {
     font-size: 11px;
+    text-align: center;
   }
   .bb-sign-icon {
-    left: 12px;
+    left: 50%;
+    transform: translateX(-50%);
   }
   .bb-sign-help {
     grid-column: 1 / -1;
     margin-top: 6px;
-    padding: 14px 12px;
+    padding: 16px 14px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
   .bb-sign-help > div {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    align-items: center;
+    gap: 4px;
     width: 100%;
     min-width: 0;
   }
   .bb-sign-help h3 {
-    font-size: 12px;
+    font-size: 13px;
   }
   .bb-sign-help p {
     font-size: 11px;
@@ -1757,17 +1896,35 @@ export default function BedBugTreatment() {
     min-height: 38px;
     width: 100%;
     font-size: 12px;
-    margin-top: 4px;
+    margin-top: 8px;
   }
   .bb-locations-section {
     padding-block: 32px 24px;
   }
   .bb-locations-section .bb-locations {
-    gap: 8px;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    justify-content: center;
+    gap: 6px;
   }
   .bb-location-pill {
-    padding: 7px 14px;
-    font-size: 11px;
+    grid-column: span 2;
+    justify-content: center;
+    gap: 4px;
+    padding: 7px 6px;
+    font-size: 10px;
+    min-width: 0;
+  }
+  .bb-location-pill svg {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
+  }
+  .bb-location-pill:nth-child(4) {
+    grid-column: 2 / span 2;
+  }
+  .bb-location-pill:nth-child(5) {
+    grid-column: 4 / span 2;
   }
   .bb-bottom-cta > img {
     width: 100%;
@@ -1892,6 +2049,17 @@ export default function BedBugTreatment() {
                   <br className="bb-desktop-break" /> hotels, PGs, offices and other properties across
                   India.
                 </h2>
+                <div
+                  className="bb-hero-image-mobile"
+                  role="img"
+                  aria-label="Professional technician treating a mattress for bed bugs"
+                >
+                  <img
+                    src="/images/services-react/hero-treatment.png?v=2"
+                    alt="Professional technician treating a mattress for bed bugs"
+                    loading="eager"
+                  />
+                </div>
                 <p>
                   We focus exclusively on bed bugs, with treatment plans designed
                   <br className="bb-desktop-break" /> to identify infestation areas, target common
@@ -1975,16 +2143,16 @@ export default function BedBugTreatment() {
                     'bug',
                     'Bed Bug Treatment',
                     'Professional treatment for active bed bug infestations in bedrooms, mattresses, bed frames, furniture and other affected areas.',
-                    'Learn More',
-                    '#bb-included',
+                    null,
+                    null,
                   ],
                   [
                     'one-time',
                     'calendar',
                     'One-Time Bed Bug Service',
                     'A treatment option for customers looking to address a current bed bug infestation with a focused service based on property conditions.',
-                    'Book One-Time Service',
-                    '#bb-plans',
+                    null,
+                    null,
                   ],
                   [
                     'amc',
@@ -2003,9 +2171,11 @@ export default function BedBugTreatment() {
                       </span>
                       <h3>{title}</h3>
                       <p>{description}</p>
-                      <a className="bb-text-link" href={href}>
-                        {action} <span aria-hidden="true">➜</span>
-                      </a>
+                      {action && href && (
+                        <a className="bb-text-link" href={href}>
+                          {action} <span aria-hidden="true">➜</span>
+                        </a>
+                      )}
                     </div>
                   </article>
                 ))}
@@ -2027,7 +2197,7 @@ export default function BedBugTreatment() {
                     className={`bb-plan ${plan.popular ? 'bb-plan-popular' : ''}`}
                     key={plan.title}
                   >
-                    {plan.popular && <span className="bb-popular-tag">Most Popular</span>}
+                    {plan.popular && <PopularBadge />}
                     <div className="bb-plan-head">
                       <span className="bb-icon-bubble">
                         <Icon name="calendar" size={29} />
@@ -2058,35 +2228,63 @@ export default function BedBugTreatment() {
                 post-treatment support.
               </SectionHeading>
               <div className="bb-included-grid">
-                <article className="bb-mini-card bb-included-feature">
-                  <span className="bb-solid-icon">
-                    <Icon name="bed" />
-                  </span>
-                  <div>
-                    <h3>One-Time & Bedding</h3>
-                    <h4>For Frames & Furniture</h4>
-                    <Checks
-                      items={[
-                        'Inspection of common bed bug hiding areas',
-                        'Targeted treatment of affected areas',
-                        'Mattress, bed frame and furniture treatment as required',
-                        'Post-treatment guidance',
-                        'Suitable for homes, apartments, hotels and offices',
-                      ]}
-                    />
-                  </div>
-                </article>
                 {[
-                  ['sofa', 'Upholstery & Sofas', 'Crevices and sofa seams'],
-                  ['search', 'Cracks & Crevices', 'Common hiding areas'],
-                  ['shield', 'Post-Treatment Guidance', ''],
-                ].map(([icon, title, text]) => (
-                  <article className="bb-mini-card" key={title}>
-                    <span className="bb-solid-icon">
-                      <Icon name={icon} />
-                    </span>
-                    <h3>{title}</h3>
-                    {text && <p>{text}</p>}
+                  {
+                    icon: 'bed',
+                    title: 'One-Time Bed Bug Treatment',
+                    subtitle: 'For Homes, Apartments & Offices',
+                    items: [
+                      'Inspection of common bed bug hiding areas',
+                      'Targeted treatment of affected areas',
+                      'Mattress, bed frame and furniture inspection',
+                      'Treatment of cracks, crevices and other hiding spots',
+                    ],
+                  },
+                  {
+                    icon: 'sofa',
+                    title: 'Upholstery & Sofa Treatment',
+                    subtitle: 'For Sofas, Upholstered Furniture & Seating Areas',
+                    items: [
+                      'Inspection of sofas and upholstered furniture',
+                      'Treatment of affected upholstery and seating areas',
+                      'Attention to common bed bug hiding points',
+                      'Suitable for sofas, couches and other upholstered furniture',
+                    ],
+                  },
+                  {
+                    icon: 'search',
+                    title: 'Cracks & Crevices Treatment',
+                    subtitle: 'Targeted Treatment of Common Bed Bug Hiding Spots',
+                    items: [
+                      'Inspection of cracks and crevices',
+                      'Treatment around beds and furniture',
+                      'Focus on common bed bug hiding areas',
+                      'Suitable for difficult-to-reach infestation spots',
+                    ],
+                  },
+                  {
+                    icon: 'shield',
+                    title: 'Post-Treatment Guidance',
+                    subtitle: 'Support to Help Reduce the Risk of Recurring Infestation',
+                    items: [
+                      'Guidance on cleaning and preparation',
+                      'Recommendations for monitoring bed bug activity',
+                      'Advice on reducing common hiding areas',
+                      'Follow-up guidance based on the level of infestation',
+                    ],
+                  },
+                ].map(({ icon, title, subtitle, items }) => (
+                  <article className="bb-included-card" key={title}>
+                    <div className="bb-included-card-head">
+                      <span className="bb-solid-icon">
+                        <Icon name={icon} size={18} />
+                      </span>
+                      <div>
+                        <h3>{title}</h3>
+                        <h4>{subtitle}</h4>
+                      </div>
+                    </div>
+                    <Checks items={items} />
                   </article>
                 ))}
               </div>
@@ -2225,7 +2423,9 @@ export default function BedBugTreatment() {
                   </div>
                 ))}
                 <div className="bb-sign-help">
-                  <Icon name="warning" size={27} />
+                  <span className="bb-sign-help-icon">
+                    <Icon name="warning" size={20} />
+                  </span>
                   <div>
                     <h3>
                       Not sure if you have
@@ -2310,50 +2510,11 @@ export default function BedBugTreatment() {
               </div>
             </section>
           </div>
-
-          <section className="bb-bottom-cta">
-            <img src={asset('cta-bedroom')} alt="Freshly made bed in a bright room" loading="lazy" />
-            <div className="bb-container bb-bottom-cta-inner">
-              <div>
-                <h2>Ready to Treat Your Bed Bug Problem?</h2>
-                <p>
-                  Choose a One-Time Treatment or our 1-Year AMC with 3 scheduled visits.
-                  <br />
-                  Our team can help you select the right option based on your property and
-                  infestation.
-                </p>
-              </div>
-              <div>
-                <div className="bb-bottom-buttons">
-                  <BookButton className="bb-button-white" icon>
-                    Book Now
-                  </BookButton>
-                  <a className="bb-button bb-button-white" href={phoneHref}>
-                    <Icon name="phone" size={15} />
-                    <span className="bb-btn-text-desktop">Call {contact.phone}</span>
-                    <span className="bb-btn-text-mobile">Call Now</span>
-                  </a>
-                  <a
-                    className="bb-button bb-button-white"
-                    href={whatsAppHref}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Icon name="whatsapp" size={16} />
-                    <span className="bb-btn-text-desktop">WhatsApp Us</span>
-                    <span className="bb-btn-text-mobile">WhatsApp</span>
-                  </a>
-                </div>
-                <small>
-                  <Icon name="leaf" size={11} />
-                  100% Odorless Bed Bug Treatment
-                </small>
-              </div>
-            </div>
-          </section>
         </main>
 
       </div>
+
+      <CtaSection className="-mt-6 pb-12 pt-2 lg:-mt-10 lg:pb-16 lg:pt-4" />
     </>
   );
 }

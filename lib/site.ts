@@ -20,10 +20,11 @@ export const site = {
 
 export const navLinks = [
   { label: "Home", href: "/" },
-  { label: "Services", href: "/services" },
   { label: "About Us", href: "/about" },
+  { label: "Services", href: "/services" },
   { label: "FAQ", href: "/faq" },
-  { label: "Contact", href: "/contact" },
+  { label: "Contact Us", href: "/contact" },
+  { label: "Blog", href: "/blog" },
 ];
 
 export const services = [
@@ -282,14 +283,6 @@ export const stats: { value: string; label: string; labelBold?: string }[] = [
 
 export const cities = [
   {
-    name: "Pune",
-    areas: "Kothrud, Hinjewadi, Wakad, Baner, Viman Nagar",
-  },
-  {
-    name: "Mumbai",
-    areas: "Andheri, Bandra, Powai, Thane, Navi Mumbai",
-  },
-  {
     name: "Bangalore",
     areas: "Whitefield, HSR, Koramangala, Indiranagar, Electronic City",
   },
@@ -298,7 +291,15 @@ export const cities = [
     areas: "Dwarka, Rohini, Saket, Lajpat Nagar, Karol Bagh",
   },
   {
+    name: "Mumbai",
+    areas: "Andheri, Bandra, Powai, Thane, Navi Mumbai",
+  },
+  {
     name: "Noida",
     areas: "Sector 62, Sector 137, Greater Noida, Noida Extension",
+  },
+  {
+    name: "Pune",
+    areas: "Kothrud, Hinjewadi, Wakad, Baner, Viman Nagar",
   },
 ];

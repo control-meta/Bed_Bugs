@@ -1,4 +1,5 @@
 import { Check, Home, CalendarCheck, MessageCircle } from "lucide-react";
+import { PopularBadge } from "@/components/popular-badge";
 
 interface TreatmentOptionsSectionProps {
   id?: string;
@@ -117,6 +118,7 @@ export function TreatmentOptionsSection({
 
           {/* Card 2: 1-Year Bed Bug AMC */}
           <div className="flex flex-col justify-between rounded-3xl border-[3.5px] sm:border-4 border-brand-600 bg-white p-6 sm:p-8 shadow-md transition hover:shadow-lg relative">
+            <PopularBadge />
             <div>
               {/* Header */}
               <div className="flex items-center gap-4">

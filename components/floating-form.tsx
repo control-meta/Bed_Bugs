@@ -120,10 +120,10 @@ export function FloatingForm() {
 
             <div className="relative flex items-center justify-between">
               {/* Live Status Pill */}
-              <div className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/10 px-2.5 py-0.5 text-[11px] font-medium text-emerald-300 backdrop-blur-md">
+              <div className="inline-flex items-center gap-1.5 rounded-full bg-amber-300 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-amber-950 shadow-[0_0_0_3px_rgba(251,191,36,0.3)]">
                 <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-700 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-700" />
                 </span>
                 <span>Specialists on Duty</span>
               </div>

@@ -584,6 +584,7 @@ export default async function LocationCityPage({ params }: Props) {
         rating={location.rating}
         reviewCount={location.reviewCount}
         testimonials={location.reviews}
+        city={location.name}
       />
 
       {/* Local FAQs */}

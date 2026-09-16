@@ -792,6 +792,12 @@ export const locations: LocationInfo[] = [
   },
 ];
 
+const LOCATION_DISPLAY_ORDER = ["Bangalore", "Delhi", "Mumbai", "Noida", "Pune"];
+
+locations.sort(
+  (a, b) => LOCATION_DISPLAY_ORDER.indexOf(a.name) - LOCATION_DISPLAY_ORDER.indexOf(b.name),
+);
+
 export function getAllLocations(): LocationInfo[] {
   return locations;
 }
