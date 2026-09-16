@@ -173,15 +173,7 @@ function LoginForm() {
           </button>
         </form>
 
-        {/* Security Reassurance & Default Dev Info */}
-        <div className="mt-5 border-t border-neutral-100 pt-3.5 text-center">
-          <p className="text-[10.5px] text-neutral-500 font-medium">
-            Default credentials: <span className="font-bold text-neutral-700">admin</span> / <span className="font-bold text-neutral-700">admin123456</span>
-          </p>
-          <p className="mt-1 text-[10px] text-neutral-400">
-            🔒 Protected with Timing-Safe Verification &amp; Rate-Limiting.
-          </p>
-        </div>
+
       </div>
     </div>
   );
