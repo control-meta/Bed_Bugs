@@ -39,7 +39,7 @@ const planPoints = ["One-Time Service", "1-Year Plan", "3 Scheduled Visits"];
 
 export function WhySection() {
   return (
-    <section className="relative overflow-hidden bg-white py-10 lg:py-14">
+    <section className="relative overflow-hidden bg-white pt-10 pb-2 lg:pt-14 lg:pb-2">
       <div className="absolute inset-0" aria-hidden>
         <div className="absolute inset-0 bg-[radial-gradient(120%_120%_at_88%_8%,#f1faf5_0%,#ffffff_55%,#ffffff_100%)]" />
         <div className="absolute inset-0 bg-grid-light opacity-40" />
