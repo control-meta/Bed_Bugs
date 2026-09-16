@@ -60,27 +60,27 @@ export function CtaSection({
                   Free inspection with same-day service available.
                 </span>
               </p>
-              <div className="mt-6 flex flex-col items-center gap-4 max-sm:mt-5 sm:flex-row sm:justify-center">
+              <div className="mt-6 flex flex-col items-center gap-3 max-sm:mt-5 sm:flex-row sm:justify-center sm:gap-2.5">
                 <a
                   href={site.phoneHref}
-                  className="inline-flex items-center justify-center gap-3 whitespace-nowrap rounded-full bg-brand-600 px-7 py-3.5 text-sm font-semibold text-white shadow-xl shadow-brand-600/40 transition hover:bg-brand-500 max-sm:w-full max-sm:py-3"
+                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full bg-white px-4 py-3.5 text-[13px] font-semibold text-brand-700 shadow-xl shadow-black/10 transition hover:bg-white/90 max-sm:w-full max-sm:py-3 max-sm:text-sm"
                 >
-                  <PhoneCall className="h-5 w-5" />
-                  {site.phoneDisplay}
+                  <PhoneCall className="h-4 w-4" />
+                  Call {site.phoneDisplay}
                 </a>
                 <a
                   href={site.whatsappHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-3 whitespace-nowrap rounded-full bg-[#25D366] px-7 py-3.5 text-sm font-semibold text-white shadow-xl shadow-[#25D366]/30 transition hover:bg-[#1ebe5b] max-sm:w-full max-sm:py-3"
+                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-white/40 px-4 py-3.5 text-[13px] font-semibold text-white transition hover:border-white/70 hover:bg-white/10 max-sm:w-full max-sm:py-3 max-sm:text-sm"
                 >
-                  <WhatsAppIcon className="h-5 w-5" />
-                  WhatsApp Us
+                  <WhatsAppIcon className="h-4.5 w-4.5" />
+                  WhatsApp Us Now
                 </a>
               </div>
               <p className="mt-5 flex items-center justify-center gap-2 text-xs font-medium text-white/80 max-sm:hidden max-sm:mt-4">
                 <ShieldCheck className="h-4 w-4 shrink-0 text-brand-300" />
-                100% money-back guarantee · 12-month warranty
+                Professional, effective and 100% odorless bed bug treatment for homes, hotels and businesses across India.
               </p>
             </div>
 

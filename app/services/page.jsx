@@ -262,12 +262,13 @@ export default function BedBugTreatment() {
     plan,
     className = '',
     icon = false,
+    onClick,
   }) =>
     onBook ? (
       <button
         type="button"
         className={`bb-button ${className}`}
-        onClick={() => onBook(plan || 'Bed Bug Treatment')}
+        onClick={onClick ?? (() => onBook(plan || 'Bed Bug Treatment'))}
       >
         {icon && <Icon name="calendar" size={18} />}
         {children}
@@ -295,6 +296,10 @@ export default function BedBugTreatment() {
   --hero-top-gap: 70px;
   /* CHANGE THIS VALUE (0% to 100%) to shift the hero image left or right */
   --hero-img-x: 75%;
+  /* CHANGE THIS VALUE to set the hero title size on desktop/tablet (e.g. 36px, 40px, 44px) */
+  --hero-title-size: 40px;
+  /* CHANGE THIS VALUE to set the hero title size on mobile (e.g. 18px, 22px, 26px) */
+  --hero-title-mobile-size: 22px;
   -moz-transform: scale(1.25);
   -moz-transform-origin: top center;
   --bb-green: #008257;
@@ -553,7 +558,7 @@ export default function BedBugTreatment() {
   padding: 5px 10px;
 }
 .bb-hero h1 {
-  font-size: clamp(29px, 3vw, 40px);
+  font-size: var(--hero-title-size);
   font-weight: 800;
   letter-spacing: -0.8px;
   line-height: 1.08;
@@ -1590,12 +1595,13 @@ export default function BedBugTreatment() {
   }
   .bb-hero h1 {
     order: 2;
-    font-size: clamp(26px, 7.5vw, 34px);
+    font-size: var(--hero-title-mobile-size);
     font-weight: 800;
     letter-spacing: -0.5px;
     line-height: 1.15;
     margin: 10px 0 6px;
     color: #0c1e15;
+    white-space: nowrap;
   }
   .bb-hero h1 span {
     color: #008c5a;
@@ -2034,7 +2040,7 @@ export default function BedBugTreatment() {
                   <Icon name="shield" size={12} /> BED BUG SPECIALISTS · EST. 2011
                 </span>
                 <h1 id="bb-hero-title">
-                  Professional Bed Bug
+                  Professional Bed Bugs
                   <br />
                   <span>Treatment Services</span>
                 </h1>
@@ -2427,7 +2433,7 @@ export default function BedBugTreatment() {
                       bed bugs?
                     </h3>
                     <p>Book an inspection and get expert advice.</p>
-                    <BookButton>
+                    <BookButton onClick={() => window.dispatchEvent(new Event('open-floating-form'))}>
                       Book Now <span aria-hidden="true">➜</span>
                     </BookButton>
                   </div>

@@ -39,6 +39,13 @@ export function FloatingForm() {
     };
   }, [isOpen]);
 
+  // Allow other components (e.g. the header CTA) to open this form
+  useEffect(() => {
+    const handleOpen = () => setIsOpen(true);
+    window.addEventListener("open-floating-form", handleOpen);
+    return () => window.removeEventListener("open-floating-form", handleOpen);
+  }, []);
+
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const cleaned = e.target.value.replace(/\D/g, "").slice(0, 10);
     setPhone(cleaned);

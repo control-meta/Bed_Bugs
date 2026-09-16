@@ -5,6 +5,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { FloatingContact } from "@/components/floating-contact";
 import { FloatingForm } from "@/components/floating-form";
+import { ScrollToTop } from "@/components/scroll-to-top";
 import { MarketingOnly } from "@/components/marketing-only";
 import { site } from "@/lib/site";
 
@@ -99,6 +100,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         />
       </head>
       <body className="flex min-h-full flex-col bg-white">
+        <ScrollToTop />
         <MarketingOnly>
           <SiteHeader />
         </MarketingOnly>

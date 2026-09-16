@@ -32,6 +32,11 @@ export function SiteHeader() {
 
   const compact = shrink && !open;
 
+  const openInspectionForm = () => {
+    window.dispatchEvent(new Event("open-floating-form"));
+    setOpen(false);
+  };
+
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
@@ -81,15 +86,16 @@ export function SiteHeader() {
             <Phone className="h-4 w-4 text-brand-600" />
             {site.phoneDisplay}
           </a>
-          <Link
-            href="/contact"
+          <button
+            type="button"
+            onClick={openInspectionForm}
             className={`hidden items-center gap-2 whitespace-nowrap rounded-full bg-brand-600 px-4 text-[13px] font-semibold text-white shadow-lg shadow-brand-600/30 transition hover:bg-brand-500 sm:inline-flex ${
               compact ? "py-2" : "py-2.5"
             }`}
           >
             <CalendarCheck className="h-4 w-4" />
             Book Free Inspection
-          </Link>
+          </button>
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
@@ -126,14 +132,14 @@ export function SiteHeader() {
                 <Phone className="h-4 w-4 text-brand-600" />
                 {site.phoneDisplay}
               </a>
-              <Link
-                href="/contact"
-                onClick={() => setOpen(false)}
+              <button
+                type="button"
+                onClick={openInspectionForm}
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-600 px-5 py-3 text-sm font-semibold text-white"
               >
                 <CalendarCheck className="h-4 w-4" />
                 Book Free Inspection
-              </Link>
+              </button>
             </div>
           </nav>
         </div>
