@@ -108,6 +108,10 @@ export const locations: LocationInfo[] = [
         title: "100% Odorless & Non-Toxic",
         description: "Safe for kids, elderly, and pets. No chemical smell or need to evacuate your Pune home overnight.",
       },
+      {
+        title: "12-Month Warranty & Support",
+        description: "Every treatment is backed by a 12-month service warranty with scheduled follow-ups and monitoring for recurring activity across Pune.",
+      },
     ],
     faqs: [
       {
@@ -256,6 +260,10 @@ export const locations: LocationInfo[] = [
       {
         title: "Zero Furniture Disposal",
         description: "Our targeted steam and chemical treatment reaches deep into mattress seams so you never have to discard costly beds or sofas.",
+      },
+      {
+        title: "12-Month Warranty & Support",
+        description: "Backed by a 12-month warranty with scheduled follow-ups so high-rise residents across Mumbai stay bed bug-free.",
       },
     ],
     faqs: [
@@ -406,6 +414,10 @@ export const locations: LocationInfo[] = [
         title: "Child & Pet Approved",
         description: "Low-toxicity, safe formulations that protect your family and companion animals without toxic fumes.",
       },
+      {
+        title: "12-Month Warranty & Support",
+        description: "Long-term protection with a 12-month warranty and periodic monitoring for homes and tech parks across Bengaluru.",
+      },
     ],
     faqs: [
       {
@@ -555,6 +567,10 @@ export const locations: LocationInfo[] = [
         title: "100% Family & Pet Safe",
         description: "Zero harmful fumes. Safe for children, asthma patients, and household pets with quick room re-occupancy.",
       },
+      {
+        title: "12-Month Warranty & Support",
+        description: "A 12-month warranty with follow-up visits keeps Delhi homes, builder floors, and bungalows protected year-round.",
+      },
     ],
     faqs: [
       {
@@ -703,6 +719,10 @@ export const locations: LocationInfo[] = [
       {
         title: "100% Odorless & Safe Formulations",
         description: "Safe for kids, senior citizens, and pets. Does not leave unpleasant smells in closed apartment towers.",
+      },
+      {
+        title: "12-Month Warranty & Support",
+        description: "A 12-month warranty with scheduled follow-ups protects Noida & Greater Noida high-rises from recurring infestations.",
       },
     ],
     faqs: [

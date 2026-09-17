@@ -194,7 +194,7 @@ export default async function LocationCityPage({ params }: Props) {
       />
 
       {/* City Hero Section with Panoramic City Skyline Background & Foreground Visual */}
-      <section className="relative isolate overflow-hidden bg-cream pb-8 pt-20 max-sm:pb-6 max-sm:pt-16 lg:pb-10 lg:pt-24">
+      <section className="relative isolate overflow-hidden bg-cream pb-8 pt-24 max-sm:pb-6 max-sm:pt-24 lg:pb-10 lg:pt-24">
         {/* Background City Skyline & Atmosphere */}
         <div className="absolute inset-0 -z-10 overflow-hidden" aria-hidden>
           {/* City Skyline Background Image */}
@@ -273,22 +273,22 @@ export default async function LocationCityPage({ params }: Props) {
                 {location.heroDescription}
               </p>
 
-              {/* Metric Stats Pills - Desktop Only */}
-              <div className="hidden mt-6 flex-wrap items-center justify-center gap-2 sm:gap-2.5 lg:flex lg:justify-center">
+              {/* Metric Stats Pills */}
+              <div className="mt-4 flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 lg:mt-6 lg:justify-center">
                 <div className="inline-flex items-center gap-1.5 rounded-xl border border-ink/10 bg-white/90 px-3 py-1.5 text-xs font-medium text-ink shadow-sm backdrop-blur-sm">
-                  <Clock className="h-3.5 w-3.5 text-brand-600" />
+                  <Clock className="h-3.5 w-3.5 shrink-0 text-brand-600" />
                   <span>
                     Response: <strong className="font-semibold">{location.responseTime}</strong>
                   </span>
                 </div>
                 <div className="inline-flex items-center gap-1.5 rounded-xl border border-ink/10 bg-white/90 px-3 py-1.5 text-xs font-medium text-ink shadow-sm backdrop-blur-sm">
-                  <Home className="h-3.5 w-3.5 text-brand-600" />
+                  <Home className="h-3.5 w-3.5 shrink-0 text-brand-600" />
                   <span>
                     Homes: <strong className="font-semibold">{location.homesTreated}</strong>
                   </span>
                 </div>
                 <div className="inline-flex items-center gap-1.5 rounded-xl border border-ink/10 bg-white/90 px-3 py-1.5 text-xs font-medium text-ink shadow-sm backdrop-blur-sm">
-                  <Sparkles className="h-3.5 w-3.5 text-amber-500" />
+                  <Sparkles className="h-3.5 w-3.5 shrink-0 text-amber-500" />
                   <span>
                     Rating: <strong className="font-semibold">{location.rating}</strong> ({location.reviewCount})
                   </span>
@@ -381,7 +381,7 @@ export default async function LocationCityPage({ params }: Props) {
             description={`Every city has unique housing structures and pest patterns. Here is how our localized ${location.name} team ensures 100% bug-free results.`}
           />
 
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {location.localHighlights.map((highlight, idx) => (
               <div
                 key={idx}
