@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readLocalReviews, saveLocalReview } from "@/lib/reviews";
+import { getReviews, createReview } from "@/lib/reviews";
 import {
   checkSubmissionRateLimit,
   getClientIp,
@@ -9,8 +9,8 @@ import {
 
 export async function GET() {
   try {
-    const reviews = readLocalReviews();
-    return NextResponse.json({ success: true, reviews });
+    const data = await getReviews();
+    return NextResponse.json({ success: true, reviews: data.reviews });
   } catch (error) {
     console.error("Error fetching reviews:", error);
     return NextResponse.json(
@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 5. Save review
-    const newReview = saveLocalReview({
+    const newReview = await createReview({
       name,
       city: city || undefined,
       service: service || undefined,

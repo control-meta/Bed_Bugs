@@ -12,6 +12,7 @@ import {
   X,
   PenTool,
   CalendarDays,
+  MessageSquare,
 } from "lucide-react";
 import { CalendarProvider } from "./CalendarContext";
 
@@ -78,6 +79,12 @@ export default function AdminLayout({
       href: "/admin/calendar",
       icon: CalendarDays,
       active: pathname === "/admin/calendar",
+    },
+    {
+      label: "Customer Reviews",
+      href: "/admin/reviews",
+      icon: MessageSquare,
+      active: pathname === "/admin/reviews",
     },
   ];
 
@@ -209,6 +216,8 @@ export default function AdminLayout({
                   ? "AI Blog Writer"
                   : pathname === "/admin/calendar"
                   ? "Content Calendar"
+                  : pathname === "/admin/reviews"
+                  ? "Customer Reviews"
                   : "Customer Enquiries & Leads"}
               </h1>
               <p className="hidden text-[11px] text-neutral-500 sm:block mt-0.5">
@@ -216,6 +225,8 @@ export default function AdminLayout({
                   ? "Generate SEO-optimized blog content with AI"
                   : pathname === "/admin/calendar"
                   ? "AI-planned monthly content schedule for your website"
+                  : pathname === "/admin/reviews"
+                  ? "Manage and moderate reviews shown on your website"
                   : "Centralized leads from Homepage, Contact Page & Floating Widget"}
               </p>
             </div>
