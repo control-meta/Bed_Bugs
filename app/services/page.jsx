@@ -257,6 +257,12 @@ export default function BedBugTreatment() {
   const whatsAppHref = `https://wa.me/${contact.whatsapp.replace(/\D/g, '')}`;
   const bookHref = (plan) =>
     `${whatsAppHref}?text=${encodeURIComponent(`Hi, I would like to book ${plan || 'a bed bug treatment'}.`)}`;
+  const planWhatsAppHref = (title) =>
+    `${whatsAppHref}?text=${encodeURIComponent(
+      title.includes('AMC')
+        ? 'Hi, I want to choose the 1-Year Bed Bug AMC. Please share the details.'
+        : 'Hi, I want to book the One-Time Bed Bug Treatment. Please share the details.',
+    )}`;
   const BookButton = ({
     children = 'Book Bed Bug Treatment',
     plan,
@@ -514,14 +520,47 @@ export default function BedBugTreatment() {
   min-height: 368px;
   background: linear-gradient(100deg, #f4fbf8, #eff8f9);
 }
+.bb-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.bb-hero-particles {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(rgba(0, 140, 90, 0.28) 1.6px, transparent 2px),
+    radial-gradient(rgba(0, 140, 90, 0.16) 1.2px, transparent 2px);
+  background-size: 140px 140px, 92px 92px;
+  background-position: 0 0, 46px 70px;
+  animation: bb-particles 28s linear infinite;
+  opacity: 0.7;
+}
+@keyframes bb-particles {
+  from {
+    background-position: 0 0, 46px 70px;
+  }
+  to {
+    background-position: 0 -140px, 46px -22px;
+  }
+}
 .bb-hero-image {
   position: absolute;
-  inset: calc(var(--hero-top-gap) + 20px) 0 0 49%;
+  inset: var(--hero-top-gap) 0 0 49%;
   background: url('/images/services-react/hero-treatment.png?v=2') var(--hero-img-x) center / cover no-repeat;
   image-rendering: high-quality;
   -webkit-backface-visibility: hidden;
   transform: translateZ(0);
-  mask-image: linear-gradient(to right, transparent, #000 25%);
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, #000 22%),
+    linear-gradient(to bottom, transparent 0%, #000 16%, #000 84%, transparent 100%);
+  mask-image:
+    linear-gradient(to right, transparent 0%, #000 22%),
+    linear-gradient(to bottom, transparent 0%, #000 16%, #000 84%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
 }
 .bb-hero-image::after {
   content: '';
@@ -2019,6 +2058,7 @@ export default function BedBugTreatment() {
   .bb-page *::before,
   .bb-page *::after {
     transition: none !important;
+    animation: none !important;
   }
 }
 ` }} />
@@ -2029,6 +2069,9 @@ export default function BedBugTreatment() {
 
         <main id="bb-main">
           <section className="bb-hero" aria-labelledby="bb-hero-title">
+            <div className="bb-hero-bg" aria-hidden="true">
+              <span className="bb-hero-particles" />
+            </div>
             <div
               className="bb-hero-image"
               role="img"
@@ -2212,7 +2255,14 @@ export default function BedBugTreatment() {
                     </div>
                     <div className="bb-plan-body">
                       <Checks items={plan.items} />
-                      <BookButton plan={plan.title}>{plan.action}</BookButton>
+                      <a
+                        className="bb-button"
+                        href={planWhatsAppHref(plan.title)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {plan.action}
+                      </a>
                     </div>
                   </article>
                 ))}

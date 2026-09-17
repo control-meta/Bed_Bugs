@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { PageHero } from "@/components/page-hero";
 import { ContactForm } from "@/components/contact-form";
-import { CtaSection } from "@/components/home/cta-section";
+import ContactLocation from "@/components/contact-location";
 import { cities, site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -57,7 +57,7 @@ const contactCards = [
 ];
 
 const assurances = [
-  "Same-day FREE inspection",
+  "Same-day Book Bed Bug Treatment",
   "100% odorless & family-safe",
   "Trained technicians",
   "12-month service warranty",
@@ -186,7 +186,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <CtaSection className="-mt-6 pb-12 pt-2 lg:-mt-10 lg:pb-16 lg:pt-4" />
+      <ContactLocation />
     </>
   );
 }

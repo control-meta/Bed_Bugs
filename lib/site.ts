@@ -3,7 +3,7 @@ export const site = {
   legalName: "Bed Bugs Treatment India",
   tagline: "Professional Bed Bug Treatment",
   description:
-    "Professional odorless bed bug treatment for homes & hotels across India. Same-day free inspection, safe methods & 12-month warranty. Call +91 97693 21234.",
+    "Professional odorless bed bug treatment for homes & hotels across India. Same-day Book Bed Bug Treatment, safe methods & 12-month warranty. Call +91 97693 21234.",
   phoneDisplay: "+91 97693 21234",
   phoneHref: "tel:+919769321234",
   whatsappHref:
@@ -35,7 +35,7 @@ export const services = [
     icon: "bug",
   },
   {
-    title: "Free Inspection",
+    title: "Book Bed Bug Treatment",
     description:
       "Same-day inspection of mattresses, sofas, furniture and hidden cracks before any treatment.",
     icon: "search",

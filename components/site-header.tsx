@@ -39,16 +39,14 @@ export function SiteHeader() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled || open
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${scrolled || open
           ? "border-b border-ink/10 bg-white/95 shadow-lg shadow-black/5 backdrop-blur-md"
           : "border-b border-transparent bg-transparent"
-      }`}
+        }`}
     >
       <div
-        className={`mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 transition-all duration-300 sm:px-6 lg:px-8 ${
-          compact ? "h-16" : "h-20"
-        }`}
+        className={`mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 transition-all duration-300 sm:px-6 lg:px-8 ${compact ? "h-16" : "h-20"
+          }`}
       >
         <Logo compact={compact} />
 
@@ -62,13 +60,11 @@ export function SiteHeader() {
               <Link
                 key={link.label}
                 href={link.href}
-                className={`relative whitespace-nowrap rounded-full px-3.5 text-sm font-medium transition ${
-                  compact ? "py-1.5" : "py-2"
-                } ${
-                  active
+                className={`relative whitespace-nowrap rounded-full px-3.5 text-sm font-medium transition ${compact ? "py-1.5" : "py-2"
+                  } ${active
                     ? "text-ink after:absolute after:inset-x-3.5 after:-bottom-0.5 after:h-0.5 after:rounded-full after:bg-brand-600"
                     : "text-ink/70 hover:bg-ink/5 hover:text-ink"
-                }`}
+                  }`}
               >
                 {link.label}
               </Link>
@@ -79,9 +75,8 @@ export function SiteHeader() {
         <div className="flex items-center gap-3">
           <a
             href={site.phoneHref}
-            className={`hidden items-center gap-2 whitespace-nowrap rounded-full border border-ink/15 bg-white/90 px-3.5 text-[13px] font-semibold text-ink shadow-sm backdrop-blur-md transition hover:border-ink/40 hover:bg-white xl:inline-flex ${
-              compact ? "py-2" : "py-2.5"
-            }`}
+            className={`hidden items-center gap-2 whitespace-nowrap rounded-full border border-ink/15 bg-white/90 px-3.5 text-[13px] font-semibold text-ink shadow-sm backdrop-blur-md transition hover:border-ink/40 hover:bg-white xl:inline-flex ${compact ? "py-2" : "py-2.5"
+              }`}
           >
             <Phone className="h-4 w-4 text-brand-600" />
             {site.phoneDisplay}
@@ -89,12 +84,11 @@ export function SiteHeader() {
           <button
             type="button"
             onClick={openInspectionForm}
-            className={`hidden items-center gap-2 whitespace-nowrap rounded-full bg-brand-600 px-4 text-[13px] font-semibold text-white shadow-lg shadow-brand-600/30 transition hover:bg-brand-500 sm:inline-flex ${
-              compact ? "py-2" : "py-2.5"
-            }`}
+            className={`hidden items-center gap-2 whitespace-nowrap rounded-full bg-brand-600 px-4 text-[13px] font-semibold text-white shadow-lg shadow-brand-600/30 transition hover:bg-brand-500 sm:inline-flex ${compact ? "py-2" : "py-2.5"
+              }`}
           >
             <CalendarCheck className="h-4 w-4" />
-            Book Free Inspection
+            Book Bed Bug Treatment
           </button>
           <button
             type="button"
@@ -138,7 +132,7 @@ export function SiteHeader() {
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-600 px-5 py-3 text-sm font-semibold text-white"
               >
                 <CalendarCheck className="h-4 w-4" />
-                Book Free Inspection
+                Book Bed Bug Treatment
               </button>
             </div>
           </nav>

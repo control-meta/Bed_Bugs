@@ -132,15 +132,13 @@ function CitySelect({
         aria-expanded={open}
         onClick={() => (open ? setOpen(false) : openMenu())}
         onKeyDown={handleKeyDown}
-        className={`${inputClass} flex items-center justify-between gap-2 text-left ${
-          value ? "text-ink" : "text-ink/35"
-        }`}
+        className={`${inputClass} flex items-center justify-between gap-2 text-left ${value ? "text-ink" : "text-ink/35"
+          }`}
       >
         <span className="truncate">{value || "Select your city"}</span>
         <ChevronDown
-          className={`h-4 w-4 shrink-0 text-ink/40 transition-transform duration-200 ${
-            open ? "rotate-180" : ""
-          }`}
+          className={`h-4 w-4 shrink-0 text-ink/40 transition-transform duration-200 ${open ? "rotate-180" : ""
+            }`}
         />
       </button>
 
@@ -163,13 +161,12 @@ function CitySelect({
                     setOpen(false);
                   }}
                   onMouseEnter={() => setActive(index)}
-                  className={`flex w-full items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-left text-sm transition ${
-                    selected
+                  className={`flex w-full items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-left text-sm transition ${selected
                       ? "bg-brand-50 font-semibold text-brand-700"
                       : active === index
                         ? "bg-cream text-ink"
                         : "text-ink/75"
-                  }`}
+                    }`}
                 >
                   <span>{city.name}</span>
                   {selected && <Check className="h-4 w-4 text-brand-600" />}
@@ -202,12 +199,12 @@ export function ContactForm({ defaultCity }: { defaultCity?: string } = {}) {
 
   const update =
     (field: keyof FormState) =>
-    (
-      event: React.ChangeEvent<
-        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-      >,
-    ) =>
-      setForm((prev) => ({ ...prev, [field]: event.target.value }));
+      (
+        event: React.ChangeEvent<
+          HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+        >,
+      ) =>
+        setForm((prev) => ({ ...prev, [field]: event.target.value }));
 
   const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => ({
@@ -278,7 +275,7 @@ export function ContactForm({ defaultCity }: { defaultCity?: string } = {}) {
           <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-white/65">
             Thank you, {form.name.split(" ")[0] || "there"}. Our bed bug
             specialists will call you back shortly
-            {form.city ? ` to schedule your free inspection in ${form.city}` : ""}.
+            {form.city ? ` to schedule your Book Bed Bug Treatment in ${form.city}` : ""}.
           </p>
         </div>
         <div className="flex flex-wrap justify-center gap-3 px-8 py-8">
@@ -323,12 +320,12 @@ export function ContactForm({ defaultCity }: { defaultCity?: string } = {}) {
       <div className="relative rounded-t-[2rem] bg-ink px-6 py-5 sm:px-7">
         <div className="bg-grid-dark absolute inset-0" aria-hidden="true" />
         <div className="relative">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-600 px-3 py-1 text-[11px] font-bold text-white">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-300 px-3 py-1 text-[11px] font-bold text-amber-950">
             <BedDouble className="h-3 w-3" />
             Bed Bug Treatment — our only speciality
           </span>
           <h2 className="mt-2.5 font-display text-xl font-extrabold tracking-tight text-white">
-            Book your free inspection
+            Book your Book Bed Bug Treatment
           </h2>
           <p className="mt-1 text-[13px] leading-relaxed text-white/60">
             One service, done right. We&apos;ll call you back within minutes.
@@ -443,11 +440,10 @@ export function ContactForm({ defaultCity }: { defaultCity?: string } = {}) {
                     }))
                   }
                   aria-pressed={active}
-                  className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition ${
-                    active
+                  className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition ${active
                       ? "border-brand-600 bg-brand-600 text-white shadow-lg shadow-brand-600/25"
                       : "border-ink/15 bg-white text-ink/65 hover:border-brand-600/40 hover:text-brand-600"
-                  }`}
+                    }`}
                 >
                   {option}
                 </button>

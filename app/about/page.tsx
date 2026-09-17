@@ -62,7 +62,7 @@ const values = [
     icon: IndianRupee,
     title: "Honest Pricing",
     description:
-      "Free inspection, a clear written estimate and no hidden charges — ever.",
+      "Book Bed Bug Treatment, a clear written estimate and no hidden charges — ever.",
   },
   {
     icon: Award,

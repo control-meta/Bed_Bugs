@@ -158,7 +158,7 @@ export function FloatingForm() {
                 id="floating-form-title"
                 className="font-display text-xl font-extrabold tracking-tight text-white sm:text-2xl"
               >
-                Free Inspection &amp; Quote
+                Book Bed Bug Treatment
               </h3>
               <p className="mt-1 text-xs text-white/75 leading-relaxed">
                 Get an expert callback within 15 minutes with transparent pricing.

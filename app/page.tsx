@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     absolute: "Bed Bug Treatment & Pest Control Services in India",
   },
   description:
-    "Professional odorless bed bug treatment for homes & hotels across India. Same-day free inspection, safe methods & 12-month warranty. Call +91 97693 21234.",
+    "Professional odorless bed bug treatment for homes & hotels across India. Same-day Book Bed Bug Treatment, safe methods & 12-month warranty. Call +91 97693 21234.",
 };
 
 export default function Home() {

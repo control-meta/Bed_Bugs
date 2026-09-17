@@ -101,7 +101,7 @@ export const locations: LocationInfo[] = [
         description: "Specialized protocol for shared accommodations, co-living spaces, and PGs in Hinjewadi, Kharadi, and Wakad.",
       },
       {
-        title: "Same-Day Free Inspection",
+        title: "Same-Day Book Bed Bug Treatment",
         description: "Local Pune teams reach your location in under 90 minutes to check mattresses, sofa seams, and bed joints.",
       },
       {

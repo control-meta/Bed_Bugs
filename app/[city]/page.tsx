@@ -312,10 +312,10 @@ export default async function LocationCityPage({ params }: Props) {
               <div className="mt-6 flex flex-wrap items-center justify-center gap-3 lg:justify-center">
                 <OpenFormButton
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-600 px-6 py-3 text-xs font-semibold text-white shadow-lg shadow-brand-600/25 transition hover:bg-brand-500 hover:shadow-brand-600/35 max-sm:w-full"
-                  ariaLabel={`Book free inspection in ${location.name}`}
+                  ariaLabel={`Book Bed Bug Treatment in ${location.name}`}
                 >
                   <CalendarCheck className="h-4 w-4" />
-                  Book Free Inspection in {location.name}
+                  Book Bed Bug Treatment in {location.name}
                 </OpenFormButton>
                 <a
                   href={site.phoneHref}
