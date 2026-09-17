@@ -76,7 +76,6 @@ export default function AboutPage() {
   return (
     <>
       <PageHero
-        breadcrumb="About Us"
         eyebrow="About BedBug Treatment"
         title={
           <>

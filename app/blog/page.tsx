@@ -12,7 +12,6 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   return (
     <PageHero
-      breadcrumb="Blog"
       eyebrow="Insights"
       radarSize="compact"
       title={

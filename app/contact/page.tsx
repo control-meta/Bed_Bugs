@@ -67,7 +67,6 @@ export default function ContactPage() {
   return (
     <>
       <PageHero
-        breadcrumb="Contact Us"
         eyebrow="Get In Touch"
         radarSize="compact"
         title={

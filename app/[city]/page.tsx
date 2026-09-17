@@ -5,7 +5,6 @@ import { notFound } from "next/navigation";
 import {
   CalendarCheck,
   CheckCircle2,
-  ChevronRight,
   Clock,
   Home,
   MapPin,
@@ -219,20 +218,8 @@ export default async function LocationCityPage({ params }: Props) {
           <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-10">
             {/* Left Content Column */}
             <div className="text-center lg:col-span-7 lg:text-left">
-              {/* Breadcrumb */}
-              <nav
-                className="flex items-center justify-center gap-2 text-xs font-medium text-ink/60 lg:justify-start"
-                aria-label="Breadcrumb"
-              >
-                <Link href="/" className="transition hover:text-brand-600">
-                  Home
-                </Link>
-                <ChevronRight className="h-3.5 w-3.5 text-ink/30" />
-                <span className="font-semibold text-brand-700">{location.name}</span>
-              </nav>
-
               {/* City Badge */}
-              <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-brand-500/20 bg-brand-500/10 px-4 py-1.5 text-xs font-semibold text-brand-800">
+              <div className="inline-flex items-center gap-2 rounded-full border border-brand-500/20 bg-brand-500/10 px-4 py-1.5 text-xs font-semibold text-brand-800">
                 <MapPin className="h-3.5 w-3.5 text-brand-600" />
                 <span>
                   Verified Bed Bug Specialists in {location.name}, {location.state}

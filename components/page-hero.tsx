@@ -1,18 +1,14 @@
 import Image from "next/image";
-import Link from "next/link";
-import { ChevronRight } from "lucide-react";
 
 export function PageHero({
   eyebrow,
   title,
   description,
-  breadcrumb,
   radarSize = "default",
 }: {
   eyebrow: string;
   title: React.ReactNode;
   description?: string;
-  breadcrumb: string;
   radarSize?: "default" | "compact";
 }) {
   const isCompact = radarSize === "compact";
@@ -91,17 +87,6 @@ export function PageHero({
             </div>
           </div>
         </div>
-
-        <nav
-          className="flex items-center gap-2 text-xs font-medium text-ink/55"
-          aria-label="Breadcrumb"
-        >
-          <Link href="/" className="transition hover:text-ink">
-            Home
-          </Link>
-          <ChevronRight className="h-3.5 w-3.5" />
-          <span className="text-brand-600">{breadcrumb}</span>
-        </nav>
 
         <p className="mt-6 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.28em] text-brand-700">
           <span className="h-px w-8 bg-brand-500" />
