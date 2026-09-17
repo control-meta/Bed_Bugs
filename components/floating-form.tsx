@@ -46,6 +46,13 @@ export function FloatingForm() {
     return () => window.removeEventListener("open-floating-form", handleOpen);
   }, []);
 
+  // Refresh the page 3 seconds after a successful submission
+  useEffect(() => {
+    if (status !== "success") return;
+    const timer = window.setTimeout(() => window.location.reload(), 3000);
+    return () => window.clearTimeout(timer);
+  }, [status]);
+
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const cleaned = e.target.value.replace(/\D/g, "").slice(0, 10);
     setPhone(cleaned);
@@ -166,7 +173,7 @@ export function FloatingForm() {
                 <CheckCircle2 className="h-8 w-8" />
               </div>
               <h4 className="mt-4 font-display text-xl font-bold text-ink">
-                Callback Requested!
+                Thank You!
               </h4>
               <p className="mx-auto mt-1.5 max-w-xs text-xs leading-relaxed text-ink/70">
                 Thank you, <strong className="text-ink">{name.split(" ")[0]}</strong>. A technician will call you at <strong className="text-ink">+91 {phone}</strong> in under 15 minutes.

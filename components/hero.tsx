@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import {
   ArrowRight,
   Award,
@@ -17,6 +16,7 @@ import {
 } from "lucide-react";
 import { site, stats } from "@/lib/site";
 import { QuickConnectForm } from "@/components/quick-connect-form";
+import { OpenFormButton } from "@/components/open-form-button";
 
 const features = [
   { icon: ShieldCheck, title: "Safe for", subtitle: "Your Family & Pets" },
@@ -220,14 +220,13 @@ export function Hero() {
           <QuickConnectForm />
 
           <div className="flex max-w-[38em] flex-col items-center justify-center gap-[0.9em] max-sm:gap-[0.55em] sm:flex-row">
-            <Link
-              href="/contact"
+            <OpenFormButton
               className="group inline-flex items-center justify-center gap-[0.7em] rounded-full bg-brand-600 px-[1.8em] py-[0.95em] text-[0.92em] font-semibold text-white shadow-xl shadow-brand-600/30 transition hover:bg-brand-500 max-sm:py-[0.8em]"
             >
               <CalendarCheck className="h-[1.2em] w-[1.2em]" />
               Book Free Inspection
               <ArrowRight className="h-[1.1em] w-[1.1em] transition-transform group-hover:translate-x-1" />
-            </Link>
+            </OpenFormButton>
             <a
               href={site.whatsappHref}
               target="_blank"

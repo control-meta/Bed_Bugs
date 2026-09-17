@@ -2086,7 +2086,10 @@ export default function BedBugTreatment() {
                   ))}
                 </div>
                 <div className="bb-hero-actions">
-                  <BookButton icon />
+                  <BookButton
+                    icon
+                    onClick={() => window.dispatchEvent(new Event('open-floating-form'))}
+                  />
                   <a className="bb-button bb-button-outline" href={phoneHref}>
                     <Icon name="phone" size={18} />
                     Call Now: {contact.phone}
@@ -2159,8 +2162,8 @@ export default function BedBugTreatment() {
                     'shield',
                     '1-Year Bed Bug AMC',
                     'Three scheduled visits over 12 months for continued treatment support, follow-up and monitoring based on service requirements.',
-                    'Choose 1-Year AMC',
-                    '#bb-plans',
+                    null,
+                    null,
                   ],
                 ].map(([photo, icon, title, description, action, href]) => (
                   <article className="bb-service-card" key={title}>

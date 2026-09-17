@@ -21,6 +21,7 @@ import {
 } from "@/lib/locations";
 import { site } from "@/lib/site";
 import { FaqAccordion } from "@/components/faq-accordion";
+import { OpenFormButton } from "@/components/open-form-button";
 import { CtaSection } from "@/components/home/cta-section";
 import { TestimonialsSection } from "@/components/home/testimonials-section";
 import { TreatmentOptionsSection } from "@/components/treatment-options-section";
@@ -309,13 +310,13 @@ export default async function LocationCityPage({ params }: Props) {
 
               {/* Action Buttons */}
               <div className="mt-6 flex flex-wrap items-center justify-center gap-3 lg:justify-center">
-                <Link
-                  href="/contact"
+                <OpenFormButton
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-600 px-6 py-3 text-xs font-semibold text-white shadow-lg shadow-brand-600/25 transition hover:bg-brand-500 hover:shadow-brand-600/35 max-sm:w-full"
+                  ariaLabel={`Book free inspection in ${location.name}`}
                 >
                   <CalendarCheck className="h-4 w-4" />
                   Book Free Inspection in {location.name}
-                </Link>
+                </OpenFormButton>
                 <a
                   href={site.phoneHref}
                   className="inline-flex items-center justify-center gap-2 rounded-full border border-ink/15 bg-white px-5 py-3 text-xs font-semibold text-ink shadow-sm transition hover:border-brand-600 hover:text-brand-700 max-sm:w-full"

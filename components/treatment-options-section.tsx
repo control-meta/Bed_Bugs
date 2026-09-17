@@ -1,4 +1,4 @@
-import { Check, Home, CalendarCheck, MessageCircle } from "lucide-react";
+import { Check, Home, CalendarCheck } from "lucide-react";
 import { PopularBadge } from "@/components/popular-badge";
 
 interface TreatmentOptionsSectionProps {
@@ -25,6 +25,12 @@ const amcFeatures = [
   "Monitoring for recurring activity",
   "Guidance to reduce re-infestation risk",
 ];
+
+const iconBubble =
+  "flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[radial-gradient(ellipse_at_center,#c9eddd,#f0fcf6_70%)] text-[#008c5a]";
+
+const buttonClass =
+  "mt-6 flex w-full items-center justify-center rounded-lg bg-gradient-to-r from-[#008c5a] to-[#006c4a] px-4 py-3 text-center font-display text-sm font-bold text-white shadow-sm transition hover:brightness-110 active:scale-[0.99]";
 
 export function TreatmentOptionsSection({
   id = "treatment-options",
@@ -70,97 +76,91 @@ export function TreatmentOptionsSection({
         </div>
 
         {/* Pricing Cards Grid */}
-        <div className="mx-auto mt-8 sm:mt-10 grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8 items-stretch">
+        <div className="mx-auto mt-8 grid max-w-5xl grid-cols-1 gap-6 sm:mt-10 md:grid-cols-2 lg:gap-8">
           {/* Card 1: One-Time Bed Bug Treatment */}
-          <div className="flex flex-col justify-between rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm transition hover:shadow-md">
-            <div>
-              {/* Header */}
-              <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-brand-100 text-brand-700">
-                  <Home className="h-6 w-6" />
-                </div>
-                <div>
-                  <h3 className="font-display text-lg sm:text-xl font-bold text-ink">
-                    One-Time Bed Bug Treatment
-                  </h3>
-                  <p className="text-xs sm:text-sm text-ink/60">
-                    For immediate treatment needs
-                  </p>
-                </div>
+          <article className="relative flex flex-col rounded-2xl border border-[#d9e9e2] bg-[#fdfffe] shadow-sm transition hover:shadow-md">
+            {/* Header */}
+            <div className="flex items-center gap-4 rounded-t-2xl px-6 pb-4 pt-6 sm:px-7">
+              <span className={iconBubble}>
+                <Home className="h-7 w-7" />
+              </span>
+              <div>
+                <h3 className="font-display text-base font-bold text-[#146d51] sm:text-lg">
+                  One-Time Bed Bug Treatment
+                </h3>
+                <p className="mt-0.5 text-xs text-[#2c916d] sm:text-sm">
+                  For immediate treatment needs
+                </p>
               </div>
+            </div>
 
-              {/* Checklist */}
-              <ul className="mt-6 sm:mt-8 space-y-3 sm:space-y-3.5">
+            {/* Body */}
+            <div className="flex flex-1 flex-col px-6 pb-6 sm:px-7">
+              <ul className="flex-1 space-y-3">
                 {oneTimeFeatures.map((feature) => (
                   <li key={feature} className="flex items-start gap-3">
-                    <Check className="h-5 w-5 shrink-0 text-brand-600 stroke-[2.5] mt-0.5" />
-                    <span className="text-xs sm:text-sm font-medium text-ink/80 leading-snug">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#008c5a] stroke-[2.5]" />
+                    <span className="text-xs font-medium leading-snug text-[#385247] sm:text-sm">
                       {feature}
                     </span>
                   </li>
                 ))}
               </ul>
-            </div>
 
-            {/* CTA Button */}
-            <div className="mt-8">
+              {/* CTA Button */}
               <a
                 href={finalOneTimeHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full rounded-xl bg-brand-600 py-3 sm:py-3.5 px-4 text-center font-display text-sm sm:text-base font-bold text-white shadow-sm transition duration-200 hover:bg-brand-700 active:scale-[0.99]"
+                className={buttonClass}
               >
-                <MessageCircle className="h-4 w-4 sm:h-5 sm:w-5 shrink-0" />
-                <span>Book One-Time Treatment</span>
+                Book One-Time Treatment
               </a>
             </div>
-          </div>
+          </article>
 
-          {/* Card 2: 1-Year Bed Bug AMC */}
-          <div className="flex flex-col justify-between rounded-3xl border-[3.5px] sm:border-4 border-brand-600 bg-white p-6 sm:p-8 shadow-md transition hover:shadow-lg relative">
+          {/* Card 2: 1-Year Bed Bug AMC (Most Popular) */}
+          <article className="relative flex flex-col rounded-2xl border border-[#65ac95] bg-[#fdfffe] shadow-md ring-1 ring-[#c6e2d8] transition hover:shadow-lg">
             <PopularBadge />
-            <div>
-              {/* Header */}
-              <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-brand-100 text-brand-700">
-                  <CalendarCheck className="h-6 w-6" />
-                </div>
-                <div>
-                  <h3 className="font-display text-lg sm:text-xl font-bold text-ink">
-                    1-Year Bed Bug AMC
-                  </h3>
-                  <p className="text-xs sm:text-sm text-ink/60">
-                    3 Visits Over 12 Months
-                  </p>
-                </div>
+            {/* Header */}
+            <div className="flex items-center gap-4 rounded-t-2xl bg-gradient-to-r from-[#07805b] to-[#006a47] px-6 pb-4 pt-6 sm:px-7">
+              <span className={iconBubble}>
+                <CalendarCheck className="h-7 w-7" />
+              </span>
+              <div>
+                <h3 className="font-display text-base font-bold text-white sm:text-lg">
+                  1-Year Bed Bug AMC
+                </h3>
+                <p className="mt-0.5 text-xs text-white/85 sm:text-sm">
+                  3 Visits Over 12 Months
+                </p>
               </div>
+            </div>
 
-              {/* Checklist */}
-              <ul className="mt-6 sm:mt-8 space-y-3 sm:space-y-3.5">
+            {/* Body */}
+            <div className="flex flex-1 flex-col px-6 pb-6 sm:px-7">
+              <ul className="flex-1 space-y-3">
                 {amcFeatures.map((feature) => (
                   <li key={feature} className="flex items-start gap-3">
-                    <Check className="h-5 w-5 shrink-0 text-brand-600 stroke-[2.5] mt-0.5" />
-                    <span className="text-xs sm:text-sm font-medium text-ink/80 leading-snug">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#008c5a] stroke-[2.5]" />
+                    <span className="text-xs font-medium leading-snug text-[#385247] sm:text-sm">
                       {feature}
                     </span>
                   </li>
                 ))}
               </ul>
-            </div>
 
-            {/* CTA Button */}
-            <div className="mt-8">
+              {/* CTA Button */}
               <a
                 href={finalAmcHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full rounded-xl bg-brand-600 py-3 sm:py-3.5 px-4 text-center font-display text-sm sm:text-base font-bold text-white shadow-sm transition duration-200 hover:bg-brand-700 active:scale-[0.99]"
+                className={buttonClass}
               >
-                <MessageCircle className="h-4 w-4 sm:h-5 sm:w-5 shrink-0" />
-                <span>Choose 1-Year AMC</span>
+                Choose 1-Year AMC
               </a>
             </div>
-          </div>
+          </article>
         </div>
 
         {/* Footnote */}

@@ -193,6 +193,13 @@ export function ContactForm({ defaultCity }: { defaultCity?: string } = {}) {
   );
   const [error, setError] = useState("");
 
+  // Refresh the page 3 seconds after a successful submission
+  useEffect(() => {
+    if (status !== "success") return;
+    const timer = window.setTimeout(() => window.location.reload(), 3000);
+    return () => window.clearTimeout(timer);
+  }, [status]);
+
   const update =
     (field: keyof FormState) =>
     (

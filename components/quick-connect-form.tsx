@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CheckCircle2, Loader2, Phone, User, Zap } from "lucide-react";
 
 const fieldClass =
@@ -13,6 +13,13 @@ export function QuickConnectForm() {
     "idle",
   );
   const [error, setError] = useState("");
+
+  // Refresh the page 3 seconds after a successful submission
+  useEffect(() => {
+    if (status !== "success") return;
+    const timer = window.setTimeout(() => window.location.reload(), 3000);
+    return () => window.clearTimeout(timer);
+  }, [status]);
 
   const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPhone(event.target.value.replace(/\D/g, "").slice(0, 10));
