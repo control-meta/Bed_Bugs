@@ -4,14 +4,29 @@ import { SectionHeading } from "@/components/section-heading";
 import { FaqAccordion } from "@/components/faq-accordion";
 import { CtaSection } from "@/components/home/cta-section";
 import { mainFaqs } from "@/lib/site";
+import { getPageSeo, getAllImageAltMap } from "@/lib/seo-db";
 
-export const metadata: Metadata = {
-  title: {
-    absolute: "Bed Bug Treatment FAQs | Expert Solutions & Pricing",
-  },
-  description:
-    "Find answers to common bed bug questions: treatment cost, safety, preparation and 12-month warranty. For immediate expert help, call +91 97693 21234.",
-};
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSeo("/faq");
+  return {
+    title: {
+      absolute: seo.title,
+    },
+    description: seo.description,
+    keywords: seo.keywords,
+    alternates: {
+      canonical: seo.canonical || "https://bedbugstreatment.co.in/faq",
+    },
+    openGraph: {
+      title: seo.title,
+      description: seo.description,
+      images: seo.ogImage ? [{ url: seo.ogImage }] : undefined,
+    },
+  };
+}
 
 const faqJsonLd = {
   "@context": "https://schema.org",
@@ -23,7 +38,9 @@ const faqJsonLd = {
   })),
 };
 
-export default function FaqPage() {
+export default async function FaqPage() {
+  const altMap = await getAllImageAltMap();
+
   return (
     <>
       <script
@@ -32,6 +49,7 @@ export default function FaqPage() {
       />
 
       <PageHero
+        altMap={altMap}
         eyebrow="Help Center"
         radarSize="compact"
         title={
@@ -63,7 +81,7 @@ export default function FaqPage() {
         </div>
       </section>
 
-      <CtaSection className="-mt-6 pb-12 pt-2 lg:-mt-10 lg:pb-16 lg:pt-4" />
+      <CtaSection altMap={altMap} className="-mt-6 pb-12 pt-2 lg:-mt-10 lg:pb-16 lg:pt-4" />
     </>
   );
 }

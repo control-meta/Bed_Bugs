@@ -41,6 +41,8 @@
   --animate-pulse-ring: pulse-ring 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   --animate-cta-slide: cta-slide 20s linear infinite;
   --animate-cta-bar: cta-bar 20s linear infinite;
+  --animate-cta-marquee: cta-marquee 24s linear infinite;
+  --animate-cta-marquee-reverse: cta-marquee-reverse 24s linear infinite;
   --animate-spin-slow: spin-slow 26s linear infinite;
   --animate-spin-slower: spin-slow 46s linear infinite;
   --animate-spin-reverse: spin-reverse 26s linear infinite;
@@ -292,6 +294,38 @@
     }
   }
 
+  @keyframes cta-marquee {
+    0% {
+      transform: translate3d(0, 0, 0);
+    }
+    100% {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
+  @keyframes cta-marquee-reverse {
+    0% {
+      transform: translate3d(-50%, 0, 0);
+    }
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+}
+
+.animate-cta-marquee {
+  animation: cta-marquee 24s linear infinite;
+}
+
+.animate-cta-marquee-reverse {
+  animation: cta-marquee-reverse 24s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-cta-marquee,
+  .animate-cta-marquee-reverse {
+    animation: none !important;
+  }
 }
 
 html {
@@ -400,4 +434,16 @@ input:disabled,
 select:disabled,
 [aria-disabled="true"] {
   cursor: not-allowed;
+}
+
+/* Live Content Editor Custom Font Overrides */
+[data-has-custom-font-size="true"],
+[data-has-custom-font-size="true"] *:not(svg):not(path) {
+  font-size: var(--custom-item-font-size) !important;
+  line-height: 1.25 !important;
+}
+
+[data-has-custom-font-weight="true"],
+[data-has-custom-font-weight="true"] *:not(svg):not(path) {
+  font-weight: var(--custom-item-font-weight) !important;
 }

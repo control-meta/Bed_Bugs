@@ -10,6 +10,8 @@ export type CustomerReview = {
   rating: number;
   quote: string;
   created_at: string;
+  status: "pending" | "approved" | "denied";
+  page_slug?: string | null;
 };
 
 const LOCAL_REVIEWS_PATH = path.join(process.cwd(), ".local_reviews.json");
@@ -50,6 +52,7 @@ function ensureInitialSeed(reviews: CustomerReview[]): CustomerReview[] {
         rating: 5,
         quote: "Very professional and thorough inspection. The technician explained everything clearly.",
         created_at: new Date(Date.now() - 1000 * 60 * 60 * 24 * 5).toISOString(),
+        status: "approved",
       },
       {
         id: "demo-rev-2",
@@ -59,6 +62,7 @@ function ensureInitialSeed(reviews: CustomerReview[]): CustomerReview[] {
         rating: 5,
         quote: "Finally got rid of the bed bugs! The treatment was effective and they provided great aftercare advice.",
         created_at: new Date(Date.now() - 1000 * 60 * 60 * 24 * 12).toISOString(),
+        status: "approved",
       },
     ];
     saveLocalReviews(seed);
@@ -69,6 +73,8 @@ function ensureInitialSeed(reviews: CustomerReview[]): CustomerReview[] {
 
 export async function getReviews(options?: {
   limit?: number;
+  status?: "pending" | "approved" | "denied" | "all";
+  page_slug?: string;
 }): Promise<{ reviews: CustomerReview[]; total: number; isSupabase: boolean }> {
   const client = getSupabase();
 
@@ -81,22 +87,44 @@ export async function getReviews(options?: {
     if (options?.limit) {
       query = query.limit(options.limit);
     }
+    
+    if (options?.status && options.status !== "all") {
+      query = query.eq("status", options.status);
+    }
+
+    if (options?.page_slug) {
+      query = query.eq("page_slug", options.page_slug);
+    }
 
     const { data, error, count } = await query;
     if (error) {
       console.error("Supabase select error:", error);
-      throw new Error(error.message);
+      // Fallback to local if column is missing (e.g. migration not run yet)
+      if (error.code === '42703' || error.message.includes('does not exist')) {
+        console.log("Falling back to local data due to missing Supabase schema...");
+      } else {
+        throw new Error(error.message);
+      }
+    } else {
+      return {
+        reviews: (data || []) as CustomerReview[],
+        total: count || (data?.length ?? 0),
+        isSupabase: true,
+      };
     }
-
-    return {
-      reviews: (data || []) as CustomerReview[],
-      total: count || (data?.length ?? 0),
-      isSupabase: true,
-    };
   }
 
   // Fallback local querying
   let list = ensureInitialSeed(readLocalReviews());
+  
+  if (options?.status && options.status !== "all") {
+    list = list.filter((r) => r.status === options.status);
+  }
+
+  if (options?.page_slug) {
+    list = list.filter((r) => r.page_slug === options.page_slug);
+  }
+
   const total = list.length;
 
   if (options?.limit) {
@@ -111,9 +139,10 @@ export async function getReviews(options?: {
 }
 
 export async function createReview(
-  payload: Omit<CustomerReview, "id" | "created_at">,
+  payload: Omit<CustomerReview, "id" | "created_at" | "status"> & { status?: "pending" | "approved" | "denied" },
 ): Promise<CustomerReview> {
   const client = getSupabase();
+  const status = payload.status || "pending";
 
   if (client) {
     const { data, error } = await client
@@ -122,6 +151,8 @@ export async function createReview(
         ...payload,
         city: payload.city || null,
         service: payload.service || null,
+        page_slug: payload.page_slug || null,
+        status,
       }])
       .select()
       .single();
@@ -138,6 +169,8 @@ export async function createReview(
     ...payload,
     city: payload.city || null,
     service: payload.service || null,
+    page_slug: payload.page_slug || null,
+    status,
     id: `local-rev-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
     created_at: new Date().toISOString(),
   };

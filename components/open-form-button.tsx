@@ -6,10 +6,12 @@ export function OpenFormButton({
   children,
   className = "",
   ariaLabel,
+  style,
 }: {
   children: ReactNode;
   className?: string;
   ariaLabel?: string;
+  style?: React.CSSProperties;
 }) {
   return (
     <button
@@ -17,6 +19,7 @@ export function OpenFormButton({
       aria-label={ariaLabel}
       onClick={() => window.dispatchEvent(new Event("open-floating-form"))}
       className={className}
+      style={style}
     >
       {children}
     </button>

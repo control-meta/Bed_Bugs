@@ -18,9 +18,9 @@ export type TestimonialItem = {
 
 export interface TestimonialsSectionProps {
   testimonials?: TestimonialItem[];
-  eyebrow?: string;
+  eyebrow?: React.ReactNode;
   title?: React.ReactNode;
-  description?: string;
+  description?: React.ReactNode;
   id?: string;
   className?: string;
   cardBg?: string;
@@ -28,6 +28,7 @@ export interface TestimonialsSectionProps {
   reviewCount?: string;
   size?: "default" | "compact";
   city?: string;
+  pageSlug?: string;
 }
 
 const CARD_WIDTH = 250;
@@ -46,6 +47,7 @@ export function TestimonialsSection({
   rating = site.rating,
   reviewCount = site.reviewCount,
   city,
+  pageSlug,
 }: TestimonialsSectionProps) {
   const trackRef = useRef<HTMLDivElement>(null);
   const state = useRef({ offset: 0, target: 0 });
@@ -56,10 +58,27 @@ export function TestimonialsSection({
   const [reviewOpen, setReviewOpen] = useState(false);
 
   useEffect(() => {
-    if (items && items.length > 0) {
-      setReviewList(items);
+    let url = "/api/reviews";
+    if (pageSlug) {
+      url += `?page_slug=${encodeURIComponent(pageSlug)}`;
+    } else {
+      url += `?page_slug=/`; // default to home page reviews if on home page or global if not specified
     }
-  }, [items]);
+
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && data.reviews && data.reviews.length > 0) {
+          setReviewList(data.reviews);
+        } else if (items && items.length > 0) {
+          setReviewList(items);
+        }
+      })
+      .catch((err) => {
+        console.error("Failed to fetch live reviews:", err);
+        if (items && items.length > 0) setReviewList(items);
+      });
+  }, [pageSlug, items]);
 
   const safeItems: TestimonialItem[] = reviewList.length > 0 ? reviewList : testimonials;
   const repeatCount = Math.max(4, Math.ceil(16 / safeItems.length));
@@ -230,6 +249,7 @@ export function TestimonialsSection({
           <div className="mt-6 sm:mt-8">
             <WriteReviewSection
               defaultCity={city}
+              pageSlug={pageSlug}
               open={reviewOpen}
               onOpenChange={setReviewOpen}
               onReviewAdded={(newReview) => {

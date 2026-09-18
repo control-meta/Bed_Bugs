@@ -53,16 +53,18 @@ export function CalendarProvider({ children }: { children: ReactNode }) {
       }
 
       const data = await res.json();
-      const withStatus = (data.plan || []).map((p: BlogPlan) => ({ ...p, status: "planned" }));
-      
-      // Save it directly to localStorage for that specific month
+      const updatedPlan = data.plan || [];
+
+      // Cache it locally for snappy navigation
       const storageKey = `${STORAGE_KEY}_${year}_${month}`;
-      localStorage.setItem(storageKey, JSON.stringify(withStatus));
-      
-      // We dispatch a custom event so the CalendarPage can update if it's currently mounted
-      window.dispatchEvent(new CustomEvent("calendar-plan-generated", { 
-        detail: { month, year, plan: withStatus }
-      }));
+      localStorage.setItem(storageKey, JSON.stringify(updatedPlan));
+
+      // Dispatch custom event for CalendarPage to update immediately
+      window.dispatchEvent(
+        new CustomEvent("calendar-plan-generated", {
+          detail: { month, year, plan: updatedPlan, isSupabase: data.isSupabase },
+        })
+      );
 
     } catch (err: any) {
       setError(err.message || "Something went wrong.");

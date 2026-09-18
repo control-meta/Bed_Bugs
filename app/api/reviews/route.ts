@@ -7,9 +7,12 @@ import {
   sanitizeString,
 } from "@/lib/security";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const data = await getReviews();
+    const { searchParams } = new URL(request.url);
+    const page_slug = searchParams.get("page_slug") || undefined;
+    
+    const data = await getReviews({ status: "approved", page_slug });
     return NextResponse.json({ success: true, reviews: data.reviews });
   } catch (error) {
     console.error("Error fetching reviews:", error);
@@ -50,6 +53,7 @@ export async function POST(request: NextRequest) {
     const city = sanitizeString(body.city, 80);
     const service = sanitizeString(body.service, 100);
     const quote = sanitizeString(body.quote || body.message || body.review, 800);
+    const page_slug = sanitizeString(body.page_slug, 150);
     const ratingRaw = Number(body.rating);
     const rating = Math.min(5, Math.max(1, isNaN(ratingRaw) ? 5 : Math.round(ratingRaw)));
 
@@ -75,6 +79,8 @@ export async function POST(request: NextRequest) {
       service: service || undefined,
       rating,
       quote,
+      status: "pending",
+      page_slug: page_slug || null,
     });
 
     return NextResponse.json(

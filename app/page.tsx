@@ -6,25 +6,48 @@ import { TestimonialsSection } from "@/components/home/testimonials-section";
 import { FaqSection } from "@/components/home/faq-section";
 import { CtaSection } from "@/components/home/cta-section";
 import { TreatmentOptionsSection } from "@/components/treatment-options-section";
+import { getPageSeo, getAllImageAltMap } from "@/lib/seo-db";
 
-export const metadata: Metadata = {
-  title: {
-    absolute: "Bed Bug Treatment & Pest Control Services in India",
-  },
-  description:
-    "Professional odorless bed bug treatment for homes & hotels across India. Same-day Book Bed Bug Treatment, safe methods & 12-month warranty. Call +91 97693 21234.",
-};
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
-export default function Home() {
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSeo("/");
+  return {
+    title: {
+      absolute: seo.title,
+    },
+    description: seo.description,
+    keywords: seo.keywords,
+    alternates: {
+      canonical: seo.canonical || "https://bedbugstreatment.co.in/",
+    },
+    openGraph: {
+      title: seo.title,
+      description: seo.description,
+      images: seo.ogImage ? [{ url: seo.ogImage }] : undefined,
+    },
+  };
+}
+
+export default async function Home() {
+  const altMap = await getAllImageAltMap();
+
   return (
     <>
-      <Hero />
-      <WhySection />
+      <script
+        id="seo-alt-map"
+        dangerouslySetInnerHTML={{
+          __html: `window.__SEO_ALT_MAP__ = ${JSON.stringify(altMap)};`,
+        }}
+      />
+      <Hero altMap={altMap} />
+      <WhySection altMap={altMap} />
       <TreatmentOptionsSection />
       <LocationsSection />
-      <TestimonialsSection />
+      <TestimonialsSection pageSlug="/" />
       <FaqSection />
-      <CtaSection />
+      <CtaSection altMap={altMap} />
     </>
   );
 }

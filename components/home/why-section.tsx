@@ -37,7 +37,7 @@ const features = [
 
 const planPoints = ["One-Time Service", "1-Year Plan", "3 Scheduled Visits"];
 
-export function WhySection() {
+export function WhySection({ altMap }: { altMap?: Record<string, string> } = {}) {
   return (
     <section className="relative overflow-hidden bg-white pt-10 pb-2 lg:pt-14 lg:pb-2">
       <div className="absolute inset-0" aria-hidden>
@@ -109,7 +109,10 @@ export function WhySection() {
               <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border-4 border-white shadow-xl">
                 <Image
                   src="/images/why-choose-us.webp"
-                  alt="Technician applying a targeted bed bug treatment to a room"
+                  alt={
+                    altMap?.["/images/why-choose-us.webp"] ||
+                    "Technician applying a targeted bed bug treatment to a room"
+                  }
                   fill
                   sizes="(min-width: 1024px) 38vw, 90vw"
                   className="object-cover"
@@ -143,7 +146,10 @@ export function WhySection() {
               <div className="absolute -bottom-2 right-4 hidden h-20 w-28 overflow-hidden rounded-xl border-2 border-white shadow-lg sm:block lg:h-24 lg:w-32">
                 <Image
                   src="/images/bedbug-closeup.jpg"
-                  alt="Close-up inspection of a mattress for bed bugs"
+                  alt={
+                    altMap?.["/images/bedbug-closeup.jpg"] ||
+                    "Close-up inspection of a mattress for bed bugs"
+                  }
                   fill
                   sizes="130px"
                   className="object-cover"

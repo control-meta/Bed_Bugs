@@ -16,14 +16,29 @@ import { PageHero } from "@/components/page-hero";
 import { SectionHeading } from "@/components/section-heading";
 import { CtaSection } from "@/components/home/cta-section";
 import { site } from "@/lib/site";
+import { getPageSeo, getAllImageAltMap } from "@/lib/seo-db";
 
-export const metadata: Metadata = {
-  title: {
-    absolute: "About Us | Certified Bed Bug Treatment Specialists",
-  },
-  description:
-    "India's trusted bed bug control specialists. Learn about our mission and the certified team behind 50,000+ bug-free homes in Pune, Mumbai & Bangalore.",
-};
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSeo("/about");
+  return {
+    title: {
+      absolute: seo.title,
+    },
+    description: seo.description,
+    keywords: seo.keywords,
+    alternates: {
+      canonical: seo.canonical || "https://bedbugstreatment.co.in/about",
+    },
+    openGraph: {
+      title: seo.title,
+      description: seo.description,
+      images: seo.ogImage ? [{ url: seo.ogImage }] : undefined,
+    },
+  };
+}
 
 const highlights = [
   "100% Safe & Eco-Friendly",
@@ -72,10 +87,13 @@ const values = [
   },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const altMap = await getAllImageAltMap();
+
   return (
     <>
       <PageHero
+        altMap={altMap}
         eyebrow="About BedBug Treatment"
         title={
           <>
@@ -93,7 +111,7 @@ export default function AboutPage() {
               <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] border-8 border-white shadow-2xl">
                 <Image
                   src="/images/our-story.jpg"
-                  alt="BedBug Treatment technician fumigating a living room sofa"
+                  alt={altMap["/images/our-story.jpg"] || "BedBug Treatment technician fumigating a living room sofa"}
                   fill
                   loading="eager"
                   sizes="(min-width: 1024px) 50vw, 100vw"
@@ -257,7 +275,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <CtaSection className="-mt-6 pb-12 pt-2 lg:-mt-10 lg:pb-16 lg:pt-4" />
+      <CtaSection altMap={altMap} className="-mt-6 pb-12 pt-2 lg:-mt-10 lg:pb-16 lg:pt-4" />
     </>
   );
 }

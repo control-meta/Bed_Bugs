@@ -5,11 +5,13 @@ export function PageHero({
   title,
   description,
   radarSize = "default",
+  altMap,
 }: {
   eyebrow: string;
   title: React.ReactNode;
   description?: string;
   radarSize?: "default" | "compact";
+  altMap?: Record<string, string>;
 }) {
   const isCompact = radarSize === "compact";
 
@@ -78,7 +80,7 @@ export function PageHero({
             >
               <Image
                 src="/images/real-bedbug-macro.png"
-                alt="Macro photograph of adult bed bug for pest identification and eradication"
+                alt={altMap?.["/images/real-bedbug-macro.png"] || "Macro photograph of adult bed bug for pest identification and eradication"}
                 fill
                 sizes={isCompact ? "130px" : "190px"}
                 className={`object-contain ${isCompact ? "p-3.5" : "p-5"}`}

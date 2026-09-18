@@ -6,6 +6,7 @@ import type { TestimonialItem } from "@/components/home/testimonials-section";
 
 interface WriteReviewSectionProps {
   defaultCity?: string;
+  pageSlug?: string;
   onReviewAdded?: (review: TestimonialItem) => void;
   className?: string;
   open?: boolean;
@@ -22,6 +23,7 @@ const RATING_LABELS: Record<number, string> = {
 
 export function WriteReviewSection({
   defaultCity = "",
+  pageSlug,
   onReviewAdded,
   className = "",
   open,
@@ -82,6 +84,7 @@ export function WriteReviewSection({
           rating,
           quote: quote.trim(),
           hp_field: hpField,
+          page_slug: pageSlug,
         }),
       });
 

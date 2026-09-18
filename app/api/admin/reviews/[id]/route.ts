@@ -18,6 +18,8 @@ export async function PUT(
       const ratingRaw = Number(body.rating);
       updates.rating = Math.min(5, Math.max(1, isNaN(ratingRaw) ? 5 : Math.round(ratingRaw)));
     }
+    if (body.status !== undefined) updates.status = body.status;
+    if (body.page_slug !== undefined) updates.page_slug = body.page_slug || null;
 
     const updated = await updateReview(id, updates);
     

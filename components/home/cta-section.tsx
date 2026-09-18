@@ -31,8 +31,10 @@ const ctaImages = [
 
 export function CtaSection({
   className = "py-10 max-sm:pb-2 max-sm:pt-2 lg:py-12",
+  altMap,
 }: {
   className?: string;
+  altMap?: Record<string, string>;
 }) {
   return (
     <section className={`bg-white ${className}`}>
@@ -95,7 +97,7 @@ export function CtaSection({
                 >
                   <Image
                     src={image.src}
-                    alt={image.alt}
+                    alt={altMap?.[image.src] || image.alt}
                     fill
                     sizes="(min-width: 1024px) 50vw, 100vw"
                     className="object-cover object-center lg:[mask-image:linear-gradient(to_right,transparent,black_18%)]"

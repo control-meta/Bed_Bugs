@@ -10,18 +10,21 @@ import {
   Tag,
   WifiOff,
   X,
-  RefreshCw,
   TrendingUp,
+  Database,
+  CheckCircle2,
+  Clock,
+  AlertCircle,
 } from "lucide-react";
 import { useCalendarContext, BlogPlan } from "../CalendarContext";
 
 const TYPE_COLORS: Record<string, string> = {
-  "how-to": "bg-blue-100 text-blue-700",
-  guide: "bg-purple-100 text-purple-700",
-  list: "bg-amber-100 text-amber-700",
-  comparison: "bg-pink-100 text-pink-700",
-  local: "bg-emerald-100 text-emerald-700",
-  educational: "bg-neutral-100 text-neutral-700",
+  "how-to": "bg-blue-100 text-blue-700 border-blue-200",
+  guide: "bg-purple-100 text-purple-700 border-purple-200",
+  list: "bg-amber-100 text-amber-700 border-amber-200",
+  comparison: "bg-pink-100 text-pink-700 border-pink-200",
+  local: "bg-emerald-100 text-emerald-700 border-emerald-200",
+  educational: "bg-neutral-100 text-neutral-700 border-neutral-200",
 };
 
 const STORAGE_KEY = "bedbug_content_calendar";
@@ -40,13 +43,32 @@ export default function CalendarPage() {
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
   const [plan, setPlan] = useState<BlogPlan[]>([]);
   const [selectedDay, setSelectedDay] = useState<BlogPlan | null>(null);
+  const [isLoadingDb, setIsLoadingDb] = useState(false);
+  const [isSupabase, setIsSupabase] = useState<boolean | null>(null);
+  const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
 
   const { isGenerating, error, generatePlan, setError } = useCalendarContext();
 
   const storageKey = `${STORAGE_KEY}_${currentYear}_${currentMonth}`;
 
-  // Initial load
+  // Date comparison helpers
+  const isPastMonth =
+    currentYear < today.getFullYear() ||
+    (currentYear === today.getFullYear() && currentMonth < today.getMonth() + 1);
+  const isCurrentMonth =
+    currentYear === today.getFullYear() && currentMonth === today.getMonth() + 1;
+
+  const isDayInPast = (day: number) => {
+    if (isPastMonth) return true;
+    if (isCurrentMonth && day < today.getDate()) return true;
+    return false;
+  };
+
+  // Fetch from DB on month change with instant local cache fallback
   useEffect(() => {
+    let isMounted = true;
+
+    // 1. Instant local cache restore
     try {
       const saved = localStorage.getItem(storageKey);
       if (saved) setPlan(JSON.parse(saved));
@@ -54,6 +76,32 @@ export default function CalendarPage() {
     } catch {
       setPlan([]);
     }
+
+    // 2. Fetch latest data from database
+    const fetchFromDatabase = async () => {
+      setIsLoadingDb(true);
+      try {
+        const res = await fetch(`/api/admin/calendar?month=${currentMonth}&year=${currentYear}`);
+        if (!res.ok) throw new Error("Failed to load calendar from database");
+        const data = await res.json();
+        if (isMounted && Array.isArray(data.plan)) {
+          setPlan(data.plan);
+          setIsSupabase(data.isSupabase ?? false);
+          // Sync local storage cache
+          localStorage.setItem(storageKey, JSON.stringify(data.plan));
+        }
+      } catch (err) {
+        console.warn("Could not fetch calendar from server API:", err);
+      } finally {
+        if (isMounted) setIsLoadingDb(false);
+      }
+    };
+
+    fetchFromDatabase();
+
+    return () => {
+      isMounted = false;
+    };
   }, [currentMonth, currentYear, storageKey]);
 
   // Listen for background generation completion
@@ -61,6 +109,9 @@ export default function CalendarPage() {
     const handlePlanGenerated = (e: any) => {
       if (e.detail.month === currentMonth && e.detail.year === currentYear) {
         setPlan(e.detail.plan);
+        if (typeof e.detail.isSupabase === "boolean") {
+          setIsSupabase(e.detail.isSupabase);
+        }
       }
     };
     window.addEventListener("calendar-plan-generated", handlePlanGenerated);
@@ -68,17 +119,65 @@ export default function CalendarPage() {
   }, [currentMonth, currentYear]);
 
   const handleGenerateClick = () => {
+    if (isPastMonth) {
+      setError("Cannot generate plans for past months. Please switch to the current or an upcoming month.");
+      return;
+    }
     generatePlan(currentMonth, currentYear);
   };
 
+  const handleToggleStatus = async () => {
+    if (!selectedDay) return;
+    setIsUpdatingStatus(true);
+    const newStatus = selectedDay.status === "generated" ? "planned" : "generated";
+    const updated = { ...selectedDay, status: newStatus as "planned" | "generated" };
+
+    setSelectedDay(updated);
+    setPlan((prev) => prev.map((p) => (p.date === selectedDay.date ? updated : p)));
+
+    // Update local cache
+    try {
+      const saved = localStorage.getItem(storageKey);
+      if (saved) {
+        const list: BlogPlan[] = JSON.parse(saved);
+        const idx = list.findIndex((p) => p.date === selectedDay.date);
+        if (idx >= 0) {
+          list[idx].status = newStatus;
+          localStorage.setItem(storageKey, JSON.stringify(list));
+        }
+      }
+    } catch {}
+
+    // Persist to DB API
+    try {
+      await fetch("/api/admin/calendar", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ date: selectedDay.date, status: newStatus }),
+      });
+    } catch (err) {
+      console.error("Failed to update status on server:", err);
+    } finally {
+      setIsUpdatingStatus(false);
+    }
+  };
+
   const prevMonth = () => {
-    if (currentMonth === 1) { setCurrentMonth(12); setCurrentYear(y => y - 1); }
-    else setCurrentMonth(m => m - 1);
+    if (currentMonth === 1) {
+      setCurrentMonth(12);
+      setCurrentYear((y) => y - 1);
+    } else {
+      setCurrentMonth((m) => m - 1);
+    }
   };
 
   const nextMonth = () => {
-    if (currentMonth === 12) { setCurrentMonth(1); setCurrentYear(y => y + 1); }
-    else setCurrentMonth(m => m + 1);
+    if (currentMonth === 12) {
+      setCurrentMonth(1);
+      setCurrentYear((y) => y + 1);
+    } else {
+      setCurrentMonth((m) => m + 1);
+    }
   };
 
   const goToToday = () => {
@@ -86,7 +185,9 @@ export default function CalendarPage() {
     setCurrentYear(today.getFullYear());
   };
 
-  const monthName = new Date(currentYear, currentMonth - 1, 1).toLocaleString("en-US", { month: "long" });
+  const monthName = new Date(currentYear, currentMonth - 1, 1).toLocaleString("en-US", {
+    month: "long",
+  });
   const daysInMonth = getDaysInMonth(currentYear, currentMonth);
   const firstDay = getFirstDayOfMonth(currentYear, currentMonth);
 
@@ -99,9 +200,12 @@ export default function CalendarPage() {
   // Pad to complete final week
   while (calendarCells.length % 7 !== 0) calendarCells.push(null);
 
-  const planByDate = plan.reduce<Record<string, BlogPlan>>((acc, p) => {
-    const day = new Date(p.date).getDate();
-    acc[day] = p;
+  const planByDate = plan.reduce<Record<number, BlogPlan>>((acc, p) => {
+    const parts = p.date.split("-");
+    const day = parseInt(parts[2], 10);
+    if (!isNaN(day)) {
+      acc[day] = p;
+    }
     return acc;
   }, {});
 
@@ -118,13 +222,14 @@ export default function CalendarPage() {
   return (
     <div className="flex flex-1 flex-col gap-3 min-h-0 overflow-hidden">
       {/* Header bar */}
-      <div className="flex items-center justify-between gap-3 shrink-0 rounded-xl bg-white p-3 shadow-sm border border-neutral-200/80">
-        <div className="flex items-center gap-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 shrink-0 rounded-xl bg-white p-3 shadow-sm border border-neutral-200/80">
+        <div className="flex items-center gap-3">
           {/* Month Nav */}
           <div className="flex items-center gap-1">
             <button
               onClick={prevMonth}
               className="flex h-8 w-8 items-center justify-center rounded-lg border border-neutral-200 hover:bg-neutral-100 transition"
+              title="Previous Month"
             >
               <ChevronLeft className="h-4 w-4 text-neutral-600" />
             </button>
@@ -134,16 +239,40 @@ export default function CalendarPage() {
             <button
               onClick={nextMonth}
               className="flex h-8 w-8 items-center justify-center rounded-lg border border-neutral-200 hover:bg-neutral-100 transition"
+              title="Next Month"
             >
               <ChevronRight className="h-4 w-4 text-neutral-600" />
             </button>
           </div>
+
           <button
             onClick={goToToday}
             className="h-8 rounded-lg border border-neutral-200 bg-white px-3 text-xs font-medium text-neutral-600 hover:bg-neutral-100 transition"
           >
             Today
           </button>
+
+          {/* Database indicator pill */}
+          {isSupabase !== null && (
+            <span
+              className={`hidden md:inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-medium border ${
+                isSupabase
+                  ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                  : "bg-blue-50 text-blue-700 border-blue-200"
+              }`}
+              title={isSupabase ? "Saved to Supabase content_calendar" : "Saved to local JSON store"}
+            >
+              <Database className="h-3 w-3" />
+              <span>{isSupabase ? "Supabase DB" : "Local Store"}</span>
+            </span>
+          )}
+
+          {isLoadingDb && (
+            <span className="inline-flex items-center gap-1 text-[11px] text-neutral-400">
+              <Loader2 className="h-3 w-3 animate-spin" />
+              <span>Syncing...</span>
+            </span>
+          )}
         </div>
 
         <div className="flex items-center gap-2">
@@ -153,30 +282,49 @@ export default function CalendarPage() {
               {plan.length} posts planned
             </span>
           )}
-          <button
-            onClick={handleGenerateClick}
-            disabled={isGenerating}
-            className="flex items-center gap-2 rounded-xl bg-emerald-600 px-4 py-2 text-xs font-bold text-white shadow-sm hover:bg-emerald-700 disabled:opacity-60 transition"
-          >
-            {isGenerating ? (
-              <>
-                <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                Generating Plan...
-              </>
-            ) : (
-              <>
-                <Sparkles className="h-3.5 w-3.5" />
-                {plan.length > 0 ? "Regenerate Plan" : "Generate AI Plan"}
-              </>
-            )}
-          </button>
+
+          {isPastMonth ? (
+            <div className="flex items-center gap-1.5 rounded-xl border border-neutral-200 bg-neutral-100 px-3 py-2 text-xs font-semibold text-neutral-500 cursor-not-allowed">
+              <Clock className="h-3.5 w-3.5 text-neutral-400" />
+              <span>Past Month (Generation Disabled)</span>
+            </div>
+          ) : (
+            <button
+              onClick={handleGenerateClick}
+              disabled={isGenerating}
+              className="flex items-center gap-2 rounded-xl bg-emerald-600 px-4 py-2 text-xs font-bold text-white shadow-sm hover:bg-emerald-700 disabled:opacity-60 transition"
+              title={
+                isCurrentMonth
+                  ? "Generates topics for today and remaining days this month"
+                  : "Generates daily topics for this month"
+              }
+            >
+              {isGenerating ? (
+                <>
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                  Generating Plan...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="h-3.5 w-3.5" />
+                  {plan.length > 0
+                    ? isCurrentMonth
+                      ? "Regenerate Upcoming Days"
+                      : "Regenerate Plan"
+                    : isCurrentMonth
+                    ? "Generate Plan (Today & Upcoming)"
+                    : "Generate AI Plan"}
+                </>
+              )}
+            </button>
+          )}
         </div>
       </div>
 
       {/* Calendar Grid */}
       <div className="flex flex-1 min-h-0 flex-col overflow-hidden rounded-xl border border-neutral-200/80 bg-white shadow-sm">
         {/* Day headers */}
-        <div className="grid grid-cols-7 border-b border-neutral-200 shrink-0">
+        <div className="grid grid-cols-7 border-b border-neutral-200 shrink-0 bg-neutral-50/50">
           {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
             <div
               key={d}
@@ -187,12 +335,16 @@ export default function CalendarPage() {
           ))}
         </div>
 
-        {/* Empty state */}
-        {plan.length === 0 && !isGenerating && (
+        {/* Empty state notice */}
+        {plan.length === 0 && !isGenerating && !isLoadingDb && (
           <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10 mt-32">
             <CalendarDays className="h-10 w-10 text-neutral-200 mb-3" />
-            <p className="text-sm font-semibold text-neutral-400">No plan yet</p>
-            <p className="text-xs text-neutral-400 mt-1">Click "Generate AI Plan" to create your content calendar</p>
+            <p className="text-sm font-semibold text-neutral-400">No plan yet for this month</p>
+            <p className="text-xs text-neutral-400 mt-1">
+              {isPastMonth
+                ? "This month is in the past."
+                : 'Click "Generate AI Plan" to generate topics for current and upcoming days.'}
+            </p>
           </div>
         )}
 
@@ -203,30 +355,55 @@ export default function CalendarPage() {
               week.map((day, di) => {
                 const blog = day ? planByDate[day] : undefined;
                 const isToday = day === todayDay;
+                const isPast = day ? isDayInPast(day) : false;
 
                 return (
                   <div
                     key={`${wi}-${di}`}
-                    className={`min-h-[100px] border-b border-r border-neutral-100 p-2 flex flex-col gap-1.5 transition-colors ${
-                      day ? "hover:bg-neutral-50/60 cursor-pointer" : "bg-neutral-50/30"
+                    className={`min-h-[110px] border-b border-r border-neutral-100 p-2 flex flex-col gap-1.5 transition-colors ${
+                      day
+                        ? isPast
+                          ? "bg-neutral-50/50 hover:bg-neutral-100/50 cursor-pointer"
+                          : "hover:bg-neutral-50/70 cursor-pointer bg-white"
+                        : "bg-neutral-50/20"
                     } ${di === 6 ? "border-r-0" : ""}`}
                     onClick={() => blog && setSelectedDay(blog)}
                   >
                     {day && (
                       <>
-                        <span
-                          className={`inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-semibold leading-none ${
-                            isToday
-                              ? "bg-neutral-900 text-white"
-                              : "text-neutral-600"
-                          }`}
-                        >
-                          {day}
-                        </span>
+                        <div className="flex items-center justify-between">
+                          <span
+                            className={`inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-semibold leading-none ${
+                              isToday
+                                ? "bg-emerald-600 text-white font-bold ring-2 ring-emerald-300"
+                                : isPast
+                                ? "text-neutral-400 font-medium"
+                                : "text-neutral-700 font-semibold"
+                            }`}
+                          >
+                            {day}
+                          </span>
+
+                          {isToday && (
+                            <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 rounded px-1.5 py-0.2">
+                              Today
+                            </span>
+                          )}
+
+                          {isPast && !isToday && !blog && (
+                            <span className="text-[9px] font-medium text-neutral-400">
+                              Past
+                            </span>
+                          )}
+                        </div>
 
                         {blog ? (
                           <div className="flex flex-col gap-1 flex-1">
-                            <p className="text-[11px] font-semibold text-neutral-800 leading-snug line-clamp-2">
+                            <p
+                              className={`text-[11px] font-semibold leading-snug line-clamp-2 ${
+                                isPast ? "text-neutral-600" : "text-neutral-900"
+                              }`}
+                            >
                               {blog.topic}
                             </p>
                             <div className="flex items-center gap-1 flex-wrap mt-auto">
@@ -238,18 +415,19 @@ export default function CalendarPage() {
                               )}
                             </div>
                             <span
-                              className={`self-start rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide ${
+                              className={`self-start rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide border ${
                                 blog.status === "generated"
-                                  ? "bg-emerald-100 text-emerald-700"
-                                  : "bg-neutral-100 text-neutral-500"
+                                  ? "bg-emerald-100 text-emerald-800 border-emerald-200"
+                                  : "bg-neutral-100 text-neutral-600 border-neutral-200"
                               }`}
                             >
                               {blog.status === "generated" ? "Generated" : "Planned"}
                             </span>
                           </div>
                         ) : (
-                          isGenerating && (
-                            <div className="flex-1 animate-pulse rounded-lg bg-neutral-100 h-10" />
+                          isGenerating &&
+                          !isPast && (
+                            <div className="flex-1 animate-pulse rounded-lg bg-emerald-50/60 border border-emerald-100 h-10" />
                           )
                         )}
                       </>
@@ -275,7 +453,9 @@ export default function CalendarPage() {
             <div className="flex items-start justify-between gap-3">
               <div>
                 <span
-                  className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide ${TYPE_COLORS[selectedDay.type] || "bg-neutral-100 text-neutral-600"}`}
+                  className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide border ${
+                    TYPE_COLORS[selectedDay.type] || "bg-neutral-100 text-neutral-600 border-neutral-200"
+                  }`}
                 >
                   {selectedDay.type}
                 </span>
@@ -304,7 +484,9 @@ export default function CalendarPage() {
               <div className="flex items-center gap-2 rounded-xl bg-blue-50 border border-blue-100 p-3">
                 <TrendingUp className="h-4 w-4 text-blue-500 shrink-0" />
                 <div>
-                  <p className="text-[11px] font-medium text-blue-700 uppercase tracking-wide">Est. Search Volume</p>
+                  <p className="text-[11px] font-medium text-blue-700 uppercase tracking-wide">
+                    Est. Search Volume
+                  </p>
                   <p className="text-sm font-bold text-blue-900">{selectedDay.searchVolume}</p>
                 </div>
               </div>
@@ -328,21 +510,47 @@ export default function CalendarPage() {
               </div>
             )}
 
-            <div className="mt-auto flex flex-col gap-2">
-              <span
-                className={`self-start rounded-full px-3 py-1 text-xs font-bold ${
-                  selectedDay.status === "generated"
-                    ? "bg-emerald-100 text-emerald-700"
-                    : "bg-neutral-100 text-neutral-600"
-                }`}
+            {/* Status section & toggle */}
+            <div className="rounded-xl border border-neutral-200 bg-neutral-50/70 p-3 flex items-center justify-between">
+              <div>
+                <span className="text-[10px] font-medium uppercase text-neutral-400">Status</span>
+                <div className="flex items-center gap-1.5 mt-0.5">
+                  <span
+                    className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold ${
+                      selectedDay.status === "generated"
+                        ? "bg-emerald-100 text-emerald-800"
+                        : "bg-neutral-200 text-neutral-700"
+                    }`}
+                  >
+                    {selectedDay.status === "generated" && <CheckCircle2 className="h-3 w-3" />}
+                    {selectedDay.status === "generated" ? "Generated" : "Planned"}
+                  </span>
+                </div>
+              </div>
+
+              <button
+                onClick={handleToggleStatus}
+                disabled={isUpdatingStatus}
+                className="rounded-lg border border-neutral-300 bg-white px-2.5 py-1 text-xs font-medium text-neutral-700 hover:bg-neutral-50 transition"
               >
-                {selectedDay.status === "generated" ? "✓ Generated" : "Planned"}
-              </span>
+                {isUpdatingStatus ? (
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                ) : selectedDay.status === "generated" ? (
+                  "Mark as Planned"
+                ) : (
+                  "Mark as Generated"
+                )}
+              </button>
+            </div>
+
+            <div className="mt-auto flex flex-col gap-2">
               <button
                 onClick={() => {
-                  window.location.href = `/admin/blog-generator?topic=${encodeURIComponent(selectedDay.topic)}&keywords=${encodeURIComponent(selectedDay.keywords?.join(", ") || "")}`;
+                  window.location.href = `/admin/blog-generator?topic=${encodeURIComponent(
+                    selectedDay.topic
+                  )}&keywords=${encodeURIComponent(selectedDay.keywords?.join(", ") || "")}`;
                 }}
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 text-sm font-bold text-white hover:bg-emerald-700 transition"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 text-sm font-bold text-white hover:bg-emerald-700 transition shadow-md shadow-emerald-600/20"
               >
                 <Sparkles className="h-4 w-4" />
                 Generate This Blog Now
@@ -360,7 +568,7 @@ export default function CalendarPage() {
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-50">
                 <WifiOff className="h-6 w-6 text-red-500" />
               </div>
-              <h3 className="font-bold text-neutral-900">Plan Generation Failed</h3>
+              <h3 className="font-bold text-neutral-900">Notice</h3>
               <p className="text-sm text-neutral-500">{error}</p>
               <button
                 onClick={() => setError("")}

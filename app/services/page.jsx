@@ -2525,6 +2525,7 @@ export default function BedBugTreatment() {
             <TestimonialsSection
               id="service-reviews"
               size="compact"
+              pageSlug="/services"
               className="relative overflow-hidden bg-white py-6 sm:py-8 lg:py-9 border-t border-slate-100"
               eyebrow="Customer Reviews"
               title={

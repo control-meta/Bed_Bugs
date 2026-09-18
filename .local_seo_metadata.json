@@ -1,0 +1,714 @@
+{
+  "pages": {
+    "/": {
+      "path": "/",
+      "pageName": "Home Page",
+      "title": "opopopoopopopooopopopopopopoo",
+      "description": "Professional odorless bed bug treatment for homes & hotels across India. Same-day inspection, safe methods & 12-month warranty. Call +91 97693 21234.",
+      "keywords": [
+        "bed bug treatment",
+        "bed bug control",
+        "pest control india",
+        "odorless bed bug treatment"
+      ],
+      "ogImage": "/images/hero.webp",
+      "canonical": "https://bedbugstreatment.co.in/",
+      "updatedAt": "2026-09-18T10:42:44.936Z"
+    },
+    "/about": {
+      "path": "/about",
+      "pageName": "About Us",
+      "title": "About Us | Certified Bed Bug Treatment Specialists Across India",
+      "description": "India's trusted bed bug control specialists. Learn about our mission and the certified team behind 50,000+ bug-free homes in Pune, Mumbai & Bangalore.",
+      "keywords": [
+        "about bed bug treatment",
+        "certified pest control specialists",
+        "eco-friendly pest control"
+      ],
+      "ogImage": "/images/our-story.jpg",
+      "canonical": "https://bedbugstreatment.co.in/about",
+      "updatedAt": "2026-09-18T10:06:37.051Z"
+    },
+    "/services": {
+      "path": "/services",
+      "pageName": "Services",
+      "title": "Bed Bug Pest Control Services | Chemical, Heat & Organic Treatment",
+      "description": "Comprehensive bed bug elimination services: chemical treatment, heat treatment, AMC contracts, and eco-friendly solutions with 12-month warranty.",
+      "keywords": [
+        "bed bug heat treatment",
+        "chemical bed bug treatment",
+        "bed bug amc contract"
+      ],
+      "ogImage": "/images/hero-tech-bed.webp",
+      "canonical": "https://bedbugstreatment.co.in/services",
+      "updatedAt": "2026-09-18T10:06:37.051Z"
+    },
+    "/contact": {
+      "path": "/contact",
+      "pageName": "Contact Us",
+      "title": "Contact Us | Book Bed Bug Pest Control & Free Inspection",
+      "description": "Book your same-day bed bug inspection. Call +91 97693 21234, chat on WhatsApp or request a quote for fast service in Pune, Mumbai, Bangalore & Delhi.",
+      "keywords": [
+        "contact pest control",
+        "book bed bug inspection",
+        "pest control customer support"
+      ],
+      "ogImage": "/images/hero.webp",
+      "canonical": "https://bedbugstreatment.co.in/contact",
+      "updatedAt": "2026-09-18T10:06:37.051Z"
+    },
+    "/faq": {
+      "path": "/faq",
+      "pageName": "Frequently Asked Questions",
+      "title": "Bed Bug Treatment FAQs | Expert Solutions, Preparation & Pricing",
+      "description": "Find answers to common bed bug questions: treatment cost, safety, preparation and 12-month warranty. For immediate expert help, call +91 97693 21234.",
+      "keywords": [
+        "bed bug faq",
+        "bed bug treatment cost",
+        "is bed bug spray safe"
+      ],
+      "ogImage": "/images/bedbug-closeup.jpg",
+      "canonical": "https://bedbugstreatment.co.in/faq",
+      "updatedAt": "2026-09-18T10:06:37.051Z"
+    },
+    "/blog": {
+      "path": "/blog",
+      "pageName": "Blog & Guides",
+      "title": "Bed Bug Eradication Guides, Signs & Prevention Tips | Blog",
+      "description": "Expert guides, DIY identification, prevention tips, and scientific insights on bed bug eradication and home pest protection.",
+      "keywords": [
+        "bed bug blog",
+        "how to identify bed bugs",
+        "bed bug prevention tips"
+      ],
+      "ogImage": "/images/bedbug.png",
+      "canonical": "https://bedbugstreatment.co.in/blog",
+      "updatedAt": "2026-09-18T10:06:37.051Z"
+    },
+    "/bangalore": {
+      "path": "/bangalore",
+      "pageName": "Bangalore, Karnataka Location Page",
+      "title": "Bed Bug Treatment in Bangalore | Fast Same-Day Control",
+      "description": "Professional bed bug treatment in Bangalore. Safe, odorless solutions across Whitefield, HSR Layout, Koramangala & Indiranagar. Free same-day inspection.",
+      "keywords": [
+        "bed bug treatment bangalore",
+        "bed bug control bangalore",
+        "bed bug exterminator bengaluru",
+        "bed bug treatment whitefield",
+        "bed bug treatment hsr layout",
+        "bed bug control koramangala",
+        "bed bug control indiranagar",
+        "bed bug control electronic city"
+      ],
+      "ogImage": "/images/cities/bangalore.jpg",
+      "canonical": "https://bedbugstreatment.co.in/bangalore",
+      "updatedAt": "2026-09-18T10:06:37.051Z"
+    },
+    "/delhi": {
+      "path": "/delhi",
+      "pageName": "Delhi, Delhi NCR Location Page",
+      "title": "Bed Bug Treatment in Delhi | Same-Day Pest Eradication",
+      "description": "Bed bug treatment across Delhi NCR. Same-day inspection in Dwarka, Rohini, Saket & South Delhi. 100% odorless formula with a guaranteed 12-month warranty.",
+      "keywords": [
+        "bed bug treatment delhi",
+        "bed bug control delhi",
+        "bed bug exterminator delhi",
+        "bed bug control south delhi",
+        "bed bug treatment dwarka",
+        "bed bug treatment rohini",
+        "bed bug treatment saket",
+        "pest control for bed bugs delhi"
+      ],
+      "ogImage": "/images/cities/delhi.jpg",
+      "canonical": "https://bedbugstreatment.co.in/delhi",
+      "updatedAt": "2026-09-18T10:06:37.051Z"
+    },
+    "/mumbai": {
+      "path": "/mumbai",
+      "pageName": "Mumbai, Maharashtra Location Page",
+      "title": "Bed Bug Treatment in Mumbai | Same-Day Pest Control",
+      "description": "Bed bug treatment in Mumbai, Thane & Navi Mumbai. 100% odorless, eco-friendly solutions for flats and hotels. Schedule a free same-day inspection today.",
+      "keywords": [
+        "bed bug treatment mumbai",
+        "bed bug control mumbai",
+        "bed bug exterminator mumbai",
+        "bed bug treatment andheri",
+        "bed bug treatment bandra",
+        "bed bug control powai",
+        "bed bug control thane",
+        "bed bug treatment navi mumbai"
+      ],
+      "ogImage": "/images/cities/mumbai.jpg",
+      "canonical": "https://bedbugstreatment.co.in/mumbai",
+      "updatedAt": "2026-09-18T10:06:37.051Z"
+    },
+    "/noida": {
+      "path": "/noida",
+      "pageName": "Noida, Uttar Pradesh Location Page",
+      "title": "Bed Bug Treatment in Noida | Same-Day Pest Eradication",
+      "description": "Bed bug treatment in Noida & Greater Noida high-rise societies. 100% odorless, pet-safe treatments with free same-day inspection and 12-month warranty.",
+      "keywords": [
+        "bed bug treatment noida",
+        "bed bug control noida",
+        "bed bug exterminator noida",
+        "bed bug treatment greater noida",
+        "bed bug treatment noida extension",
+        "bed bug treatment sector 62 noida",
+        "bed bug control sector 137 noida",
+        "pest control noida"
+      ],
+      "ogImage": "/images/cities/noida.jpg",
+      "canonical": "https://bedbugstreatment.co.in/noida",
+      "updatedAt": "2026-09-18T10:06:37.051Z"
+    },
+    "/pune": {
+      "path": "/pune",
+      "pageName": "Pune, Maharashtra Location Page",
+      "title": "Bed Bug Treatment in Pune | Same-Day Service & Warranty",
+      "description": "Bed bug treatment in Pune. 100% odorless & pet-safe solutions across Hinjewadi, Wakad, Baner & Kothrud. Free same-day inspection with 12-month warranty.",
+      "keywords": [
+        "bed bug treatment pune",
+        "bed bug control pune",
+        "bed bug exterminator pune",
+        "bed bug treatment hinjewadi",
+        "bed bug treatment wakad",
+        "bed bug control kothrud",
+        "bed bug control baner",
+        "pest control for bed bugs pune"
+      ],
+      "ogImage": "/images/cities/pune.jpg",
+      "canonical": "https://bedbugstreatment.co.in/pune",
+      "updatedAt": "2026-09-18T10:06:37.051Z"
+    }
+  },
+  "images": {
+    "/images/hero.webp": {
+      "src": "/images/hero.webp",
+      "altText": "Certified pest control technician treating bed bugs in home bedroom",
+      "locationHint": "Homepage Hero Section Banner",
+      "pages": [
+        "/"
+      ],
+      "id": "/images/hero.webp",
+      "updatedAt": "2026-09-18T10:06:37.052Z"
+    },
+    "/images/hero-tech-bed.webp": {
+      "src": "/images/hero-tech-bed.webp",
+      "altText": "Specialist technician carefully inspecting mattress seams for bed bugs",
+      "locationHint": "Homepage Hero Main Showcase",
+      "id": "/images/hero-tech-bed.webp",
+      "updatedAt": "2026-09-18T10:31:53.851Z"
+    },
+    "/images/bedbug-closeup.jpg": {
+      "src": "/images/bedbug-closeup.jpg",
+      "altText": "Macro close-up photograph of adult bed bug on fabric",
+      "locationHint": "FAQ Page & Identification Section",
+      "pages": [
+        "/faq",
+        "/blog"
+      ],
+      "id": "/images/bedbug-closeup.jpg",
+      "updatedAt": "2026-09-18T10:06:37.052Z"
+    },
+    "/images/bedbug.png": {
+      "src": "/images/bedbug.png",
+      "altText": "High-resolution macro view of bed bug showing anatomy and coloration",
+      "locationHint": "Treatment Options & Identification Card",
+      "pages": [
+        "/",
+        "/about",
+        "/blog"
+      ],
+      "id": "/images/bedbug.png",
+      "updatedAt": "2026-09-18T10:06:37.052Z"
+    },
+    "/images/real-bedbug-macro.png": {
+      "src": "/images/real-bedbug-macro.png",
+      "altText": "Detailed microscopic inspection view of bed bug pest",
+      "locationHint": "Scientific Bed Bug Information Section",
+      "pages": [
+        "/blog"
+      ],
+      "id": "/images/real-bedbug-macro.png",
+      "updatedAt": "2026-09-18T10:06:37.052Z"
+    },
+    "/images/why-choose-us.webp": {
+      "src": "/images/why-choose-us.webp",
+      "altText": "Professional pest control team with modern odorless spraying equipment",
+      "locationHint": "Why Choose Us Section",
+      "pages": [
+        "/",
+        "/about"
+      ],
+      "id": "/images/why-choose-us.webp",
+      "updatedAt": "2026-09-18T10:06:37.052Z"
+    },
+    "/images/our-story.jpg": {
+      "src": "/images/our-story.jpg",
+      "altText": "Bed bug treatment founders and customer support facility",
+      "locationHint": "About Us Company Story Card",
+      "pages": [
+        "/about"
+      ],
+      "id": "/images/our-story.jpg",
+      "updatedAt": "2026-09-18T10:06:37.052Z"
+    },
+    "/images/treatment-1.png": {
+      "src": "/images/treatment-1.png",
+      "altText": "Comprehensive chemical spray treatment with odorless chemicals",
+      "locationHint": "Treatment Method Card 1 (Chemical Spray)",
+      "pages": [
+        "/",
+        "/services"
+      ],
+      "id": "/images/treatment-1.png",
+      "updatedAt": "2026-09-18T10:06:37.052Z"
+    },
+    "/images/treatment-2.png": {
+      "src": "/images/treatment-2.png",
+      "altText": "Eco-friendly organic herbal bed bug extermination method",
+      "locationHint": "Treatment Method Card 2 (Organic/Eco)",
+      "pages": [
+        "/",
+        "/services"
+      ],
+      "id": "/images/treatment-2.png",
+      "updatedAt": "2026-09-18T10:06:37.052Z"
+    },
+    "/images/treatment-3.png": {
+      "src": "/images/treatment-3.png",
+      "altText": "Thermal heat treatment chamber eliminating bed bugs at all life stages",
+      "locationHint": "Treatment Method Card 3 (Thermal Heat)",
+      "pages": [
+        "/",
+        "/services"
+      ],
+      "id": "/images/treatment-3.png",
+      "updatedAt": "2026-09-18T10:06:37.052Z"
+    },
+    "/images/logo.jpg": {
+      "src": "/images/logo.jpg",
+      "altText": "BedBug Treatment India - Official Pest Control Brand Logo",
+      "locationHint": "Header Brand Logo & Trust Badges",
+      "pages": [
+        "*"
+      ],
+      "id": "/images/logo.jpg",
+      "updatedAt": "2026-09-18T10:06:37.052Z"
+    },
+    "/images/cities/pune.jpg": {
+      "src": "/images/cities/pune.jpg",
+      "altText": "Pune skyline and local bed bug pest control service area",
+      "locationHint": "Pune City Showcase",
+      "id": "/images/cities/pune.jpg",
+      "updatedAt": "2026-09-18T10:32:06.544Z"
+    },
+    "/images/cities/mumbai.jpg": {
+      "src": "/images/cities/mumbai.jpg",
+      "altText": "Mumbai city landmarks covered by same-day bed bug treatment",
+      "locationHint": "Mumbai City Page Hero & Hub Card",
+      "pages": [
+        "/mumbai",
+        "/"
+      ],
+      "id": "/images/cities/mumbai.jpg",
+      "updatedAt": "2026-09-18T10:06:37.052Z"
+    },
+    "/images/cities/bangalore.jpg": {
+      "src": "/images/cities/bangalore.jpg",
+      "altText": "Bangalore tech corridor residential bed bug treatment service",
+      "locationHint": "Bangalore City Page Hero & Hub Card",
+      "pages": [
+        "/bangalore",
+        "/"
+      ],
+      "id": "/images/cities/bangalore.jpg",
+      "updatedAt": "2026-09-18T10:06:37.052Z"
+    },
+    "/images/cities/delhi.jpg": {
+      "src": "/images/cities/delhi.jpg",
+      "altText": "Delhi NCR licensed bed bug extermination branch",
+      "locationHint": "Delhi City Page Hero & Hub Card",
+      "pages": [
+        "/delhi",
+        "/"
+      ],
+      "id": "/images/cities/delhi.jpg",
+      "updatedAt": "2026-09-18T10:06:37.052Z"
+    },
+    "/images/cities/noida.jpg": {
+      "src": "/images/cities/noida.jpg",
+      "altText": "Noida residential high-rise bed bug control service",
+      "locationHint": "Noida City Page Hero & Hub Card",
+      "pages": [
+        "/noida",
+        "/"
+      ],
+      "id": "/images/cities/noida.jpg",
+      "updatedAt": "2026-09-18T10:06:37.052Z"
+    },
+    "/images/services/service-inspection.jpg": {
+      "src": "/images/services/service-inspection.jpg",
+      "altText": "Thorough visual bed bug inspection with specialized UV detection lights",
+      "locationHint": "Inspection Service Card",
+      "pages": [
+        "/services"
+      ],
+      "id": "/images/services/service-inspection.jpg",
+      "updatedAt": "2026-09-18T10:06:37.052Z"
+    },
+    "/images/services/service-heat.jpg": {
+      "src": "/images/services/service-heat.jpg",
+      "altText": "Industrial high-temperature heat treatment eradicating bed bug eggs",
+      "locationHint": "Heat Treatment Service Card",
+      "pages": [
+        "/services"
+      ],
+      "id": "/images/services/service-heat.jpg",
+      "updatedAt": "2026-09-18T10:06:37.052Z"
+    },
+    "/images/services/service-crevice.jpg": {
+      "src": "/images/services/service-crevice.jpg",
+      "altText": "Deep crevice and baseboard crack injection bed bug treatment",
+      "locationHint": "Deep Crevice Treatment Card",
+      "pages": [
+        "/services"
+      ],
+      "id": "/images/services/service-crevice.jpg",
+      "updatedAt": "2026-09-18T10:06:37.052Z"
+    },
+    "/images/services/service-spray.jpg": {
+      "src": "/images/services/service-spray.jpg",
+      "altText": "Advanced misting spray targeting concealed bed bugs",
+      "locationHint": "Residual Spraying Card",
+      "pages": [
+        "/services"
+      ],
+      "id": "/images/services/service-spray.jpg",
+      "updatedAt": "2026-09-18T10:06:37.052Z"
+    },
+    "/images/services/service-eco.jpg": {
+      "src": "/images/services/service-eco.jpg",
+      "altText": "Pet-safe child-safe eco-friendly organic bed bug formula",
+      "locationHint": "Eco-Friendly Safe Treatment Card",
+      "pages": [
+        "/services"
+      ],
+      "id": "/images/services/service-eco.jpg",
+      "updatedAt": "2026-09-18T10:06:37.052Z"
+    },
+    "/images/services/service-warranty.jpg": {
+      "src": "/images/services/service-warranty.jpg",
+      "altText": "12-month service warranty certificate and guarantee badge",
+      "locationHint": "Service Warranty Card",
+      "pages": [
+        "/services",
+        "/"
+      ],
+      "id": "/images/services/service-warranty.jpg",
+      "updatedAt": "2026-09-18T10:06:37.052Z"
+    },
+    "/images/services/fully-equipped.jpg": {
+      "src": "/images/services/fully-equipped.jpg",
+      "altText": "Fully equipped mobile pest control van ready for same-day dispatch",
+      "locationHint": "Technician Equipment Showcase",
+      "pages": [
+        "/services",
+        "/about"
+      ],
+      "id": "/images/services/fully-equipped.jpg",
+      "updatedAt": "2026-09-18T10:06:37.052Z"
+    },
+    "/images/services-react/amc-hd.webp": {
+      "src": "/images/services-react/amc-hd.webp",
+      "altText": "Annual Maintenance Contract AMC for complete year-round bed bug protection",
+      "locationHint": "AMC Service Plan Card",
+      "pages": [
+        "/services"
+      ],
+      "id": "/images/services-react/amc-hd.webp",
+      "updatedAt": "2026-09-18T10:06:37.052Z"
+    },
+    "/images/services-react/bed-treatment-hd.webp": {
+      "src": "/images/services-react/bed-treatment-hd.webp",
+      "altText": "Targeted mattress and bed frame steam sanitization treatment",
+      "locationHint": "Bed Frame Sanitization Card",
+      "pages": [
+        "/services"
+      ],
+      "id": "/images/services-react/bed-treatment-hd.webp",
+      "updatedAt": "2026-09-18T10:06:37.052Z"
+    },
+    "/images/services-react/cta-bedroom-hd.webp": {
+      "src": "/images/services-react/cta-bedroom-hd.webp",
+      "altText": "Clean peaceful bedroom free from bed bug bites and infestations",
+      "locationHint": "Bottom CTA Bedroom Banner",
+      "pages": [
+        "/services",
+        "/"
+      ],
+      "id": "/images/services-react/cta-bedroom-hd.webp",
+      "updatedAt": "2026-09-18T10:06:37.052Z"
+    },
+    "/images/services-react/homes-hd.webp": {
+      "src": "/images/services-react/homes-hd.webp",
+      "altText": "Residential apartment and villa bed bug treatment package",
+      "locationHint": "Home Pest Control Package Card",
+      "pages": [
+        "/services"
+      ],
+      "id": "/images/services-react/homes-hd.webp",
+      "updatedAt": "2026-09-18T10:06:37.052Z"
+    },
+    "/images/services-react/hotels-hd.webp": {
+      "src": "/images/services-react/hotels-hd.webp",
+      "altText": "Hotel and hospitality discreet bed bug eradication protocol",
+      "locationHint": "Hospitality Industry Card",
+      "pages": [
+        "/services"
+      ],
+      "id": "/images/services-react/hotels-hd.webp",
+      "updatedAt": "2026-09-18T10:06:37.052Z"
+    },
+    "/images/services-react/hostels-hd.webp": {
+      "src": "/images/services-react/hostels-hd.webp",
+      "altText": "Hostel and PG dormitory large-scale bed bug extermination",
+      "locationHint": "Student Hostels & PG Card",
+      "pages": [
+        "/services"
+      ],
+      "id": "/images/services-react/hostels-hd.webp",
+      "updatedAt": "2026-09-18T10:06:37.052Z"
+    },
+    "/images/services-react/offices-hd.webp": {
+      "src": "/images/services-react/offices-hd.webp",
+      "altText": "Commercial office chairs and couch upholstery bed bug treatment",
+      "locationHint": "Commercial Offices Card",
+      "pages": [
+        "/services"
+      ],
+      "id": "/images/services-react/offices-hd.webp",
+      "updatedAt": "2026-09-18T10:06:37.052Z"
+    },
+    "/images/services-react/rentals-hd.webp": {
+      "src": "/images/services-react/rentals-hd.webp",
+      "altText": "Move-in move-out tenant rental home bed bug clearance certificate",
+      "locationHint": "Rental Properties Card",
+      "pages": [
+        "/services"
+      ],
+      "id": "/images/services-react/rentals-hd.webp",
+      "updatedAt": "2026-09-18T10:06:37.052Z"
+    },
+    "/images/services-react/one-time-hd.webp": {
+      "src": "/images/services-react/one-time-hd.webp",
+      "altText": "One-time intensive emergency bed bug knockdown service",
+      "locationHint": "One-Time Emergency Service Card",
+      "pages": [
+        "/services"
+      ],
+      "id": "/images/services-react/one-time-hd.webp",
+      "updatedAt": "2026-09-18T10:06:37.052Z"
+    },
+    "/images/bedbug.svg": {
+      "id": "/images/bedbug.svg",
+      "src": "/images/bedbug.svg",
+      "altText": "Bedbug - Bed Bug Pest Control",
+      "locationHint": "General Website Image",
+      "pages": [
+        "/services"
+      ],
+      "updatedAt": "2026-09-18T10:25:50.923Z"
+    },
+    "/images/services/fully-equipped-new.jpg": {
+      "id": "/images/services/fully-equipped-new.jpg",
+      "src": "/images/services/fully-equipped-new.jpg",
+      "altText": "Fully equipped new - Bed Bug Pest Control",
+      "locationHint": "Service Detail Image",
+      "pages": [
+        "/services"
+      ],
+      "updatedAt": "2026-09-18T10:25:50.923Z"
+    },
+    "/images/services/service-crevice.png": {
+      "id": "/images/services/service-crevice.png",
+      "src": "/images/services/service-crevice.png",
+      "altText": "Service crevice - Bed Bug Pest Control",
+      "locationHint": "Service Detail Image",
+      "pages": [
+        "/services"
+      ],
+      "updatedAt": "2026-09-18T10:25:50.923Z"
+    },
+    "/images/services/service-eco.png": {
+      "id": "/images/services/service-eco.png",
+      "src": "/images/services/service-eco.png",
+      "altText": "Service eco - Bed Bug Pest Control",
+      "locationHint": "Service Detail Image",
+      "pages": [
+        "/services"
+      ],
+      "updatedAt": "2026-09-18T10:25:50.923Z"
+    },
+    "/images/services/service-heat.png": {
+      "id": "/images/services/service-heat.png",
+      "src": "/images/services/service-heat.png",
+      "altText": "Service heat - Bed Bug Pest Control",
+      "locationHint": "Service Detail Image",
+      "pages": [
+        "/services"
+      ],
+      "updatedAt": "2026-09-18T10:25:50.923Z"
+    },
+    "/images/services/service-inspection.png": {
+      "id": "/images/services/service-inspection.png",
+      "src": "/images/services/service-inspection.png",
+      "altText": "Service inspection - Bed Bug Pest Control",
+      "locationHint": "Service Detail Image",
+      "pages": [
+        "/services"
+      ],
+      "updatedAt": "2026-09-18T10:25:50.923Z"
+    },
+    "/images/services/service-spray.png": {
+      "id": "/images/services/service-spray.png",
+      "src": "/images/services/service-spray.png",
+      "altText": "Service spray - Bed Bug Pest Control",
+      "locationHint": "Service Detail Image",
+      "pages": [
+        "/services"
+      ],
+      "updatedAt": "2026-09-18T10:25:50.923Z"
+    },
+    "/images/services/service-warranty.png": {
+      "id": "/images/services/service-warranty.png",
+      "src": "/images/services/service-warranty.png",
+      "altText": "Service warranty - Bed Bug Pest Control",
+      "locationHint": "Service Detail Image",
+      "pages": [
+        "/services"
+      ],
+      "updatedAt": "2026-09-18T10:25:50.923Z"
+    },
+    "/images/services-react/amc.webp": {
+      "id": "/images/services-react/amc.webp",
+      "src": "/images/services-react/amc.webp",
+      "altText": "Amc - Bed Bug Pest Control",
+      "locationHint": "Interactive Service Package Card",
+      "pages": [
+        "/services"
+      ],
+      "updatedAt": "2026-09-18T10:25:50.923Z"
+    },
+    "/images/services-react/bed-treatment.webp": {
+      "id": "/images/services-react/bed-treatment.webp",
+      "src": "/images/services-react/bed-treatment.webp",
+      "altText": "Bed treatment - Bed Bug Pest Control",
+      "locationHint": "Interactive Service Package Card",
+      "pages": [
+        "/services"
+      ],
+      "updatedAt": "2026-09-18T10:25:50.923Z"
+    },
+    "/images/services-react/cta-bedroom.webp": {
+      "id": "/images/services-react/cta-bedroom.webp",
+      "src": "/images/services-react/cta-bedroom.webp",
+      "altText": "Cta bedroom - Bed Bug Pest Control",
+      "locationHint": "Interactive Service Package Card",
+      "pages": [
+        "/services"
+      ],
+      "updatedAt": "2026-09-18T10:25:50.923Z"
+    },
+    "/images/services-react/hero-treatment.png": {
+      "id": "/images/services-react/hero-treatment.png",
+      "src": "/images/services-react/hero-treatment.png",
+      "altText": "Hero treatment - Bed Bug Pest Control",
+      "locationHint": "Interactive Service Package Card",
+      "pages": [
+        "/services"
+      ],
+      "updatedAt": "2026-09-18T10:25:50.923Z"
+    },
+    "/images/services-react/hero.png": {
+      "id": "/images/services-react/hero.png",
+      "src": "/images/services-react/hero.png",
+      "altText": "Hero - Bed Bug Pest Control",
+      "locationHint": "Interactive Service Package Card",
+      "pages": [
+        "/services"
+      ],
+      "updatedAt": "2026-09-18T10:25:50.923Z"
+    },
+    "/images/services-react/hero.webp": {
+      "id": "/images/services-react/hero.webp",
+      "src": "/images/services-react/hero.webp",
+      "altText": "Hero - Bed Bug Pest Control",
+      "locationHint": "Interactive Service Package Card",
+      "pages": [
+        "/services"
+      ],
+      "updatedAt": "2026-09-18T10:25:50.923Z"
+    },
+    "/images/services-react/homes.webp": {
+      "id": "/images/services-react/homes.webp",
+      "src": "/images/services-react/homes.webp",
+      "altText": "Homes - Bed Bug Pest Control",
+      "locationHint": "Interactive Service Package Card",
+      "pages": [
+        "/services"
+      ],
+      "updatedAt": "2026-09-18T10:25:50.923Z"
+    },
+    "/images/services-react/hostels.webp": {
+      "id": "/images/services-react/hostels.webp",
+      "src": "/images/services-react/hostels.webp",
+      "altText": "Hostels - Bed Bug Pest Control",
+      "locationHint": "Interactive Service Package Card",
+      "pages": [
+        "/services"
+      ],
+      "updatedAt": "2026-09-18T10:25:50.923Z"
+    },
+    "/images/services-react/hotels.webp": {
+      "id": "/images/services-react/hotels.webp",
+      "src": "/images/services-react/hotels.webp",
+      "altText": "Hotels - Bed Bug Pest Control",
+      "locationHint": "Interactive Service Package Card",
+      "pages": [
+        "/services"
+      ],
+      "updatedAt": "2026-09-18T10:25:50.923Z"
+    },
+    "/images/services-react/offices.webp": {
+      "id": "/images/services-react/offices.webp",
+      "src": "/images/services-react/offices.webp",
+      "altText": "Offices - Bed Bug Pest Control",
+      "locationHint": "Interactive Service Package Card",
+      "pages": [
+        "/services"
+      ],
+      "updatedAt": "2026-09-18T10:25:50.923Z"
+    },
+    "/images/services-react/one-time.webp": {
+      "id": "/images/services-react/one-time.webp",
+      "src": "/images/services-react/one-time.webp",
+      "altText": "One time - Bed Bug Pest Control",
+      "locationHint": "Interactive Service Package Card",
+      "pages": [
+        "/services"
+      ],
+      "updatedAt": "2026-09-18T10:25:50.923Z"
+    },
+    "/images/services-react/rentals.webp": {
+      "id": "/images/services-react/rentals.webp",
+      "src": "/images/services-react/rentals.webp",
+      "altText": "Rentals - Bed Bug Pest Control",
+      "locationHint": "Interactive Service Package Card",
+      "pages": [
+        "/services"
+      ],
+      "updatedAt": "2026-09-18T10:25:50.923Z"
+    }
+  }
+}

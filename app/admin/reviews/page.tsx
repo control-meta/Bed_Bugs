@@ -13,6 +13,8 @@ import {
   Trash2,
   Edit2,
   X,
+  CheckCircle2,
+  XCircle,
 } from "lucide-react";
 
 type CustomerReview = {
@@ -23,10 +25,18 @@ type CustomerReview = {
   rating: number;
   quote: string;
   created_at: string;
+  status: "pending" | "approved" | "denied";
+  page_slug?: string | null;
+};
+
+type PageItem = {
+  path: string;
+  title: string;
 };
 
 export default function AdminReviewsPage() {
   const [reviews, setReviews] = useState<CustomerReview[]>([]);
+  const [pages, setPages] = useState<PageItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
@@ -41,13 +51,15 @@ export default function AdminReviewsPage() {
     service: "",
     rating: "5",
     quote: "",
+    status: "pending",
+    page_slug: "",
   });
 
   const fetchReviews = async () => {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch(`/api/admin/reviews`);
+      const res = await fetch(`/api/admin/reviews?limit=1000&status=all`);
       if (!res.ok) throw new Error("Failed to load reviews.");
       const data = await res.json();
       setReviews(data.reviews || []);
@@ -58,13 +70,26 @@ export default function AdminReviewsPage() {
     }
   };
 
+  const fetchPages = async () => {
+    try {
+      const res = await fetch("/api/admin/seo");
+      if (res.ok) {
+        const data = await res.json();
+        setPages(data.pages || []);
+      }
+    } catch (err) {
+      console.error("Failed to load pages for dropdown:", err);
+    }
+  };
+
   useEffect(() => {
     fetchReviews();
+    fetchPages();
   }, []);
 
   const openAddModal = () => {
     setEditingReview(null);
-    setFormData({ name: "", city: "", service: "", rating: "5", quote: "" });
+    setFormData({ name: "", city: "", service: "", rating: "5", quote: "", status: "pending", page_slug: "" });
     setIsModalOpen(true);
   };
 
@@ -76,6 +101,8 @@ export default function AdminReviewsPage() {
       service: review.service || "",
       rating: String(review.rating),
       quote: review.quote,
+      status: review.status || "pending",
+      page_slug: review.page_slug || "",
     });
     setIsModalOpen(true);
   };
@@ -88,6 +115,21 @@ export default function AdminReviewsPage() {
       setReviews((prev) => prev.filter((r) => r.id !== id));
     } catch (err) {
       alert(err instanceof Error ? err.message : "Deletion failed.");
+    }
+  };
+
+  const handleUpdateStatus = async (id: string, status: "pending" | "approved" | "denied") => {
+    try {
+      const res = await fetch(`/api/admin/reviews/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status }),
+      });
+      if (!res.ok) throw new Error("Failed to update status.");
+      const { review } = await res.json();
+      setReviews((prev) => prev.map((r) => (r.id === id ? review : r)));
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Failed to update status.");
     }
   };
 
@@ -197,8 +239,9 @@ export default function AdminReviewsPage() {
                   <th className="px-4 py-3 font-semibold text-neutral-500 uppercase tracking-wider w-[20%]">Customer</th>
                   <th className="px-4 py-3 font-semibold text-neutral-500 uppercase tracking-wider w-[15%]">Details</th>
                   <th className="px-4 py-3 font-semibold text-neutral-500 uppercase tracking-wider w-[10%]">Rating</th>
+                  <th className="px-4 py-3 font-semibold text-neutral-500 uppercase tracking-wider w-[10%]">Status</th>
                   <th className="px-4 py-3 font-semibold text-neutral-500 uppercase tracking-wider max-w-xs">Quote</th>
-                  <th className="px-4 py-3 font-semibold text-neutral-500 uppercase tracking-wider text-right w-[100px]">Actions</th>
+                  <th className="px-4 py-3 font-semibold text-neutral-500 uppercase tracking-wider text-right w-[120px]">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-neutral-100/80">
@@ -242,6 +285,24 @@ export default function AdminReviewsPage() {
                         ))}
                       </div>
                     </td>
+                    <td className="px-4 py-3 align-top">
+                      <span
+                        className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider ${
+                          review.status === "approved"
+                            ? "bg-emerald-100 text-emerald-700"
+                            : review.status === "denied"
+                            ? "bg-red-100 text-red-700"
+                            : "bg-amber-100 text-amber-700"
+                        }`}
+                      >
+                        {review.status || "pending"}
+                      </span>
+                      {review.page_slug && (
+                        <div className="text-[10px] text-neutral-500 mt-1 max-w-[100px] truncate" title={review.page_slug}>
+                          📄 {review.page_slug === "/" ? "Home" : review.page_slug}
+                        </div>
+                      )}
+                    </td>
                     <td className="px-4 py-3 align-top whitespace-normal min-w-[200px] max-w-xs text-neutral-600">
                       <p className="line-clamp-2 text-[11px] leading-relaxed group-hover:line-clamp-none transition-all">
                         "{review.quote}"
@@ -249,6 +310,24 @@ export default function AdminReviewsPage() {
                     </td>
                     <td className="px-4 py-3 align-top text-right">
                       <div className="flex items-center justify-end gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                        {review.status === "pending" && (
+                          <>
+                            <button
+                              onClick={() => handleUpdateStatus(review.id, "approved")}
+                              className="p-1.5 text-emerald-600 bg-emerald-50 hover:bg-emerald-100 hover:text-emerald-700 rounded-md transition-colors"
+                              title="Approve Review"
+                            >
+                              <CheckCircle2 className="h-3.5 w-3.5" />
+                            </button>
+                            <button
+                              onClick={() => handleUpdateStatus(review.id, "denied")}
+                              className="p-1.5 text-amber-600 bg-amber-50 hover:bg-amber-100 hover:text-amber-700 rounded-md transition-colors"
+                              title="Deny Review"
+                            >
+                              <XCircle className="h-3.5 w-3.5" />
+                            </button>
+                          </>
+                        )}
                         <button
                           onClick={() => openEditModal(review)}
                           className="p-1.5 text-blue-600 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 rounded-md transition-colors"
@@ -338,6 +417,38 @@ export default function AdminReviewsPage() {
                     className="w-full px-3 py-1.5 text-xs bg-white border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
                     placeholder="e.g. Bed Bug Treatment"
                   />
+                </div>
+
+                <div className="col-span-1">
+                  <label className="block text-[11px] font-semibold text-neutral-600 uppercase mb-1">Status</label>
+                  <select
+                    value={formData.status}
+                    onChange={(e) => setFormData({ ...formData, status: e.target.value as any })}
+                    className="w-full px-3 py-1.5 text-xs bg-white border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                  >
+                    <option value="pending">Pending</option>
+                    <option value="approved">Approved</option>
+                    <option value="denied">Denied</option>
+                  </select>
+                </div>
+                
+                <div className="col-span-1">
+                  <label className="block text-[11px] font-semibold text-neutral-600 uppercase mb-1">Target Page</label>
+                  <select
+                    value={formData.page_slug || ""}
+                    onChange={(e) => setFormData({ ...formData, page_slug: e.target.value })}
+                    className="w-full px-3 py-1.5 text-xs bg-white border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                  >
+                    <option value="">-- All Pages (Global) --</option>
+                    <option value="/">Home Page (/)</option>
+                    {pages
+                      .filter((p) => p.path !== "/")
+                      .map((p) => (
+                      <option key={p.path} value={p.path}>
+                        {p.title || p.path} ({p.path})
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 

@@ -13,6 +13,10 @@ import {
   PenTool,
   CalendarDays,
   MessageSquare,
+  Globe,
+  SearchCheck,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { CalendarProvider } from "./CalendarContext";
 
@@ -24,11 +28,33 @@ export default function AdminLayout({
   const pathname = usePathname();
   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const [timeStr, setTimeStr] = useState<string>("");
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   // If on login page, render clean full-page login without dashboard chrome
   const isLoginPage = pathname === "/admin/login";
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("admin_sidebar_collapsed");
+      if (stored !== null) {
+        setIsCollapsed(stored === "true");
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  const toggleSidebar = () => {
+    const next = !isCollapsed;
+    setIsCollapsed(next);
+    try {
+      localStorage.setItem("admin_sidebar_collapsed", String(next));
+    } catch {
+      // ignore
+    }
+  };
 
   useEffect(() => {
     const updateTime = () => {
@@ -81,12 +107,63 @@ export default function AdminLayout({
       active: pathname === "/admin/calendar",
     },
     {
+      label: "Edit Pages",
+      href: "/admin/edit-pages",
+      icon: Globe,
+      active: pathname.startsWith("/admin/edit-pages"),
+    },
+    {
+      label: "Global SEO & Metadata",
+      href: "/admin/seo",
+      icon: SearchCheck,
+      active: pathname.startsWith("/admin/seo"),
+    },
+    {
       label: "Customer Reviews",
       href: "/admin/reviews",
       icon: MessageSquare,
       active: pathname === "/admin/reviews",
     },
   ];
+
+  const getHeaderInfo = (path: string) => {
+    if (path === "/admin/blog-generator") {
+      return {
+        title: "AI Blog Writer",
+        description: "Generate SEO-optimized blog content with AI",
+      };
+    }
+    if (path === "/admin/calendar") {
+      return {
+        title: "Content Calendar",
+        description: "AI-planned monthly content schedule for your website",
+      };
+    }
+    if (path.startsWith("/admin/edit-pages")) {
+      return {
+        title: "Live Page Studio",
+        description: "Interactive visual page editor with live preview",
+      };
+    }
+    if (path.startsWith("/admin/seo")) {
+      return {
+        title: "Global SEO & Metadata",
+        description: "Manage page meta titles, descriptions, and image Alt text across the site",
+      };
+    }
+    if (path === "/admin/reviews") {
+      return {
+        title: "Customer Reviews",
+        description: "Manage and moderate reviews shown on your website",
+      };
+    }
+    return {
+      title: "Customer Enquiries & Leads",
+      description: "Centralized leads from Homepage, Contact Page & Floating Widget",
+    };
+  };
+
+  const headerInfo = getHeaderInfo(pathname);
 
   return (
     <div
@@ -102,27 +179,53 @@ export default function AdminLayout({
         />
       )}
 
-      {/* Sidebar Navigation */}
+      {/* Redesigned Sidebar Navigation with Expand/Collapse Arrow */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-60 flex-col border-r border-neutral-200/90 bg-white shadow-sm transition-transform duration-300 lg:static lg:translate-x-0 ${
-          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
+        className={`fixed inset-y-0 left-0 z-50 flex flex-col border-r border-neutral-200/90 bg-white shadow-xs transition-all duration-300 ease-in-out lg:relative lg:translate-x-0 ${
+          isMobileMenuOpen ? "w-64 translate-x-0" : "-translate-x-full lg:translate-x-0"
+        } ${isCollapsed ? "lg:w-[72px]" : "lg:w-64"}`}
       >
+        {/* Desktop Expand / Collapse Floating Arrow Button on Sidebar Edge */}
+        <button
+          type="button"
+          onClick={toggleSidebar}
+          aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+          className="absolute -right-3.5 top-4 z-50 hidden lg:flex h-7 w-7 items-center justify-center rounded-full border border-neutral-300 bg-white text-neutral-600 shadow-md hover:border-emerald-500 hover:bg-emerald-50 hover:text-emerald-700 hover:scale-110 active:scale-95 transition-all cursor-pointer"
+          title={isCollapsed ? "Expand sidebar (Arrow)" : "Collapse sidebar (Arrow)"}
+        >
+          {isCollapsed ? (
+            <ChevronRight className="h-3.5 w-3.5" />
+          ) : (
+            <ChevronLeft className="h-3.5 w-3.5" />
+          )}
+        </button>
+
         {/* Brand Header */}
-        <div className="flex h-14 items-center justify-between border-b border-neutral-200/80 px-4">
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-600 text-white shadow-sm shadow-emerald-700/20">
-              <ShieldCheck className="h-4 w-4" />
+        <div
+          className={`flex h-14 shrink-0 items-center border-b border-neutral-200/80 transition-all ${
+            isCollapsed ? "justify-center px-2" : "justify-between px-4"
+          }`}
+        >
+          <Link
+            href="/admin"
+            className="flex items-center gap-2.5 overflow-hidden group"
+            title="BedBug Admin Dashboard"
+          >
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-700 text-white shadow-sm shadow-emerald-700/25 group-hover:scale-105 transition-transform">
+              <ShieldCheck className="h-4.5 w-4.5" />
             </div>
-            <div>
-              <h2 className="font-display text-xs font-bold tracking-tight text-neutral-900">
-                BedBug Admin
-              </h2>
-              <span className="text-[10px] font-semibold text-emerald-600 block leading-tight">
-                Control Center
-              </span>
-            </div>
-          </div>
+            {!isCollapsed && (
+              <div className="truncate">
+                <h2 className="font-display text-xs font-bold tracking-tight text-neutral-900 leading-tight">
+                  BedBug Admin
+                </h2>
+                <span className="flex items-center gap-1 text-[10px] font-semibold text-emerald-600 leading-tight">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  Control Center
+                </span>
+              </div>
+            )}
+          </Link>
           <button
             type="button"
             onClick={() => setIsMobileMenuOpen(false)}
@@ -134,10 +237,12 @@ export default function AdminLayout({
         </div>
 
         {/* Navigation Links */}
-        <div className="flex-1 space-y-1 p-3">
-          <p className="px-2.5 text-[9.5px] font-bold uppercase tracking-wider text-neutral-400 mb-1">
-            Modules
-          </p>
+        <div className="flex-1 space-y-1.5 p-3 overflow-y-auto overflow-x-hidden">
+          {!isCollapsed && (
+            <p className="px-2.5 text-[9.5px] font-bold uppercase tracking-wider text-neutral-400 mb-1">
+              Modules
+            </p>
+          )}
 
           {navItems.map((item) => {
             const Icon = item.icon;
@@ -146,41 +251,84 @@ export default function AdminLayout({
                 key={item.href}
                 href={item.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className={`group flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-medium transition ${
+                title={item.label}
+                className={`group relative flex items-center rounded-xl transition-all duration-150 ${
+                  isCollapsed
+                    ? "h-11 w-11 mx-auto justify-center"
+                    : "gap-2.5 px-3 py-2 text-xs"
+                } ${
                   item.active
-                    ? "bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200/80 shadow-xs"
+                    ? "bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200/90 shadow-xs"
                     : "text-neutral-600 hover:bg-neutral-100/80 hover:text-neutral-900"
                 }`}
               >
+                {/* Active Left Indicator Bar */}
+                {item.active && !isCollapsed && (
+                  <span className="absolute left-0 top-1.5 bottom-1.5 w-1 rounded-r-full bg-emerald-600" />
+                )}
+
                 <Icon
-                  className={`h-4 w-4 ${
+                  className={`h-4.5 w-4.5 shrink-0 transition-transform duration-150 group-hover:scale-105 ${
                     item.active
                       ? "text-emerald-700"
                       : "text-neutral-400 group-hover:text-neutral-700"
                   }`}
                 />
-                <span className="truncate">{item.label}</span>
+
+                {!isCollapsed && (
+                  <span className="truncate font-medium">{item.label}</span>
+                )}
               </Link>
             );
           })}
         </div>
 
+        {/* Bottom Expand / Collapse Bar */}
+        <div className="hidden lg:block px-2.5 py-1.5 border-t border-neutral-100">
+          <button
+            type="button"
+            onClick={toggleSidebar}
+            className={`w-full flex items-center rounded-xl py-2 text-xs font-medium text-neutral-500 hover:bg-neutral-100 hover:text-neutral-900 transition-colors cursor-pointer ${
+              isCollapsed ? "justify-center px-0" : "gap-2.5 px-3"
+            }`}
+            title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+          >
+            {isCollapsed ? (
+              <ChevronRight className="h-4 w-4 text-neutral-500 shrink-0" />
+            ) : (
+              <>
+                <ChevronLeft className="h-4 w-4 text-neutral-500 shrink-0" />
+                <span className="truncate">Collapse sidebar</span>
+              </>
+            )}
+          </button>
+        </div>
+
         {/* User Profile & Logout */}
-        <div className="border-t border-neutral-200/80 p-3">
-          <div className="flex items-center justify-between rounded-lg bg-neutral-50 p-2.5 border border-neutral-200/80">
-            <div className="flex items-center gap-2.5 overflow-hidden">
-              <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-[10px] font-bold text-white shadow-xs">
+        <div className="border-t border-neutral-200/80 p-2.5 bg-white">
+          <div
+            className={`flex items-center rounded-xl bg-neutral-50/90 border border-neutral-200/80 transition-all ${
+              isCollapsed ? "flex-col gap-2 p-1.5" : "justify-between p-2"
+            }`}
+          >
+            <div className={`flex items-center overflow-hidden ${isCollapsed ? "justify-center" : "gap-2.5"}`}>
+              <div
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-emerald-600 to-emerald-700 text-[10px] font-bold text-white shadow-xs"
+                title="Admin User (Authenticated)"
+              >
                 AD
               </div>
-              <div className="truncate">
-                <p className="truncate text-xs font-semibold text-neutral-900 leading-tight">
-                  Admin User
-                </p>
-                <span className="flex items-center gap-1 text-[10px] text-emerald-600 font-medium">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  Active
-                </span>
-              </div>
+              {!isCollapsed && (
+                <div className="truncate">
+                  <p className="truncate text-xs font-semibold text-neutral-900 leading-tight">
+                    Admin User
+                  </p>
+                  <span className="flex items-center gap-1 text-[10px] text-emerald-600 font-medium">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    Online
+                  </span>
+                </div>
+              )}
             </div>
 
             <button
@@ -189,7 +337,7 @@ export default function AdminLayout({
               disabled={isLoggingOut}
               aria-label="Logout"
               title="Logout"
-              className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-neutral-500 hover:bg-red-50 hover:text-red-600 transition disabled:opacity-50"
+              className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-neutral-500 hover:bg-rose-50 hover:text-rose-600 transition disabled:opacity-50 cursor-pointer"
             >
               <LogOut className="h-3.5 w-3.5" />
             </button>
@@ -212,22 +360,10 @@ export default function AdminLayout({
             </button>
             <div>
               <h1 className="font-display text-sm sm:text-base font-bold text-neutral-900 tracking-tight leading-none">
-                {pathname === "/admin/blog-generator"
-                  ? "AI Blog Writer"
-                  : pathname === "/admin/calendar"
-                  ? "Content Calendar"
-                  : pathname === "/admin/reviews"
-                  ? "Customer Reviews"
-                  : "Customer Enquiries & Leads"}
+                {headerInfo.title}
               </h1>
               <p className="hidden text-[11px] text-neutral-500 sm:block mt-0.5">
-                {pathname === "/admin/blog-generator"
-                  ? "Generate SEO-optimized blog content with AI"
-                  : pathname === "/admin/calendar"
-                  ? "AI-planned monthly content schedule for your website"
-                  : pathname === "/admin/reviews"
-                  ? "Manage and moderate reviews shown on your website"
-                  : "Centralized leads from Homepage, Contact Page & Floating Widget"}
+                {headerInfo.description}
               </p>
             </div>
           </div>
@@ -243,7 +379,7 @@ export default function AdminLayout({
         </header>
 
         {/* Dashboard Viewport - Contains all cards and table with internal scroll */}
-        <main className="flex-1 overflow-hidden p-3.5 sm:p-4 flex flex-col">
+        <main className={`flex-1 overflow-hidden flex flex-col ${pathname === "/admin/edit-pages" ? "p-0" : "p-3.5 sm:p-4"}`}>
           <CalendarProvider>
             {children}
           </CalendarProvider>

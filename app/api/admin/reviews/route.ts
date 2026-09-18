@@ -33,6 +33,8 @@ export async function POST(request: NextRequest) {
       service: body.service || undefined,
       quote: body.quote,
       rating,
+      status: body.status || "pending",
+      page_slug: body.page_slug || null,
     });
 
     return NextResponse.json({ success: true, review: newReview }, { status: 201 });

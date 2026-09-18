@@ -13,13 +13,29 @@ import { ContactForm } from "@/components/contact-form";
 import ContactLocation from "@/components/contact-location";
 import { cities, site } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: {
-    absolute: "Contact Us | Book Bed Bug Pest Control & Inspection",
-  },
-  description:
-    "Book your same-day bed bug inspection. Call +91 97693 21234, chat on WhatsApp or request a quote for fast service in Pune, Mumbai, Bangalore & Delhi.",
-};
+import { getPageSeo, getAllImageAltMap } from "@/lib/seo-db";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getPageSeo("/contact");
+  return {
+    title: {
+      absolute: seo.title,
+    },
+    description: seo.description,
+    keywords: seo.keywords,
+    alternates: {
+      canonical: seo.canonical || "https://bedbugstreatment.co.in/contact",
+    },
+    openGraph: {
+      title: seo.title,
+      description: seo.description,
+      images: seo.ogImage ? [{ url: seo.ogImage }] : undefined,
+    },
+  };
+}
 
 const contactCards = [
   {
@@ -63,10 +79,13 @@ const assurances = [
   "12-month service warranty",
 ];
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const altMap = await getAllImageAltMap();
+
   return (
     <>
       <PageHero
+        altMap={altMap}
         eyebrow="Get In Touch"
         radarSize="compact"
         title={
