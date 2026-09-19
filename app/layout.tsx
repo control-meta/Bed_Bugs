@@ -71,6 +71,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       className={`${inter.variable} ${poppins.variable} h-full antialiased`}
+      data-scroll-behavior="smooth"
     >
       <head>
         <script

@@ -1,7 +1,7 @@
 "use strict";
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import {
   Sparkles,
@@ -20,6 +20,7 @@ import {
   AlertTriangle,
   XCircle,
   CheckCircle,
+  Trash2,
 } from "lucide-react";
 
 type UsageStats = {
@@ -64,6 +65,30 @@ export default function BlogGeneratorPage() {
   const [apiKeyMissing, setApiKeyMissing] = useState(false);
   const [usage, setUsage] = useState<UsageStats | null>(null);
   const [activeTab, setActiveTab] = useState<"preview" | "markdown" | "audit" | "seo" | "research">("preview");
+
+  useEffect(() => {
+    const saved = localStorage.getItem("generatedBlogData");
+    if (saved) {
+      try {
+        setData(JSON.parse(saved));
+      } catch (e) {
+        console.error("Failed to parse saved blog data", e);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (data && !isGenerating) {
+      localStorage.setItem("generatedBlogData", JSON.stringify(data));
+    }
+  }, [data, isGenerating]);
+
+  const handleDiscard = () => {
+    if (confirm("Are you sure you want to discard the current generated blog?")) {
+      setData(null);
+      localStorage.removeItem("generatedBlogData");
+    }
+  };
 
   const wordCount = data?.blogContent
     ? data.blogContent.trim().split(/\s+/).filter(Boolean).length
@@ -317,7 +342,7 @@ export default function BlogGeneratorPage() {
           )}
         </div>
 
-        <div className="p-4 border-t border-neutral-100 bg-white shrink-0">
+        <div className="p-4 border-t border-neutral-100 bg-white shrink-0 flex flex-col gap-2">
           <button
             type="submit"
             form="blog-form"
@@ -336,6 +361,17 @@ export default function BlogGeneratorPage() {
               </>
             )}
           </button>
+
+          {data && !isGenerating && (
+            <button
+              type="button"
+              onClick={handleDiscard}
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-red-50 px-4 py-2.5 text-sm font-bold text-red-600 transition hover:bg-red-100"
+            >
+              <Trash2 className="h-4 w-4" />
+              <span>Discard Content</span>
+            </button>
+          )}
         </div>
       </div>
 
