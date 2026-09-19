@@ -23,6 +23,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://bedbugstreatment.co.in"),
   title: {
     default: "Bed Bug Treatment & Pest Control Services in India",
     template: "%s | BedBug Treatment",

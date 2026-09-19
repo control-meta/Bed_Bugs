@@ -574,22 +574,7 @@ export default function GlobalSeoAdminPage() {
                           Google Search Result Live Preview (SERP Snippet)
                         </h3>
                       </div>
-                      <div className="flex items-center gap-1 rounded-lg bg-neutral-100 p-0.5 text-[10.5px] font-bold">
-                        <button
-                          type="button"
-                          onClick={() => setSerpDevice("desktop")}
-                          className={`rounded px-2 py-0.5 transition ${serpDevice === "desktop" ? "bg-white text-emerald-700 shadow-xs" : "text-neutral-500"}`}
-                        >
-                          Desktop
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setSerpDevice("mobile")}
-                          className={`rounded px-2 py-0.5 transition ${serpDevice === "mobile" ? "bg-white text-emerald-700 shadow-xs" : "text-neutral-500"}`}
-                        >
-                          Mobile
-                        </button>
-                      </div>
+
                     </div>
 
                     {/* Google Simulator Card */}

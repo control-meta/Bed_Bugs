@@ -3,7 +3,7 @@
     "/": {
       "path": "/",
       "pageName": "Home Page",
-      "title": "opopopoopopopooopopopopopopoo",
+      "title": "Bed Bug Treatment & Pest Control Services in India | 100% Odorless",
       "description": "Professional odorless bed bug treatment for homes & hotels across India. Same-day inspection, safe methods & 12-month warranty. Call +91 97693 21234.",
       "keywords": [
         "bed bug treatment",
@@ -13,7 +13,7 @@
       ],
       "ogImage": "/images/hero.webp",
       "canonical": "https://bedbugstreatment.co.in/",
-      "updatedAt": "2026-09-18T10:42:44.936Z"
+      "updatedAt": "2026-09-19T06:18:59.433Z"
     },
     "/about": {
       "path": "/about",
@@ -27,7 +27,7 @@
       ],
       "ogImage": "/images/our-story.jpg",
       "canonical": "https://bedbugstreatment.co.in/about",
-      "updatedAt": "2026-09-18T10:06:37.051Z"
+      "updatedAt": "2026-09-19T06:14:52.012Z"
     },
     "/services": {
       "path": "/services",
@@ -41,7 +41,7 @@
       ],
       "ogImage": "/images/hero-tech-bed.webp",
       "canonical": "https://bedbugstreatment.co.in/services",
-      "updatedAt": "2026-09-18T10:06:37.051Z"
+      "updatedAt": "2026-09-19T06:14:52.241Z"
     },
     "/contact": {
       "path": "/contact",
@@ -55,7 +55,7 @@
       ],
       "ogImage": "/images/hero.webp",
       "canonical": "https://bedbugstreatment.co.in/contact",
-      "updatedAt": "2026-09-18T10:06:37.051Z"
+      "updatedAt": "2026-09-19T06:14:52.527Z"
     },
     "/faq": {
       "path": "/faq",
@@ -69,7 +69,7 @@
       ],
       "ogImage": "/images/bedbug-closeup.jpg",
       "canonical": "https://bedbugstreatment.co.in/faq",
-      "updatedAt": "2026-09-18T10:06:37.051Z"
+      "updatedAt": "2026-09-19T06:14:53.145Z"
     },
     "/blog": {
       "path": "/blog",
@@ -83,7 +83,7 @@
       ],
       "ogImage": "/images/bedbug.png",
       "canonical": "https://bedbugstreatment.co.in/blog",
-      "updatedAt": "2026-09-18T10:06:37.051Z"
+      "updatedAt": "2026-09-19T06:14:53.695Z"
     },
     "/bangalore": {
       "path": "/bangalore",
@@ -102,7 +102,7 @@
       ],
       "ogImage": "/images/cities/bangalore.jpg",
       "canonical": "https://bedbugstreatment.co.in/bangalore",
-      "updatedAt": "2026-09-18T10:06:37.051Z"
+      "updatedAt": "2026-09-19T06:14:53.981Z"
     },
     "/delhi": {
       "path": "/delhi",
@@ -121,7 +121,7 @@
       ],
       "ogImage": "/images/cities/delhi.jpg",
       "canonical": "https://bedbugstreatment.co.in/delhi",
-      "updatedAt": "2026-09-18T10:06:37.051Z"
+      "updatedAt": "2026-09-19T06:14:54.580Z"
     },
     "/mumbai": {
       "path": "/mumbai",
@@ -140,7 +140,7 @@
       ],
       "ogImage": "/images/cities/mumbai.jpg",
       "canonical": "https://bedbugstreatment.co.in/mumbai",
-      "updatedAt": "2026-09-18T10:06:37.051Z"
+      "updatedAt": "2026-09-19T06:14:54.802Z"
     },
     "/noida": {
       "path": "/noida",
@@ -159,7 +159,7 @@
       ],
       "ogImage": "/images/cities/noida.jpg",
       "canonical": "https://bedbugstreatment.co.in/noida",
-      "updatedAt": "2026-09-18T10:06:37.051Z"
+      "updatedAt": "2026-09-19T06:14:55.377Z"
     },
     "/pune": {
       "path": "/pune",
@@ -178,7 +178,7 @@
       ],
       "ogImage": "/images/cities/pune.jpg",
       "canonical": "https://bedbugstreatment.co.in/pune",
-      "updatedAt": "2026-09-18T10:06:37.051Z"
+      "updatedAt": "2026-09-19T06:14:55.978Z"
     }
   },
   "images": {
@@ -190,14 +190,14 @@
         "/"
       ],
       "id": "/images/hero.webp",
-      "updatedAt": "2026-09-18T10:06:37.052Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/hero-tech-bed.webp": {
       "src": "/images/hero-tech-bed.webp",
       "altText": "Specialist technician carefully inspecting mattress seams for bed bugs",
       "locationHint": "Homepage Hero Main Showcase",
       "id": "/images/hero-tech-bed.webp",
-      "updatedAt": "2026-09-18T10:31:53.851Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/bedbug-closeup.jpg": {
       "src": "/images/bedbug-closeup.jpg",
@@ -208,7 +208,7 @@
         "/blog"
       ],
       "id": "/images/bedbug-closeup.jpg",
-      "updatedAt": "2026-09-18T10:06:37.052Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/bedbug.png": {
       "src": "/images/bedbug.png",
@@ -220,7 +220,7 @@
         "/blog"
       ],
       "id": "/images/bedbug.png",
-      "updatedAt": "2026-09-18T10:06:37.052Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/real-bedbug-macro.png": {
       "src": "/images/real-bedbug-macro.png",
@@ -230,7 +230,7 @@
         "/blog"
       ],
       "id": "/images/real-bedbug-macro.png",
-      "updatedAt": "2026-09-18T10:06:37.052Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/why-choose-us.webp": {
       "src": "/images/why-choose-us.webp",
@@ -241,7 +241,7 @@
         "/about"
       ],
       "id": "/images/why-choose-us.webp",
-      "updatedAt": "2026-09-18T10:06:37.052Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/our-story.jpg": {
       "src": "/images/our-story.jpg",
@@ -251,7 +251,7 @@
         "/about"
       ],
       "id": "/images/our-story.jpg",
-      "updatedAt": "2026-09-18T10:06:37.052Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/treatment-1.png": {
       "src": "/images/treatment-1.png",
@@ -262,7 +262,7 @@
         "/services"
       ],
       "id": "/images/treatment-1.png",
-      "updatedAt": "2026-09-18T10:06:37.052Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/treatment-2.png": {
       "src": "/images/treatment-2.png",
@@ -273,7 +273,7 @@
         "/services"
       ],
       "id": "/images/treatment-2.png",
-      "updatedAt": "2026-09-18T10:06:37.052Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/treatment-3.png": {
       "src": "/images/treatment-3.png",
@@ -284,7 +284,7 @@
         "/services"
       ],
       "id": "/images/treatment-3.png",
-      "updatedAt": "2026-09-18T10:06:37.052Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/logo.jpg": {
       "src": "/images/logo.jpg",
@@ -294,14 +294,14 @@
         "*"
       ],
       "id": "/images/logo.jpg",
-      "updatedAt": "2026-09-18T10:06:37.052Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/cities/pune.jpg": {
       "src": "/images/cities/pune.jpg",
       "altText": "Pune skyline and local bed bug pest control service area",
       "locationHint": "Pune City Showcase",
       "id": "/images/cities/pune.jpg",
-      "updatedAt": "2026-09-18T10:32:06.544Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/cities/mumbai.jpg": {
       "src": "/images/cities/mumbai.jpg",
@@ -312,7 +312,7 @@
         "/"
       ],
       "id": "/images/cities/mumbai.jpg",
-      "updatedAt": "2026-09-18T10:06:37.052Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/cities/bangalore.jpg": {
       "src": "/images/cities/bangalore.jpg",
@@ -323,7 +323,7 @@
         "/"
       ],
       "id": "/images/cities/bangalore.jpg",
-      "updatedAt": "2026-09-18T10:06:37.052Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/cities/delhi.jpg": {
       "src": "/images/cities/delhi.jpg",
@@ -334,7 +334,7 @@
         "/"
       ],
       "id": "/images/cities/delhi.jpg",
-      "updatedAt": "2026-09-18T10:06:37.052Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/cities/noida.jpg": {
       "src": "/images/cities/noida.jpg",
@@ -345,7 +345,7 @@
         "/"
       ],
       "id": "/images/cities/noida.jpg",
-      "updatedAt": "2026-09-18T10:06:37.052Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services/service-inspection.jpg": {
       "src": "/images/services/service-inspection.jpg",
@@ -355,7 +355,7 @@
         "/services"
       ],
       "id": "/images/services/service-inspection.jpg",
-      "updatedAt": "2026-09-18T10:06:37.052Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services/service-heat.jpg": {
       "src": "/images/services/service-heat.jpg",
@@ -365,7 +365,7 @@
         "/services"
       ],
       "id": "/images/services/service-heat.jpg",
-      "updatedAt": "2026-09-18T10:06:37.052Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services/service-crevice.jpg": {
       "src": "/images/services/service-crevice.jpg",
@@ -375,7 +375,7 @@
         "/services"
       ],
       "id": "/images/services/service-crevice.jpg",
-      "updatedAt": "2026-09-18T10:06:37.052Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services/service-spray.jpg": {
       "src": "/images/services/service-spray.jpg",
@@ -385,7 +385,7 @@
         "/services"
       ],
       "id": "/images/services/service-spray.jpg",
-      "updatedAt": "2026-09-18T10:06:37.052Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services/service-eco.jpg": {
       "src": "/images/services/service-eco.jpg",
@@ -395,7 +395,7 @@
         "/services"
       ],
       "id": "/images/services/service-eco.jpg",
-      "updatedAt": "2026-09-18T10:06:37.052Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services/service-warranty.jpg": {
       "src": "/images/services/service-warranty.jpg",
@@ -406,7 +406,7 @@
         "/"
       ],
       "id": "/images/services/service-warranty.jpg",
-      "updatedAt": "2026-09-18T10:06:37.052Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services/fully-equipped.jpg": {
       "src": "/images/services/fully-equipped.jpg",
@@ -417,7 +417,7 @@
         "/about"
       ],
       "id": "/images/services/fully-equipped.jpg",
-      "updatedAt": "2026-09-18T10:06:37.052Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services-react/amc-hd.webp": {
       "src": "/images/services-react/amc-hd.webp",
@@ -427,7 +427,7 @@
         "/services"
       ],
       "id": "/images/services-react/amc-hd.webp",
-      "updatedAt": "2026-09-18T10:06:37.052Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services-react/bed-treatment-hd.webp": {
       "src": "/images/services-react/bed-treatment-hd.webp",
@@ -437,7 +437,7 @@
         "/services"
       ],
       "id": "/images/services-react/bed-treatment-hd.webp",
-      "updatedAt": "2026-09-18T10:06:37.052Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services-react/cta-bedroom-hd.webp": {
       "src": "/images/services-react/cta-bedroom-hd.webp",
@@ -448,7 +448,7 @@
         "/"
       ],
       "id": "/images/services-react/cta-bedroom-hd.webp",
-      "updatedAt": "2026-09-18T10:06:37.052Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services-react/homes-hd.webp": {
       "src": "/images/services-react/homes-hd.webp",
@@ -458,7 +458,7 @@
         "/services"
       ],
       "id": "/images/services-react/homes-hd.webp",
-      "updatedAt": "2026-09-18T10:06:37.052Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services-react/hotels-hd.webp": {
       "src": "/images/services-react/hotels-hd.webp",
@@ -468,7 +468,7 @@
         "/services"
       ],
       "id": "/images/services-react/hotels-hd.webp",
-      "updatedAt": "2026-09-18T10:06:37.052Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services-react/hostels-hd.webp": {
       "src": "/images/services-react/hostels-hd.webp",
@@ -478,7 +478,7 @@
         "/services"
       ],
       "id": "/images/services-react/hostels-hd.webp",
-      "updatedAt": "2026-09-18T10:06:37.052Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services-react/offices-hd.webp": {
       "src": "/images/services-react/offices-hd.webp",
@@ -488,7 +488,7 @@
         "/services"
       ],
       "id": "/images/services-react/offices-hd.webp",
-      "updatedAt": "2026-09-18T10:06:37.052Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services-react/rentals-hd.webp": {
       "src": "/images/services-react/rentals-hd.webp",
@@ -498,7 +498,7 @@
         "/services"
       ],
       "id": "/images/services-react/rentals-hd.webp",
-      "updatedAt": "2026-09-18T10:06:37.052Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services-react/one-time-hd.webp": {
       "src": "/images/services-react/one-time-hd.webp",
@@ -508,7 +508,7 @@
         "/services"
       ],
       "id": "/images/services-react/one-time-hd.webp",
-      "updatedAt": "2026-09-18T10:06:37.052Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/bedbug.svg": {
       "id": "/images/bedbug.svg",
@@ -518,7 +518,7 @@
       "pages": [
         "/services"
       ],
-      "updatedAt": "2026-09-18T10:25:50.923Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services/fully-equipped-new.jpg": {
       "id": "/images/services/fully-equipped-new.jpg",
@@ -528,7 +528,7 @@
       "pages": [
         "/services"
       ],
-      "updatedAt": "2026-09-18T10:25:50.923Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services/service-crevice.png": {
       "id": "/images/services/service-crevice.png",
@@ -538,7 +538,7 @@
       "pages": [
         "/services"
       ],
-      "updatedAt": "2026-09-18T10:25:50.923Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services/service-eco.png": {
       "id": "/images/services/service-eco.png",
@@ -548,7 +548,7 @@
       "pages": [
         "/services"
       ],
-      "updatedAt": "2026-09-18T10:25:50.923Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services/service-heat.png": {
       "id": "/images/services/service-heat.png",
@@ -558,7 +558,7 @@
       "pages": [
         "/services"
       ],
-      "updatedAt": "2026-09-18T10:25:50.923Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services/service-inspection.png": {
       "id": "/images/services/service-inspection.png",
@@ -568,7 +568,7 @@
       "pages": [
         "/services"
       ],
-      "updatedAt": "2026-09-18T10:25:50.923Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services/service-spray.png": {
       "id": "/images/services/service-spray.png",
@@ -578,7 +578,7 @@
       "pages": [
         "/services"
       ],
-      "updatedAt": "2026-09-18T10:25:50.923Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services/service-warranty.png": {
       "id": "/images/services/service-warranty.png",
@@ -588,7 +588,7 @@
       "pages": [
         "/services"
       ],
-      "updatedAt": "2026-09-18T10:25:50.923Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services-react/amc.webp": {
       "id": "/images/services-react/amc.webp",
@@ -598,7 +598,7 @@
       "pages": [
         "/services"
       ],
-      "updatedAt": "2026-09-18T10:25:50.923Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services-react/bed-treatment.webp": {
       "id": "/images/services-react/bed-treatment.webp",
@@ -608,7 +608,7 @@
       "pages": [
         "/services"
       ],
-      "updatedAt": "2026-09-18T10:25:50.923Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services-react/cta-bedroom.webp": {
       "id": "/images/services-react/cta-bedroom.webp",
@@ -618,7 +618,7 @@
       "pages": [
         "/services"
       ],
-      "updatedAt": "2026-09-18T10:25:50.923Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services-react/hero-treatment.png": {
       "id": "/images/services-react/hero-treatment.png",
@@ -628,7 +628,7 @@
       "pages": [
         "/services"
       ],
-      "updatedAt": "2026-09-18T10:25:50.923Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services-react/hero.png": {
       "id": "/images/services-react/hero.png",
@@ -638,7 +638,7 @@
       "pages": [
         "/services"
       ],
-      "updatedAt": "2026-09-18T10:25:50.923Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services-react/hero.webp": {
       "id": "/images/services-react/hero.webp",
@@ -648,7 +648,7 @@
       "pages": [
         "/services"
       ],
-      "updatedAt": "2026-09-18T10:25:50.923Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services-react/homes.webp": {
       "id": "/images/services-react/homes.webp",
@@ -658,7 +658,7 @@
       "pages": [
         "/services"
       ],
-      "updatedAt": "2026-09-18T10:25:50.923Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services-react/hostels.webp": {
       "id": "/images/services-react/hostels.webp",
@@ -668,7 +668,7 @@
       "pages": [
         "/services"
       ],
-      "updatedAt": "2026-09-18T10:25:50.923Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services-react/hotels.webp": {
       "id": "/images/services-react/hotels.webp",
@@ -678,7 +678,7 @@
       "pages": [
         "/services"
       ],
-      "updatedAt": "2026-09-18T10:25:50.923Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services-react/offices.webp": {
       "id": "/images/services-react/offices.webp",
@@ -688,7 +688,7 @@
       "pages": [
         "/services"
       ],
-      "updatedAt": "2026-09-18T10:25:50.923Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services-react/one-time.webp": {
       "id": "/images/services-react/one-time.webp",
@@ -698,7 +698,7 @@
       "pages": [
         "/services"
       ],
-      "updatedAt": "2026-09-18T10:25:50.923Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services-react/rentals.webp": {
       "id": "/images/services-react/rentals.webp",
@@ -708,7 +708,7 @@
       "pages": [
         "/services"
       ],
-      "updatedAt": "2026-09-18T10:25:50.923Z"
+      "updatedAt": "2026-09-19T06:14:56.989Z"
     }
   }
 }
