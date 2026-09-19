@@ -2538,7 +2538,6 @@ export default function BedBugTreatment() {
               rating="4.9/5"
               reviewCount="1,200+"
               testimonials={serviceReviews}
-              pageSlug="/services"
             />
           </div>
 
