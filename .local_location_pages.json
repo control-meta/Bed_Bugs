@@ -203,12 +203,19 @@
     "status": "published",
     "customStyles": {
       "fontFamily": "var(--font-poppins)",
+      "step3_desc": "Superheated dry steam penetrates fabric fibers and furniture joints to destroy hidden egg clusters.",
       "accentColor": "#1f8055",
-      "heroHeading": "Bed Bug Treatment in Bangalore",
+      "heroHeading": "Bed Bug Treatment in <span style=\"color: rgb(0, 140, 90);\">Bangalore</span>",
+      "step2_title": "Targeted Odorless Treatment",
+      "step3_title": "High-Heat Egg Eradication",
+      "step4_title": "12-Month Warranty Protection",
       "heroTitleSize": "text-4xl lg:text-[3rem]",
-      "heroTitleWeight": "font-extrabold"
+      "heroTitleWeight": "font-extrabold",
+      "methodologyDesc": "Our scientific, dual-action extermination strategy kills adult bugs instantly and neutralizes eggs so they never hatch again.",
+      "methodologyTitle": "<h2 class=\"transition-all duration-150 cursor-text outline-none max-w-3xl font-display font-extrabold tracking-tight mt-3 text-2xl sm:text-3xl lg:text-4xl text-ink outline outline-2 outline-emerald-600 outline-offset-2 ring-2 ring-emerald-500/20 bg-emerald-50/25 rounded-sm\" title=\"Click to edit: Methodology Section Title\" style=\"margin: 12px 0px 0px; font-size: 36px; font-weight: 800; max-width: 768px; border-radius: 4px; background-color: oklab(0.978997 -0.020394 0.0050624 / 0.25); font-family: Poppins, &quot;Poppins Fallback&quot;, ui-sans-serif, system-ui, sans-serif; line-height: 1.11111; --tw-font-weight: 800; --tw-tracking: -.025em; letter-spacing: -0.9px; color: rgb(16, 25, 21); --tw-ring-shadow: 0 0 0 calc(2px + 0px) color-mix(in oklab, lab(66.9756% -58.27 19.5419) 20%, transparent); box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.695996 -0.162107 0.0511875 / 0.2) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px; --tw-ring-color: color-mix(in oklab, lab(66.9756% -58.27 19.5419) 20%, transparent); outline: lab(55.0481 -49.9246 15.93) none 2px; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); --tw-duration: .15s; --tw-outline-style: none;\">How we eliminate bed bugs in Bangalore</h2>",
+      "methodologyEyebrow": "Our Proven Methodology"
     },
-    "updatedAt": "2026-09-18T20:30:00.542Z",
+    "updatedAt": "2026-09-19T08:50:55.760Z",
     "createdAt": "2026-09-18T05:38:22.741743+00:00",
     "id": "fdf1c213-f051-47c2-83f1-763e620c9e4c",
     "heroHeading": "Bed Bug Treatment in <span style=\"color: rgb(0, 140, 90);\">Bangalore</span>"
@@ -917,35 +924,35 @@
     ],
     "pricing": [
       {
-        "propertyType": "1 RK / Studio",
-        "startingPrice": "₹1,199",
         "duration": "1 Hour",
-        "warranty": "12 Months"
+        "warranty": "12 Months",
+        "propertyType": "1 RK / Studio",
+        "startingPrice": "₹1,199"
       },
       {
-        "propertyType": "1 BHK Apartment",
-        "startingPrice": "₹1,499",
         "duration": "1.5 Hours",
-        "warranty": "12 Months"
+        "warranty": "12 Months",
+        "propertyType": "1 BHK Apartment",
+        "startingPrice": "₹1,499"
       },
       {
-        "propertyType": "2 BHK Apartment",
-        "startingPrice": "₹1,999",
+        "popular": true,
         "duration": "2 Hours",
         "warranty": "12 Months",
-        "popular": true
+        "propertyType": "2 BHK Apartment",
+        "startingPrice": "₹1,999"
       },
       {
-        "propertyType": "3 BHK Apartment",
-        "startingPrice": "₹2,599",
         "duration": "2.5 Hours",
-        "warranty": "12 Months"
+        "warranty": "12 Months",
+        "propertyType": "3 BHK Apartment",
+        "startingPrice": "₹2,599"
       },
       {
-        "propertyType": "Hostel / PG / Commercial",
-        "startingPrice": "Custom Quote",
         "duration": "Tailored",
-        "warranty": "12 Months"
+        "warranty": "12 Months",
+        "propertyType": "Hostel / PG / Commercial",
+        "startingPrice": "Custom Quote"
       }
     ],
     "localHighlights": [
@@ -968,91 +975,97 @@
     ],
     "faqs": [
       {
-        "question": "What is the best way to treat bed bugs in Pune?",
-        "answer": "Professional bed bug treatment in Pune begins with an inspection to locate activity and hiding areas before selecting a suitable targeted treatment approach."
+        "answer": "Professional bed bug treatment in Pune begins with an inspection to locate activity and hiding areas before selecting a suitable targeted treatment approach.",
+        "question": "What is the best way to treat bed bugs in Pune?"
       },
       {
-        "question": "How much does bed bug treatment cost in Pune?",
-        "answer": "Bed bug treatment cost in Pune varies with property size, number of rooms, infestation level and service requirements. Assessment helps determine the suitable option."
+        "answer": "Bed bug treatment cost in Pune varies with property size, number of rooms, infestation level and service requirements. Assessment helps determine the suitable option.",
+        "question": "How much does bed bug treatment cost in Pune?"
       },
       {
-        "question": "Do you provide bed bug treatment for homes in Pune?",
-        "answer": "Yes, bed bug treatment is available for houses, apartments, rented properties, bedrooms and other residential spaces across Pune and nearby service areas."
+        "answer": "Yes, bed bug treatment is available for houses, apartments, rented properties, bedrooms and other residential spaces across Pune and nearby service areas.",
+        "question": "Do you provide bed bug treatment for homes in Pune?"
       },
       {
-        "question": "Do you provide bed bug treatment for hotels and PGs in Pune?",
-        "answer": "Yes, professional services can be arranged for hotels, hostels, PGs, guest houses and other accommodation properties based on their individual requirements."
+        "answer": "Yes, professional services can be arranged for hotels, hostels, PGs, guest houses and other accommodation properties based on their individual requirements.",
+        "question": "Do you provide bed bug treatment for hotels and PGs in Pune?"
       },
       {
-        "question": "How long does bed bug treatment take in Pune?",
-        "answer": "Treatment duration depends on the property size, number of rooms, infestation level and areas requiring service. A technician can explain the expected duration."
+        "answer": "Treatment duration depends on the property size, number of rooms, infestation level and areas requiring service. A technician can explain the expected duration.",
+        "question": "How long does bed bug treatment take in Pune?"
       },
       {
-        "question": "Can mattresses and furniture be treated for bed bugs?",
-        "answer": "Yes, mattresses, bed frames, headboards, sofas and nearby furniture can be inspected and treated where suitable for the selected bed bug service."
+        "answer": "Yes, mattresses, bed frames, headboards, sofas and nearby furniture can be inspected and treated where suitable for the selected bed bug service.",
+        "question": "Can mattresses and furniture be treated for bed bugs?"
       },
       {
-        "question": "Do you offer one-time bed bug treatment in Pune?",
-        "answer": "Yes, one-time bed bug treatment is available for suitable cases. The recommended service depends on infestation level and the property's condition."
+        "answer": "Yes, one-time bed bug treatment is available for suitable cases. The recommended service depends on infestation level and the property's condition.",
+        "question": "Do you offer one-time bed bug treatment in Pune?"
       },
       {
-        "question": "Do you offer bed bug service plans in Pune?",
-        "answer": "Yes, service plan options can include scheduled visits and follow-up support depending on the property, infestation level and service requirements."
+        "answer": "Yes, service plan options can include scheduled visits and follow-up support depending on the property, infestation level and service requirements.",
+        "question": "Do you offer bed bug service plans in Pune?"
       },
       {
-        "question": "Do I need to leave my home during bed bug treatment?",
-        "answer": "Temporary vacating may be required depending on the treatment selected. Your technician will provide preparation and re-entry instructions before service."
+        "answer": "Temporary vacating may be required depending on the treatment selected. Your technician will provide preparation and re-entry instructions before service.",
+        "question": "Do I need to leave my home during bed bug treatment?"
       },
       {
-        "question": "How can I book bed bug treatment in Pune?",
-        "answer": "Contact the bed bug treatment team to discuss your situation, arrange an inspection and select a suitable treatment option for your Pune property."
+        "answer": "Contact the bed bug treatment team to discuss your situation, arrange an inspection and select a suitable treatment option for your Pune property.",
+        "question": "How can I book bed bug treatment in Pune?"
       }
     ],
     "reviews": [
       {
+        "city": "Pune",
         "name": "Sanjay Deshmukh",
-        "locality": "Kothrud",
-        "city": "Pune",
+        "quote": "Suffered from bed bug bites for nearly 3 weeks. Called their Pune team in the morning and technicians arrived in Kothrud within 2 hours. Completely odorless chemical spray and steaming. Slept peacefully for the first time!",
         "rating": 5,
-        "quote": "Suffered from bed bug bites for nearly 3 weeks. Called their Pune team in the morning and technicians arrived in Kothrud within 2 hours. Completely odorless chemical spray and steaming. Slept peacefully for the first time!"
+        "locality": "Kothrud"
       },
       {
+        "city": "Pune",
         "name": "Pooja Kulkarni",
-        "locality": "Hinjewadi Phase 1",
-        "city": "Pune",
+        "quote": "We manage an IT PG hostel in Hinjewadi. Bed bugs were spreading between bunk beds. Their team performed an intensive thermal and deep crevice treatment on Saturday. Zero complaints since 6 months.",
         "rating": 5,
-        "quote": "We manage an IT PG hostel in Hinjewadi. Bed bugs were spreading between bunk beds. Their team performed an intensive thermal and deep crevice treatment on Saturday. Zero complaints since 6 months."
+        "locality": "Hinjewadi Phase 1"
       },
       {
+        "city": "Pune",
         "name": "Anil Joshi",
-        "locality": "Wakad",
-        "city": "Pune",
+        "quote": "Very professional team in PCMC. They showed me where the bed bugs and tiny eggs were hiding inside the wooden headboard. Done cleanly with zero chemical smell. Highly recommended in Wakad.",
         "rating": 5,
-        "quote": "Very professional team in PCMC. They showed me where the bed bugs and tiny eggs were hiding inside the wooden headboard. Done cleanly with zero chemical smell. Highly recommended in Wakad."
+        "locality": "Wakad"
       },
       {
+        "city": "Pune",
         "name": "Deepak Shinde",
-        "locality": "Baner",
-        "city": "Pune",
+        "quote": "Prompt same-day response in Baner. They gave an official 12-month stamped warranty certificate. One free follow-up inspection was completed on time. Truly 5-star service.",
         "rating": 5,
-        "quote": "Prompt same-day response in Baner. They gave an official 12-month stamped warranty certificate. One free follow-up inspection was completed on time. Truly 5-star service."
+        "locality": "Baner"
       },
       {
-        "name": "Sunita Gaikwad",
-        "locality": "Viman Nagar",
         "city": "Pune",
+        "name": "Sunita Gaikwad",
+        "quote": "Had infant twins at home so I was very worried about toxic chemicals. Their eco-safe certified spray and superheated steam eliminated every bug without any lingering odor.",
         "rating": 5,
-        "quote": "Had infant twins at home so I was very worried about toxic chemicals. Their eco-safe certified spray and superheated steam eliminated every bug without any lingering odor."
+        "locality": "Viman Nagar"
       }
     ],
     "status": "published",
     "customStyles": {
       "fontFamily": "var(--font-poppins)",
+      "accentColor": "#1f8055",
+      "coverageTitle": "Neighborhoods we cover across Pune",
       "heroTitleSize": "text-4xl lg:text-[3rem]",
       "heroTitleWeight": "font-extrabold",
-      "accentColor": "#1f8055"
+      "methodologyDesc": "Our scientific, dual-action extermination strategy kills adult bugs instantly and neutralizes eggs so they never hatch again.",
+      "methodologyTitle": "How we eliminate bed bugs in Pune",
+      "step3_title": "High-Heat Egg Eradication",
+      "methodologyEyebrow": "Our Proven Methodology"
     },
-    "updatedAt": "2026-09-17T13:31:41.554Z",
-    "createdAt": "2026-09-17T13:30:14.777Z"
+    "updatedAt": "2026-09-19T08:50:12.239Z",
+    "createdAt": "2026-09-18T05:38:22.741743+00:00",
+    "id": "76bdf97d-0214-4871-9dde-aa4a3cdd1d9a"
   }
 ]
