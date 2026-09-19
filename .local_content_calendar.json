@@ -9,150 +9,522 @@
     "searchVolume": "5,400/mo",
     "type": "how-to",
     "status": "planned",
-    "updatedAt": "2026-09-18T06:35:18.248Z"
+    "updatedAt": "2026-09-19T08:15:25.734Z"
   },
   "2026-09-19": {
     "date": "2026-09-19",
-    "topic": "Top Natural Remedies to Get Rid of Bed Bugs in India",
+    "topic": "Effective Home Remedies for Bed Bug Bites in India",
     "keywords": [
-      "natural bed bug remedies",
-      "home remedies for bed bugs"
+      "home remedies for bed bugs",
+      "bed bug bites treatment"
     ],
-    "searchVolume": "3,200/mo",
-    "type": "list",
+    "searchVolume": "5,400/mo",
+    "type": "how-to",
     "status": "planned",
-    "updatedAt": "2026-09-18T06:35:18.248Z"
+    "updatedAt": "2026-09-19T08:25:09.960Z"
   },
   "2026-09-20": {
     "date": "2026-09-20",
-    "topic": "Bed Bugs vs. Fleas: Key Differences and How to Treat Them",
+    "topic": "Top 5 Bed Bug Sprays Available in Indian Markets",
     "keywords": [
-      "bed bugs vs fleas",
-      "difference between bed bugs and fleas"
+      "bed bug spray India",
+      "best bed bug spray"
     ],
-    "searchVolume": "2,800/mo",
-    "type": "comparison",
+    "searchVolume": "3,600/mo",
+    "type": "list",
     "status": "planned",
-    "updatedAt": "2026-09-18T06:35:18.248Z"
+    "updatedAt": "2026-09-19T08:25:09.960Z"
   },
   "2026-09-21": {
     "date": "2026-09-21",
-    "topic": "Best Pest Control Methods for Bed Bugs in Indian Homes",
+    "topic": "Guide to Identifying Bed Bug Infestations in Your Home",
     "keywords": [
-      "bed bug pest control",
-      "pest control methods"
-    ],
-    "searchVolume": "4,500/mo",
-    "type": "guide",
-    "status": "planned",
-    "updatedAt": "2026-09-18T06:35:18.248Z"
-  },
-  "2026-09-22": {
-    "date": "2026-09-22",
-    "topic": "Effective Cockroach Control: Tips for Indian Households",
-    "keywords": [
-      "cockroach control",
-      "get rid of cockroaches"
-    ],
-    "searchVolume": "6,700/mo",
-    "type": "how-to",
-    "status": "planned",
-    "updatedAt": "2026-09-18T06:35:18.248Z"
-  },
-  "2026-09-23": {
-    "date": "2026-09-23",
-    "topic": "Termite Prevention: How to Safeguard Your Home",
-    "keywords": [
-      "termite prevention",
-      "prevent termites"
-    ],
-    "searchVolume": "5,900/mo",
-    "type": "educational",
-    "status": "planned",
-    "updatedAt": "2026-09-18T06:35:18.248Z"
-  },
-  "2026-09-24": {
-    "date": "2026-09-24",
-    "topic": "The Pros and Cons of DIY Bed Bug Treatments",
-    "keywords": [
-      "DIY bed bug treatment",
-      "bed bug treatment at home"
-    ],
-    "searchVolume": "3,600/mo",
-    "type": "comparison",
-    "status": "planned",
-    "updatedAt": "2026-09-18T06:35:18.248Z"
-  },
-  "2026-09-25": {
-    "date": "2026-09-25",
-    "topic": "How to Choose the Right Pest Control Service in India",
-    "keywords": [
-      "pest control service",
-      "choose pest control"
+      "identify bed bugs",
+      "bed bug signs"
     ],
     "searchVolume": "4,200/mo",
     "type": "guide",
     "status": "planned",
-    "updatedAt": "2026-09-18T06:35:18.248Z"
+    "updatedAt": "2026-09-19T08:25:09.960Z"
+  },
+  "2026-09-22": {
+    "date": "2026-09-22",
+    "topic": "Comparing Bed Bug Treatment Costs in Major Indian Cities",
+    "keywords": [
+      "bed bug treatment cost",
+      "pest control prices"
+    ],
+    "searchVolume": "2,800/mo",
+    "type": "comparison",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:25:09.960Z"
+  },
+  "2026-09-23": {
+    "date": "2026-09-23",
+    "topic": "How to Prevent Rodent Infestations During Monsoon in India",
+    "keywords": [
+      "rodent prevention",
+      "monsoon pest control"
+    ],
+    "searchVolume": "3,000/mo",
+    "type": "how-to",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:25:09.960Z"
+  },
+  "2026-09-24": {
+    "date": "2026-09-24",
+    "topic": "Everything You Need to Know About Thermal Heat Treatment for Bed Bugs",
+    "keywords": [
+      "thermal heat treatment",
+      "heat treatment for bed bugs"
+    ],
+    "searchVolume": "1,500/mo",
+    "type": "educational",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:25:09.960Z"
+  },
+  "2026-09-25": {
+    "date": "2026-09-25",
+    "topic": "Local Pest Control Services for Termite Management in India",
+    "keywords": [
+      "termite control India",
+      "local pest services"
+    ],
+    "searchVolume": "2,400/mo",
+    "type": "local",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:25:09.960Z"
   },
   "2026-09-26": {
     "date": "2026-09-26",
-    "topic": "Signs of a Bed Bug Infestation: What Every Homeowner Should Know",
+    "topic": "How to Use Diatomaceous Earth for Bed Bug Control",
     "keywords": [
-      "bed bug infestation signs",
-      "detect bed bugs"
+      "diatomaceous earth bed bugs",
+      "bed bug control"
     ],
-    "searchVolume": "4,800/mo",
-    "type": "educational",
+    "searchVolume": "3,300/mo",
+    "type": "how-to",
     "status": "planned",
-    "updatedAt": "2026-09-18T06:35:18.248Z"
+    "updatedAt": "2026-09-19T08:25:09.960Z"
   },
   "2026-09-27": {
     "date": "2026-09-27",
-    "topic": "Rodent Control: Tips to Keep Rats and Mice Out of Your Home",
+    "topic": "Best Practices for Cockroach Prevention in Indian Kitchens",
     "keywords": [
-      "rodent control",
-      "keep rats out"
+      "cockroach prevention",
+      "kitchen pest control"
     ],
-    "searchVolume": "5,100/mo",
-    "type": "how-to",
+    "searchVolume": "4,500/mo",
+    "type": "guide",
     "status": "planned",
-    "updatedAt": "2026-09-18T06:35:18.248Z"
+    "updatedAt": "2026-09-19T08:25:09.960Z"
   },
   "2026-09-28": {
     "date": "2026-09-28",
-    "topic": "The Cost of Professional Bed Bug Treatments in India",
+    "topic": "List of Eco-Friendly Bed Bug Repellents in India",
     "keywords": [
-      "bed bug treatment cost",
-      "professional bed bug treatment"
+      "eco-friendly bed bug repellent",
+      "natural bed bug repellent"
     ],
-    "searchVolume": "3,400/mo",
-    "type": "guide",
+    "searchVolume": "2,100/mo",
+    "type": "list",
     "status": "planned",
-    "updatedAt": "2026-09-18T06:35:18.248Z"
+    "updatedAt": "2026-09-19T08:25:09.960Z"
   },
   "2026-09-29": {
     "date": "2026-09-29",
-    "topic": "How to Prevent Bed Bugs When Traveling",
+    "topic": "Comparing Chemical vs. Non-Chemical Bed Bug Treatments",
     "keywords": [
-      "prevent bed bugs traveling",
-      "bed bugs travel tips"
+      "chemical vs non-chemical bed bug treatment",
+      "bed bug treatment comparison"
     ],
-    "searchVolume": "3,700/mo",
-    "type": "how-to",
+    "searchVolume": "1,900/mo",
+    "type": "comparison",
     "status": "planned",
-    "updatedAt": "2026-09-18T06:35:18.248Z"
+    "updatedAt": "2026-09-19T08:25:09.960Z"
   },
   "2026-09-30": {
     "date": "2026-09-30",
-    "topic": "Understanding the Bed Bug Life Cycle for Effective Eradication",
+    "topic": "Educational Insights on the Lifecycle of Bed Bugs",
     "keywords": [
-      "bed bug life cycle",
-      "eradicate bed bugs"
+      "bed bug lifecycle",
+      "bed bug information"
     ],
-    "searchVolume": "2,900/mo",
+    "searchVolume": "2,600/mo",
     "type": "educational",
     "status": "planned",
-    "updatedAt": "2026-09-18T06:35:18.248Z"
+    "updatedAt": "2026-09-19T08:25:09.960Z"
+  },
+  "2026-10-01": {
+    "date": "2026-10-01",
+    "topic": "How to Identify Bed Bug Bites and Symptoms",
+    "keywords": [
+      "bed bug bites",
+      "identify bed bugs"
+    ],
+    "searchVolume": "5,400/mo",
+    "type": "how-to",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:16:24.019Z"
+  },
+  "2026-10-02": {
+    "date": "2026-10-02",
+    "topic": "Top 5 Home Remedies for Bed Bug Treatment",
+    "keywords": [
+      "home remedies bed bugs",
+      "bed bug treatment"
+    ],
+    "searchVolume": "7,200/mo",
+    "type": "list",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:16:24.019Z"
+  },
+  "2026-10-03": {
+    "date": "2026-10-03",
+    "topic": "Guide to Choosing the Best Bed Bug Spray in India",
+    "keywords": [
+      "bed bug spray",
+      "best bed bug spray India"
+    ],
+    "searchVolume": "3,600/mo",
+    "type": "guide",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:16:24.019Z"
+  },
+  "2026-10-04": {
+    "date": "2026-10-04",
+    "topic": "Comparing Professional Bed Bug Treatments vs. DIY Methods",
+    "keywords": [
+      "professional bed bug treatment",
+      "DIY bed bug treatment"
+    ],
+    "searchVolume": "4,800/mo",
+    "type": "comparison",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:16:24.019Z"
+  },
+  "2026-10-05": {
+    "date": "2026-10-05",
+    "topic": "Signs of Bed Bug Infestation in Indian Homes",
+    "keywords": [
+      "bed bug infestation signs",
+      "bed bugs in homes"
+    ],
+    "searchVolume": "6,300/mo",
+    "type": "educational",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:16:24.019Z"
+  },
+  "2026-10-06": {
+    "date": "2026-10-06",
+    "topic": "How to Prevent Bed Bugs While Traveling in India",
+    "keywords": [
+      "prevent bed bugs travel",
+      "bed bugs travel tips"
+    ],
+    "searchVolume": "2,900/mo",
+    "type": "how-to",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:16:24.019Z"
+  },
+  "2026-10-07": {
+    "date": "2026-10-07",
+    "topic": "Top 10 Pest Control Companies for Bed Bugs in India",
+    "keywords": [
+      "pest control companies India",
+      "bed bug pest control"
+    ],
+    "searchVolume": "1,200/mo",
+    "type": "list",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:16:24.019Z"
+  },
+  "2026-10-08": {
+    "date": "2026-10-08",
+    "topic": "Understanding the Life Cycle of Bed Bugs",
+    "keywords": [
+      "bed bug life cycle",
+      "bed bug stages"
+    ],
+    "searchVolume": "3,300/mo",
+    "type": "educational",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:16:24.019Z"
+  },
+  "2026-10-09": {
+    "date": "2026-10-09",
+    "topic": "The Effectiveness of Heat Treatment for Bed Bugs",
+    "keywords": [
+      "heat treatment bed bugs",
+      "bed bug heat treatment"
+    ],
+    "searchVolume": "2,500/mo",
+    "type": "guide",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:16:24.019Z"
+  },
+  "2026-10-10": {
+    "date": "2026-10-10",
+    "topic": "Local Bed Bug Treatment Services in Mumbai",
+    "keywords": [
+      "bed bug treatment Mumbai",
+      "pest control Mumbai"
+    ],
+    "searchVolume": "1,800/mo",
+    "type": "local",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:16:24.019Z"
+  },
+  "2026-10-11": {
+    "date": "2026-10-11",
+    "topic": "How to Keep Your Home Bed Bug Free",
+    "keywords": [
+      "bed bug free home",
+      "prevent bed bugs"
+    ],
+    "searchVolume": "5,700/mo",
+    "type": "how-to",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:16:24.019Z"
+  },
+  "2026-10-12": {
+    "date": "2026-10-12",
+    "topic": "Comparing Bed Bug Mattress Covers: Which is Best?",
+    "keywords": [
+      "bed bug mattress cover",
+      "best mattress cover"
+    ],
+    "searchVolume": "2,100/mo",
+    "type": "comparison",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:16:24.019Z"
+  },
+  "2026-10-13": {
+    "date": "2026-10-13",
+    "topic": "Common Places Bed Bugs Hide in Homes",
+    "keywords": [
+      "where bed bugs hide",
+      "bed bug hiding places"
+    ],
+    "searchVolume": "4,400/mo",
+    "type": "educational",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:16:24.019Z"
+  },
+  "2026-10-14": {
+    "date": "2026-10-14",
+    "topic": "Top 7 Essential Oils for Bed Bug Control",
+    "keywords": [
+      "essential oils bed bugs",
+      "bed bug control oils"
+    ],
+    "searchVolume": "3,200/mo",
+    "type": "list",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:16:24.019Z"
+  },
+  "2026-10-15": {
+    "date": "2026-10-15",
+    "topic": "How to Use Diatomaceous Earth for Bed Bug Removal",
+    "keywords": [
+      "diatomaceous earth bed bugs",
+      "bed bug removal"
+    ],
+    "searchVolume": "2,800/mo",
+    "type": "how-to",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:16:24.019Z"
+  },
+  "2026-10-16": {
+    "date": "2026-10-16",
+    "topic": "Local Bed Bug Treatment Options in Delhi",
+    "keywords": [
+      "bed bug treatment Delhi",
+      "pest control Delhi"
+    ],
+    "searchVolume": "1,900/mo",
+    "type": "local",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:16:24.019Z"
+  },
+  "2026-10-17": {
+    "date": "2026-10-17",
+    "topic": "Understanding Bed Bug Behavior and Habits",
+    "keywords": [
+      "bed bug behavior",
+      "bed bug habits"
+    ],
+    "searchVolume": "3,100/mo",
+    "type": "educational",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:16:24.019Z"
+  },
+  "2026-10-18": {
+    "date": "2026-10-18",
+    "topic": "How to Choose the Right Bed Bug Exterminator",
+    "keywords": [
+      "bed bug exterminator",
+      "choose exterminator"
+    ],
+    "searchVolume": "4,200/mo",
+    "type": "guide",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:16:24.019Z"
+  },
+  "2026-10-19": {
+    "date": "2026-10-19",
+    "topic": "The Best Time of Year for Bed Bug Treatment",
+    "keywords": [
+      "best time bed bug treatment",
+      "seasonal bed bug control"
+    ],
+    "searchVolume": "1,500/mo",
+    "type": "educational",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:16:24.019Z"
+  },
+  "2026-10-20": {
+    "date": "2026-10-20",
+    "topic": "Natural vs. Chemical Bed Bug Treatments: Pros and Cons",
+    "keywords": [
+      "natural bed bug treatment",
+      "chemical bed bug treatment"
+    ],
+    "searchVolume": "3,400/mo",
+    "type": "comparison",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:16:24.019Z"
+  },
+  "2026-10-21": {
+    "date": "2026-10-21",
+    "topic": "How to Deal with Bed Bugs in Indian Apartments",
+    "keywords": [
+      "bed bugs apartments",
+      "treat bed bugs apartments"
+    ],
+    "searchVolume": "2,600/mo",
+    "type": "how-to",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:16:24.019Z"
+  },
+  "2026-10-22": {
+    "date": "2026-10-22",
+    "topic": "Top 5 Bed Bug Myths and Misconceptions",
+    "keywords": [
+      "bed bug myths",
+      "bed bug misconceptions"
+    ],
+    "searchVolume": "4,000/mo",
+    "type": "list",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:16:24.019Z"
+  },
+  "2026-10-23": {
+    "date": "2026-10-23",
+    "topic": "How to Conduct a Bed Bug Inspection in Your Home",
+    "keywords": [
+      "bed bug inspection",
+      "home inspection bed bugs"
+    ],
+    "searchVolume": "3,900/mo",
+    "type": "how-to",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:16:24.019Z"
+  },
+  "2026-10-24": {
+    "date": "2026-10-24",
+    "topic": "Local Bed Bug Treatment Services in Chennai",
+    "keywords": [
+      "bed bug treatment Chennai",
+      "pest control Chennai"
+    ],
+    "searchVolume": "1,700/mo",
+    "type": "local",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:16:24.019Z"
+  },
+  "2026-10-25": {
+    "date": "2026-10-25",
+    "topic": "The Role of Professional Pest Control in Bed Bug Eradication",
+    "keywords": [
+      "professional pest control",
+      "bed bug eradication"
+    ],
+    "searchVolume": "2,200/mo",
+    "type": "educational",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:16:24.019Z"
+  },
+  "2026-10-26": {
+    "date": "2026-10-26",
+    "topic": "How to Use Steam for Bed Bug Treatment",
+    "keywords": [
+      "steam bed bug treatment",
+      "bed bug steam"
+    ],
+    "searchVolume": "3,500/mo",
+    "type": "how-to",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:16:24.019Z"
+  },
+  "2026-10-27": {
+    "date": "2026-10-27",
+    "topic": "Comparing Bed Bug Traps: Which Ones Actually Work?",
+    "keywords": [
+      "bed bug traps",
+      "best bed bug traps"
+    ],
+    "searchVolume": "2,400/mo",
+    "type": "comparison",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:16:24.019Z"
+  },
+  "2026-10-28": {
+    "date": "2026-10-28",
+    "topic": "Top Mistakes to Avoid During Bed Bug Treatment",
+    "keywords": [
+      "bed bug treatment mistakes",
+      "avoid bed bug errors"
+    ],
+    "searchVolume": "2,700/mo",
+    "type": "list",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:16:24.019Z"
+  },
+  "2026-10-29": {
+    "date": "2026-10-29",
+    "topic": "How to Protect Your Luggage from Bed Bugs",
+    "keywords": [
+      "protect luggage bed bugs",
+      "bed bug luggage"
+    ],
+    "searchVolume": "2,300/mo",
+    "type": "how-to",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:16:24.019Z"
+  },
+  "2026-10-30": {
+    "date": "2026-10-30",
+    "topic": "Local Bed Bug Treatment Services in Bengaluru",
+    "keywords": [
+      "bed bug treatment Bengaluru",
+      "pest control Bengaluru"
+    ],
+    "searchVolume": "1,600/mo",
+    "type": "local",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:16:24.019Z"
+  },
+  "2026-10-31": {
+    "date": "2026-10-31",
+    "topic": "Understanding Bed Bug Resistance to Pesticides",
+    "keywords": [
+      "bed bug resistance",
+      "pesticide resistance bed bugs"
+    ],
+    "searchVolume": "3,800/mo",
+    "type": "educational",
+    "status": "planned",
+    "updatedAt": "2026-09-19T08:16:24.019Z"
   }
 }

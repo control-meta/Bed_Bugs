@@ -335,21 +335,21 @@ export default function CalendarPage() {
           ))}
         </div>
 
-        {/* Empty state notice */}
-        {plan.length === 0 && !isGenerating && !isLoadingDb && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10 mt-32">
-            <CalendarDays className="h-10 w-10 text-neutral-200 mb-3" />
-            <p className="text-sm font-semibold text-neutral-400">No plan yet for this month</p>
-            <p className="text-xs text-neutral-400 mt-1">
-              {isPastMonth
-                ? "This month is in the past."
-                : 'Click "Generate AI Plan" to generate topics for current and upcoming days.'}
-            </p>
-          </div>
-        )}
-
         {/* Calendar cells */}
         <div className="flex-1 overflow-y-auto min-h-0 relative">
+          {/* Empty state notice */}
+          {plan.length === 0 && !isGenerating && !isLoadingDb && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10 bg-white/60 backdrop-blur-[2px]">
+              <CalendarDays className="h-12 w-12 text-neutral-400 mb-3" />
+              <p className="text-base font-bold text-neutral-700">No plan yet for this month</p>
+              <p className="text-sm font-medium text-neutral-500 mt-1">
+                {isPastMonth
+                  ? "This month is in the past."
+                  : 'Click "Generate AI Plan" to generate topics for current and upcoming days.'}
+              </p>
+            </div>
+          )}
+
           <div className="grid grid-cols-7 h-full">
             {weeks.map((week, wi) =>
               week.map((day, di) => {
@@ -387,12 +387,6 @@ export default function CalendarPage() {
                           {isToday && (
                             <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 rounded px-1.5 py-0.2">
                               Today
-                            </span>
-                          )}
-
-                          {isPast && !isToday && !blog && (
-                            <span className="text-[9px] font-medium text-neutral-400">
-                              Past
                             </span>
                           )}
                         </div>
