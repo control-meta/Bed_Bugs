@@ -442,7 +442,7 @@ export default function AdminReviewsPage() {
                     <option value="">-- All Pages (Global) --</option>
                     <option value="/">Home Page (/)</option>
                     {pages
-                      .filter((p) => p.path !== "/")
+                      .filter((p) => !["/", "/about", "/faq", "/blog"].includes(p.path))
                       .map((p) => (
                       <option key={p.path} value={p.path}>
                         {p.title || p.path} ({p.path})

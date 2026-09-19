@@ -197,6 +197,11 @@ function cleanHtml(raw: any): string {
         const text = e.currentTarget.innerHTML;
         context.onUpdateText?.(id, text);
       }}
+      onPaste={(e: React.ClipboardEvent<HTMLElement>) => {
+        e.preventDefault();
+        const text = e.clipboardData.getData("text/plain");
+        document.execCommand("insertText", false, text);
+      }}
       className={`transition-all duration-150 cursor-text outline-none ${className} ${
         itemIsActive
           ? "outline outline-2 outline-emerald-600 outline-offset-2 ring-2 ring-emerald-500/20 bg-emerald-50/25 rounded-sm"
