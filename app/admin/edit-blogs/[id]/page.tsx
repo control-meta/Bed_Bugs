@@ -47,7 +47,7 @@ export default function EditBlogStudioPage({
   // Form state
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
-  const [slugLocked, setSlugLocked] = useState(true);
+
   const [primaryKeyword, setPrimaryKeyword] = useState("");
   const [keywordsStr, setKeywordsStr] = useState("");
   const [imageUrl, setImageUrl] = useState("");
@@ -306,8 +306,15 @@ export default function EditBlogStudioPage({
       <div className="flex flex-1 min-h-0 overflow-hidden flex-col lg:flex-row">
         {/* LEFT PANE: Editor & AI Controls */}
         <div className="w-full lg:w-1/2 flex flex-col border-r border-neutral-200 bg-white overflow-y-auto">
-          {/* ARTICLE METADATA FORM */}
-          <div className="p-4 border-b border-neutral-100 flex flex-col gap-3.5 bg-neutral-50/50">
+          {/* ARTICLE METADATA SETTINGS (Collapsible) */}
+          <details className="group border-b border-neutral-100 bg-neutral-50/50">
+            <summary className="p-4 flex cursor-pointer list-none items-center justify-between text-[11px] font-bold text-neutral-700 uppercase tracking-wider outline-none hover:bg-neutral-100/50 transition">
+              <div className="flex items-center gap-2">
+                <Tag className="h-4 w-4 text-neutral-500" />
+                Article Metadata & Settings (Click to Expand)
+              </div>
+            </summary>
+            <div className="p-4 pt-0 flex flex-col gap-3.5">
             {/* Title */}
             <div className="flex flex-col gap-1">
               <label className="text-[11px] font-bold text-neutral-700 uppercase tracking-wider">
@@ -322,29 +329,18 @@ export default function EditBlogStudioPage({
               />
             </div>
 
-            {/* Slug / URL with Lock Protection */}
+            {/* Slug / URL */}
             <div className="flex flex-col gap-1">
-              <div className="flex items-center justify-between">
-                <label className="text-[11px] font-bold text-neutral-700 uppercase tracking-wider">
-                  URL Slug (Preserved by default)
-                </label>
-                <button
-                  type="button"
-                  onClick={() => setSlugLocked(!slugLocked)}
-                  className="flex items-center gap-1 text-[11px] font-semibold text-neutral-500 hover:text-neutral-800"
-                >
-                  {slugLocked ? <Lock className="h-3 w-3 text-amber-600" /> : <Unlock className="h-3 w-3 text-emerald-600" />}
-                  {slugLocked ? "Locked (Keeps Same URL)" : "Unlocked (Editable)"}
-                </button>
-              </div>
+              <label className="text-[11px] font-bold text-neutral-700 uppercase tracking-wider">
+                URL Slug
+              </label>
               <div className="flex items-center rounded-xl border border-neutral-200 bg-white px-3 py-1.5 focus-within:border-emerald-500">
                 <span className="text-xs text-neutral-400 select-none">/</span>
                 <input
                   type="text"
                   value={slug}
-                  disabled={slugLocked}
                   onChange={(e) => setSlug(e.target.value)}
-                  className="flex-1 bg-transparent font-mono text-xs text-neutral-900 outline-none disabled:text-neutral-500"
+                  className="flex-1 bg-transparent font-mono text-xs text-neutral-900 outline-none"
                 />
               </div>
             </div>
@@ -463,7 +459,8 @@ export default function EditBlogStudioPage({
                 )}
               </button>
             </div>
-          </div>
+            </div>
+          </details>
 
           {/* MARKDOWN EDITOR TOOLBAR */}
           <div className="flex items-center justify-between border-b border-neutral-100 bg-neutral-50 px-4 py-2 shrink-0 flex-wrap gap-1">
