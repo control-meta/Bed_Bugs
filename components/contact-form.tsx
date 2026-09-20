@@ -162,10 +162,10 @@ function CitySelect({
                   }}
                   onMouseEnter={() => setActive(index)}
                   className={`flex w-full items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-left text-sm transition ${selected
-                      ? "bg-brand-50 font-semibold text-brand-700"
-                      : active === index
-                        ? "bg-cream text-ink"
-                        : "text-ink/75"
+                    ? "bg-brand-50 font-semibold text-brand-700"
+                    : active === index
+                      ? "bg-cream text-ink"
+                      : "text-ink/75"
                     }`}
                 >
                   <span>{city.name}</span>
@@ -441,8 +441,8 @@ export function ContactForm({ defaultCity }: { defaultCity?: string } = {}) {
                   }
                   aria-pressed={active}
                   className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition ${active
-                      ? "border-brand-600 bg-brand-600 text-white shadow-lg shadow-brand-600/25"
-                      : "border-ink/15 bg-white text-ink/65 hover:border-brand-600/40 hover:text-brand-600"
+                    ? "border-brand-600 bg-brand-600 text-white shadow-lg shadow-brand-600/25"
+                    : "border-ink/15 bg-white text-ink/65 hover:border-brand-600/40 hover:text-brand-600"
                     }`}
                 >
                   {option}

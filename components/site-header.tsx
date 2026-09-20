@@ -88,7 +88,7 @@ export function SiteHeader() {
               }`}
           >
             <CalendarCheck className="h-4 w-4" />
-            Book Bed Bug Treatment
+            Book Free Inspection
           </button>
           <button
             type="button"
@@ -132,7 +132,7 @@ export function SiteHeader() {
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-600 px-5 py-3 text-sm font-semibold text-white"
               >
                 <CalendarCheck className="h-4 w-4" />
-                Book Bed Bug Treatment
+                Book Free Inspection
               </button>
             </div>
           </nav>

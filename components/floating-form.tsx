@@ -158,7 +158,7 @@ export function FloatingForm() {
                 id="floating-form-title"
                 className="font-display text-xl font-extrabold tracking-tight text-white sm:text-2xl"
               >
-                Book Bed Bug Treatment
+                Book Free Inspection
               </h3>
               <p className="mt-1 text-xs text-white/75 leading-relaxed">
                 Get an expert callback within 15 minutes with transparent pricing.
@@ -284,7 +284,7 @@ export function FloatingForm() {
                     </>
                   ) : (
                     <>
-                      <span>Request Free Callback</span>
+                      <span>Request Callback</span>
                       <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </>
                   )}

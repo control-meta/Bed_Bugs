@@ -124,18 +124,18 @@ export function EditableItem({
     ...(isUnderline ? { textDecoration: "underline" } : {}),
     ...(customAlign
       ? {
-          textAlign: customAlign,
-          display: Component === "span" ? "inline-block" : undefined,
-        }
+        textAlign: customAlign,
+        display: Component === "span" ? "inline-block" : undefined,
+      }
       : {}),
   };
 
-function cleanHtml(raw: any): string {
-  if (typeof raw !== "string") return "";
-  return raw
-    .replace(/<font\s+color=["'](.*?)["']>(.*?)<\/font>/gi, '<span style="color: $1">$2</span>')
-    .replace(/<font\s+size=["'](.*?)["']>(.*?)<\/font>/gi, '<span style="font-size: $1">$2</span>');
-}
+  function cleanHtml(raw: any): string {
+    if (typeof raw !== "string") return "";
+    return raw
+      .replace(/<font\s+color=["'](.*?)["']>(.*?)<\/font>/gi, '<span style="color: $1">$2</span>')
+      .replace(/<font\s+size=["'](.*?)["']>(.*?)<\/font>/gi, '<span style="font-size: $1">$2</span>');
+  }
 
   // Sync with value changes when not actively focused or active (e.g. discarding or loading city)
   const isInitializedRef = React.useRef(false);
@@ -202,11 +202,10 @@ function cleanHtml(raw: any): string {
         const text = e.clipboardData.getData("text/plain");
         document.execCommand("insertText", false, text);
       }}
-      className={`transition-all duration-150 cursor-text outline-none ${className} ${
-        itemIsActive
-          ? "outline outline-2 outline-emerald-600 outline-offset-2 ring-2 ring-emerald-500/20 bg-emerald-50/25 rounded-sm"
-          : "hover:outline hover:outline-dashed hover:outline-emerald-400/80 hover:outline-offset-2 hover:bg-emerald-50/15 rounded-sm"
-      }`}
+      className={`transition-all duration-150 cursor-text outline-none ${className} ${itemIsActive
+        ? "outline outline-2 outline-emerald-600 outline-offset-2 ring-2 ring-emerald-500/20 bg-emerald-50/25 rounded-sm"
+        : "hover:outline hover:outline-dashed hover:outline-emerald-400/80 hover:outline-offset-2 hover:bg-emerald-50/15 rounded-sm"
+        }`}
       style={mergedStyle}
       title={`Click to edit: ${label}`}
     />
@@ -226,7 +225,6 @@ const amcFeatures = [
   "3 scheduled visits over 12 months",
   "Follow-up treatment visits",
   "Monitoring for recurring activity",
-  "Guidance to reduce re-infestation risk",
 ];
 
 const ctaImagesRow1 = [
@@ -250,20 +248,20 @@ const ctaImagesRow1 = [
 
 const ctaImagesRow2 = [
   {
-    src: "/images/treatment-3.png",
-    alt: "Safe and effective bed bug treatment in progress",
+    src: "/images/services/service-eco.jpg",
+    alt: "Eco-friendly bed bug treatment",
   },
   {
-    src: "/images/services/service-inspection.jpg",
-    alt: "Professional bed bug harborage inspection",
+    src: "/images/services/fully-equipped.jpg",
+    alt: "Fully equipped bed bug extermination",
   },
   {
-    src: "/images/services/service-crevice.jpg",
-    alt: "Deep crevice and mattress seam treatment",
+    src: "/images/services/service-warranty.jpg",
+    alt: "Professional bed bug warranty",
   },
   {
-    src: "/images/treatment-1.png",
-    alt: "Restful sleep guaranteed bed bug free",
+    src: "/images/hero-tech-bed.webp",
+    alt: "Targeted bed bug treatment for your home",
   },
 ];
 
@@ -403,14 +401,8 @@ export function LocationPageContent({
                       />
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/20 to-transparent" />
-                    <div className="absolute top-2.5 right-2.5 flex items-center gap-1 rounded-full border border-white/40 bg-white/95 px-2.5 py-0.5 text-[10.5px] font-bold text-brand-800 shadow-sm backdrop-blur-md">
-                      <Clock className="h-3 w-3 text-brand-600" />
-                      <span>Dispatch: {location.responseTime}</span>
-                    </div>
-                    <div className="absolute top-2.5 left-2.5 flex items-center gap-1 rounded-full border border-white/40 bg-brand-700/90 px-2.5 py-0.5 text-[10.5px] font-semibold text-white shadow-sm backdrop-blur-md">
-                      <ShieldCheck className="h-3 w-3 text-emerald-300" />
-                      <span>Verified Branch</span>
-                    </div>
+
+
                     <div className="absolute bottom-2.5 left-3 right-3 text-center text-white sm:text-left">
                       <p className="text-[10px] font-semibold uppercase tracking-wider text-emerald-300">
                         {location.state} • Pan-{location.name} Service
@@ -438,7 +430,6 @@ export function LocationPageContent({
                   <div className="inline-flex items-center gap-1.5 rounded-xl border border-ink/10 bg-white/90 px-3 py-1.5 text-xs font-medium text-ink shadow-sm backdrop-blur-sm">
                     <Clock className="h-3.5 w-3.5 shrink-0 text-brand-600" />
                     <span>
-                      Response:{" "}
                       <EditableItem
                         id="responseTime"
                         label="Response Time"
@@ -555,17 +546,9 @@ export function LocationPageContent({
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/15 to-transparent" />
 
-                  {/* Top Badge: Response Time */}
-                  <div className="absolute top-3.5 right-3.5 flex items-center gap-1.5 rounded-full border border-white/40 bg-white/95 px-3 py-1 text-[11px] font-bold text-brand-800 shadow-md backdrop-blur-md">
-                    <Clock className="h-3.5 w-3.5 text-brand-600" />
-                    <span>Dispatch: {location.responseTime}</span>
-                  </div>
 
-                  {/* Top Left Badge: Verified Branch */}
-                  <div className="absolute top-3.5 left-3.5 flex items-center gap-1.5 rounded-full border border-white/40 bg-brand-700/90 px-3 py-1 text-[11px] font-semibold text-white shadow-md backdrop-blur-md">
-                    <ShieldCheck className="h-3.5 w-3.5 text-emerald-300" />
-                    <span>Verified Branch</span>
-                  </div>
+
+
 
                   {/* Bottom Overlay Info */}
                   <div className="absolute bottom-4 left-4 right-4 text-white">
@@ -581,85 +564,6 @@ export function LocationPageContent({
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 2. Local Highlights & City Context */}
-        <section className="bg-white py-8 lg:py-10">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col items-center text-center">
-              <p className="flex items-center font-semibold uppercase gap-2.5 text-[11px] tracking-[0.22em] text-brand-600">
-                <span className="h-px bg-current w-6" />
-                <EditableItem
-                  id="highlightsEyebrow"
-                  label="Highlights Eyebrow"
-                  value={customStyles?.highlightsEyebrow || `Why ${location.name} Trusts Us`}
-                  as="span"
-                />
-                <span className="h-px bg-current w-6" />
-              </p>
-              <EditableItem
-                id="highlightsTitle"
-                label="Highlights Section Title"
-                value={
-                  customStyles?.highlightsTitle ||
-                  `Tailored bed bug solutions for ${location.name} homes & societies`
-                }
-                as="h2"
-                className="max-w-3xl font-display font-extrabold tracking-tight mt-3 text-2xl sm:text-3xl lg:text-4xl text-ink"
-              />
-              <EditableItem
-                id="highlightsDesc"
-                label="Highlights Section Description"
-                value={
-                  customStyles?.highlightsDesc ||
-                  `Every city has unique housing structures and pest patterns. Here is how our localized ${location.name} team ensures 100% bug-free results.`
-                }
-                as="p"
-                className="max-w-2xl leading-relaxed mt-4 text-sm text-ink/65"
-              />
-            </div>
-
-            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {(location.localHighlights || []).map((highlight, idx) => (
-                <div
-                  key={idx}
-                  className="group relative flex flex-col justify-between rounded-2xl border border-ink/10 bg-cream/30 p-6 text-center transition duration-300 hover:border-brand-600/30 hover:bg-white hover:shadow-xl hover:shadow-brand-600/5 sm:text-left"
-                >
-                  <div>
-                    <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-xl bg-brand-600/10 text-brand-600 sm:mx-0">
-                      <ShieldCheck className="h-6 w-6" />
-                    </div>
-                    <EditableItem
-                      id={`highlight-${idx}-title`}
-                      label={`Highlight #${idx + 1} Title`}
-                      value={highlight.title}
-                      as="h3"
-                      className="mt-4 font-display text-lg font-bold text-ink"
-                    />
-                    <EditableItem
-                      id={`highlight-${idx}-desc`}
-                      label={`Highlight #${idx + 1} Description`}
-                      value={highlight.description}
-                      as="p"
-                      className="mt-2 text-sm leading-relaxed text-ink/70"
-                    />
-                  </div>
-                  <div className="mt-4 flex items-center justify-center gap-1.5 text-xs font-semibold text-brand-700 sm:justify-start">
-                    <CheckCircle2 className="h-4 w-4 text-brand-600" />
-                    <EditableItem
-                      id={`highlight-${idx}-guarantee`}
-                      label={`Highlight #${idx + 1} Guarantee`}
-                      value={
-                        customStyles?.[`highlight-${idx}-guarantee`] ||
-                        `Guaranteed in ${location.name}`
-                      }
-                      as="span"
-                    />
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         </section>
@@ -751,16 +655,86 @@ export function LocationPageContent({
                 as="p"
                 className="text-xs font-medium text-ink/80 sm:text-sm"
               />
-              <p className="mt-1 text-xs text-ink/70 sm:text-sm">
-                Call{" "}
-                <a
-                  href={site.phoneHref}
-                  className="font-semibold text-brand-700 underline hover:text-brand-800"
-                >
-                  {location.phoneDisplay}
-                </a>{" "}
-                to verify instant technician dispatch.
+
+            </div>
+          </div>
+        </section>
+
+        {/* 2. Local Highlights & City Context */}
+        <section className="bg-white py-8 lg:py-10">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col items-center text-center">
+              <p className="flex items-center font-semibold uppercase gap-2.5 text-[11px] tracking-[0.22em] text-brand-600">
+                <span className="h-px bg-current w-6" />
+                <EditableItem
+                  id="highlightsEyebrow"
+                  label="Highlights Eyebrow"
+                  value={customStyles?.highlightsEyebrow || `Why ${location.name} Trusts Us`}
+                  as="span"
+                />
+                <span className="h-px bg-current w-6" />
               </p>
+              <EditableItem
+                id="highlightsTitle"
+                label="Highlights Section Title"
+                value={
+                  customStyles?.highlightsTitle ||
+                  `Tailored bed bug solutions for ${location.name} homes & societies`
+                }
+                as="h2"
+                className="max-w-3xl font-display font-extrabold tracking-tight mt-3 text-2xl sm:text-3xl lg:text-4xl text-ink"
+              />
+              <EditableItem
+                id="highlightsDesc"
+                label="Highlights Section Description"
+                value={
+                  customStyles?.highlightsDesc ||
+                  `Every city has unique housing structures and pest patterns. Here is how our localized ${location.name} team ensures 100% bug-free results.`
+                }
+                as="p"
+                className="max-w-2xl leading-relaxed mt-4 text-sm text-ink/65"
+              />
+            </div>
+
+            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {(location.localHighlights || []).map((highlight, idx) => (
+                <div
+                  key={idx}
+                  className="group relative flex flex-col justify-between rounded-2xl border border-ink/10 bg-cream/30 p-6 text-center transition duration-300 hover:border-brand-600/30 hover:bg-white hover:shadow-xl hover:shadow-brand-600/5 sm:text-left"
+                >
+                  <div>
+                    <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-xl bg-brand-600/10 text-brand-600 sm:mx-0">
+                      <ShieldCheck className="h-6 w-6" />
+                    </div>
+                    <EditableItem
+                      id={`highlight-${idx}-title`}
+                      label={`Highlight #${idx + 1} Title`}
+                      value={highlight.title}
+                      as="h3"
+                      className="mt-4 font-display text-lg font-bold text-ink"
+                    />
+                    <EditableItem
+                      id={`highlight-${idx}-desc`}
+                      label={`Highlight #${idx + 1} Description`}
+                      value={highlight.description}
+                      as="p"
+                      className="mt-2 text-sm leading-relaxed text-ink/70"
+                    />
+                  </div>
+                  <div className="mt-4 flex items-center justify-center gap-1.5 text-xs font-semibold text-brand-700 sm:justify-start">
+                    <CheckCircle2 className="h-4 w-4 text-brand-600" />
+                    <EditableItem
+                      id={`highlight-${idx}-guarantee`}
+                      label={`Highlight #${idx + 1} Guarantee`}
+                      value={
+                        customStyles?.[`highlight-${idx}-guarantee`] ||
+                        `Guaranteed in ${location.name}`
+                      }
+                      as="span"
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -831,8 +805,8 @@ export function LocationPageContent({
                   <ul className="flex-1 space-y-3">
                     {oneTimeFeatures.map((feature, fIdx) => (
                       <li key={fIdx} className="flex items-start gap-3">
-                        <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#e3f6ed] text-[#008c5a]">
-                          <Check className="h-3 w-3 stroke-[2.5]" />
+                        <span className="mt-0.5 flex shrink-0 items-center justify-center text-[#06734d]">
+                          <Check className="h-4 w-4 stroke-[2.5]" />
                         </span>
                         <EditableItem
                           id={`plan1_feat_${fIdx}`}
@@ -849,7 +823,7 @@ export function LocationPageContent({
                     href={oneTimeHref}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-6 flex w-full items-center justify-center rounded-lg bg-gradient-to-r from-[#008c5a] to-[#006c4a] px-4 py-3 text-center font-display text-sm font-bold text-white shadow-sm transition hover:brightness-110 active:scale-[0.99]"
+                    className="mt-6 flex w-full items-center justify-center rounded-lg bg-[#06734d] px-4 py-3 text-center font-display text-sm font-bold text-white shadow-sm transition hover:brightness-110 active:scale-[0.99]"
                   >
                     <EditableItem
                       id="plan1_btn"
@@ -862,11 +836,11 @@ export function LocationPageContent({
               </article>
 
               {/* Card 2: 1-Year AMC */}
-              <article className="relative flex flex-col rounded-2xl border border-[#d9e9e2] bg-[#fdfffe] shadow-sm transition hover:shadow-md">
+              <article className="relative flex flex-col rounded-2xl border border-[#06734d] bg-[#fdfffe] shadow-sm transition hover:shadow-md">
                 <PopularBadge />
 
-                <div className="flex items-center gap-4 rounded-t-2xl px-6 pb-4 pt-6 sm:px-7">
-                  <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[radial-gradient(ellipse_at_center,#c9eddd,#f0fcf6_70%)] text-[#008c5a]">
+                <div className="flex items-center gap-4 rounded-t-2xl bg-[#06734d] px-6 pb-5 pt-7 sm:px-7">
+                  <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white text-[#06734d]">
                     <CalendarCheck className="h-7 w-7" />
                   </span>
                   <div>
@@ -875,24 +849,24 @@ export function LocationPageContent({
                       label="Plan 2 Title"
                       value={customStyles?.plan2_title || "1-Year Bed Bug AMC"}
                       as="h3"
-                      className="font-display text-base font-bold text-[#146d51] sm:text-lg"
+                      className="font-display text-base font-bold text-white sm:text-lg"
                     />
                     <EditableItem
                       id="plan2_sub"
                       label="Plan 2 Subtitle"
-                      value={customStyles?.plan2_sub || "Long-term warranty coverage"}
+                      value={customStyles?.plan2_sub || "3 Visits Over 12 Months"}
                       as="p"
-                      className="mt-0.5 text-xs text-[#2c916d] sm:text-sm"
+                      className="mt-0.5 text-xs text-[#a3e2c9] sm:text-sm"
                     />
                   </div>
                 </div>
 
-                <div className="flex flex-1 flex-col px-6 pb-6 sm:px-7">
+                <div className="flex flex-1 flex-col px-6 pb-6 pt-5 sm:px-7">
                   <ul className="flex-1 space-y-3">
                     {amcFeatures.map((feature, fIdx) => (
                       <li key={fIdx} className="flex items-start gap-3">
-                        <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#e3f6ed] text-[#008c5a]">
-                          <Check className="h-3 w-3 stroke-[2.5]" />
+                        <span className="mt-0.5 flex shrink-0 items-center justify-center text-[#06734d]">
+                          <Check className="h-4 w-4 stroke-[2.5]" />
                         </span>
                         <EditableItem
                           id={`plan2_feat_${fIdx}`}
@@ -909,7 +883,7 @@ export function LocationPageContent({
                     href={amcHref}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-6 flex w-full items-center justify-center rounded-lg bg-gradient-to-r from-[#008c5a] to-[#006c4a] px-4 py-3 text-center font-display text-sm font-bold text-white shadow-sm transition hover:brightness-110 active:scale-[0.99]"
+                    className="mt-6 flex w-full items-center justify-center rounded-lg bg-[#06734d] px-4 py-3 text-center font-display text-sm font-bold text-white shadow-sm transition hover:brightness-110 active:scale-[0.99]"
                   >
                     <EditableItem
                       id="plan2_btn"
@@ -1009,11 +983,10 @@ export function LocationPageContent({
                   return (
                     <div
                       key={idx}
-                      className={`overflow-hidden rounded-2xl border bg-white transition-all duration-300 ${
-                        isOpen
-                          ? "border-brand-600/30 shadow-lg shadow-brand-600/5"
-                          : "border-ink/10 hover:border-brand-600/20"
-                      }`}
+                      className={`overflow-hidden rounded-2xl border bg-white transition-all duration-300 ${isOpen
+                        ? "border-brand-600/30 shadow-lg shadow-brand-600/5"
+                        : "border-ink/10 hover:border-brand-600/20"
+                        }`}
                     >
                       <button
                         type="button"
@@ -1033,20 +1006,18 @@ export function LocationPageContent({
                           className="flex-1"
                         />
                         <span
-                          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-600/10 text-brand-600 transition-transform duration-300 ${
-                            isOpen ? "rotate-45 bg-brand-600 text-white" : ""
-                          }`}
+                          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-600/10 text-brand-600 transition-transform duration-300 ${isOpen ? "rotate-45 bg-brand-600 text-white" : ""
+                            }`}
                         >
                           <Plus className="h-4 w-4" />
                         </span>
                       </button>
 
                       <div
-                        className={`grid transition-all duration-300 ease-out ${
-                          isOpen
-                            ? "grid-rows-[1fr] opacity-100"
-                            : "grid-rows-[0fr] opacity-0"
-                        }`}
+                        className={`grid transition-all duration-300 ease-out ${isOpen
+                          ? "grid-rows-[1fr] opacity-100"
+                          : "grid-rows-[0fr] opacity-0"
+                          }`}
                       >
                         <div className="overflow-hidden">
                           <div className="border-t border-ink/10 px-5 pb-4 pt-3 text-sm leading-relaxed text-ink/60">
@@ -1145,7 +1116,7 @@ export function LocationPageContent({
               <div className="absolute inset-0 bg-grid-dark opacity-20" aria-hidden />
 
               <div className="relative grid items-center gap-8 max-sm:gap-2 lg:grid-cols-2">
-                <div className="px-7 pb-8 pt-10 max-sm:px-6 max-sm:pb-2 max-sm:pt-6 max-sm:text-center sm:px-10 lg:py-14">
+                <div className="px-7 pb-6 pt-8 max-sm:px-6 max-sm:pb-2 max-sm:pt-6 max-sm:text-center sm:px-10 lg:py-10">
                   <p className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.28em] text-brand-300 max-sm:justify-center max-sm:text-[0.65rem] max-sm:tracking-[0.2em]">
                     <span className="h-px w-8 bg-brand-500" />
                     <EditableItem
@@ -1199,35 +1170,29 @@ export function LocationPageContent({
                     )}
 
                     <a
-                      href={site.phoneHref}
-                      className="inline-flex h-11 min-w-[44px] items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 px-3.5 text-xs font-semibold text-white backdrop-blur-sm transition hover:bg-white/20 hover:scale-105 active:scale-95 shrink-0"
-                      title={`Call ${location.phoneDisplay || site.phoneDisplay}`}
-                      aria-label={`Call ${location.phoneDisplay || site.phoneDisplay}`}
+                      href={site.whatsappHref}
+                      className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-[#25D366]/40 bg-[#25D366]/20 px-4 text-xs font-semibold text-white backdrop-blur-sm transition hover:bg-[#25D366]/30 hover:scale-105 active:scale-95 shrink-0"
+                      title="WhatsApp Us"
+                      aria-label="WhatsApp Us"
                     >
-                      <Phone className="h-4 w-4 text-brand-300 shrink-0" />
-                      {Boolean(customStyles?.ctaBtnCall) && (
+                      <MessageCircle className="h-4 w-4 text-[#25D366] shrink-0" />
+                      {Boolean(customStyles?.ctaBtnWhatsapp) && (
                         <EditableItem
-                          id="ctaBtnCall"
-                          label="CTA Call Button"
-                          value={customStyles?.ctaBtnCall}
+                          id="ctaBtnWhatsapp"
+                          label="CTA WhatsApp Button"
+                          value={customStyles?.ctaBtnWhatsapp}
                           as="span"
                         />
                       )}
-                      {isEditing && !customStyles?.ctaBtnCall && (
-                        <EditableItem
-                          id="ctaBtnCall"
-                          label="CTA Call Button"
-                          value="Call"
-                          as="span"
-                          className="text-[11px] text-white/50"
-                        />
+                      {(!isEditing || !customStyles?.ctaBtnWhatsapp) && (
+                        <span>WhatsApp Us</span>
                       )}
                     </a>
                   </div>
                 </div>
 
                 {/* Right Marquee Showcase */}
-                <div className="group/marquee relative w-full overflow-hidden py-4 max-sm:py-3 sm:py-6 lg:py-8">
+                <div className="group/marquee relative w-full overflow-hidden py-4 max-sm:py-3 sm:py-5 lg:py-6">
                   {/* Left & Right gradient fade masks */}
                   <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 sm:w-16 bg-gradient-to-r from-[#0b2e1f] to-transparent" />
                   <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 sm:w-16 bg-gradient-to-l from-[#0b2e1f] to-transparent" />

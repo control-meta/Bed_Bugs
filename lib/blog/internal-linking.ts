@@ -57,39 +57,49 @@ export async function processInternalLinksAndCTA(
     }
   ];
 
+  const baseUrl = "https://bedbugstreatment.co.in";
+  let lines = content.split("\n");
+
   for (const candidate of linkCandidates) {
-    if (allowedUrls.has(candidate.targetUrl) && !content.includes(`](${candidate.targetUrl})`)) {
-      if (candidate.keywordRegex.test(content)) {
-        // Replace only first occurrence
-        content = content.replace(
-          candidate.keywordRegex,
-          `[${candidate.anchorText}](${candidate.targetUrl})`
-        );
-        injectedLinks.push({
-          targetUrl: candidate.targetUrl,
-          anchorText: candidate.anchorText,
-          contextSentence: `Contextually linked ${candidate.anchorText} to ${candidate.targetUrl}`
-        });
+    const fullUrl = `${baseUrl}${candidate.targetUrl}`;
+    if (allowedUrls.has(candidate.targetUrl) && !content.includes(`](${fullUrl})`)) {
+      for (let i = 0; i < lines.length; i++) {
+        if (!lines[i].trim().startsWith("#") && candidate.keywordRegex.test(lines[i])) {
+          lines[i] = lines[i].replace(
+            candidate.keywordRegex,
+            `[${candidate.anchorText}](${fullUrl})`
+          );
+          injectedLinks.push({
+            targetUrl: fullUrl,
+            anchorText: candidate.anchorText,
+            contextSentence: `Contextually linked ${candidate.anchorText} to ${fullUrl}`
+          });
+          break;
+        }
       }
     }
   }
+  
+  content = lines.join("\n");
 
   // Ensure at least /services and /contact are linked if missing
-  if (!content.includes("](/services)") && allowedUrls.has("/services")) {
-    const servicesSentence = `\n\nFor persistent or widespread infestations, exploring [professional bed bug treatment services](/services) ensures thorough harborage detection and compliant application methods.`;
+  const servicesFullUrl = `${baseUrl}/services`;
+  if (!content.includes(`](${servicesFullUrl})`) && allowedUrls.has("/services")) {
+    const servicesSentence = `\n\nFor persistent or widespread infestations, exploring [professional bed bug treatment services](${servicesFullUrl}) ensures thorough harborage detection and compliant application methods.`;
     content += servicesSentence;
     injectedLinks.push({
-      targetUrl: "/services",
+      targetUrl: servicesFullUrl,
       anchorText: "professional bed bug treatment services",
       contextSentence: servicesSentence.trim()
     });
   }
 
   // Our Company's Verified Contextual CTA
+  const contactFullUrl = `${baseUrl}/contact`;
   const cta = {
     heading: "Suspecting Bed Bugs in Your Home?",
     text: "Still finding physical signs of bed bugs or waking up with unexplained bites? Request a thorough inspection to determine the exact extent of the infestation and explore targeted, integrated treatment options.",
-    targetUrl: "/contact",
+    targetUrl: contactFullUrl,
     buttonText: "Schedule an Inspection"
   };
 
@@ -98,7 +108,7 @@ export async function processInternalLinksAndCTA(
   if (genericClosingRegex.test(content)) {
     content = content.replace(
       genericClosingRegex,
-      `[request an on-site inspection from BedBugsTreatment.co.in](/contact) to evaluate infestation severity`
+      `[request an on-site inspection from BedBugsTreatment.co.in](${contactFullUrl}) to evaluate infestation severity`
     );
   }
 
