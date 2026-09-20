@@ -51,7 +51,7 @@ export default function EditBlogStudioPage({
   const [primaryKeyword, setPrimaryKeyword] = useState("");
   const [keywordsStr, setKeywordsStr] = useState("");
   const [imageUrl, setImageUrl] = useState("");
-  const [status, setStatus] = useState<"draft" | "published">("published");
+
   const [markdown, setMarkdown] = useState("");
 
   // AI Regenerator State
@@ -78,7 +78,7 @@ export default function EditBlogStudioPage({
           setPrimaryKeyword(b.primaryKeyword || "");
           setKeywordsStr((b.keywords || []).join(", "));
           setImageUrl(b.imageUrl || "");
-          setStatus(b.status === "draft" ? "draft" : "published");
+
           setMarkdown(b.markdown || "");
           setRegenerateTopic(b.topic || b.title);
         } else {
@@ -118,7 +118,7 @@ export default function EditBlogStudioPage({
           primaryKeyword,
           keywords,
           imageUrl,
-          status,
+          status: "published",
           markdown,
           readTime,
         }),
@@ -261,15 +261,10 @@ export default function EditBlogStudioPage({
         </div>
 
         <div className="flex items-center gap-2">
-          {/* Status Selector */}
-          <select
-            value={status}
-            onChange={(e) => setStatus(e.target.value as any)}
-            className="rounded-xl border border-neutral-200 bg-neutral-50 px-2.5 py-1.5 text-xs font-bold text-neutral-800 outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 cursor-pointer"
-          >
-            <option value="published">Status: Published</option>
-            <option value="draft">Status: Draft</option>
-          </select>
+          {/* Status Badge */}
+          <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-2.5 py-1.5 text-xs font-bold text-emerald-800 cursor-default">
+            Status: Published
+          </div>
 
           {/* View Live on Website */}
           <Link

@@ -70,7 +70,6 @@ export default function EditBlogsPage() {
   // Metrics
   const totalCount = blogs.length;
   const publishedCount = blogs.filter((b) => b.status === "published").length;
-  const draftsCount = blogs.filter((b) => b.status === "draft").length;
 
   return (
     <div className="flex flex-col gap-6 p-4 sm:p-6 lg:p-8 min-h-full">
@@ -98,7 +97,7 @@ export default function EditBlogsPage() {
       </div>
 
       {/* STATS CARDS */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
         <div className="rounded-2xl border border-neutral-200/80 bg-white p-4 shadow-sm">
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium text-neutral-500">Total Articles</span>
@@ -115,15 +114,6 @@ export default function EditBlogsPage() {
           </div>
           <p className="text-2xl font-bold text-emerald-600 mt-2">{publishedCount}</p>
           <span className="text-[10px] text-emerald-500 font-medium">Live on site</span>
-        </div>
-
-        <div className="rounded-2xl border border-neutral-200/80 bg-white p-4 shadow-sm">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-neutral-500">Drafts</span>
-            <Clock className="h-4 w-4 text-amber-500" />
-          </div>
-          <p className="text-2xl font-bold text-amber-600 mt-2">{draftsCount}</p>
-          <span className="text-[10px] text-amber-500 font-medium">Unpublished</span>
         </div>
       </div>
 
@@ -144,7 +134,6 @@ export default function EditBlogsPage() {
           {[
             { id: "all", label: "All" },
             { id: "published", label: "Published" },
-            { id: "draft", label: "Drafts" },
           ].map((pill) => (
             <button
               key={pill.id}

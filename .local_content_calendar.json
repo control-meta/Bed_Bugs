@@ -41,136 +41,138 @@
   },
   "2026-09-21": {
     "date": "2026-09-21",
+    "topic": "How to Identify Bed Bug Infestations Early in Mumbai",
+    "keywords": [
+      "bed bug identification",
+      "Mumbai bed bugs"
+    ],
+    "searchVolume": "Trend Score: 100/100",
+    "type": "how-to",
+    "status": "planned",
+    "updatedAt": "2026-09-20T22:07:58.634Z",
+    "id": "bb8e6697-aa76-470e-a4f5-03a7cd67babe",
+    "createdAt": "2026-09-19T08:25:10.082584+00:00"
+  },
+  "2026-09-22": {
+    "date": "2026-09-22",
+    "topic": "The Ultimate Guide to Bed Bug Control in Delhi Apartments",
+    "keywords": [
+      "bed bug control",
+      "Delhi apartments"
+    ],
+    "searchVolume": "Trend Score: 100/100",
+    "type": "guide",
+    "status": "planned",
+    "updatedAt": "2026-09-20T22:07:58.634Z",
+    "id": "9d236c58-03ff-4ba4-a3fb-292654c85660",
+    "createdAt": "2026-09-19T08:25:10.082584+00:00"
+  },
+  "2026-09-23": {
+    "date": "2026-09-23",
+    "topic": "Top 5 Bed Bug Spray Treatments Available in Bangalore",
+    "keywords": [
+      "bed bug spray",
+      "Bangalore treatment"
+    ],
+    "searchVolume": "Trend Score: 57/100",
+    "type": "list",
+    "status": "planned",
+    "updatedAt": "2026-09-20T22:07:58.634Z",
+    "id": "3952e8bb-b70b-4ebe-a249-4794b42415cf",
+    "createdAt": "2026-09-19T08:25:10.082584+00:00"
+  },
+  "2026-09-24": {
+    "date": "2026-09-24",
+    "topic": "Comparing Heat Treatment vs. Chemical Extermination for Bed Bugs",
+    "keywords": [
+      "heat treatment",
+      "chemical extermination"
+    ],
+    "searchVolume": "Trend Score: 100/100",
+    "type": "comparison",
+    "status": "planned",
+    "updatedAt": "2026-09-20T22:07:58.634Z",
+    "id": "34a13b29-60ba-4c8d-8e86-d42c6af0cc01",
+    "createdAt": "2026-09-19T08:25:10.082584+00:00"
+  },
+  "2026-09-25": {
+    "date": "2026-09-25",
+    "topic": "Effective Bed Bug Treatment Methods",
+    "keywords": [
+      "bed bug treatment"
+    ],
+    "searchVolume": "Trend Score: 100/100",
+    "type": "local",
+    "status": "planned",
+    "updatedAt": "2026-09-20T22:07:58.634Z",
+    "id": "e5bc55a7-15f5-4135-9829-28bdb0d212dd",
+    "createdAt": "2026-09-19T08:25:10.082584+00:00"
+  },
+  "2026-09-26": {
+    "date": "2026-09-26",
+    "topic": "Educational Insight: The Life Cycle of Bed Bugs",
+    "keywords": [
+      "bed bug life cycle",
+      "bed bug education"
+    ],
+    "searchVolume": "Trend Score: 41/100",
+    "type": "educational",
+    "status": "planned",
+    "updatedAt": "2026-09-20T22:07:58.634Z",
+    "id": "6fd524e1-6d09-4411-9c00-c01aaa6257cf",
+    "createdAt": "2026-09-19T08:25:10.082584+00:00"
+  },
+  "2026-09-27": {
+    "date": "2026-09-27",
+    "topic": "Effective Bed Bug Treatment Methods",
+    "keywords": [
+      "bed bug treatment"
+    ],
+    "searchVolume": "Trend Score: 100/100",
+    "type": "how-to",
+    "status": "planned",
+    "updatedAt": "2026-09-20T22:07:58.634Z",
+    "id": "768b964e-a4cf-4055-b46d-2a21f742f9a5",
+    "createdAt": "2026-09-19T08:25:10.082584+00:00"
+  },
+  "2026-09-28": {
+    "date": "2026-09-28",
+    "topic": "Guide to Choosing the Right Bed Bug Mattress Encasement",
+    "keywords": [
+      "bed bug mattress",
+      "mattress encasement"
+    ],
+    "searchVolume": "Trend Score: 75/100",
+    "type": "guide",
+    "status": "planned",
+    "updatedAt": "2026-09-20T22:07:58.634Z",
+    "id": "e116b8d7-99b3-476d-b5ee-c8f48ac09815",
+    "createdAt": "2026-09-19T08:25:10.082584+00:00"
+  },
+  "2026-09-29": {
+    "date": "2026-09-29",
     "topic": "Effective Bed Bug Treatment Methods",
     "keywords": [
       "bed bug treatment"
     ],
     "searchVolume": "Trend Score: 100/100",
     "type": "list",
-    "status": "generated",
-    "updatedAt": "2026-09-20T20:09:54.565Z",
-    "id": "bb8e6697-aa76-470e-a4f5-03a7cd67babe",
-    "createdAt": "2026-09-19T08:25:10.082584+00:00"
-  },
-  "2026-09-22": {
-    "date": "2026-09-22",
-    "topic": "The Ultimate Guide to Bed Bug Prevention in Indian Homes",
-    "keywords": [
-      "bed bug prevention",
-      "protect from bed bugs"
-    ],
-    "searchVolume": "Trend Score: 85/100",
-    "type": "guide",
-    "status": "generated",
-    "updatedAt": "2026-09-20T20:09:54.565Z",
-    "id": "9d236c58-03ff-4ba4-a3fb-292654c85660",
-    "createdAt": "2026-09-19T08:25:10.082584+00:00"
-  },
-  "2026-09-23": {
-    "date": "2026-09-23",
-    "topic": "Cockroach Control: The Most Effective Solutions for Indian Households",
-    "keywords": [
-      "cockroach control",
-      "pest control solutions"
-    ],
-    "searchVolume": "Trend Score: 100/100",
-    "type": "educational",
     "status": "planned",
-    "updatedAt": "2026-09-20T20:09:54.565Z",
-    "id": "3952e8bb-b70b-4ebe-a249-4794b42415cf",
-    "createdAt": "2026-09-19T08:25:10.082584+00:00"
-  },
-  "2026-09-24": {
-    "date": "2026-09-24",
-    "topic": "Effective Pest Control Strategies",
-    "keywords": [
-      "pest control"
-    ],
-    "searchVolume": "Trend Score: 100/100",
-    "type": "comparison",
-    "status": "planned",
-    "updatedAt": "2026-09-20T20:09:54.565Z",
-    "id": "34a13b29-60ba-4c8d-8e86-d42c6af0cc01",
-    "createdAt": "2026-09-19T08:25:10.082584+00:00"
-  },
-  "2026-09-25": {
-    "date": "2026-09-25",
-    "topic": "Common Mistakes to Avoid During Bed Bug Inspection",
-    "keywords": [
-      "bed bug inspection",
-      "common mistakes"
-    ],
-    "searchVolume": "Trend Score: 100/100",
-    "type": "educational",
-    "status": "planned",
-    "updatedAt": "2026-09-20T20:09:54.565Z",
-    "id": "e5bc55a7-15f5-4135-9829-28bdb0d212dd",
-    "createdAt": "2026-09-19T08:25:10.082584+00:00"
-  },
-  "2026-09-26": {
-    "date": "2026-09-26",
-    "topic": "How to Deal with a Bed Bug Infestation in Your Hotel",
-    "keywords": [
-      "bed bug infestation",
-      "hotel bed bugs"
-    ],
-    "searchVolume": "Trend Score: 100/100",
-    "type": "how-to",
-    "status": "planned",
-    "updatedAt": "2026-09-20T20:09:54.565Z",
-    "id": "6fd524e1-6d09-4411-9c00-c01aaa6257cf",
-    "createdAt": "2026-09-19T08:25:10.082584+00:00"
-  },
-  "2026-09-27": {
-    "date": "2026-09-27",
-    "topic": "Effective Methods for Bed Bug Treatment",
-    "keywords": [
-      "bed bug treatment"
-    ],
-    "searchVolume": "Trend Score: 100/100",
-    "type": "comparison",
-    "status": "planned",
-    "updatedAt": "2026-09-20T20:09:54.565Z",
-    "id": "768b964e-a4cf-4055-b46d-2a21f742f9a5",
-    "createdAt": "2026-09-19T08:25:10.082584+00:00"
-  },
-  "2026-09-28": {
-    "date": "2026-09-28",
-    "topic": "The Best Pest Control Methods for Rodent Problems in India",
-    "keywords": [
-      "rodent pest control",
-      "pest control methods"
-    ],
-    "searchVolume": "Trend Score: 79/100",
-    "type": "list",
-    "status": "planned",
-    "updatedAt": "2026-09-20T20:09:54.565Z",
-    "id": "e116b8d7-99b3-476d-b5ee-c8f48ac09815",
-    "createdAt": "2026-09-19T08:25:10.082584+00:00"
-  },
-  "2026-09-29": {
-    "date": "2026-09-29",
-    "topic": "How to Choose Effective Pest Control Services",
-    "keywords": [
-      "pest control services"
-    ],
-    "searchVolume": "Trend Score: 100/100",
-    "type": "how-to",
-    "status": "planned",
-    "updatedAt": "2026-09-20T20:09:54.565Z",
+    "updatedAt": "2026-09-20T22:07:58.634Z",
     "id": "b4b63fb1-8ea9-4565-8b09-0f0c4e0ab4f3",
     "createdAt": "2026-09-19T08:25:10.082584+00:00"
   },
   "2026-09-30": {
     "date": "2026-09-30",
-    "topic": "Effective Pest Control Methods for Homeowners",
+    "topic": "Why Professional Bed Bug Inspection is Crucial in Delhi Hotels",
     "keywords": [
-      "pest control methods"
+      "bed bug inspection",
+      "Delhi hotels"
     ],
     "searchVolume": "Trend Score: 100/100",
     "type": "local",
     "status": "planned",
-    "updatedAt": "2026-09-20T20:09:54.565Z",
+    "updatedAt": "2026-09-20T22:07:58.634Z",
     "id": "cd5563d8-cea3-43d1-b471-51b1875d6d4f",
     "createdAt": "2026-09-19T08:25:10.082584+00:00"
   },
