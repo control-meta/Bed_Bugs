@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { PhoneCall, ShieldCheck } from "lucide-react";
+import { PhoneCall, ShieldCheck, BugOff } from "lucide-react";
 import { site } from "@/lib/site";
 
 function WhatsAppIcon({ className }: { className?: string }) {
@@ -87,6 +87,14 @@ export function CtaSection({
             </div>
 
             <div className="relative h-64 w-full overflow-hidden max-sm:h-40 sm:h-80 lg:h-full lg:min-h-[22rem]">
+              <div className="absolute left-4 top-0 z-20 flex flex-col items-center justify-center rounded-b-full bg-[#CC2027] px-3 pb-3 pt-2 text-white shadow-xl lg:left-8">
+                <span className="text-center text-[10px] font-extrabold leading-[1.1] tracking-wider sm:text-[12px]">
+                  BED BUG<br />FREE
+                </span>
+                <div className="mt-1.5 flex items-center justify-center rounded-full bg-white p-1">
+                  <BugOff className="h-5 w-5 text-[#CC2027] sm:h-6 sm:w-6" />
+                </div>
+              </div>
               {ctaImages.map((image, index) => (
                 <div
                   key={image.src}
