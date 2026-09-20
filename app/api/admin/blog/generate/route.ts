@@ -358,7 +358,7 @@ CRITICAL PUBLICATION REQUIREMENT (MANDATORY >= 2,000 WORDS):
                 n: 1,
                 size: "1024x1024",
               });
-              const topImgUrl = topImgRes.data[0]?.url || (topImgRes.data[0]?.b64_json ? `data:image/png;base64,${topImgRes.data[0].b64_json}` : null);
+              const topImgUrl = topImgRes.data?.[0]?.url || (topImgRes.data?.[0]?.b64_json ? `data:image/png;base64,${topImgRes.data[0].b64_json}` : null);
               if (topImgUrl) {
                 const savedPath = await fetchAndSaveImage(topImgUrl, 'ai-top');
                 customTopImage = {
@@ -376,7 +376,7 @@ CRITICAL PUBLICATION REQUIREMENT (MANDATORY >= 2,000 WORDS):
                 n: 1,
                 size: "1024x1024",
               });
-              const midImgUrl = midImgRes.data[0]?.url || (midImgRes.data[0]?.b64_json ? `data:image/png;base64,${midImgRes.data[0].b64_json}` : null);
+              const midImgUrl = midImgRes.data?.[0]?.url || (midImgRes.data?.[0]?.b64_json ? `data:image/png;base64,${midImgRes.data[0].b64_json}` : null);
               if (midImgUrl) {
                 const savedPath = await fetchAndSaveImage(midImgUrl, 'ai-mid');
                 customMidImage = {

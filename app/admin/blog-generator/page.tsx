@@ -1215,7 +1215,7 @@ export default function BlogGeneratorPage() {
                       <button 
                         onClick={() => {
                           navigator.clipboard.writeText(testImageUrl);
-                          toast.success("URL Copied");
+                          alert("URL Copied");
                         }}
                         className="px-3 py-2 rounded-lg bg-neutral-100 hover:bg-neutral-200 text-neutral-700 text-xs font-semibold transition"
                       >
