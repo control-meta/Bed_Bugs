@@ -59,12 +59,6 @@ export function BlogPostArticle({ blog }: { blog: BlogItem }) {
 
       <article className="min-h-screen bg-white pb-16 pt-24 sm:pt-28 lg:pt-32">
         <div className="container mx-auto max-w-4xl px-4 sm:px-6">
-          {/* Category / Badge */}
-          <div className="flex items-center gap-2 mb-4">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-brand-700 bg-brand-50 px-2.5 py-1 rounded-md border border-brand-200">
-              {blog.primaryKeyword || "Bed Bug Guide"}
-            </span>
-          </div>
 
           {/* Title */}
           <h1 className="text-2xl sm:text-4xl font-extrabold text-neutral-900 tracking-tight leading-tight mb-6">
