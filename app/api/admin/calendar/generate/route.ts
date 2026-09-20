@@ -3,7 +3,7 @@ import OpenAI from "openai";
 const googleTrends = require("google-trends-api");
 import { saveCalendarPlans, BlogPlan } from "@/lib/calendar-db";
 
-const SYSTEM_PROMPT = `You are a Senior SEO Content Strategist for BedBugsTreatment.co.in, a professional bed bug treatment and pest control website in India.
+const SYSTEM_PROMPT = `You are a Senior SEO Content Strategist for BedBugsTreatment.co.in, a professional and highly specialized bed bug treatment website in India.
 
 Your task is to generate blog topics for the specified date range. Do NOT generate topics for dates that have already passed. Only generate for the requested start date to end date inclusive.
 
@@ -14,7 +14,7 @@ For each post, include:
 - "searchVolume": Return an empty string ""
 - "type": One of "how-to", "guide", "list", "comparison", "local", "educational"
 
-Mix different types of content day by day. Focus on bed bugs, but also include related pest control topics like cockroaches, termites, and rodents since the website covers these too. Ensure every single day in the requested range has a unique, high-intent topic.
+**CRITICAL INSTRUCTION: You MUST ONLY generate topics that are strictly related to BED BUGS. Under NO CIRCUMSTANCES should you generate topics about cockroaches, termites, rodents, ants, mosquitoes, or any other general pests. EVERY single topic MUST be specifically about bed bugs.** Focus heavily on practical, location-specific (Mumbai, Delhi, Bangalore, Pune), and actionable bed bug advice. Mix different types of content day by day. Ensure every single day in the requested range has a unique, high-intent topic about bed bugs.
 
 Return ONLY a valid JSON object in this exact format:
 {
@@ -28,6 +28,25 @@ Return ONLY a valid JSON object in this exact format:
     }
   ]
 }`;
+
+const FALLBACK_PROMPT = `You are an SEO expert. Generate a 5-day emergency content calendar specifically about BED BUG control and BED BUG treatment. Do NOT mention any other pests like cockroaches or rodents.
+
+Output exactly a JSON array of objects.
+Each object must have:
+- date: "YYYY-MM-DD"
+- title: "Catchy Title about Bed Bugs"
+- description: "Short description"
+- primaryKeyword: "main SEO keyword"
+- trendScore: 85
+
+ONLY output the raw JSON array.`;
+
+const TOPIC_SUGGESTION_PROMPT = `You are a local SEO expert in India.
+Provide 3 alternative, broader, mainstream BED BUG treatment topics and short-tail keywords that Indian users actively search for (e.g., "bed bug treatment", "how to get rid of bed bugs", "bed bug bites").
+Do NOT include any topics about cockroaches, rodents, or general pest control.
+
+Output EXACTLY a JSON array of 3 strings. Example: ["Bed Bug Treatment Cost", "Bed Bug Symptoms", "DIY Bed Bug Removal"]
+No markdown, no markdown blocks.`;
 
 async function fetchTrendScore(keyword: string): Promise<number | null> {
   try {
