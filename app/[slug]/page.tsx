@@ -4,23 +4,33 @@ import { getAllLocationSlugs } from "@/lib/locations";
 import { getLocationPage } from "@/lib/locations-db";
 import { LocationPageContent } from "@/components/location-page-content";
 import { getPageSeo, getAllImageAltMap } from "@/lib/seo-db";
+import { getBlogBySlug } from "@/lib/blog-db";
+import { BlogPostArticle, buildBlogPostMetadata } from "@/components/blog-post";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 type Props = {
-  params: Promise<{ city: string }>;
+  params: Promise<{ slug: string }>;
 };
 
 export async function generateStaticParams() {
   return getAllLocationSlugs().map((slug) => ({
-    city: slug,
+    slug,
   }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { city } = await params;
-  const location = await getLocationPage(city);
+  const { slug } = await params;
+
+  // 1. Blog post takes precedence at the root level
+  const blog = await getBlogBySlug(slug);
+  if (blog) {
+    return buildBlogPostMetadata(blog);
+  }
+
+  // 2. Otherwise treat it as a location page
+  const location = await getLocationPage(slug);
 
   if (!location) {
     return {
@@ -29,7 +39,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   // Check if there is an explicit override in Global SEO / Meta Data store
-  const seoOverride = await getPageSeo(`/${city}`);
+  const seoOverride = await getPageSeo(`/${slug}`);
   const title = seoOverride?.title || location.title;
   const description = seoOverride?.description || location.metaDescription;
 
@@ -64,10 +74,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function LocationCityPage({ params }: Props) {
-  const { city } = await params;
+export default async function DynamicSlugPage({ params }: Props) {
+  const { slug } = await params;
+
+  // 1. Blog post takes precedence at the root level
+  const blog = await getBlogBySlug(slug);
+  if (blog) {
+    return <BlogPostArticle blog={blog} />;
+  }
+
+  // 2. Otherwise treat it as a location page
   const [location, altMap] = await Promise.all([
-    getLocationPage(city),
+    getLocationPage(slug),
     getAllImageAltMap(),
   ]);
 
@@ -171,15 +189,21 @@ export default async function LocationCityPage({ params }: Props) {
     <>
       {/* Schema.org Structured Data */}
       <script
+        id="schema-local-business"
         type="application/ld+json"
+        suppressHydrationWarning
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
       />
       <script
+        id="schema-faq"
         type="application/ld+json"
+        suppressHydrationWarning
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
       <script
+        id="schema-breadcrumb"
         type="application/ld+json"
+        suppressHydrationWarning
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
 

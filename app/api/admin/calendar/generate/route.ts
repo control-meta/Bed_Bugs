@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
+const googleTrends = require("google-trends-api");
 import { saveCalendarPlans, BlogPlan } from "@/lib/calendar-db";
 
 const SYSTEM_PROMPT = `You are a Senior SEO Content Strategist for BedBugsTreatment.co.in, a professional bed bug treatment and pest control website in India.
@@ -10,7 +11,7 @@ For each post, include:
 - "date": ISO date string (YYYY-MM-DD)
 - "topic": A specific, search-intent-focused blog title targeting Indian bed bug treatment searchers
 - "keywords": Array of 2-3 target keywords
-- "searchVolume": Estimated monthly search volume (e.g., "8,100/mo", "2,400/mo") — estimate based on your SEO knowledge
+- "searchVolume": Return an empty string ""
 - "type": One of "how-to", "guide", "list", "comparison", "local", "educational"
 
 Mix different types of content day by day. Focus on bed bugs, but also include related pest control topics like cockroaches, termites, and rodents since the website covers these too. Ensure every single day in the requested range has a unique, high-intent topic.
@@ -22,11 +23,54 @@ Return ONLY a valid JSON object in this exact format:
       "date": "YYYY-MM-DD",
       "topic": "Blog title here",
       "keywords": ["keyword 1", "keyword 2"],
-      "searchVolume": "8,100/mo",
+      "searchVolume": "",
       "type": "how-to"
     }
   ]
 }`;
+
+async function fetchTrendScore(keyword: string): Promise<number | null> {
+  try {
+    const trendRes = await googleTrends.interestOverTime({
+      keyword,
+      startTime: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+    });
+    const parsedTrend = JSON.parse(trendRes);
+    const timelineData = parsedTrend.default?.timelineData;
+    if (timelineData && timelineData.length > 0) {
+      const latest = timelineData[timelineData.length - 1];
+      return latest.value[0];
+    }
+  } catch (err) {
+    console.warn("Failed to fetch trend for", keyword);
+  }
+  return null;
+}
+
+async function getAlternativeTopics(openai: OpenAI, originalTopic: string, originalKeyword: string): Promise<{topic: string, keyword: string}[]> {
+  const prompt = `The blog topic "${originalTopic}" with keyword "${originalKeyword}" is too specific and has 0 search volume on Google Trends. 
+Provide 3 alternative, broader, mainstream pest control topics and short-tail keywords that Indian users actively search for (e.g., "bed bug treatment", "pest control services", "cockroach control").
+Return ONLY JSON in this format:
+{
+  "alternatives": [
+    { "topic": "Broader Topic Title", "keyword": "short tail keyword" }
+  ]
+}`;
+
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [{ role: "user", content: prompt }],
+      temperature: 0.8,
+      response_format: { type: "json_object" },
+    });
+    const content = response.choices[0]?.message?.content || "{}";
+    const parsed = JSON.parse(content);
+    return parsed.alternatives || [];
+  } catch (err) {
+    return [];
+  }
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -115,10 +159,45 @@ Return the result as a JSON object with a "plan" array.`;
         date: p.date,
         topic: p.topic,
         keywords: Array.isArray(p.keywords) ? p.keywords : [],
-        searchVolume: p.searchVolume || "",
+        searchVolume: "",
         type: p.type || "guide",
         status: "planned",
       }));
+
+    // Fetch Trends for each valid post to get actual relative interest score
+    for (let i = 0; i < validPosts.length; i++) {
+      const post = validPosts[i];
+      // Use the first keyword or the topic if no keywords
+      const mainKeyword = (post.keywords && post.keywords.length > 0) ? post.keywords[0] : post.topic;
+      
+      let score = await fetchTrendScore(mainKeyword);
+      
+      // If score is 0 or null, attempt to regenerate broader topics
+      if (score === 0 || score === null) {
+        const alternatives = await getAlternativeTopics(openai, post.topic, mainKeyword);
+        for (const alt of alternatives) {
+          // small delay before next trend check to avoid rate limiting
+          await new Promise(r => setTimeout(r, 300));
+          
+          const altScore = await fetchTrendScore(alt.keyword);
+          if (altScore !== null && altScore > 0) {
+            post.topic = alt.topic;
+            post.keywords = [alt.keyword];
+            score = altScore;
+            break; // found a good one, exit alternative loop
+          }
+        }
+      }
+
+      if (score !== null) {
+        post.searchVolume = `Trend Score: ${score}/100`;
+      } else {
+        post.searchVolume = "Trend Score: N/A";
+      }
+      
+      // small delay before moving to next post
+      await new Promise(r => setTimeout(r, 300));
+    }
 
     // Save to Database (Supabase with local fallback)
     const { plan: fullMonthPlan, isSupabase } = await saveCalendarPlans(validPosts, month, year);

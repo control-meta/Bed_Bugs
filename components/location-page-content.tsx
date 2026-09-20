@@ -130,11 +130,21 @@ export function EditableItem({
       : {}),
   };
 
+  // If Component is passed as "p", always render as "div" to safely support rich HTML formatting,
+  // newlines, and nested tags without violating HTML5 parser rules or causing hydration mismatch.
+  const EffectiveComponent = Component === "p" ? "div" : Component;
+
   function cleanHtml(raw: any): string {
     if (typeof raw !== "string") return "";
-    return raw
+    let cleaned = raw
       .replace(/<font\s+color=["'](.*?)["']>(.*?)<\/font>/gi, '<span style="color: $1">$2</span>')
       .replace(/<font\s+size=["'](.*?)["']>(.*?)<\/font>/gi, '<span style="font-size: $1">$2</span>');
+
+    // If rendering inside an inline <span> tag, strip any block tags so it never breaks parent elements
+    if (EffectiveComponent === "span") {
+      cleaned = cleaned.replace(/<\/?(div|p|ul|ol|li|h[1-6]|blockquote|section)[^>]*>/gi, "");
+    }
+    return cleaned;
   }
 
   // Sync with value changes when not actively focused or active (e.g. discarding or loading city)
@@ -159,23 +169,25 @@ export function EditableItem({
     const hasHtml = Boolean(cleaned && cleaned.includes("<") && cleaned.includes(">"));
 
     return (
-      <Component
+      <EffectiveComponent
         className={className}
         style={mergedStyle}
+        suppressHydrationWarning={true}
         {...(hasHtml ? { dangerouslySetInnerHTML: { __html: cleaned } } : {})}
       >
         {hasHtml ? undefined : (children ?? value)}
-      </Component>
+      </EffectiveComponent>
     );
   }
 
   // EDITING MODE: User clicks directly on text and types in-place with real-time rich-text support
   // No dangerouslySetInnerHTML or React children here so React reconciler never destroys active text selection
   return (
-    <Component
+    <EffectiveComponent
       ref={elementRef}
       contentEditable={true}
       suppressContentEditableWarning={true}
+      suppressHydrationWarning={true}
       onFocus={(e: React.FocusEvent<HTMLElement>) => {
         isFocusedRef.current = true;
         const rect = e.currentTarget.getBoundingClientRect();
@@ -652,7 +664,7 @@ export function LocationPageContent({
                   customStyles?.coverageNoteText ||
                   `Don't see your specific sector or colony listed? We service all residential and commercial addresses within 45 km of ${location.name} center.`
                 }
-                as="p"
+                as="div"
                 className="text-xs font-medium text-ink/80 sm:text-sm"
               />
 

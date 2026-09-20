@@ -15,6 +15,7 @@ import {
   X,
   CheckCircle2,
   XCircle,
+  Sparkles,
 } from "lucide-react";
 
 type CustomerReview = {
@@ -33,6 +34,22 @@ type PageItem = {
   path: string;
   title: string;
 };
+
+const CITY_PAGE_PATHS = [
+  "/bangalore",
+  "/mumbai",
+  "/pune",
+  "/delhi",
+  "/noida",
+  "/gurgaon",
+  "/hyderabad",
+  "/chennai",
+  "/kolkata",
+];
+
+const EXCLUDED_REVIEW_PAGE_PATHS = ["/about", "/contact", "/blog", "/faq"];
+
+const MAX_GENERATE_COUNT = 50;
 
 export default function AdminReviewsPage() {
   const [reviews, setReviews] = useState<CustomerReview[]>([]);
@@ -54,6 +71,103 @@ export default function AdminReviewsPage() {
     status: "pending",
     page_slug: "",
   });
+
+  // AI Review Generator State
+  const [isGenerateModalOpen, setIsGenerateModalOpen] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [genPageSlug, setGenPageSlug] = useState("/");
+  const [genCountInput, setGenCountInput] = useState("5");
+  const [genRatingType, setGenRatingType] = useState("mostly_5");
+  const [genStatus, setGenStatus] = useState<"approved" | "pending">("approved");
+  const [generatedReviews, setGeneratedReviews] = useState<CustomerReview[] | null>(null);
+  const [generateError, setGenerateError] = useState<string | null>(null);
+  const [genProgress, setGenProgress] = useState<{ current: number; total: number; page: string } | null>(null);
+
+  const genCount = Math.min(
+    MAX_GENERATE_COUNT,
+    Math.max(1, parseInt(genCountInput, 10) || 1),
+  );
+
+  const getTargetPages = () => {
+    const dynamic = pages
+      .map((p) => p.path)
+      .filter(
+        (path) =>
+          path !== "/" &&
+          !CITY_PAGE_PATHS.includes(path) &&
+          !EXCLUDED_REVIEW_PAGE_PATHS.includes(path),
+      );
+    return Array.from(new Set(["/", ...CITY_PAGE_PATHS, ...dynamic]));
+  };
+
+  const generateForPage = async (pageSlug: string): Promise<CustomerReview[]> => {
+    const res = await fetch("/api/admin/reviews/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        page_slug: pageSlug,
+        count: genCount,
+        rating_type: genRatingType,
+        status: genStatus,
+      }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Failed to generate reviews");
+    return (data.reviews || []) as CustomerReview[];
+  };
+
+  const handleGenerateReviews = async () => {
+    setIsGenerating(true);
+    setGenerateError(null);
+    setGeneratedReviews(null);
+    setGenProgress(null);
+
+    try {
+      const newReviews = await generateForPage(genPageSlug);
+      setGeneratedReviews(newReviews);
+      setReviews((prev) => [...newReviews, ...prev]);
+    } catch (err: any) {
+      setGenerateError(err.message || "Failed to generate reviews");
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const handleGenerateAllPages = async () => {
+    const targets = getTargetPages();
+    if (targets.length === 0) return;
+
+    setIsGenerating(true);
+    setGenerateError(null);
+    setGeneratedReviews(null);
+
+    const allReviews: CustomerReview[] = [];
+    const failures: string[] = [];
+
+    try {
+      for (let i = 0; i < targets.length; i++) {
+        const page = targets[i];
+        setGenProgress({ current: i + 1, total: targets.length, page });
+        try {
+          const newReviews = await generateForPage(page);
+          allReviews.push(...newReviews);
+          setReviews((prev) => [...newReviews, ...prev]);
+        } catch (err: any) {
+          failures.push(`${page}: ${err.message}`);
+        }
+      }
+
+      setGeneratedReviews(allReviews);
+
+      if (failures.length > 0) {
+        setGenerateError(`Some pages could not be generated:\n${failures.join("\n")}`);
+      }
+    } finally {
+      setGenProgress(null);
+      setIsGenerating(false);
+    }
+  };
 
   const fetchReviews = async () => {
     setLoading(true);
@@ -204,13 +318,27 @@ export default function AdminReviewsPage() {
           </button>
         </div>
 
-        <button
-          onClick={openAddModal}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold shadow-sm transition-colors"
-        >
-          <Plus className="h-3.5 w-3.5" />
-          Add Review
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => {
+              setIsGenerateModalOpen(true);
+              setGeneratedReviews(null);
+              setGenerateError(null);
+            }}
+            className="flex items-center gap-1.5 px-3.5 py-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-lg text-xs font-bold shadow-xs transition-all cursor-pointer"
+          >
+            <Sparkles className="h-3.5 w-3.5" />
+            Generate Reviews with AI
+          </button>
+
+          <button
+            onClick={openAddModal}
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold shadow-sm transition-colors cursor-pointer"
+          >
+            <Plus className="h-3.5 w-3.5" />
+            Add Review
+          </button>
+        </div>
       </div>
 
       {error && (
@@ -442,7 +570,7 @@ export default function AdminReviewsPage() {
                     <option value="">-- All Pages (Global) --</option>
                     <option value="/">Home Page (/)</option>
                     {pages
-                      .filter((p) => !["/", "/about", "/faq", "/blog"].includes(p.path))
+                      .filter((p) => !["/", "/about", "/contact", "/faq", "/blog"].includes(p.path))
                       .map((p) => (
                       <option key={p.path} value={p.path}>
                         {p.title || p.path} ({p.path})
@@ -482,6 +610,291 @@ export default function AdminReviewsPage() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* AI REVIEW GENERATOR MODAL */}
+      {isGenerateModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs">
+          <div className="relative w-full max-w-xl rounded-2xl bg-white shadow-2xl border border-neutral-200 overflow-hidden flex flex-col max-h-[90vh]">
+            {/* Modal Header */}
+            <div className="p-5 border-b border-neutral-100 bg-gradient-to-r from-purple-50 via-indigo-50/50 to-white flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-purple-600 text-white shadow-xs">
+                  <Sparkles className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-neutral-900">AI Customer Reviews Generator</h3>
+                  <p className="text-[11px] text-neutral-500">
+                    Generates authentic Indian citizen reviews with uniform short content size (20–35 words).
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setIsGenerateModalOpen(false)}
+                className="rounded-lg p-1 text-neutral-400 hover:text-neutral-600 transition"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="p-5 overflow-y-auto flex flex-col gap-4">
+              {generateError && (
+                <div className="rounded-xl bg-red-50 p-3 text-xs text-red-700 border border-red-200 whitespace-pre-line">
+                  {generateError}
+                </div>
+              )}
+
+              {genProgress && (
+                <div className="rounded-xl bg-purple-50 border border-purple-200 p-3 text-xs text-purple-800 flex items-center gap-2">
+                  <Loader2 className="h-3.5 w-3.5 animate-spin shrink-0" />
+                  <span>
+                    Generating for <strong>{genProgress.page}</strong> — page {genProgress.current} of {genProgress.total}...
+                  </span>
+                </div>
+              )}
+
+              {/* SUCCESS RESULTS PREVIEW */}
+              {generatedReviews && generatedReviews.length > 0 ? (
+                <div className="flex flex-col gap-3">
+                  <div className="rounded-xl bg-emerald-50 border border-emerald-200 p-3 flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-xs font-bold text-emerald-800">
+                      <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+                      <span>Successfully generated and saved {generatedReviews.length} reviews!</span>
+                    </div>
+                    <span className="text-[10px] text-emerald-600 font-semibold uppercase bg-emerald-100 px-2 py-0.5 rounded-full">
+                      Added to DB
+                    </span>
+                  </div>
+
+                  <p className="text-xs font-semibold text-neutral-700">Preview Generated Reviews (Consistent Length):</p>
+
+                  <div className="space-y-2.5 max-h-[320px] overflow-y-auto pr-1">
+                    {generatedReviews.map((rev, i) => {
+                      const words = rev.quote.split(/\s+/).filter(Boolean).length;
+                      return (
+                        <div key={rev.id || i} className="rounded-xl border border-neutral-200 bg-neutral-50/70 p-3 text-xs">
+                          <div className="flex items-center justify-between mb-1.5">
+                            <div className="flex items-center gap-2">
+                              <span className="font-bold text-neutral-900">{rev.name}</span>
+                              {rev.city && (
+                                <span className="text-[10px] font-medium text-neutral-500 bg-white border border-neutral-200 px-1.5 py-0.5 rounded">
+                                  {rev.city}
+                                </span>
+                              )}
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <div className="flex text-amber-400">
+                                {Array.from({ length: rev.rating }).map((_, s) => (
+                                  <Star key={s} className="h-3 w-3 fill-amber-400" />
+                                ))}
+                              </div>
+                              <span className="text-[10px] font-mono text-neutral-400 ml-1">({words} words)</span>
+                            </div>
+                          </div>
+                          <p className="text-neutral-700 leading-relaxed italic">"{rev.quote}"</p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              ) : (
+                <>
+                  {/* Target Page Selector */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-xs font-bold text-neutral-800 flex items-center justify-between">
+                      <span>Select Target Page</span>
+                      <span className="text-[10px] text-neutral-400 font-normal">Review context & location</span>
+                    </label>
+                    <select
+                      value={genPageSlug}
+                      onChange={(e) => setGenPageSlug(e.target.value)}
+                      disabled={isGenerating}
+                      className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2 text-xs font-semibold text-neutral-900 outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10"
+                    >
+                      <option value="/">Home Page (/)</option>
+                      <optgroup label="Popular City Pages">
+                        <option value="/bangalore">Bangalore (/bangalore)</option>
+                        <option value="/mumbai">Mumbai (/mumbai)</option>
+                        <option value="/pune">Pune (/pune)</option>
+                        <option value="/delhi">Delhi (/delhi)</option>
+                        <option value="/noida">Noida (/noida)</option>
+                        <option value="/gurgaon">Gurgaon (/gurgaon)</option>
+                        <option value="/hyderabad">Hyderabad (/hyderabad)</option>
+                        <option value="/chennai">Chennai (/chennai)</option>
+                        <option value="/kolkata">Kolkata (/kolkata)</option>
+                      </optgroup>
+                      <optgroup label="Other Website Pages">
+                        {pages
+                          .filter(
+                            (p) =>
+                              ![
+                                "/",
+                                ...CITY_PAGE_PATHS,
+                                ...EXCLUDED_REVIEW_PAGE_PATHS,
+                              ].includes(p.path)
+                          )
+                          .map((p) => (
+                            <option key={p.path} value={p.path}>
+                              {p.title || p.path} ({p.path})
+                            </option>
+                          ))}
+                      </optgroup>
+                    </select>
+                  </div>
+
+                  {/* Number of Reviews Selector */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-xs font-bold text-neutral-800 flex items-center justify-between">
+                      <span>Number of Reviews to Generate</span>
+                      <span className="text-[10px] text-neutral-400 font-normal">Max {MAX_GENERATE_COUNT} per page</span>
+                    </label>
+                    <div className="grid grid-cols-5 gap-2">
+                      {[3, 5, 10, 15, 20].map((count) => (
+                        <button
+                          key={count}
+                          type="button"
+                          disabled={isGenerating}
+                          onClick={() => setGenCountInput(String(count))}
+                          className={`rounded-xl border py-2 text-xs font-bold transition ${
+                            genCount === count
+                              ? "border-purple-600 bg-purple-50 text-purple-700 shadow-xs ring-1 ring-purple-500/20"
+                              : "border-neutral-200 bg-neutral-50/50 text-neutral-600 hover:bg-neutral-100"
+                          }`}
+                        >
+                          {count}
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* Custom count input */}
+                    <div className="mt-1 flex items-center gap-2">
+                      <span className="text-[11px] font-medium text-neutral-500">Custom:</span>
+                      <input
+                        type="number"
+                        min={1}
+                        max={MAX_GENERATE_COUNT}
+                        value={genCountInput}
+                        disabled={isGenerating}
+                        onChange={(e) => setGenCountInput(e.target.value)}
+                        onBlur={() => setGenCountInput(String(genCount))}
+                        placeholder="e.g. 8"
+                        className="w-24 rounded-lg border border-neutral-200 bg-neutral-50 px-2.5 py-1.5 text-xs font-semibold text-neutral-900 outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 disabled:opacity-50"
+                      />
+                      <span className="text-[10px] text-neutral-400">
+                        Type any number (1–{MAX_GENERATE_COUNT}) or pick a preset above.
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Rating Configuration */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-bold text-neutral-800">Rating Mix</label>
+                      <select
+                        value={genRatingType}
+                        onChange={(e) => setGenRatingType(e.target.value)}
+                        disabled={isGenerating}
+                        className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2 text-xs font-semibold text-neutral-900 outline-none focus:border-purple-500"
+                      >
+                        <option value="mostly_5">Mostly 5★ (90% 5★, 10% 4★ - Authentic)</option>
+                        <option value="all_5">All 5★ (100% 5 Stars)</option>
+                        <option value="mixed">Mixed (70% 5★, 30% 4★)</option>
+                      </select>
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-bold text-neutral-800">Publish Status</label>
+                      <select
+                        value={genStatus}
+                        onChange={(e) => setGenStatus(e.target.value as any)}
+                        disabled={isGenerating}
+                        className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2 text-xs font-semibold text-neutral-900 outline-none focus:border-purple-500"
+                      >
+                        <option value="approved">Approved (Show on site immediately)</option>
+                        <option value="pending">Pending (Review in table first)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Consistency Guarantee Info Callout */}
+                  <div className="rounded-xl border border-purple-100 bg-purple-50/50 p-3 text-[11px] text-purple-900 leading-relaxed flex flex-col gap-1">
+                    <span className="font-bold flex items-center gap-1.5 text-purple-800">
+                      <CheckCircle2 className="h-3.5 w-3.5 text-purple-600" /> Human-Like & Uniform Content Size
+                    </span>
+                    <p className="text-purple-700">
+                      Reviews are strictly kept to <strong>20–35 words (1–2 sentences)</strong> with real Indian citizen names, matching cities/localities, and genuine experiences (odorless spray, mattress inspection, polite technicians).
+                    </p>
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* Modal Footer */}
+            <div className="p-4 border-t border-neutral-100 bg-neutral-50/50 flex flex-wrap items-center justify-end gap-2.5">
+              {generatedReviews ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsGenerateModalOpen(false);
+                    setGeneratedReviews(null);
+                  }}
+                  className="rounded-xl bg-purple-600 px-5 py-2 text-xs font-bold text-white hover:bg-purple-700 transition shadow-sm"
+                >
+                  Done & View in Table
+                </button>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => setIsGenerateModalOpen(false)}
+                    disabled={isGenerating}
+                    className="rounded-xl border border-neutral-200 bg-white px-4 py-2 text-xs font-semibold text-neutral-700 hover:bg-neutral-50 transition"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleGenerateAllPages}
+                    disabled={isGenerating}
+                    title={`Generate ${genCount} reviews for every target page`}
+                    className="flex items-center gap-1.5 rounded-xl border border-purple-300 bg-purple-50 px-4 py-2 text-xs font-bold text-purple-700 hover:bg-purple-100 transition disabled:opacity-50"
+                  >
+                    {genProgress ? (
+                      <>
+                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                        <span>Generating All Pages...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="h-3.5 w-3.5" />
+                        <span>Generate for All Pages</span>
+                      </>
+                    )}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleGenerateReviews}
+                    disabled={isGenerating}
+                    className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 px-5 py-2 text-xs font-bold text-white hover:from-purple-700 hover:to-indigo-700 transition shadow-sm disabled:opacity-50"
+                  >
+                    {isGenerating && !genProgress ? (
+                      <>
+                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                        <span>Generating Reviews with OpenAI...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="h-3.5 w-3.5" />
+                        <span>Generate {genCount} Reviews</span>
+                      </>
+                    )}
+                  </button>
+                </>
+              )}
+            </div>
           </div>
         </div>
       )}

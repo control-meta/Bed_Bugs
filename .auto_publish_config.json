@@ -1,0 +1,38 @@
+{
+  "enabled": false,
+  "frequency": "1min",
+  "dailyTime": "09:00",
+  "logs": [
+    {
+      "id": "log_1789934995616",
+      "date": "2026-09-22",
+      "topic": "The Ultimate Guide to Bed Bug Prevention in Indian Homes",
+      "slug": "bed-bug-prevention-indian-homes",
+      "status": "success",
+      "message": "Published successfully as \"Shield Your Home: The Essential Guide to Bed Bug Prevention for Indian Families\".",
+      "timestamp": "2026-09-20T20:09:55.616Z",
+      "blogId": "1345841b-935f-4039-8693-2581c26f9621"
+    },
+    {
+      "id": "log_1789933703290",
+      "date": "2026-09-21",
+      "topic": "Effective Bed Bug Treatment Methods",
+      "slug": "effective-bed-bug-treatment-methods",
+      "status": "success",
+      "message": "Published successfully as \"Uncovering the Best Bed Bug Treatment Methods for Indian Homes\".",
+      "timestamp": "2026-09-20T19:48:23.290Z",
+      "blogId": "b2204460-64fa-4154-bd75-81fb62fbc61b"
+    },
+    {
+      "id": "log_1789932408221",
+      "date": "2026-09-20",
+      "topic": "How to Identify Bed Bug Bites: Symptoms and Signs",
+      "slug": "identify-bed-bug-bites-symptoms",
+      "status": "success",
+      "message": "Published successfully as \"Spotting the Unseen: How to Identify Bed Bug Bites and Their Symptoms\".",
+      "timestamp": "2026-09-20T19:26:48.221Z",
+      "blogId": "75fc7ac0-c4a3-443a-af04-caabf15f35ac"
+    }
+  ],
+  "lastRunAt": "2026-09-20T20:09:55.616Z"
+}

@@ -131,7 +131,7 @@ export async function getPublishedBlogPages(): Promise<ExistingPage[]> {
       .limit(500);
     if (!error) {
       return (data || []).map((article) => ({
-        url: `/blog/${article.slug}`,
+        url: `/${article.slug}`,
         title: article.title,
         topic: article.topic,
         source: "database" as const,
@@ -143,7 +143,7 @@ export async function getPublishedBlogPages(): Promise<ExistingPage[]> {
   return readLocalArticles()
     .filter((article) => article.status === "published")
     .map((article) => ({
-      url: `/blog/${article.slug}`,
+      url: `/${article.slug}`,
       title: article.title,
       topic: article.topic,
       source: "database" as const,

@@ -45,72 +45,91 @@ export function sanitizeTextContent(
     text = text.replace(REGEX_PATTERNS.genericIntros, SAFE_FALLBACKS.intro);
   }
 
-  // 2. Sentence-by-sentence analysis for precision
-  const sentences = text.split(/(?<=[.!?])\s+/);
-  const sanitizedSentences: string[] = [];
+  // 2. Line-by-line analysis to preserve Markdown formatting (paragraphs, headers, tables)
+  const lines = text.split("\n");
+  const sanitizedLines: string[] = [];
 
-  for (let sentence of sentences) {
-    let keepSentence = true;
+  for (const line of lines) {
+    if (!line.trim() || line.trim().startsWith("#") || line.trim().startsWith("|")) {
+      // Preserve empty lines, headers, and tables exactly as they are
+      sanitizedLines.push(line);
+      continue;
+    }
 
-    // A. Check for Fabricated Sources & Trigger Phrases (ICMR, National Institute, etc.)
-    if (
-      REGEX_PATTERNS.sourceTriggers.test(sentence) ||
-      /\b(?:ICMR|National Institute of Pest Management|Indian Institute of Pest Management|Dr\.\s+[A-Z][a-z]+)\b/.test(sentence)
-    ) {
-      // If it mentions ICMR or fake institute without being in evidence pool, DELETE completely
+    const sentences = line.split(/(?<=[.!?])\s+/);
+    const sanitizedSentences: string[] = [];
+
+    for (let sentence of sentences) {
+      let keepSentence = true;
+
+      // A. Check for Fabricated Sources & Trigger Phrases (ICMR, National Institute, etc.)
       if (
-        sentence.includes("ICMR") ||
-        sentence.includes("National Institute") ||
-        sentence.includes("Indian Institute of Pest Management") ||
-        sentence.includes("Dr. Arun Kumar")
+        REGEX_PATTERNS.sourceTriggers.test(sentence) ||
+        /\b(?:ICMR|National Institute of Pest Management|Indian Institute of Pest Management|Dr\.\s+[A-Z][a-z]+)\b/.test(sentence)
       ) {
+        if (
+          sentence.includes("ICMR") ||
+          sentence.includes("National Institute") ||
+          sentence.includes("Indian Institute of Pest Management") ||
+          sentence.includes("Dr. Arun Kumar")
+        ) {
+          keepSentence = false;
+        }
+      }
+
+      // B. Check for Fake Statistics & Trend Numbers
+      if (keepSentence && REGEX_PATTERNS.statisticalTrend.test(sentence)) {
         keepSentence = false;
       }
-    }
 
-    // B. Check for Fake Statistics & Trend Numbers
-    if (keepSentence && REGEX_PATTERNS.statisticalTrend.test(sentence)) {
-      // If there's an unsupported statistic like "20% annually", delete the sentence
-      keepSentence = false;
-    }
+      // Sanitize arbitrary percentages (except verified 100% odorless claim)
+      if (keepSentence && REGEX_PATTERNS.percentage.test(sentence)) {
+        if (!sentence.toLowerCase().includes("100% odorless")) {
+          sentence = sentence.replace(/\b\d+(?:\.\d+)?\s?%/g, "a significant portion");
+        }
+      }
 
-    // C. Check for Unsupported Pricing (₹2,000–₹10,000)
-    if (keepSentence && REGEX_PATTERNS.price.test(sentence)) {
-      // Replace sentence with safe variable pricing disclosure
-      sentence = SAFE_FALLBACKS.price;
-    }
+      // C. Check for Unsupported Pricing (₹2,000–₹10,000)
+      if (keepSentence && REGEX_PATTERNS.price.test(sentence)) {
+        sentence = SAFE_FALLBACKS.price;
+      }
 
-    // D. Check for Unsupported Home Remedy Efficacy (Neem oil, lavender, baking soda)
-    if (keepSentence && REGEX_PATTERNS.homeRemedyEfficacy.test(sentence)) {
-      sentence = SAFE_FALLBACKS.homeRemedies;
-    }
+      // D. Check for Unsupported Home Remedy Efficacy (Neem oil, lavender, baking soda)
+      if (keepSentence && REGEX_PATTERNS.homeRemedyEfficacy.test(sentence)) {
+        sentence = SAFE_FALLBACKS.homeRemedies;
+      }
 
-    // E. Check for Bare/Unqualified Heat Claims (above 45°C)
-    if (keepSentence && (sentence.includes("45°C") || (sentence.includes("above") && REGEX_PATTERNS.temperature.test(sentence)))) {
-      if (!sentence.toLowerCase().includes("duration") || !sentence.toLowerCase().includes("controlled")) {
-        sentence = SAFE_FALLBACKS.heat;
+      // E. Check for Bare/Unqualified Heat Claims
+      if (keepSentence && REGEX_PATTERNS.temperature.test(sentence)) {
+        if (!sentence.toLowerCase().includes("duration") || !sentence.toLowerCase().includes("controlled")) {
+          sentence = SAFE_FALLBACKS.heat;
+        }
+      }
+
+      // F. Check for Unrealistic Guarantees & Durations (results within a week, professionals often guarantee)
+      if (
+        keepSentence &&
+        (REGEX_PATTERNS.guarantees.test(sentence) || REGEX_PATTERNS.duration.test(sentence))
+      ) {
+        sentence = SAFE_FALLBACKS.durationAndGuarantee;
+      }
+
+      // G. Check for Forced Indian Climate claims
+      if (keepSentence && REGEX_PATTERNS.forcedClimate.test(sentence)) {
+        keepSentence = false;
+      }
+
+      if (keepSentence) {
+        sanitizedSentences.push(sentence);
       }
     }
 
-    // F. Check for Unrealistic Guarantees & Durations (results within a week, professionals often guarantee)
-    if (
-      keepSentence &&
-      (REGEX_PATTERNS.guarantees.test(sentence) || REGEX_PATTERNS.duration.test(sentence))
-    ) {
-      sentence = SAFE_FALLBACKS.durationAndGuarantee;
-    }
-
-    // G. Check for Forced Indian Climate claims
-    if (keepSentence && REGEX_PATTERNS.forcedClimate.test(sentence)) {
-      keepSentence = false;
-    }
-
-    if (keepSentence) {
-      sanitizedSentences.push(sentence);
+    if (sanitizedSentences.length > 0 || line.startsWith("-") || line.startsWith("*")) {
+      sanitizedLines.push(sanitizedSentences.join(" "));
     }
   }
 
-  let cleaned = sanitizedSentences.join(" ").trim();
+  let cleaned = sanitizedLines.join("\n");
 
   // Deduplicate safe fallbacks if repeated
   for (const fallback of Object.values(SAFE_FALLBACKS)) {

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
@@ -73,8 +74,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${inter.variable} ${poppins.variable} h-full antialiased`}
       data-scroll-behavior="smooth"
     >
-      <head>
-        <script
+      <body className="flex min-h-full flex-col bg-white">
+        <Script
+          id="perf-measure-guard"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
@@ -100,8 +103,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             `,
           }}
         />
-      </head>
-      <body className="flex min-h-full flex-col bg-white">
         <ScrollToTop />
         <MarketingOnly>
           <SiteHeader />

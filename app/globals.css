@@ -447,3 +447,19 @@ select:disabled,
 [data-has-custom-font-weight="true"] *:not(svg):not(path) {
   font-weight: var(--custom-item-font-weight) !important;
 }
+
+/* --- Blog Pipeline Animation Keyframes --- */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes progress {
+  0% { width: 20%; }
+  100% { width: 90%; }
+}

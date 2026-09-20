@@ -134,7 +134,7 @@ export function detectClaimsInText(
         claims.push({
           text: pct,
           category: "PERCENTAGE",
-          risk: "HIGH",
+          risk: "MEDIUM",
           matchedRule: "AUTOMATIC_NUMERIC_CLAIM_DETECTOR: PERCENTAGE",
           isSupported: support.isSupported,
           evidenceId: support.item?.id,

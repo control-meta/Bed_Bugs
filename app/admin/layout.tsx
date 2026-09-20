@@ -17,6 +17,7 @@ import {
   SearchCheck,
   ChevronLeft,
   ChevronRight,
+  BookOpen,
 } from "lucide-react";
 import { CalendarProvider } from "./CalendarContext";
 
@@ -101,6 +102,12 @@ export default function AdminLayout({
       active: pathname === "/admin/blog-generator",
     },
     {
+      label: "Edit Blogs",
+      href: "/admin/edit-blogs",
+      icon: BookOpen,
+      active: pathname.startsWith("/admin/edit-blogs"),
+    },
+    {
       label: "Content Calendar",
       href: "/admin/calendar",
       icon: CalendarDays,
@@ -131,6 +138,12 @@ export default function AdminLayout({
       return {
         title: "AI Blog Writer",
         description: "Generate SEO-optimized blog content with AI",
+      };
+    }
+    if (path.startsWith("/admin/edit-blogs")) {
+      return {
+        title: "Edit Blogs Studio",
+        description: "Manage, live-edit, regenerate, and preview all website blogs",
       };
     }
     if (path === "/admin/calendar") {
@@ -346,7 +359,7 @@ export default function AdminLayout({
       </aside>
 
       {/* Main Content Area (Strict 100vh viewport, no window scroll) */}
-      <div className="flex flex-1 flex-col overflow-hidden min-w-0">
+      <div className="flex flex-1 flex-col overflow-hidden min-w-0 min-h-0">
         {/* Compact Top Navigation Bar */}
         <header className="flex h-14 shrink-0 items-center justify-between border-b border-neutral-200/80 bg-white px-4 sm:px-6">
           <div className="flex items-center gap-3">
@@ -379,7 +392,15 @@ export default function AdminLayout({
         </header>
 
         {/* Dashboard Viewport - Contains all cards and table with internal scroll */}
-        <main className={`flex-1 overflow-hidden flex flex-col ${pathname === "/admin/edit-pages" ? "p-0" : "p-3.5 sm:p-4"}`}>
+        <main
+          className={`flex-1 min-h-0 ${
+            pathname === "/admin/edit-pages" || pathname.startsWith("/admin/edit-blogs/")
+              ? "p-0 overflow-hidden flex flex-col"
+              : pathname === "/admin/edit-blogs"
+              ? "p-0 overflow-y-auto"
+              : "p-3.5 sm:p-4 overflow-hidden flex flex-col"
+          }`}
+        >
           <CalendarProvider>
             {children}
           </CalendarProvider>

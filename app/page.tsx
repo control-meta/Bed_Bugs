@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Hero } from "@/components/hero";
 import { WhySection } from "@/components/home/why-section";
 import { LocationsSection } from "@/components/home/locations-section";
@@ -35,8 +36,9 @@ export default async function Home() {
 
   return (
     <>
-      <script
+      <Script
         id="seo-alt-map"
+        strategy="beforeInteractive"
         dangerouslySetInnerHTML={{
           __html: `window.__SEO_ALT_MAP__ = ${JSON.stringify(altMap)};`,
         }}

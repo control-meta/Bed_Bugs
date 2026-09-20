@@ -5,18 +5,24 @@ export function PageHero({
   title,
   description,
   radarSize = "default",
+  tightBottom = false,
   altMap,
 }: {
   eyebrow: string;
   title: React.ReactNode;
   description?: string;
   radarSize?: "default" | "compact";
+  tightBottom?: boolean;
   altMap?: Record<string, string>;
 }) {
   const isCompact = radarSize === "compact";
 
   return (
-    <section className="relative isolate overflow-hidden bg-cream pb-14 pt-24 max-sm:pb-8 lg:pb-16 lg:pt-28">
+    <section
+      className={`relative isolate overflow-hidden bg-cream pt-24 lg:pt-28 ${
+        tightBottom ? "pb-6 max-sm:pb-4 lg:pb-8" : "pb-14 max-sm:pb-8 lg:pb-16"
+      }`}
+    >
       <div className="absolute inset-0" aria-hidden>
         <div className="absolute inset-0 bg-[radial-gradient(120%_140%_at_80%_0%,#f1faf5_0%,#fdf7f4_45%,#ffffff_100%)]" />
         <div className="absolute inset-0 bg-grid-light opacity-70" />

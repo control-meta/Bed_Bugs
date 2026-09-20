@@ -173,17 +173,16 @@ export async function saveCalendarPlans(
 }
 
 /**
- * Update the status of an existing planned date (e.g. from "planned" to "generated")
+ * Update an existing planned date (e.g. status or keywords)
  */
-export async function updateCalendarPlanStatus(
+export async function updateCalendarPlan(
   date: string,
-  status: "planned" | "generated",
+  updates: Partial<BlogPlan>,
 ): Promise<BlogPlan | null> {
   // 1. Local update
   const localMap = readLocalCalendar();
   if (localMap[date]) {
-    localMap[date].status = status;
-    localMap[date].updatedAt = new Date().toISOString();
+    localMap[date] = { ...localMap[date], ...updates, updatedAt: new Date().toISOString() };
     saveLocalCalendar(localMap);
   }
 
@@ -191,9 +190,14 @@ export async function updateCalendarPlanStatus(
   const client = getSupabase();
   if (client) {
     try {
+      const dbUpdates: any = { updated_at: new Date().toISOString() };
+      if (updates.status !== undefined) dbUpdates.status = updates.status;
+      if (updates.keywords !== undefined) dbUpdates.keywords = updates.keywords;
+      if (updates.topic !== undefined) dbUpdates.topic = updates.topic;
+
       const { data, error } = await client
         .from("content_calendar")
-        .update({ status, updated_at: new Date().toISOString() })
+        .update(dbUpdates)
         .eq("date", date)
         .select()
         .single();
@@ -202,7 +206,7 @@ export async function updateCalendarPlanStatus(
         return transformRowToPlan(data);
       }
     } catch (err) {
-      console.error("Failed to update status in Supabase:", err);
+      console.error("Failed to update plan in Supabase:", err);
     }
   }
 

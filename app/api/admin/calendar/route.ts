@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getCalendarPlans, updateCalendarPlanStatus } from "@/lib/calendar-db";
+import { getCalendarPlans, updateCalendarPlan } from "@/lib/calendar-db";
 
 export async function GET(req: NextRequest) {
   try {
@@ -29,16 +29,28 @@ export async function GET(req: NextRequest) {
 export async function PATCH(req: NextRequest) {
   try {
     const body = await req.json();
-    const { date, status } = body;
+    const { date, status, keywords, topic } = body;
 
-    if (!date || !status || (status !== "planned" && status !== "generated")) {
+    if (!date) {
       return NextResponse.json(
-        { error: "Invalid date or status provided" },
+        { error: "Invalid date provided" },
+        { status: 400 }
+      );
+    }
+    
+    if (status && status !== "planned" && status !== "generated") {
+      return NextResponse.json(
+        { error: "Invalid status provided" },
         { status: 400 }
       );
     }
 
-    const updated = await updateCalendarPlanStatus(date, status);
+    const updates: any = {};
+    if (status !== undefined) updates.status = status;
+    if (keywords !== undefined) updates.keywords = keywords;
+    if (topic !== undefined) updates.topic = topic;
+
+    const updated = await updateCalendarPlan(date, updates);
     return NextResponse.json({ success: true, plan: updated });
   } catch (error: any) {
     console.error("Error in PATCH /api/admin/calendar:", error);

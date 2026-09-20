@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import {
   Sparkles,
   Copy,
@@ -21,6 +22,19 @@ import {
   XCircle,
   CheckCircle,
   Trash2,
+  Brain,
+  FlaskConical,
+  Pencil,
+  ScanSearch,
+  Link2,
+  BadgeCheck,
+  Target,
+  FileEdit,
+  CheckSquare,
+  ImageIcon,
+  ImageOff,
+  Globe,
+  ExternalLink,
 } from "lucide-react";
 
 type UsageStats = {
@@ -52,19 +66,209 @@ type GeneratedData = {
   schema?: any;
   internalLinks?: any[];
   cta?: any;
+  imageUrl?: string;
+  images?: any[];
 };
+
+const PIPELINE_STAGES = [
+  { id: 1, label: "Intent Analysis", desc: "Planning info gain & search intent", icon: Brain },
+  { id: 2, label: "Evidence Contract", desc: "Assembling verified sources", icon: FlaskConical },
+  { id: 3, label: "Initial Draft", desc: "Drafting article bound to evidence", icon: Pencil },
+  { id: 4, label: "Editorial Pass", desc: "SEO audit, rewrites & info gain", icon: PenTool },
+  { id: 5, label: "Quality Gate", desc: "Sanitizing hallucinations & claims", icon: ScanSearch },
+  { id: 6, label: "Internal Links", desc: "Injecting contextual links & CTA", icon: Link2 },
+  { id: 7, label: "Image Generation", desc: "Creating AI photorealistic images", icon: ImageIcon },
+  { id: 8, label: "Final Audit", desc: "Computing quality metrics", icon: BadgeCheck },
+];
+
+function PipelineAnimation({ currentStage, streamStatus }: { currentStage: number; streamStatus: string }) {
+  return (
+    <div className="flex flex-col gap-0">
+      <div className="mb-3 flex items-center gap-2">
+        <div className="relative flex h-2.5 w-2.5">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+        </div>
+        <p className="text-[11px] font-semibold text-emerald-700 truncate">{streamStatus}</p>
+      </div>
+
+      <div className="flex flex-col gap-1.5">
+        {PIPELINE_STAGES.map((stage) => {
+          const Icon = stage.icon;
+          const isDone = currentStage > stage.id;
+          const isActive = currentStage === stage.id;
+          const isPending = currentStage < stage.id;
+
+          return (
+            <div
+              key={stage.id}
+              className={`relative flex items-center gap-3 rounded-xl px-3 py-2.5 border transition-all duration-500 ${
+                isDone
+                  ? "border-emerald-200 bg-emerald-50"
+                  : isActive
+                  ? "border-emerald-400 bg-emerald-50 shadow-md shadow-emerald-100"
+                  : "border-neutral-100 bg-neutral-50/50"
+              }`}
+            >
+              {/* Stage icon */}
+              <div
+                className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg transition-all duration-300 ${
+                  isDone
+                    ? "bg-emerald-500"
+                    : isActive
+                    ? "bg-emerald-600 animate-pulse"
+                    : "bg-neutral-200"
+                }`}
+              >
+                {isDone ? (
+                  <CheckCircle2 className="h-4 w-4 text-white" />
+                ) : (
+                  <Icon
+                    className={`h-4 w-4 ${
+                      isActive ? "text-white" : "text-neutral-400"
+                    }`}
+                  />
+                )}
+              </div>
+
+              {/* Label */}
+              <div className="flex-1 min-w-0">
+                <p
+                  className={`text-[11px] font-bold leading-tight ${
+                    isDone
+                      ? "text-emerald-700"
+                      : isActive
+                      ? "text-emerald-900"
+                      : "text-neutral-400"
+                  }`}
+                >
+                  {stage.label}
+                </p>
+                <p
+                  className={`text-[10px] leading-tight mt-0.5 truncate ${
+                    isDone || isActive ? "text-emerald-600" : "text-neutral-300"
+                  }`}
+                >
+                  {stage.desc}
+                </p>
+              </div>
+
+              {/* Active shimmer effect */}
+              {isActive && (
+                <div className="absolute inset-0 rounded-xl overflow-hidden pointer-events-none">
+                  <div
+                    className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-emerald-100/60 to-transparent"
+                    style={{ animationDuration: "1.5s" }}
+                  />
+                </div>
+              )}
+
+              {/* Step number badge */}
+              {isPending && (
+                <span className="text-[9px] font-bold text-neutral-300">{stage.id}</span>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function WritingAnimation({ text }: { text: string }) {
+  const lines = text
+    .split("\n")
+    .filter((l) => l.trim())
+    .slice(-12);
+
+  return (
+    <div className="absolute inset-0 flex flex-col items-center justify-center p-8">
+      <div className="w-full max-w-2xl">
+        {/* Paper effect */}
+        <div className="relative rounded-2xl border border-neutral-200 bg-white shadow-xl overflow-hidden">
+          {/* Ruled lines header */}
+          <div className="flex items-center gap-2 border-b border-neutral-100 bg-neutral-50 px-5 py-3">
+            <div className="flex gap-1.5">
+              <div className="h-3 w-3 rounded-full bg-red-400" />
+              <div className="h-3 w-3 rounded-full bg-yellow-400" />
+              <div className="h-3 w-3 rounded-full bg-emerald-400" />
+            </div>
+            <div className="flex-1 flex items-center gap-2 ml-2">
+              <PenTool className="h-3.5 w-3.5 text-neutral-400" />
+              <span className="text-xs font-medium text-neutral-400">AI Writing in progress...</span>
+            </div>
+            <div className="flex gap-1">
+              {[0.3, 0.6, 0.9].map((d, i) => (
+                <div
+                  key={i}
+                  className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-bounce"
+                  style={{ animationDelay: `${d}s` }}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Writing content */}
+          <div className="p-6 min-h-[240px] font-mono text-sm text-neutral-700 leading-relaxed space-y-1.5 relative">
+            {/* Left margin line */}
+            <div className="absolute left-12 top-0 bottom-0 border-l border-red-100" />
+
+            {lines.map((line, i) => {
+              const isLast = i === lines.length - 1;
+              const isHeading = line.startsWith("#");
+              return (
+                <div
+                  key={i}
+                  className={`pl-8 animate-in fade-in slide-in-from-left-2 duration-300 ${
+                    isHeading
+                      ? "font-bold text-neutral-900 text-base"
+                      : "text-neutral-600 text-xs"
+                  }`}
+                  style={{ animationDelay: `${i * 30}ms` }}
+                >
+                  {line}
+                  {isLast && (
+                    <span className="inline-block w-2 h-4 ml-0.5 bg-emerald-500 rounded-sm align-middle animate-[blink_1s_step-end_infinite]" />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Progress bar at bottom */}
+          <div className="h-1 bg-neutral-100">
+            <div className="h-full bg-gradient-to-r from-emerald-400 to-emerald-600 animate-[progress_3s_ease-in-out_infinite_alternate]" style={{ width: "60%" }} />
+          </div>
+        </div>
+        <p className="text-center text-xs text-neutral-400 mt-3 animate-pulse">Crafting your article with AI precision...</p>
+      </div>
+    </div>
+  );
+}
 
 export default function BlogGeneratorPage() {
   const [topic, setTopic] = useState("");
   const [keywords, setKeywords] = useState("");
+  const [skipImages, setSkipImages] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [streamStatus, setStreamStatus] = useState("");
+  const [currentStage, setCurrentStage] = useState(0);
   const [data, setData] = useState<GeneratedData | null>(null);
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
   const [apiKeyMissing, setApiKeyMissing] = useState(false);
   const [usage, setUsage] = useState<UsageStats | null>(null);
   const [activeTab, setActiveTab] = useState<"preview" | "markdown" | "audit" | "seo" | "research">("preview");
+  const [isPublishing, setIsPublishing] = useState(false);
+  const [publishedSuccess, setPublishedSuccess] = useState(false);
+  const [publishedSlug, setPublishedSlug] = useState<string | null>(null);
+
+  // Test Image States
+  const [isImageTestOpen, setIsImageTestOpen] = useState(false);
+  const [isTestingImage, setIsTestingImage] = useState(false);
+  const [testImageUrl, setTestImageUrl] = useState("");
+  const [testImageError, setTestImageError] = useState("");
+  const [testRawResponse, setTestRawResponse] = useState<any>(null);
 
   useEffect(() => {
     const saved = localStorage.getItem("generatedBlogData");
@@ -94,11 +298,59 @@ export default function BlogGeneratorPage() {
     ? data.blogContent.trim().split(/\s+/).filter(Boolean).length
     : 0;
 
+  const handlePublishBlog = async () => {
+    if (!data?.blogContent) return;
+    setIsPublishing(true);
+    setError("");
+
+    try {
+      const rawTitle = data.metadata?.seoTitle || data.metadata?.h1 || topic || "Bed Bug Treatment Guide";
+      const cleanTitle = rawTitle.replace(/^#\s*/, "").trim();
+      const slug = (data.metadata?.urlSlug || cleanTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-")).replace(/^-|-$/g, "");
+
+      const res = await fetch("/api/admin/blogs", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: cleanTitle,
+          slug,
+          topic: topic || cleanTitle,
+          primaryKeyword: data.metadata?.primaryKeyword || keywords || "bed bug treatment",
+          keywords: data.metadata?.secondaryKeywords || (keywords ? [keywords] : ["bed bug treatment", "pest control"]),
+          markdown: data.blogContent,
+          excerpt: data.metadata?.metaDescription || `Comprehensive guide on ${cleanTitle}. Proven inspection protocols and professional pest control insights for Indian homes.`,
+          imageUrl: data.imageUrl || "/images/blogs/bed-bugs-pest-control.png",
+          images: data.images || [],
+          status: "published",
+          publicationStatus: data.publicationStatus || "READY",
+          autoPublishEligible: true,
+          author: "Bed Bug Treatment Team",
+          readTime: "9 min read",
+        }),
+      });
+
+      const resData = await res.json();
+      if (!res.ok || !resData.success) {
+        throw new Error(resData.error || "Failed to publish blog to website");
+      }
+
+      setPublishedSuccess(true);
+      setPublishedSlug(slug);
+      setTimeout(() => setPublishedSuccess(false), 6000);
+    } catch (err: any) {
+      console.error("Publish error:", err);
+      setError(err.message || "Failed to publish blog to website.");
+    } finally {
+      setIsPublishing(false);
+    }
+  };
+
   const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setData(null);
     setUsage(null);
+    setCurrentStage(1);
     setStreamStatus("Initializing pipeline...");
     setActiveTab("preview");
 
@@ -118,7 +370,7 @@ export default function BlogGeneratorPage() {
       const response = await fetch("/api/admin/blog/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ topic, keywords }),
+        body: JSON.stringify({ topic, keywords, skipImages, imageModel: "gpt-image-2.5-flare" }),
       });
 
       if (!response.ok) {
@@ -153,6 +405,7 @@ export default function BlogGeneratorPage() {
               
               if (event.type === "status") {
                 setStreamStatus(event.data.message);
+                if (event.data.stage) setCurrentStage(event.data.stage);
               } else if (event.type === "research") {
                 tempResearch = event.data;
               } else if (event.type === "red_flags") {
@@ -168,6 +421,7 @@ export default function BlogGeneratorPage() {
                 setData(event.data);
                 if (event.data.usage) setUsage(event.data.usage);
                 setStreamStatus("");
+                setCurrentStage(0);
               } else if (event.type === "error") {
                 throw new Error(event.data);
               }
@@ -225,6 +479,35 @@ export default function BlogGeneratorPage() {
     }
   };
 
+  const handleTestImage = async () => {
+    setIsImageTestOpen(true);
+    setIsTestingImage(true);
+    setTestImageUrl("");
+    setTestImageError("");
+    setTestRawResponse(null);
+
+    try {
+      const response = await fetch("/api/admin/blog/test-image", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prompt: `A highly detailed, professional, photorealistic image about ${topic || "bed bugs"}.`,
+          model: "gpt-image-2.5-flare"
+        }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to generate image");
+      }
+      setTestImageUrl(data.url);
+      setTestRawResponse(data.raw_response);
+    } catch (err: any) {
+      setTestImageError(err.message);
+    } finally {
+      setIsTestingImage(false);
+    }
+  };
+
   const pubColor = data?.publicationStatus === "READY" ? "emerald" : "red";
 
   return (
@@ -274,16 +557,48 @@ export default function BlogGeneratorPage() {
                 className="w-full rounded-lg border border-neutral-200 bg-neutral-50 px-3 py-2 text-xs text-neutral-900 placeholder:text-neutral-400 outline-none transition focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-500/10 disabled:opacity-50"
               />
             </div>
+
+            {/* Skip Image Generation Toggle */}
+            <div className="flex items-center justify-between rounded-xl border border-neutral-200/80 bg-neutral-50/80 p-3 transition hover:bg-neutral-50">
+              <div className="flex items-center gap-2.5">
+                <div className={`flex h-7 w-7 items-center justify-center rounded-lg transition ${skipImages ? "bg-amber-100 text-amber-600" : "bg-emerald-100 text-emerald-600"}`}>
+                  {skipImages ? <ImageOff className="h-4 w-4" /> : <ImageIcon className="h-4 w-4" />}
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-xs font-semibold text-neutral-800">Skip Images</span>
+                  <span className="text-[10px] text-neutral-500">Omit visual placeholders</span>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSkipImages(!skipImages)}
+                disabled={isGenerating}
+                className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none disabled:opacity-50 ${
+                  skipImages ? "bg-amber-600" : "bg-neutral-300"
+                }`}
+              >
+                <span
+                  className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out ${
+                    skipImages ? "translate-x-4" : "translate-x-0"
+                  }`}
+                />
+              </button>
+            </div>
+
+            <button
+              type="button"
+              onClick={handleTestImage}
+              disabled={isGenerating}
+              className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-neutral-100 px-4 py-2.5 text-xs font-bold text-neutral-700 transition-all hover:bg-neutral-200 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50"
+            >
+              <ImageIcon className="h-4 w-4" />
+              Test AI Image Generation
+            </button>
           </form>
 
-          {/* Real-time Streaming Status */}
-          {isGenerating && streamStatus && (
-            <div className="rounded-xl border border-emerald-100 bg-emerald-50 p-4 shadow-inner">
-              <div className="flex items-center gap-3">
-                <Loader2 className="h-4 w-4 animate-spin text-emerald-600 shrink-0" />
-                <p className="text-xs font-semibold text-emerald-800 animate-pulse">{streamStatus}</p>
-              </div>
-            </div>
+          {/* Real-time Pipeline Animation */}
+          {isGenerating && (
+            <PipelineAnimation currentStage={currentStage} streamStatus={streamStatus} />
           )}
 
           {/* Stats Box (Shows when fully generated) */}
@@ -363,14 +678,32 @@ export default function BlogGeneratorPage() {
           </button>
 
           {data && !isGenerating && (
-            <button
-              type="button"
-              onClick={handleDiscard}
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-red-50 px-4 py-2.5 text-sm font-bold text-red-600 transition hover:bg-red-100"
-            >
-              <Trash2 className="h-4 w-4" />
-              <span>Discard Content</span>
-            </button>
+            <>
+              <button
+                type="button"
+                onClick={handlePublishBlog}
+                disabled={isPublishing || data.publicationStatus === "BLOCKED"}
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-emerald-700 disabled:opacity-50"
+              >
+                {isPublishing ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : publishedSuccess ? (
+                  <CheckCircle2 className="h-4 w-4 text-white" />
+                ) : (
+                  <Globe className="h-4 w-4" />
+                )}
+                <span>{publishedSuccess ? "Published to Website!" : isPublishing ? "Publishing..." : "Publish to Website"}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleDiscard}
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-red-50 px-4 py-2.5 text-sm font-bold text-red-600 transition hover:bg-red-100"
+              >
+                <Trash2 className="h-4 w-4" />
+                <span>Discard Content</span>
+              </button>
+            </>
           )}
         </div>
       </div>
@@ -435,18 +768,48 @@ export default function BlogGeneratorPage() {
             </button>
           </div>
 
-          <button
-            onClick={handleCopy}
-            disabled={!data?.blogContent || isGenerating}
-            className="flex items-center gap-1.5 rounded-lg border border-neutral-200 bg-white px-3 py-1.5 text-xs font-semibold text-neutral-700 shadow-sm transition hover:bg-neutral-50 disabled:opacity-50 shrink-0 ml-2"
-          >
-            {copied ? (
-              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
-            ) : (
-              <Copy className="h-3.5 w-3.5" />
+          <div className="flex items-center gap-2 shrink-0 ml-2">
+            <button
+              onClick={handleCopy}
+              disabled={!data?.blogContent || isGenerating}
+              className="flex items-center gap-1.5 rounded-lg border border-neutral-200 bg-white px-3 py-1.5 text-xs font-semibold text-neutral-700 shadow-sm transition hover:bg-neutral-50 disabled:opacity-50"
+            >
+              {copied ? (
+                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
+              ) : (
+                <Copy className="h-3.5 w-3.5" />
+              )}
+              <span className="hidden sm:inline">{copied ? "Copied!" : "Copy Output"}</span>
+            </button>
+
+            {data?.blogContent && !isGenerating && (
+              <button
+                onClick={handlePublishBlog}
+                disabled={isPublishing || data.publicationStatus === "BLOCKED"}
+                className="flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3.5 py-1.5 text-xs font-bold text-white shadow-sm transition hover:bg-emerald-700 disabled:opacity-50"
+              >
+                {isPublishing ? (
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                ) : publishedSuccess ? (
+                  <CheckCircle2 className="h-3.5 w-3.5 text-white" />
+                ) : (
+                  <Globe className="h-3.5 w-3.5" />
+                )}
+                <span>{publishedSuccess ? "Published!" : isPublishing ? "Publishing..." : "Publish to Website"}</span>
+              </button>
             )}
-            <span className="hidden sm:inline">{copied ? "Copied!" : "Copy Output"}</span>
-          </button>
+
+            {publishedSlug && (
+              <a
+                href={`/${publishedSlug}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1 rounded-lg border border-emerald-200 bg-emerald-50 px-2.5 py-1.5 text-xs font-semibold text-emerald-700 hover:bg-emerald-100 transition"
+              >
+                <ExternalLink className="h-3.5 w-3.5" /> View Live
+              </a>
+            )}
+          </div>
         </div>
 
         {/* Content Area */}
@@ -464,10 +827,7 @@ export default function BlogGeneratorPage() {
           )}
 
           {isGenerating && !data?.blogContent && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
-              <Loader2 className="h-8 w-8 animate-spin text-emerald-500 mb-4" />
-              <h3 className="text-sm font-bold text-neutral-900 animate-pulse">{streamStatus || "Starting Pipeline..."}</h3>
-            </div>
+            <WritingAnimation text="" />
           )}
 
           {data?.blogContent && (
@@ -490,10 +850,66 @@ export default function BlogGeneratorPage() {
               )}
 
               {activeTab === "preview" && (
-                <article id="blog-preview-content" className="prose prose-sm md:prose-base prose-neutral max-w-none prose-headings:font-display prose-headings:font-bold prose-a:text-emerald-600 prose-img:rounded-xl">
-                  <ReactMarkdown>{data.blogContent}</ReactMarkdown>
-                  {isGenerating && <span className="inline-block w-2 h-4 ml-1 bg-emerald-500 animate-pulse"></span>}
-                </article>
+                isGenerating && data.blogContent ? (
+                  <WritingAnimation text={data.blogContent} />
+                ) : (
+                  <article id="blog-preview-content" className="prose prose-sm md:prose-base prose-neutral max-w-none prose-headings:font-bold prose-headings:text-emerald-800 prose-h1:text-emerald-900 prose-h2:text-emerald-800 prose-h3:text-emerald-700 prose-h4:text-emerald-700 prose-a:text-emerald-600 prose-img:rounded-xl">
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        h1: ({ node, ...props }) => (
+                          <h1 className="text-2xl sm:text-3xl font-extrabold text-emerald-900 mt-6 mb-3 tracking-tight" {...props} />
+                        ),
+                        h2: ({ node, ...props }) => (
+                          <h2 className="text-xl sm:text-2xl font-bold text-emerald-800 mt-7 mb-3 tracking-tight border-b border-emerald-100 pb-2" {...props} />
+                        ),
+                        h3: ({ node, ...props }) => (
+                          <h3 className="text-lg font-bold text-emerald-700 mt-5 mb-2 tracking-tight" {...props} />
+                        ),
+                        table: ({ node, ...props }) => (
+                          <div className="not-prose my-6 overflow-hidden rounded-xl border border-emerald-200/90 bg-white shadow-xs">
+                            <div className="overflow-x-auto">
+                              <table className="!m-0 w-full min-w-full border-collapse divide-y divide-emerald-200 text-left text-xs" {...props} />
+                            </div>
+                          </div>
+                        ),
+                        thead: ({ node, ...props }) => (
+                          <thead className="m-0 p-0 bg-gradient-to-r from-emerald-50 via-teal-50/70 to-emerald-50 font-bold text-emerald-950 border-b border-emerald-200" {...props} />
+                        ),
+                        th: ({ node, ...props }) => (
+                          <th className="px-3.5 py-2.5 text-[11px] font-bold uppercase tracking-wider text-emerald-950 border-r last:border-r-0 border-emerald-200/60 bg-emerald-50/80" {...props} />
+                        ),
+                        tbody: ({ node, ...props }) => (
+                          <tbody className="divide-y divide-neutral-100 bg-white" {...props} />
+                        ),
+                        tr: ({ node, ...props }) => (
+                          <tr className="transition-colors hover:bg-emerald-50/40 even:bg-neutral-50/50" {...props} />
+                        ),
+                        td: ({ node, ...props }) => (
+                          <td className="px-3.5 py-2.5 text-neutral-700 align-top leading-relaxed border-r last:border-r-0 border-neutral-100 text-xs" {...props} />
+                        ),
+                        img: ({ node, ...props }) => (
+                          <span className="my-6 flex flex-col items-center not-prose w-full">
+                            <span className="block w-full max-w-xl aspect-[3/2] rounded-2xl overflow-hidden border border-neutral-200/90 shadow-sm bg-neutral-100 relative">
+                              <img
+                                {...props}
+                                className="w-full h-full object-cover object-top m-0"
+                                loading="lazy"
+                              />
+                            </span>
+                            {props.alt && (
+                              <span className="block mt-2 text-[10px] text-neutral-500 italic max-w-lg text-center">
+                                {props.alt}
+                              </span>
+                            )}
+                          </span>
+                        ),
+                      }}
+                    >
+                      {data.blogContent}
+                    </ReactMarkdown>
+                  </article>
+                )
               )}
 
               {activeTab === "markdown" && (
@@ -732,6 +1148,107 @@ export default function BlogGeneratorPage() {
           )}
         </div>
       </div>
+      {/* Floating Image Test Modal */}
+      {isImageTestOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-neutral-900/50 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden flex flex-col">
+            <div className="flex items-center justify-between p-4 border-b border-neutral-100 bg-neutral-50/50">
+              <div className="flex items-center gap-2">
+                <ImageIcon className="h-5 w-5 text-emerald-600" />
+                <h2 className="font-bold text-neutral-800">Test AI Image Generation</h2>
+              </div>
+              <button 
+                onClick={() => setIsImageTestOpen(false)}
+                className="p-1.5 rounded-full hover:bg-neutral-200 text-neutral-500 transition-colors"
+              >
+                <XCircle className="h-5 w-5" />
+              </button>
+            </div>
+            
+            <div className="p-6 flex flex-col gap-4">
+              {isTestingImage ? (
+                <div className="flex flex-col items-center justify-center py-12 gap-4 text-emerald-600">
+                  <Loader2 className="h-8 w-8 animate-spin" />
+                  <p className="text-sm font-semibold">Calling OpenAI API with gpt-image-2.5-flare...</p>
+                </div>
+              ) : testImageError ? (
+                <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-red-700 flex flex-col gap-2">
+                  <div className="flex items-center gap-2 font-bold">
+                    <AlertTriangle className="h-5 w-5" />
+                    Error Generating Image
+                  </div>
+                  <p className="text-sm">{testImageError}</p>
+                </div>
+              ) : testImageUrl ? (
+                <div className="flex flex-col gap-4">
+                  <div className="rounded-xl overflow-hidden border border-neutral-200 bg-neutral-100 flex items-center justify-center relative aspect-[3/2] w-full">
+                    <img 
+                      src={testImageUrl} 
+                      alt="Test generated image" 
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="%239ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline><line x1="3" y1="3" x2="21" y2="21" stroke="%23ef4444"></line></svg>';
+                        (e.target as HTMLImageElement).classList.add("opacity-50", "object-contain", "p-8");
+                        setTestImageError("Image broke! Discord CDN returned 404 when loaded by browser.");
+                      }}
+                    />
+                  </div>
+                  {testImageError && (
+                    <div className="p-3 rounded-lg bg-red-50 border border-red-100 text-red-700 text-xs font-medium flex items-start gap-2">
+                      <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5" />
+                      <div>
+                        {testImageError} 
+                        <br/>
+                        <span className="font-normal mt-1 block text-red-600/80">Your provider is sending an unsigned Discord link that is blocked by Discord.</span>
+                      </div>
+                    </div>
+                  )}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-500">Raw URL Returned</label>
+                    <div className="flex gap-2">
+                      <input 
+                        type="text" 
+                        readOnly 
+                        value={testImageUrl} 
+                        className="flex-1 rounded-lg border border-neutral-200 bg-neutral-50 px-3 py-2 text-xs text-neutral-600 font-mono"
+                      />
+                      <button 
+                        onClick={() => {
+                          navigator.clipboard.writeText(testImageUrl);
+                          toast.success("URL Copied");
+                        }}
+                        className="px-3 py-2 rounded-lg bg-neutral-100 hover:bg-neutral-200 text-neutral-700 text-xs font-semibold transition"
+                      >
+                        Copy
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+            </div>
+
+            <div className="border-t border-neutral-100 bg-neutral-50 p-4 flex justify-end gap-3">
+              <button
+                onClick={() => setIsImageTestOpen(false)}
+                className="px-4 py-2 rounded-xl text-neutral-600 hover:bg-neutral-200 text-sm font-semibold transition-colors"
+              >
+                Close
+              </button>
+              {testImageUrl && (
+                <a
+                  href={testImageUrl}
+                  download="test-image.png"
+                  target="_blank"
+                  className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold transition-colors flex items-center gap-2 shadow-sm"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                  Open / Download
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

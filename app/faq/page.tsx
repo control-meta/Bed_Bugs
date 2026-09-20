@@ -44,7 +44,9 @@ export default async function FaqPage() {
   return (
     <>
       <script
+        id="schema-faq-page"
         type="application/ld+json"
+        suppressHydrationWarning
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
 

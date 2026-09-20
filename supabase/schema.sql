@@ -141,3 +141,63 @@ FOR ALL
 TO service_role
 USING (true)
 WITH CHECK (true);
+
+-- ==============================================================================
+-- UNIFIED BLOGS TABLE (WITH IMAGE URL, METADATA & CONTENT STORAGE)
+-- ==============================================================================
+
+CREATE TABLE IF NOT EXISTS public.blogs (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  slug TEXT UNIQUE NOT NULL,
+  title TEXT NOT NULL,
+  topic TEXT DEFAULT '',
+  primary_keyword TEXT DEFAULT '',
+  keywords TEXT[] DEFAULT '{}',
+  markdown TEXT NOT NULL DEFAULT '',
+  content_html TEXT DEFAULT '',
+  excerpt TEXT DEFAULT '',
+  image_url TEXT,                        -- Featured image URL (local /images/blogs/... or remote)
+  images JSONB DEFAULT '[]'::jsonb,       -- List of all associated image objects/URLs
+  status TEXT NOT NULL DEFAULT 'published' CHECK (status IN ('draft', 'ready', 'published')),
+  publication_status TEXT NOT NULL DEFAULT 'READY' CHECK (publication_status IN ('READY', 'NEEDS_REVISION', 'BLOCKED')),
+  auto_publish_eligible BOOLEAN NOT NULL DEFAULT true,
+  author TEXT DEFAULT 'Bed Bug Treatment Team',
+  read_time TEXT DEFAULT '6 min read',
+  research JSONB DEFAULT '{}'::jsonb,
+  evidence JSONB DEFAULT '[]'::jsonb,
+  fact_checks JSONB DEFAULT '[]'::jsonb,
+  warnings JSONB DEFAULT '[]'::jsonb,
+  quality_audit JSONB DEFAULT '{}'::jsonb,
+  cannibalization JSONB DEFAULT '{}'::jsonb,
+  revision_count INTEGER NOT NULL DEFAULT 0,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
+);
+
+CREATE INDEX IF NOT EXISTS idx_blogs_slug ON public.blogs (slug);
+CREATE INDEX IF NOT EXISTS idx_blogs_status ON public.blogs (status);
+CREATE INDEX IF NOT EXISTS idx_blogs_created_at ON public.blogs (created_at DESC);
+
+DROP TRIGGER IF EXISTS set_blogs_updated_at ON public.blogs;
+CREATE TRIGGER set_blogs_updated_at
+BEFORE UPDATE ON public.blogs
+FOR EACH ROW
+EXECUTE FUNCTION public.handle_updated_at();
+
+ALTER TABLE public.blogs ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Allow public read access to published blogs" ON public.blogs;
+CREATE POLICY "Allow public read access to published blogs"
+ON public.blogs
+FOR SELECT
+TO anon, authenticated
+USING (status = 'published');
+
+DROP POLICY IF EXISTS "Service role full access on blogs" ON public.blogs;
+CREATE POLICY "Service role full access on blogs"
+ON public.blogs
+FOR ALL
+TO service_role
+USING (true)
+WITH CHECK (true);
+

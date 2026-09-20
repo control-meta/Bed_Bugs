@@ -1,0 +1,179 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { ChevronRight, PhoneCall, ShieldCheck, ArrowLeft } from "lucide-react";
+import type { BlogItem } from "@/lib/blog-db";
+
+const SITE_URL = "https://bedbugstreatment.co.in";
+
+export function buildBlogPostMetadata(blog: BlogItem): Metadata {
+  return {
+    title: {
+      absolute: `${blog.title} | Bed Bug Treatment India`,
+    },
+    description:
+      blog.excerpt ||
+      `Comprehensive guide on ${blog.title.toLowerCase()}. Learn symptoms, safe prevention, and professional extermination options.`,
+    alternates: {
+      canonical: `${SITE_URL}/${blog.slug}`,
+    },
+    openGraph: {
+      title: blog.title,
+      description: blog.excerpt,
+      url: `${SITE_URL}/${blog.slug}`,
+      images: blog.imageUrl ? [{ url: blog.imageUrl }] : [],
+    },
+  };
+}
+
+export function BlogPostArticle({ blog }: { blog: BlogItem }) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: blog.title,
+    description: blog.excerpt,
+    image: blog.imageUrl ? [blog.imageUrl] : [],
+    datePublished: blog.createdAt,
+    dateModified: blog.updatedAt,
+    mainEntityOfPage: `${SITE_URL}/${blog.slug}`,
+    author: {
+      "@type": "Organization",
+      name: blog.author || "Bed Bug Treatment Team",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Bed Bugs Treatment India",
+      url: SITE_URL,
+    },
+  };
+
+  return (
+    <>
+      <script
+        id="schema-blog-post"
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
+      <article className="min-h-screen bg-white pb-16 pt-24 sm:pt-28 lg:pt-32">
+        <div className="container mx-auto max-w-4xl px-4 sm:px-6">
+          {/* Breadcrumbs */}
+          <nav className="flex items-center gap-1.5 text-xs text-neutral-500 mb-6 flex-wrap">
+            <Link href="/" className="hover:text-neutral-900 transition">Home</Link>
+            <ChevronRight className="h-3 w-3 text-neutral-400" />
+            <Link href="/blog" className="hover:text-neutral-900 transition">Blog</Link>
+            <ChevronRight className="h-3 w-3 text-neutral-400" />
+            <span className="text-neutral-800 font-medium truncate max-w-xs sm:max-w-md">
+              {blog.title}
+            </span>
+          </nav>
+
+          {/* Category / Badge */}
+          <div className="flex items-center gap-2 mb-4">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-brand-700 bg-brand-50 px-2.5 py-1 rounded-md border border-brand-200">
+              {blog.primaryKeyword || "Bed Bug Guide"}
+            </span>
+          </div>
+
+          {/* Title */}
+          <h1 className="text-2xl sm:text-4xl font-extrabold text-neutral-900 tracking-tight leading-tight mb-6">
+            {blog.title}
+          </h1>
+
+          {/* Author info */}
+          <div className="flex items-center justify-between pb-6 mb-8 border-b border-neutral-100 flex-wrap gap-4">
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-full bg-brand-600 text-white flex items-center justify-center font-bold text-sm">
+                BT
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs font-bold text-neutral-900">{blog.author || "Bed Bug Treatment Team"}</span>
+                <span className="text-[11px] text-neutral-500">Pest Control Specialist & Research Team</span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Link
+                href="/blog"
+                className="inline-flex items-center gap-1 text-xs font-semibold text-neutral-600 hover:text-neutral-900 transition bg-neutral-100 px-3 py-1.5 rounded-lg"
+              >
+                <ArrowLeft className="h-3.5 w-3.5" /> All Articles
+              </Link>
+            </div>
+          </div>
+
+          {/* Featured Image - Elegantly sized and centered (only if not already embedded at the top of markdown) */}
+          {blog.imageUrl && !blog.markdown.includes(blog.imageUrl) && (
+            <div className="mb-10 flex justify-center">
+              <div className="w-full max-w-xl aspect-[3/2] rounded-2xl overflow-hidden border border-neutral-200/80 shadow-md bg-neutral-100">
+                <img
+                  src={blog.imageUrl}
+                  alt={blog.title}
+                  className="w-full h-full object-cover object-top"
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Article Markdown */}
+          <div className="prose prose-neutral max-w-none prose-headings:font-bold prose-headings:text-emerald-900 prose-h2:text-emerald-800 prose-h3:text-emerald-700 prose-headings:tracking-tight prose-p:text-neutral-700 prose-p:leading-relaxed prose-li:text-neutral-700 prose-a:text-brand-600 prose-a:underline hover:prose-a:text-brand-700 prose-blockquote:border-l-emerald-600 prose-blockquote:bg-emerald-50/40 prose-blockquote:p-4 prose-blockquote:rounded-r-2xl prose-table:border-collapse prose-table:w-full prose-table:my-6 prose-th:border prose-th:border-emerald-200 prose-th:bg-emerald-50/90 prose-th:text-emerald-900 prose-th:p-3 prose-th:font-bold prose-td:border prose-td:border-neutral-200 prose-td:p-3 text-sm sm:text-base">
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              components={{
+                img: ({ node, ...props }) => (
+                  <figure className="my-8 flex flex-col items-center not-prose">
+                    <div className="w-full max-w-xl aspect-[3/2] rounded-2xl overflow-hidden border border-neutral-200/80 shadow-md bg-neutral-100">
+                      <img
+                        {...props}
+                        className="w-full h-full object-cover object-top m-0"
+                        loading="lazy"
+                      />
+                    </div>
+                    {props.alt && (
+                      <figcaption className="text-center text-xs text-neutral-500 mt-2.5 font-medium italic">
+                        {props.alt}
+                      </figcaption>
+                    )}
+                  </figure>
+                ),
+              }}
+            >
+              {blog.markdown.replace(/^\s*#\s+[^\n]+(?:\r?\n)+/, "")}
+            </ReactMarkdown>
+          </div>
+
+          {/* Bottom Conversion CTA */}
+          <div className="mt-14 rounded-3xl bg-gradient-to-br from-brand-900 via-neutral-900 to-brand-950 p-8 text-white shadow-xl">
+            <div className="max-w-2xl">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-brand-400 bg-brand-950/60 px-3 py-1 rounded-md border border-brand-800/60">
+                100% Odorless Treatment
+              </span>
+              <h2 className="text-xl sm:text-2xl font-bold mt-3 mb-2">
+                Need Immediate Bed Bug Relief in Your Home?
+              </h2>
+              <p className="text-xs sm:text-sm text-neutral-300 mb-6 leading-relaxed">
+                BedBugsTreatment.co.in offers government-approved chemicals, same-day inspection visits, and a 12-month service warranty across India.
+              </p>
+              <div className="flex items-center gap-4 flex-wrap">
+                <a
+                  href="tel:+919769321234"
+                  className="inline-flex items-center gap-2 rounded-xl bg-brand-600 px-5 py-2.5 text-xs sm:text-sm font-bold text-white shadow-md hover:bg-brand-700 transition"
+                >
+                  <PhoneCall className="h-4 w-4" /> Call +91 97693 21234
+                </a>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 rounded-xl bg-white/10 px-5 py-2.5 text-xs sm:text-sm font-bold text-white hover:bg-white/20 transition border border-white/10"
+                >
+                  <ShieldCheck className="h-4 w-4" /> Book Free Inspection
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    </>
+  );
+}

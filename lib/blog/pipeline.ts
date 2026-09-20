@@ -107,7 +107,7 @@ function buildSchema(draft: DraftPackage) {
     "@type": "BlogPosting",
     headline: draft.metadata.h1,
     description: draft.metadata.metaDescription,
-    mainEntityOfPage: `https://bedbugstreatment.co.in/blog/${draft.metadata.urlSlug}`,
+    mainEntityOfPage: `https://bedbugstreatment.co.in/${draft.metadata.urlSlug}`,
   };
   const faq = draft.faqs.length
     ? {
