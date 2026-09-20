@@ -617,17 +617,6 @@ export default function EditBlogStudioPage({
                   {title}
                 </h1>
 
-                {/* Author Info */}
-                <div className="flex items-center gap-3 pb-6 mb-6 border-b border-neutral-100">
-                  <div className="h-9 w-9 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs">
-                    BT
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-xs font-bold text-neutral-900">Bed Bug Treatment Team</span>
-                    <span className="text-[11px] text-neutral-500">Pest Control Specialist & Research Team</span>
-                  </div>
-                </div>
-
                 {/* Featured Image */}
                 {imageUrl && (
                   <div className="mb-8 flex justify-center">
