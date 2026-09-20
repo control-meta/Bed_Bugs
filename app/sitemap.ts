@@ -2,6 +2,8 @@ import type { MetadataRoute } from "next";
 import { locations } from "@/lib/locations";
 import { getAllBlogs } from "@/lib/blog-db";
 
+export const dynamic = "force-dynamic";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://bedbugstreatment.co.in";
   const currentDate = new Date();
