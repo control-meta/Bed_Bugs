@@ -57,7 +57,7 @@ export function BlogPostArticle({ blog }: { blog: BlogItem }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <article className="min-h-screen bg-white pb-16 pt-24 sm:pt-28 lg:pt-32">
+      <article className="min-h-screen bg-white pb-16 pt-16 sm:pt-20 lg:pt-24">
         <div className="container mx-auto max-w-4xl px-4 sm:px-6">
 
           {/* Title */}
