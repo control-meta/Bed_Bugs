@@ -1,7 +1,8 @@
 "use strict";
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import {
@@ -247,6 +248,10 @@ function WritingAnimation({ text }: { text: string }) {
 }
 
 export default function BlogGeneratorPage() {
+  const abortControllerRef = useRef<AbortController | null>(null);
+  const readerRef = useRef<ReadableStreamDefaultReader<Uint8Array> | null>(null);
+  const isStoppedRef = useRef(false);
+  const hasAutoStartedRef = useRef(false);
   const [topic, setTopic] = useState("");
   const [keywords, setKeywords] = useState("");
   const [skipImages, setSkipImages] = useState(false);
@@ -262,6 +267,8 @@ export default function BlogGeneratorPage() {
   const [isPublishing, setIsPublishing] = useState(false);
   const [publishedSuccess, setPublishedSuccess] = useState(false);
   const [publishedSlug, setPublishedSlug] = useState<string | null>(null);
+  const [isSavingDraft, setIsSavingDraft] = useState(false);
+  const [draftSuccess, setDraftSuccess] = useState(false);
 
   // Test Image States
   const [isImageTestOpen, setIsImageTestOpen] = useState(false);
@@ -345,8 +352,96 @@ export default function BlogGeneratorPage() {
     }
   };
 
-  const handleGenerate = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSaveDraft = async () => {
+    if (!data?.blogContent) return;
+    setIsSavingDraft(true);
+    setError("");
+
+    try {
+      const rawTitle = data.metadata?.seoTitle || data.metadata?.h1 || topic || "Bed Bug Treatment Guide";
+      const cleanTitle = rawTitle.replace(/^#\s*/, "").trim();
+      const slug = (data.metadata?.urlSlug || cleanTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-")).replace(/^-|-$/g, "");
+
+      const res = await fetch("/api/admin/blogs", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: cleanTitle,
+          slug,
+          topic: topic || cleanTitle,
+          primaryKeyword: data.metadata?.primaryKeyword || keywords || "bed bug treatment",
+          keywords: data.metadata?.secondaryKeywords || (keywords ? [keywords] : ["bed bug treatment", "pest control"]),
+          markdown: data.blogContent,
+          excerpt: data.metadata?.metaDescription || `Comprehensive guide on ${cleanTitle}. Proven inspection protocols and professional pest control insights for Indian homes.`,
+          imageUrl: data.imageUrl || "/images/blogs/bed-bugs-pest-control.png",
+          images: data.images || [],
+          status: "draft",
+          publicationStatus: data.publicationStatus || "READY",
+          autoPublishEligible: false,
+          author: "Bed Bug Treatment Team",
+          readTime: "9 min read",
+        }),
+      });
+
+      const resData = await res.json();
+      if (!res.ok || !resData.success) {
+        throw new Error(resData.error || "Failed to save draft");
+      }
+
+      setDraftSuccess(true);
+      setTimeout(() => setDraftSuccess(false), 5000);
+    } catch (err: any) {
+      console.error("Draft error:", err);
+      setError(err.message || "Failed to save blog draft.");
+    } finally {
+      setIsSavingDraft(false);
+    }
+  };
+
+  const handleStop = () => {
+    isStoppedRef.current = true;
+    if (readerRef.current) {
+      try {
+        readerRef.current.cancel("User cancelled generation").catch(() => {});
+      } catch {}
+      readerRef.current = null;
+    }
+    if (abortControllerRef.current) {
+      try {
+        abortControllerRef.current.abort();
+      } catch {}
+      abortControllerRef.current = null;
+    }
+    setIsGenerating(false);
+    setCurrentStage(0);
+    setStreamStatus("Generation stopped by user.");
+    setData(prev => {
+      if (!prev?.blogContent || prev.blogContent.trim().length === 0) {
+        return null;
+      }
+      return prev;
+    });
+  };
+
+  const handleGenerate = async (e?: React.FormEvent, overrideTopic?: string, overrideKeywords?: string) => {
+    e?.preventDefault();
+    const activeTopic = overrideTopic !== undefined ? overrideTopic : topic;
+    const activeKeywords = overrideKeywords !== undefined ? overrideKeywords : keywords;
+
+    // Cancel any previous session first
+    if (abortControllerRef.current) {
+      try { abortControllerRef.current.abort(); } catch {}
+      abortControllerRef.current = null;
+    }
+    if (readerRef.current) {
+      try { readerRef.current.cancel(); } catch {}
+      readerRef.current = null;
+    }
+
+    isStoppedRef.current = false;
+    abortControllerRef.current = new AbortController();
+    readerRef.current = null;
+
     setError("");
     setData(null);
     setUsage(null);
@@ -355,14 +450,23 @@ export default function BlogGeneratorPage() {
     setActiveTab("preview");
 
     try {
-      const statusRes = await fetch("/api/admin/blog/status");
+      const statusRes = await fetch("/api/admin/blog/status", {
+        signal: abortControllerRef.current.signal
+      });
       const statusData = await statusRes.json();
       if (!statusData.apiKeySet) {
         setApiKeyMissing(true);
         setTimeout(() => setApiKeyMissing(false), 4000);
         return;
       }
-    } catch {}
+    } catch (err: any) {
+      if (err.name === "AbortError" || isStoppedRef.current) {
+        setStreamStatus("Generation stopped by user.");
+        return;
+      }
+    }
+
+    if (isStoppedRef.current) return;
 
     setIsGenerating(true);
 
@@ -370,7 +474,8 @@ export default function BlogGeneratorPage() {
       const response = await fetch("/api/admin/blog/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ topic, keywords, skipImages, imageModel: "gpt-image-2.5-flare" }),
+        body: JSON.stringify({ topic: activeTopic, keywords: activeKeywords, skipImages, imageModel: "gpt-image-2.5-flare" }),
+        signal: abortControllerRef.current.signal,
       });
 
       if (!response.ok) {
@@ -378,8 +483,11 @@ export default function BlogGeneratorPage() {
         throw new Error(errData.error || "Failed to generate blog");
       }
 
+      if (isStoppedRef.current) return;
+
       const reader = response.body?.getReader();
       if (!reader) throw new Error("Streaming not supported in this browser.");
+      readerRef.current = reader;
 
       const decoder = new TextDecoder();
       let buffer = "";
@@ -389,13 +497,31 @@ export default function BlogGeneratorPage() {
       setData({ blogContent: "" });
 
       while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
+        if (isStoppedRef.current) break;
+
+        let readResult;
+        try {
+          readResult = await reader.read();
+        } catch (readErr: any) {
+          if (
+            isStoppedRef.current ||
+            readErr?.name === "AbortError" ||
+            readErr?.message?.includes("aborted") ||
+            readErr?.message?.includes("BodyStreamBuffer")
+          ) {
+            break;
+          }
+          throw readErr;
+        }
+
+        const { done, value } = readResult;
+        if (done || isStoppedRef.current) break;
 
         buffer += decoder.decode(value, { stream: true });
 
         let newlineIndex;
         while ((newlineIndex = buffer.indexOf("\n")) !== -1) {
+          if (isStoppedRef.current) break;
           const line = buffer.slice(0, newlineIndex);
           buffer = buffer.slice(newlineIndex + 1);
 
@@ -404,24 +530,30 @@ export default function BlogGeneratorPage() {
               const event = JSON.parse(line);
               
               if (event.type === "status") {
-                setStreamStatus(event.data.message);
-                if (event.data.stage) setCurrentStage(event.data.stage);
+                if (!isStoppedRef.current) {
+                  setStreamStatus(event.data.message);
+                  if (event.data.stage) setCurrentStage(event.data.stage);
+                }
               } else if (event.type === "research") {
                 tempResearch = event.data;
               } else if (event.type === "red_flags") {
                 // Red flags detected during drafting
               } else if (event.type === "chunk") {
-                tempContent += event.data;
-                setData(prev => ({
-                  ...prev,
-                  blogContent: tempContent,
-                  research: tempResearch,
-                } as GeneratedData));
+                if (!isStoppedRef.current) {
+                  tempContent += event.data;
+                  setData(prev => ({
+                    ...prev,
+                    blogContent: tempContent,
+                    research: tempResearch,
+                  } as GeneratedData));
+                }
               } else if (event.type === "complete") {
-                setData(event.data);
-                if (event.data.usage) setUsage(event.data.usage);
-                setStreamStatus("");
-                setCurrentStage(0);
+                if (!isStoppedRef.current) {
+                  setData(event.data);
+                  if (event.data.usage) setUsage(event.data.usage);
+                  setStreamStatus("");
+                  setCurrentStage(0);
+                }
               } else if (event.type === "error") {
                 throw new Error(event.data);
               }
@@ -432,13 +564,73 @@ export default function BlogGeneratorPage() {
         }
       }
     } catch (err: any) {
-      setError(err.message || "Something went wrong.");
-      setStreamStatus("");
+      if (
+        err?.name === 'AbortError' ||
+        isStoppedRef.current ||
+        err?.message?.includes("aborted") ||
+        err?.message?.includes("BodyStreamBuffer")
+      ) {
+        setStreamStatus("Generation stopped by user.");
+      } else {
+        setError(err?.message || "Something went wrong.");
+        setStreamStatus("");
+      }
     } finally {
+      if (readerRef.current) {
+        try {
+          readerRef.current.cancel().catch(() => {});
+        } catch {}
+        readerRef.current = null;
+      }
       setIsGenerating(false);
-      setStreamStatus("");
+      if (!isStoppedRef.current) {
+        setStreamStatus("");
+      } else {
+        setStreamStatus("Generation stopped by user.");
+        setCurrentStage(0);
+      }
     }
   };
+
+  useEffect(() => {
+    const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
+      if (
+        event.reason?.name === "AbortError" ||
+        event.reason?.message?.includes("aborted") ||
+        event.reason?.message?.includes("BodyStreamBuffer")
+      ) {
+        event.preventDefault();
+      }
+    };
+
+    window.addEventListener("unhandledrejection", handleUnhandledRejection);
+    return () => {
+      window.removeEventListener("unhandledrejection", handleUnhandledRejection);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && !hasAutoStartedRef.current) {
+      const searchParams = new URLSearchParams(window.location.search);
+      const urlTopic = searchParams.get("topic");
+      const urlKeywords = searchParams.get("keywords") || "";
+
+      if (urlTopic) {
+        hasAutoStartedRef.current = true;
+        setTopic(urlTopic);
+        setKeywords(urlKeywords);
+        
+        // Remove query params from URL so it doesn't trigger again on refresh
+        window.history.replaceState({}, document.title, window.location.pathname);
+        
+        // Auto start generation
+        setTimeout(() => {
+          handleGenerate(undefined, urlTopic, urlKeywords);
+        }, 100);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleCopy = async () => {
     if (!data?.blogContent) return;
@@ -601,6 +793,23 @@ export default function BlogGeneratorPage() {
             <PipelineAnimation currentStage={currentStage} streamStatus={streamStatus} />
           )}
 
+          {/* Stopped status notification */}
+          {!isGenerating && streamStatus && (
+            <div className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs font-semibold text-amber-800 flex items-center justify-between animate-in fade-in">
+              <div className="flex items-center gap-2">
+                <AlertTriangle className="h-4 w-4 text-amber-600 shrink-0" />
+                <span>{streamStatus}</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setStreamStatus("")}
+                className="text-amber-500 hover:text-amber-700"
+              >
+                <XCircle className="h-3.5 w-3.5" />
+              </button>
+            </div>
+          )}
+
           {/* Stats Box (Shows when fully generated) */}
           {data?.audit && !isGenerating && (
             <div className="mt-4 flex flex-col gap-3 rounded-xl border border-neutral-100 bg-neutral-50 p-4">
@@ -658,24 +867,25 @@ export default function BlogGeneratorPage() {
         </div>
 
         <div className="p-4 border-t border-neutral-100 bg-white shrink-0 flex flex-col gap-2">
-          <button
-            type="submit"
-            form="blog-form"
-            disabled={isGenerating}
-            className="group relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-emerald-600 px-4 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-emerald-700 disabled:opacity-80 disabled:cursor-not-allowed"
-          >
-            {isGenerating ? (
-              <>
-                <Loader2 className="h-4 w-4 animate-spin" />
-                <span>Running Pipeline...</span>
-              </>
-            ) : (
-              <>
-                <Sparkles className="h-4 w-4" />
-                <span>{data ? "Regenerate Content" : "Run Content Engine"}</span>
-              </>
-            )}
-          </button>
+          {isGenerating ? (
+            <button
+              type="button"
+              onClick={handleStop}
+              className="group relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-red-600 px-4 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-red-700"
+            >
+              <XCircle className="h-4 w-4" />
+              <span>Stop Generation</span>
+            </button>
+          ) : (
+            <button
+              type="submit"
+              form="blog-form"
+              className="group relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-emerald-600 px-4 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-emerald-700"
+            >
+              <Sparkles className="h-4 w-4" />
+              <span>{data ? "Regenerate Content" : "Run Content Engine"}</span>
+            </button>
+          )}
 
           {data && !isGenerating && (
             <>
@@ -697,8 +907,42 @@ export default function BlogGeneratorPage() {
 
               <button
                 type="button"
+                onClick={handleSaveDraft}
+                disabled={isSavingDraft}
+                className="flex w-full items-center justify-center gap-2 rounded-xl border border-neutral-200 bg-neutral-100 px-4 py-2.5 text-sm font-bold text-neutral-800 shadow-sm transition hover:bg-neutral-200 disabled:opacity-50"
+              >
+                {isSavingDraft ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : draftSuccess ? (
+                  <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+                ) : (
+                  <FileText className="h-4 w-4 text-neutral-600" />
+                )}
+                <span>{draftSuccess ? "Saved as Draft!" : isSavingDraft ? "Saving Draft..." : "Save as Draft"}</span>
+              </button>
+
+              {draftSuccess && (
+                <div className="flex flex-col gap-1.5 rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs text-amber-900 shadow-xs animate-in fade-in duration-200">
+                  <div className="flex items-center gap-1.5 font-bold text-amber-950">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
+                    <span>Saved to Database as Draft!</span>
+                  </div>
+                  <p className="text-[11px] text-amber-800 leading-snug">
+                    This article is saved in the database but kept unlisted from the public website.
+                  </p>
+                  <Link
+                    href="/admin/edit-blogs"
+                    className="mt-0.5 inline-flex items-center gap-1 font-bold text-emerald-700 hover:text-emerald-800 text-[11px] underline"
+                  >
+                    View in Edit Blogs (Drafts) &rarr;
+                  </Link>
+                </div>
+              )}
+
+              <button
+                type="button"
                 onClick={handleDiscard}
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-red-50 px-4 py-2.5 text-sm font-bold text-red-600 transition hover:bg-red-100"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-red-50 px-4 py-2 text-xs font-bold text-red-600 transition hover:bg-red-100"
               >
                 <Trash2 className="h-4 w-4" />
                 <span>Discard Content</span>

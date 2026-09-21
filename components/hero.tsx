@@ -187,7 +187,7 @@ export function Hero({ altMap }: { altMap?: Record<string, string> } = {}) {
                 src="/images/hero-tech-bed.webp"
                 alt={
                   altMap?.["/images/hero-tech-bed.webp"] ||
-                  "Professional exterminator applying targeted bed bug heat and spray treatment to bed frame"
+                  "Professional exterminator applying targeted bed bug spray treatment to bed frame"
                 }
                 fill
                 loading="eager"

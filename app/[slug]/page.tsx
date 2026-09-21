@@ -23,9 +23,9 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
 
-  // 1. Blog post takes precedence at the root level
+  // 1. Blog post takes precedence at the root level (published only)
   const blog = await getBlogBySlug(slug);
-  if (blog) {
+  if (blog && blog.status === "published") {
     return buildBlogPostMetadata(blog);
   }
 
@@ -77,9 +77,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function DynamicSlugPage({ params }: Props) {
   const { slug } = await params;
 
-  // 1. Blog post takes precedence at the root level
+  // 1. Blog post takes precedence at the root level (published only)
   const blog = await getBlogBySlug(slug);
-  if (blog) {
+  if (blog && blog.status === "published") {
     return <BlogPostArticle blog={blog} />;
   }
 

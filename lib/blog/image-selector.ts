@@ -98,7 +98,7 @@ const IMAGE_GROUPS: ImageGroup[] = [
     top: "/images/blogs/bed-bug-treatment-hsr-layout.png",
     middle: "/images/blogs/bed-bug-treatment-hsr-layout-content-1.png",
     defaultTopAlt: "Bed bug extermination and inspection services in HSR Layout, Bangalore",
-    defaultMidAlt: "Inspection and odorless chemical treatment in HSR Layout residences",
+    defaultMidAlt: "Inspection and odorless odorless treatment in HSR Layout residences",
   },
   {
     keywords: ["koramangala", "dairy circle", "ejipura"],

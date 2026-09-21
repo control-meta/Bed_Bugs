@@ -1,0 +1,1483 @@
+{
+  "contact": {
+    "email": "support@bedbugtreatment.co.in",
+    "phone": "+919769321234",
+    "whatsapp": "919769321234",
+    "phoneDisplay": "+91 97693 21234"
+  },
+  "hero": {
+    "badge": "BED BUG SPECIALISTS · EST. 2011",
+    "features": [
+      {
+        "icon": "leaf",
+        "line1": "100% Odorless",
+        "line2": "Treatment"
+      },
+      {
+        "icon": "user",
+        "line1": "Bed Bug",
+        "line2": "Specialists"
+      },
+      {
+        "icon": "home",
+        "line1": "Residential &",
+        "line2": "Commercial Properties"
+      },
+      {
+        "icon": "star",
+        "line1": "4.9/5",
+        "line2": "Customer Rating"
+      }
+    ],
+    "subtitle": "Specialized bed bug treatment for homes, apartments, hotels, PGs, offices and other properties across India.",
+    "titleLine1": "Professional Bed Bugs",
+    "titleLine2": "Treatment Services",
+    "description": "We focus exclusively on bed bugs, with treatment plans designed to identify infestation areas, target common hiding spots and provide follow-up support when required.",
+    "bookButtonText": "Book Bed Bug Treatment",
+    "callButtonText": "Call Now: +91 97693 21234",
+    "whatsappButtonText": "WhatsApp Us"
+  },
+  "odorless": {
+    "title": "100% Odorless Bed Bug Treatment",
+    "checks": [
+      "No lingering treatment odor",
+      "Suitable for residential & commercial spaces",
+      "Professional bed bug-focused treatment"
+    ],
+    "description": "Professional bed bug-focused treatment designed for homes, apartments, hotels and other occupied spaces."
+  },
+  "servicesGrid": {
+    "cards": [
+      {
+        "id": "bed-treatment",
+        "icon": "bug",
+        "photo": "bed-treatment",
+        "title": "Bed Bug Treatment",
+        "action": "Book Service",
+        "description": "Professional treatment for active bed bug infestations in bedrooms, mattresses, bed frames, furniture and other affected areas."
+      },
+      {
+        "id": "one-time",
+        "icon": "calendar",
+        "photo": "one-time",
+        "title": "One-Time Bed Bug Service",
+        "action": "Book Service",
+        "description": "A treatment option for customers looking to address a current bed bug infestation with a focused service based on property conditions."
+      },
+      {
+        "id": "amc",
+        "icon": "shield",
+        "photo": "amc",
+        "title": "1-Year Bed Bug AMC",
+        "action": "Choose AMC",
+        "description": "Three scheduled visits over 12 months for continued treatment support, follow-up and monitoring based on service requirements."
+      },
+      {
+        "id": "inspection",
+        "icon": "search",
+        "photo": "inspection",
+        "title": "Bed Bug Inspection",
+        "action": "Schedule Inspection",
+        "description": "Thorough inspection of mattresses, seams, headboards, baseboards, and furniture to confirm and map the infestation extent."
+      },
+      {
+        "id": "deep",
+        "icon": "shield",
+        "photo": "deep",
+        "title": "Deep Crevice Treatment",
+        "action": "Learn More",
+        "description": "Targeted specialized treatment penetrating deep into upholstery, furniture joints, and fabric folds to eliminate concealed bed bugs."
+      },
+      {
+        "id": "commercial",
+        "icon": "building",
+        "photo": "commercial",
+        "title": "Commercial & Hotel Solutions",
+        "action": "Corporate Inquiry",
+        "description": "Discreet, rapid-turnaround bed bug treatments for hotels, hostels, PGs, and corporate office campuses across metro cities."
+      }
+    ],
+    "title": "Complete Bed Bug Treatment Solutions",
+    "eyebrow": "OUR BED BUG SERVICES",
+    "description": "From a single bedroom to large residential and commercial properties, our bed bug specialists provide treatment based on the infestation, property type and areas affected."
+  },
+  "plansSection": {
+    "plans": [
+      {
+        "id": "one-time-plan",
+        "items": [
+          "Inspection of common bed bug hiding areas",
+          "Targeted treatment of affected areas",
+          "Mattress, bed and furniture treatment as required",
+          "Post-treatment guidance",
+          "Suitable for homes, apartments, hotels and offices"
+        ],
+        "title": "One-Time Bed Bug Treatment",
+        "action": "Book One-Time Service",
+        "popular": false,
+        "subtitle": "For immediate treatment needs"
+      },
+      {
+        "id": "amc-plan",
+        "items": [
+          "Initial inspection and treatment",
+          "3 scheduled visits over 12 months",
+          "Follow-up treatment visits",
+          "Monitoring for recurring activity",
+          "Guidance to reduce re-infestation risk"
+        ],
+        "title": "1-Year Bed Bug AMC",
+        "action": "Choose 1-Year AMC",
+        "popular": true,
+        "subtitle": "3 Visits Over 12 Months"
+      }
+    ],
+    "title": "One-Time Treatment or 1-Year AMC",
+    "eyebrow": "CHOOSE YOUR SERVICE PLAN",
+    "finePrint": "The recommended plan depends on infestation level, property conditions and service requirements.",
+    "description": "Choose the option that fits your current bed bug situation."
+  },
+  "includedSection": {
+    "cards": [
+      {
+        "icon": "bed",
+        "items": [
+          "Inspection of common bed bug hiding areas",
+          "Targeted treatment of affected areas",
+          "Mattress, bed frame and furniture inspection",
+          "Treatment of cracks, crevices and other hiding spots"
+        ],
+        "title": "One-Time Bed Bug Treatment",
+        "subtitle": "For Homes, Apartments & Offices"
+      },
+      {
+        "icon": "sofa",
+        "items": [
+          "Inspection of sofas and upholstered furniture",
+          "Treatment of affected upholstery and seating areas",
+          "Attention to common bed bug hiding points",
+          "Suitable for sofas, couches and other upholstered furniture"
+        ],
+        "title": "Upholstery & Sofa Treatment",
+        "subtitle": "For Sofas, Upholstered Furniture & Seating Areas"
+      },
+      {
+        "icon": "search",
+        "items": [
+          "Inspection of cracks and crevices",
+          "Treatment around beds and furniture",
+          "Focus on common bed bug hiding areas",
+          "Suitable for difficult-to-reach infestation spots"
+        ],
+        "title": "Cracks & Crevices Treatment",
+        "subtitle": "Targeted Treatment of Common Bed Bug Hiding Spots"
+      },
+      {
+        "icon": "shield",
+        "items": [
+          "Guidance on cleaning and preparation",
+          "Recommendations for monitoring bed bug activity",
+          "Advice on reducing common hiding areas",
+          "Follow-up guidance based on the level of infestation"
+        ],
+        "title": "Post-Treatment Guidance",
+        "subtitle": "Support to Help Reduce the Risk of Recurring Infestation"
+      }
+    ],
+    "title": "What's Included in Our Treatment",
+    "eyebrow": "WHAT'S INCLUDED",
+    "description": "Our treatment plans cover all the key areas where bed bugs hide and include post-treatment support."
+  },
+  "propertiesSection": {
+    "cards": [
+      {
+        "icon": "home",
+        "photo": "homes",
+        "title": "Homes & Apartments",
+        "description": "Bedrooms, mattresses, furniture, sofas and other hiding areas."
+      },
+      {
+        "icon": "calendar",
+        "photo": "hotels",
+        "title": "Hotels & Resorts",
+        "description": "Guest rooms and affected areas with operational focus."
+      },
+      {
+        "icon": "building",
+        "photo": "hostels",
+        "title": "Hostels & PGs",
+        "description": "Shared accommodation and recurring issues."
+      },
+      {
+        "icon": "building",
+        "photo": "offices",
+        "title": "Offices & Workspaces",
+        "description": "Furniture, upholstery and common areas."
+      },
+      {
+        "icon": "home",
+        "photo": "rentals",
+        "title": "Rental Properties",
+        "description": "For tenants, landlords and property managers."
+      }
+    ],
+    "title": "Bed Bug Treatment for Different Property Types",
+    "eyebrow": "WHAT WE TREAT",
+    "description": "We provide treatment for a wide range of residential and commercial properties across India."
+  },
+  "processSection": {
+    "steps": [
+      {
+        "icon": "search",
+        "title": "Inspection & Assessment",
+        "stepNumber": "01",
+        "description": "We inspect mattresses, bed frames, furniture, upholstery, cracks and other common hiding areas to identify signs of bed bug activity."
+      },
+      {
+        "icon": "target",
+        "title": "Targeted Treatment",
+        "stepNumber": "02",
+        "description": "Treatment is focused on identified infestation areas and common bed bug harborage based on the property's condition."
+      },
+      {
+        "icon": "calendar",
+        "title": "Follow-up Visits",
+        "stepNumber": "03",
+        "description": "Follow-up visits are provided according to the selected service plan and treatment requirements."
+      },
+      {
+        "icon": "shield",
+        "title": "Prevention Guidance",
+        "stepNumber": "04",
+        "description": "We provide practical guidance on cleaning, preparation and prevention to help reduce the risk of recurring bed bug activity."
+      }
+    ],
+    "title": "A Structured Approach to Bed Bug Treatment",
+    "eyebrow": "OUR TREATMENT PROCESS",
+    "description": "We follow a clear and effective process to identify, treat and help prevent bed bug reinfestation."
+  },
+  "signsSection": {
+    "signs": [
+      {
+        "icon": "moon",
+        "line1": "Itchy bites",
+        "line2": "after sleeping"
+      },
+      {
+        "icon": "droplets",
+        "line1": "Blood spots",
+        "line2": "on sheets"
+      },
+      {
+        "icon": "dots",
+        "line1": "Dark spots on",
+        "line2": "mattress seams"
+      },
+      {
+        "icon": "layers",
+        "line1": "Shed skins or",
+        "line2": "eggshells"
+      },
+      {
+        "icon": "armchair",
+        "line1": "Bed bugs in",
+        "line2": "furniture joints"
+      },
+      {
+        "icon": "bug",
+        "line1": "Live bugs or",
+        "line2": "eggs"
+      }
+    ],
+    "title": "Signs You May Have Bed Bugs",
+    "eyebrow": "KNOW THE SIGNS",
+    "helpCard": {
+      "title": "Not sure if you have bed bugs?",
+      "buttonText": "Book Now",
+      "description": "Book an inspection and get expert advice."
+    },
+    "description": "Look out for these common signs of bed bug activity in your home or property."
+  },
+  "locationsSection": {
+    "title": "Bed Bug Treatment Across India",
+    "eyebrow": "— SERVICE LOCATIONS",
+    "description": "We provide professional bed bug treatment services in selected cities, with local service teams supporting residential and commercial customers."
+  },
+  "reviewsSection": {
+    "title": "What Our Customers Say About Our Bed Bug Treatment",
+    "rating": "4.9/5",
+    "eyebrow": "Customer Reviews",
+    "description": "Real results from homeowners, tenants, and businesses who eliminated bed bugs with our specialized services.",
+    "reviewCount": "1,200+"
+  },
+  "faqSection": {
+    "items": [
+      {
+        "answer": "Our service includes inspection of common hiding areas, targeted treatment and guidance on preparation, follow-up and prevention based on your infestation.",
+        "question": "What does your professional bed bug treatment service include?"
+      },
+      {
+        "answer": "One-time service is designed for customers seeking treatment for a current bed bug infestation, with the treatment approach based on property and infestation conditions.",
+        "question": "What is a one-time bed bug treatment?"
+      },
+      {
+        "answer": "The One-Year Plan includes three scheduled service visits during the year, providing continued treatment support and follow-up based on service requirements.",
+        "question": "What is included in the One-Year Bed Bug Service Plan?"
+      },
+      {
+        "answer": "Our One-Year Bed Bug Plan includes three scheduled visits. Visit timing and service requirements are discussed based on the property and infestation condition.",
+        "question": "How many visits are included in the One-Year Bed Bug Plan?"
+      },
+      {
+        "answer": "The right option depends on infestation level, property conditions and service requirements. Our team can help you choose between one-time and three-visit plans.",
+        "question": "Should I choose one-time service or the One-Year Plan?"
+      },
+      {
+        "answer": "Yes, suitable areas such as mattresses, bed frames, headboards, sofas and furniture can be inspected and treated as part of the selected service.",
+        "question": "Does bed bug treatment cover mattresses and furniture?"
+      },
+      {
+        "answer": "No. Our bed bug service does not use smoke or steam. We use targeted treatment methods selected according to the property and infestation.",
+        "question": "Do you use smoke or steam for bed bug treatment?"
+      },
+      {
+        "answer": "Preparation may include reducing clutter, washing bedding and providing access to beds, furniture and other areas requiring treatment. Instructions are provided before service.",
+        "question": "Do I need to prepare my home before bed bug treatment?"
+      },
+      {
+        "answer": "Follow-up depends on the service selected. The One-Year Plan includes three scheduled visits, while one-time service is provided according to its agreed service terms.",
+        "question": "Is follow-up included with bed bug treatment?"
+      },
+      {
+        "answer": "Contact our team to discuss your bed bug problem, arrange an inspection and choose between one-time service or the One-Year Plan with three scheduled visits.",
+        "question": "How do I book your bed bug treatment service?"
+      }
+    ],
+    "title": "Frequently Asked Questions About Bed Bug Treatment",
+    "eyebrow": "BED BUG SERVICE FAQ",
+    "description": "Everything you need to know about our treatment plans, preparation, safety, and warranties."
+  },
+  "ctaSection": {
+    "title": "Say Goodbye to Bed Bugs Today",
+    "buttonText": "Book Bed Bug Treatment",
+    "description": "Schedule your odorless, eco-friendly treatment with certified specialists across India."
+  },
+  "customStyles": {
+    "accentColor": "#008257",
+    "fontFamily": "var(--font-poppins)",
+    "servicesPageContent": {
+      "hero": {
+        "badge": "BED BUG SPECIALISTS · EST. 2011",
+        "features": [
+          {
+            "icon": "leaf",
+            "line1": "100% Odorless",
+            "line2": "Treatment"
+          },
+          {
+            "icon": "user",
+            "line1": "Bed Bug",
+            "line2": "Specialists"
+          },
+          {
+            "icon": "home",
+            "line1": "Residential &",
+            "line2": "Commercial Properties"
+          },
+          {
+            "icon": "star",
+            "line1": "4.9/5",
+            "line2": "Customer Rating"
+          }
+        ],
+        "subtitle": "Specialized bed bug treatment for homes, apartments, hotels, PGs, offices and other properties across India.",
+        "titleLine1": "Professional Bed Bugs",
+        "titleLine2": "Treatment Services",
+        "description": "We focus exclusively on bed bugs, with treatment plans designed to identify infestation areas, target common hiding spots and provide follow-up support when required.",
+        "bookButtonText": "Book Bed Bug Treatment",
+        "callButtonText": "Call Now: +91 97693 21234",
+        "whatsappButtonText": "WhatsApp Us"
+      },
+      "contact": {
+        "email": "support@bedbugtreatment.co.in",
+        "phone": "+919769321234",
+        "whatsapp": "919769321234",
+        "phoneDisplay": "+91 97693 21234"
+      },
+      "odorless": {
+        "title": "100% Odorless Bed Bug Treatment",
+        "checks": [
+          "No lingering treatment odor",
+          "Suitable for residential & commercial spaces",
+          "Professional bed bug-focused treatment"
+        ],
+        "description": "Professional bed bug-focused treatment designed for homes, apartments, hotels and other occupied spaces."
+      },
+      "updatedAt": "2026-09-21T07:09:35.861Z",
+      "ctaSection": {
+        "title": "Say Goodbye to Bed Bugs Today",
+        "buttonText": "Book Bed Bug Treatment",
+        "description": "Schedule your odorless, eco-friendly treatment with certified specialists across India."
+      },
+      "faqSection": {
+        "items": [
+          {
+            "answer": "Our service includes inspection of common hiding areas, targeted treatment and guidance on preparation, follow-up and prevention based on your infestation.",
+            "question": "What does your professional bed bug treatment service include?"
+          },
+          {
+            "answer": "One-time service is designed for customers seeking treatment for a current bed bug infestation, with the treatment approach based on property and infestation conditions.",
+            "question": "What is a one-time bed bug treatment?"
+          },
+          {
+            "answer": "The One-Year Plan includes three scheduled service visits during the year, providing continued treatment support and follow-up based on service requirements.",
+            "question": "What is included in the One-Year Bed Bug Service Plan?"
+          },
+          {
+            "answer": "Our One-Year Bed Bug Plan includes three scheduled visits. Visit timing and service requirements are discussed based on the property and infestation condition.",
+            "question": "How many visits are included in the One-Year Bed Bug Plan?"
+          },
+          {
+            "answer": "The right option depends on infestation level, property conditions and service requirements. Our team can help you choose between one-time and three-visit plans.",
+            "question": "Should I choose one-time service or the One-Year Plan?"
+          },
+          {
+            "answer": "Yes, suitable areas such as mattresses, bed frames, headboards, sofas and furniture can be inspected and treated as part of the selected service.",
+            "question": "Does bed bug treatment cover mattresses and furniture?"
+          },
+          {
+            "answer": "No. Our bed bug service does not use smoke or steam. We use targeted treatment methods selected according to the property and infestation.",
+            "question": "Do you use smoke or steam for bed bug treatment?"
+          },
+          {
+            "answer": "Preparation may include reducing clutter, washing bedding and providing access to beds, furniture and other areas requiring treatment. Instructions are provided before service.",
+            "question": "Do I need to prepare my home before bed bug treatment?"
+          },
+          {
+            "answer": "Follow-up depends on the service selected. The One-Year Plan includes three scheduled visits, while one-time service is provided according to its agreed service terms.",
+            "question": "Is follow-up included with bed bug treatment?"
+          },
+          {
+            "answer": "Contact our team to discuss your bed bug problem, arrange an inspection and choose between one-time service or the One-Year Plan with three scheduled visits.",
+            "question": "How do I book your bed bug treatment service?"
+          }
+        ],
+        "title": "Frequently Asked Questions About Bed Bug Treatment",
+        "eyebrow": "BED BUG SERVICE FAQ",
+        "description": "Everything you need to know about our treatment plans, preparation, safety, and warranties."
+      },
+      "customStyles": {
+        "fontFamily": "var(--font-poppins)",
+        "hero_badge": "BED BUG SPECIALISTS · 100% GUARANTEED",
+        "accentColor": "#008257",
+        "servicesPageContent": {
+          "hero": {
+            "badge": "BED BUG SPECIALISTS · EST. 2011",
+            "features": [
+              {
+                "icon": "leaf",
+                "line1": "100% Odorless",
+                "line2": "Treatment"
+              },
+              {
+                "icon": "user",
+                "line1": "Bed Bug",
+                "line2": "Specialists"
+              },
+              {
+                "icon": "home",
+                "line1": "Residential &",
+                "line2": "Commercial Properties"
+              },
+              {
+                "icon": "star",
+                "line1": "4.9/5",
+                "line2": "Customer Rating"
+              }
+            ],
+            "subtitle": "Specialized bed bug treatment for homes, apartments, hotels, PGs, offices and other properties across India.",
+            "titleLine1": "Professional Bed Bugs",
+            "titleLine2": "Treatment Services",
+            "description": "We focus exclusively on bed bugs, with treatment plans designed to identify infestation areas, target common hiding spots and provide follow-up support when required.",
+            "bookButtonText": "Book Bed Bug Treatment",
+            "callButtonText": "Call Now: +91 97693 21234",
+            "whatsappButtonText": "WhatsApp Us"
+          },
+          "contact": {
+            "email": "support@bedbugtreatment.co.in",
+            "phone": "+919769321234",
+            "whatsapp": "919769321234",
+            "phoneDisplay": "+91 97693 21234"
+          },
+          "odorless": {
+            "title": "100% Odorless Bed Bug Treatment",
+            "checks": [
+              "No lingering treatment odor",
+              "Suitable for residential & commercial spaces",
+              "Professional bed bug-focused treatment"
+            ],
+            "description": "Professional bed bug-focused treatment designed for homes, apartments, hotels and other occupied spaces."
+          },
+          "updatedAt": "2026-09-21T07:09:19.779Z",
+          "ctaSection": {
+            "title": "Say Goodbye to Bed Bugs Today",
+            "buttonText": "Book Bed Bug Treatment",
+            "description": "Schedule your odorless, eco-friendly treatment with certified specialists across India."
+          },
+          "faqSection": {
+            "items": [
+              {
+                "answer": "Our service includes inspection of common hiding areas, targeted treatment and guidance on preparation, follow-up and prevention based on your infestation.",
+                "question": "What does your professional bed bug treatment service include?"
+              },
+              {
+                "answer": "One-time service is designed for customers seeking treatment for a current bed bug infestation, with the treatment approach based on property and infestation conditions.",
+                "question": "What is a one-time bed bug treatment?"
+              },
+              {
+                "answer": "The One-Year Plan includes three scheduled service visits during the year, providing continued treatment support and follow-up based on service requirements.",
+                "question": "What is included in the One-Year Bed Bug Service Plan?"
+              },
+              {
+                "answer": "Our One-Year Bed Bug Plan includes three scheduled visits. Visit timing and service requirements are discussed based on the property and infestation condition.",
+                "question": "How many visits are included in the One-Year Bed Bug Plan?"
+              },
+              {
+                "answer": "The right option depends on infestation level, property conditions and service requirements. Our team can help you choose between one-time and three-visit plans.",
+                "question": "Should I choose one-time service or the One-Year Plan?"
+              },
+              {
+                "answer": "Yes, suitable areas such as mattresses, bed frames, headboards, sofas and furniture can be inspected and treated as part of the selected service.",
+                "question": "Does bed bug treatment cover mattresses and furniture?"
+              },
+              {
+                "answer": "No. Our bed bug service does not use smoke or steam. We use targeted treatment methods selected according to the property and infestation.",
+                "question": "Do you use smoke or steam for bed bug treatment?"
+              },
+              {
+                "answer": "Preparation may include reducing clutter, washing bedding and providing access to beds, furniture and other areas requiring treatment. Instructions are provided before service.",
+                "question": "Do I need to prepare my home before bed bug treatment?"
+              },
+              {
+                "answer": "Follow-up depends on the service selected. The One-Year Plan includes three scheduled visits, while one-time service is provided according to its agreed service terms.",
+                "question": "Is follow-up included with bed bug treatment?"
+              },
+              {
+                "answer": "Contact our team to discuss your bed bug problem, arrange an inspection and choose between one-time service or the One-Year Plan with three scheduled visits.",
+                "question": "How do I book your bed bug treatment service?"
+              }
+            ],
+            "title": "Frequently Asked Questions About Bed Bug Treatment",
+            "eyebrow": "BED BUG SERVICE FAQ",
+            "description": "Everything you need to know about our treatment plans, preparation, safety, and warranties."
+          },
+          "customStyles": {
+            "fontFamily": "var(--font-poppins)",
+            "hero_badge": "BED BUG SPECIALISTS · 100% GUARANTEED",
+            "accentColor": "#008257",
+            "servicesPageContent": {
+              "hero": {
+                "badge": "BED BUG SPECIALISTS · EST. 2011",
+                "features": [
+                  {
+                    "icon": "leaf",
+                    "line1": "100% Odorless",
+                    "line2": "Treatment"
+                  },
+                  {
+                    "icon": "user",
+                    "line1": "Bed Bug",
+                    "line2": "Specialists"
+                  },
+                  {
+                    "icon": "home",
+                    "line1": "Residential &",
+                    "line2": "Commercial Properties"
+                  },
+                  {
+                    "icon": "star",
+                    "line1": "4.9/5",
+                    "line2": "Customer Rating"
+                  }
+                ],
+                "subtitle": "Specialized bed bug treatment for homes, apartments, hotels, PGs, offices and other properties across India.",
+                "titleLine1": "Professional Bed Bugs",
+                "titleLine2": "Treatment Services",
+                "description": "We focus exclusively on bed bugs, with treatment plans designed to identify infestation areas, target common hiding spots and provide follow-up support when required.",
+                "bookButtonText": "Book Bed Bug Treatment",
+                "callButtonText": "Call Now: +91 97693 21234",
+                "whatsappButtonText": "WhatsApp Us"
+              },
+              "contact": {
+                "email": "support@bedbugtreatment.co.in",
+                "phone": "+919769321234",
+                "whatsapp": "919769321234",
+                "phoneDisplay": "+91 97693 21234"
+              },
+              "odorless": {
+                "title": "100% Odorless Bed Bug Treatment",
+                "checks": [
+                  "No lingering treatment odor",
+                  "Suitable for residential & commercial spaces",
+                  "Professional bed bug-focused treatment"
+                ],
+                "description": "Professional bed bug-focused treatment designed for homes, apartments, hotels and other occupied spaces."
+              },
+              "updatedAt": "2026-09-21T07:09:12.619Z",
+              "ctaSection": {
+                "title": "Say Goodbye to Bed Bugs Today",
+                "buttonText": "Book Bed Bug Treatment",
+                "description": "Schedule your odorless, eco-friendly treatment with certified specialists across India."
+              },
+              "faqSection": {
+                "items": [
+                  {
+                    "answer": "Our service includes inspection of common hiding areas, targeted treatment and guidance on preparation, follow-up and prevention based on your infestation.",
+                    "question": "What does your professional bed bug treatment service include?"
+                  },
+                  {
+                    "answer": "One-time service is designed for customers seeking treatment for a current bed bug infestation, with the treatment approach based on property and infestation conditions.",
+                    "question": "What is a one-time bed bug treatment?"
+                  },
+                  {
+                    "answer": "The One-Year Plan includes three scheduled service visits during the year, providing continued treatment support and follow-up based on service requirements.",
+                    "question": "What is included in the One-Year Bed Bug Service Plan?"
+                  },
+                  {
+                    "answer": "Our One-Year Bed Bug Plan includes three scheduled visits. Visit timing and service requirements are discussed based on the property and infestation condition.",
+                    "question": "How many visits are included in the One-Year Bed Bug Plan?"
+                  },
+                  {
+                    "answer": "The right option depends on infestation level, property conditions and service requirements. Our team can help you choose between one-time and three-visit plans.",
+                    "question": "Should I choose one-time service or the One-Year Plan?"
+                  },
+                  {
+                    "answer": "Yes, suitable areas such as mattresses, bed frames, headboards, sofas and furniture can be inspected and treated as part of the selected service.",
+                    "question": "Does bed bug treatment cover mattresses and furniture?"
+                  },
+                  {
+                    "answer": "No. Our bed bug service does not use smoke or steam. We use targeted treatment methods selected according to the property and infestation.",
+                    "question": "Do you use smoke or steam for bed bug treatment?"
+                  },
+                  {
+                    "answer": "Preparation may include reducing clutter, washing bedding and providing access to beds, furniture and other areas requiring treatment. Instructions are provided before service.",
+                    "question": "Do I need to prepare my home before bed bug treatment?"
+                  },
+                  {
+                    "answer": "Follow-up depends on the service selected. The One-Year Plan includes three scheduled visits, while one-time service is provided according to its agreed service terms.",
+                    "question": "Is follow-up included with bed bug treatment?"
+                  },
+                  {
+                    "answer": "Contact our team to discuss your bed bug problem, arrange an inspection and choose between one-time service or the One-Year Plan with three scheduled visits.",
+                    "question": "How do I book your bed bug treatment service?"
+                  }
+                ],
+                "title": "Frequently Asked Questions About Bed Bug Treatment",
+                "eyebrow": "BED BUG SERVICE FAQ",
+                "description": "Everything you need to know about our treatment plans, preparation, safety, and warranties."
+              },
+              "customStyles": {
+                "fontFamily": "var(--font-poppins)",
+                "accentColor": "#008257"
+              },
+              "plansSection": {
+                "plans": [
+                  {
+                    "id": "one-time-plan",
+                    "items": [
+                      "Inspection of common bed bug hiding areas",
+                      "Targeted treatment of affected areas",
+                      "Mattress, bed and furniture treatment as required",
+                      "Post-treatment guidance",
+                      "Suitable for homes, apartments, hotels and offices"
+                    ],
+                    "title": "One-Time Bed Bug Treatment",
+                    "action": "Book One-Time Service",
+                    "popular": false,
+                    "subtitle": "For immediate treatment needs"
+                  },
+                  {
+                    "id": "amc-plan",
+                    "items": [
+                      "Initial inspection and treatment",
+                      "3 scheduled visits over 12 months",
+                      "Follow-up treatment visits",
+                      "Monitoring for recurring activity",
+                      "Guidance to reduce re-infestation risk"
+                    ],
+                    "title": "1-Year Bed Bug AMC",
+                    "action": "Choose 1-Year AMC",
+                    "popular": true,
+                    "subtitle": "3 Visits Over 12 Months"
+                  }
+                ],
+                "title": "One-Time Treatment or 1-Year AMC",
+                "eyebrow": "CHOOSE YOUR SERVICE PLAN",
+                "finePrint": "The recommended plan depends on infestation level, property conditions and service requirements.",
+                "description": "Choose the option that fits your current bed bug situation."
+              },
+              "servicesGrid": {
+                "cards": [
+                  {
+                    "id": "bed-treatment",
+                    "icon": "bug",
+                    "photo": "bed-treatment",
+                    "title": "Bed Bug Treatment",
+                    "action": "Book Service",
+                    "description": "Professional treatment for active bed bug infestations in bedrooms, mattresses, bed frames, furniture and other affected areas."
+                  },
+                  {
+                    "id": "one-time",
+                    "icon": "calendar",
+                    "photo": "one-time",
+                    "title": "One-Time Bed Bug Service",
+                    "action": "Book Service",
+                    "description": "A treatment option for customers looking to address a current bed bug infestation with a focused service based on property conditions."
+                  },
+                  {
+                    "id": "amc",
+                    "icon": "shield",
+                    "photo": "amc",
+                    "title": "1-Year Bed Bug AMC",
+                    "action": "Choose AMC",
+                    "description": "Three scheduled visits over 12 months for continued treatment support, follow-up and monitoring based on service requirements."
+                  },
+                  {
+                    "id": "inspection",
+                    "icon": "search",
+                    "photo": "inspection",
+                    "title": "Bed Bug Inspection",
+                    "action": "Schedule Inspection",
+                    "description": "Thorough inspection of mattresses, seams, headboards, baseboards, and furniture to confirm and map the infestation extent."
+                  },
+                  {
+                    "id": "deep",
+                    "icon": "shield",
+                    "photo": "deep",
+                    "title": "Deep Crevice Treatment",
+                    "action": "Learn More",
+                    "description": "Targeted specialized treatment penetrating deep into upholstery, furniture joints, and fabric folds to eliminate concealed bed bugs."
+                  },
+                  {
+                    "id": "commercial",
+                    "icon": "building",
+                    "photo": "commercial",
+                    "title": "Commercial & Hotel Solutions",
+                    "action": "Corporate Inquiry",
+                    "description": "Discreet, rapid-turnaround bed bug treatments for hotels, hostels, PGs, and corporate office campuses across metro cities."
+                  }
+                ],
+                "title": "Complete Bed Bug Treatment Solutions",
+                "eyebrow": "OUR BED BUG SERVICES",
+                "description": "From a single bedroom to large residential and commercial properties, our bed bug specialists provide treatment based on the infestation, property type and areas affected."
+              },
+              "signsSection": {
+                "signs": [
+                  {
+                    "icon": "moon",
+                    "line1": "Itchy bites",
+                    "line2": "after sleeping"
+                  },
+                  {
+                    "icon": "droplets",
+                    "line1": "Blood spots",
+                    "line2": "on sheets"
+                  },
+                  {
+                    "icon": "dots",
+                    "line1": "Dark spots on",
+                    "line2": "mattress seams"
+                  },
+                  {
+                    "icon": "layers",
+                    "line1": "Shed skins or",
+                    "line2": "eggshells"
+                  },
+                  {
+                    "icon": "armchair",
+                    "line1": "Bed bugs in",
+                    "line2": "furniture joints"
+                  },
+                  {
+                    "icon": "bug",
+                    "line1": "Live bugs or",
+                    "line2": "eggs"
+                  }
+                ],
+                "title": "Signs You May Have Bed Bugs",
+                "eyebrow": "KNOW THE SIGNS",
+                "helpCard": {
+                  "title": "Not sure if you have bed bugs?",
+                  "buttonText": "Book Now",
+                  "description": "Book an inspection and get expert advice."
+                },
+                "description": "Look out for these common signs of bed bug activity in your home or property."
+              },
+              "processSection": {
+                "steps": [
+                  {
+                    "icon": "search",
+                    "title": "Inspection & Assessment",
+                    "stepNumber": "01",
+                    "description": "We inspect mattresses, bed frames, furniture, upholstery, cracks and other common hiding areas to identify signs of bed bug activity."
+                  },
+                  {
+                    "icon": "target",
+                    "title": "Targeted Treatment",
+                    "stepNumber": "02",
+                    "description": "Treatment is focused on identified infestation areas and common bed bug harborage based on the property's condition."
+                  },
+                  {
+                    "icon": "calendar",
+                    "title": "Follow-up Visits",
+                    "stepNumber": "03",
+                    "description": "Follow-up visits are provided according to the selected service plan and treatment requirements."
+                  },
+                  {
+                    "icon": "shield",
+                    "title": "Prevention Guidance",
+                    "stepNumber": "04",
+                    "description": "We provide practical guidance on cleaning, preparation and prevention to help reduce the risk of recurring bed bug activity."
+                  }
+                ],
+                "title": "A Structured Approach to Bed Bug Treatment",
+                "eyebrow": "OUR TREATMENT PROCESS",
+                "description": "We follow a clear and effective process to identify, treat and help prevent bed bug reinfestation."
+              },
+              "reviewsSection": {
+                "title": "What Our Customers Say About Our Bed Bug Treatment",
+                "rating": "4.9/5",
+                "eyebrow": "Customer Reviews",
+                "description": "Real results from homeowners, tenants, and businesses who eliminated bed bugs with our specialized services.",
+                "reviewCount": "1,200+"
+              },
+              "includedSection": {
+                "cards": [
+                  {
+                    "icon": "bed",
+                    "items": [
+                      "Inspection of common bed bug hiding areas",
+                      "Targeted treatment of affected areas",
+                      "Mattress, bed frame and furniture inspection",
+                      "Treatment of cracks, crevices and other hiding spots"
+                    ],
+                    "title": "One-Time Bed Bug Treatment",
+                    "subtitle": "For Homes, Apartments & Offices"
+                  },
+                  {
+                    "icon": "sofa",
+                    "items": [
+                      "Inspection of sofas and upholstered furniture",
+                      "Treatment of affected upholstery and seating areas",
+                      "Attention to common bed bug hiding points",
+                      "Suitable for sofas, couches and other upholstered furniture"
+                    ],
+                    "title": "Upholstery & Sofa Treatment",
+                    "subtitle": "For Sofas, Upholstered Furniture & Seating Areas"
+                  },
+                  {
+                    "icon": "search",
+                    "items": [
+                      "Inspection of cracks and crevices",
+                      "Treatment around beds and furniture",
+                      "Focus on common bed bug hiding areas",
+                      "Suitable for difficult-to-reach infestation spots"
+                    ],
+                    "title": "Cracks & Crevices Treatment",
+                    "subtitle": "Targeted Treatment of Common Bed Bug Hiding Spots"
+                  },
+                  {
+                    "icon": "shield",
+                    "items": [
+                      "Guidance on cleaning and preparation",
+                      "Recommendations for monitoring bed bug activity",
+                      "Advice on reducing common hiding areas",
+                      "Follow-up guidance based on the level of infestation"
+                    ],
+                    "title": "Post-Treatment Guidance",
+                    "subtitle": "Support to Help Reduce the Risk of Recurring Infestation"
+                  }
+                ],
+                "title": "What's Included in Our Treatment",
+                "eyebrow": "WHAT'S INCLUDED",
+                "description": "Our treatment plans cover all the key areas where bed bugs hide and include post-treatment support."
+              },
+              "locationsSection": {
+                "title": "Bed Bug Treatment Across India",
+                "eyebrow": "— SERVICE LOCATIONS",
+                "description": "We provide professional bed bug treatment services in selected cities, with local service teams supporting residential and commercial customers."
+              },
+              "propertiesSection": {
+                "cards": [
+                  {
+                    "icon": "home",
+                    "photo": "homes",
+                    "title": "Homes & Apartments",
+                    "description": "Bedrooms, mattresses, furniture, sofas and other hiding areas."
+                  },
+                  {
+                    "icon": "calendar",
+                    "photo": "hotels",
+                    "title": "Hotels & Resorts",
+                    "description": "Guest rooms and affected areas with operational focus."
+                  },
+                  {
+                    "icon": "building",
+                    "photo": "hostels",
+                    "title": "Hostels & PGs",
+                    "description": "Shared accommodation and recurring issues."
+                  },
+                  {
+                    "icon": "building",
+                    "photo": "offices",
+                    "title": "Offices & Workspaces",
+                    "description": "Furniture, upholstery and common areas."
+                  },
+                  {
+                    "icon": "home",
+                    "photo": "rentals",
+                    "title": "Rental Properties",
+                    "description": "For tenants, landlords and property managers."
+                  }
+                ],
+                "title": "Bed Bug Treatment for Different Property Types",
+                "eyebrow": "WHAT WE TREAT",
+                "description": "We provide treatment for a wide range of residential and commercial properties across India."
+              }
+            }
+          },
+          "plansSection": {
+            "plans": [
+              {
+                "id": "one-time-plan",
+                "items": [
+                  "Inspection of common bed bug hiding areas",
+                  "Targeted treatment of affected areas",
+                  "Mattress, bed and furniture treatment as required",
+                  "Post-treatment guidance",
+                  "Suitable for homes, apartments, hotels and offices"
+                ],
+                "title": "One-Time Bed Bug Treatment",
+                "action": "Book One-Time Service",
+                "popular": false,
+                "subtitle": "For immediate treatment needs"
+              },
+              {
+                "id": "amc-plan",
+                "items": [
+                  "Initial inspection and treatment",
+                  "3 scheduled visits over 12 months",
+                  "Follow-up treatment visits",
+                  "Monitoring for recurring activity",
+                  "Guidance to reduce re-infestation risk"
+                ],
+                "title": "1-Year Bed Bug AMC",
+                "action": "Choose 1-Year AMC",
+                "popular": true,
+                "subtitle": "3 Visits Over 12 Months"
+              }
+            ],
+            "title": "One-Time Treatment or 1-Year AMC",
+            "eyebrow": "CHOOSE YOUR SERVICE PLAN",
+            "finePrint": "The recommended plan depends on infestation level, property conditions and service requirements.",
+            "description": "Choose the option that fits your current bed bug situation."
+          },
+          "servicesGrid": {
+            "cards": [
+              {
+                "id": "bed-treatment",
+                "icon": "bug",
+                "photo": "bed-treatment",
+                "title": "Bed Bug Treatment",
+                "action": "Book Service",
+                "description": "Professional treatment for active bed bug infestations in bedrooms, mattresses, bed frames, furniture and other affected areas."
+              },
+              {
+                "id": "one-time",
+                "icon": "calendar",
+                "photo": "one-time",
+                "title": "One-Time Bed Bug Service",
+                "action": "Book Service",
+                "description": "A treatment option for customers looking to address a current bed bug infestation with a focused service based on property conditions."
+              },
+              {
+                "id": "amc",
+                "icon": "shield",
+                "photo": "amc",
+                "title": "1-Year Bed Bug AMC",
+                "action": "Choose AMC",
+                "description": "Three scheduled visits over 12 months for continued treatment support, follow-up and monitoring based on service requirements."
+              },
+              {
+                "id": "inspection",
+                "icon": "search",
+                "photo": "inspection",
+                "title": "Bed Bug Inspection",
+                "action": "Schedule Inspection",
+                "description": "Thorough inspection of mattresses, seams, headboards, baseboards, and furniture to confirm and map the infestation extent."
+              },
+              {
+                "id": "deep",
+                "icon": "shield",
+                "photo": "deep",
+                "title": "Deep Crevice Treatment",
+                "action": "Learn More",
+                "description": "Targeted specialized treatment penetrating deep into upholstery, furniture joints, and fabric folds to eliminate concealed bed bugs."
+              },
+              {
+                "id": "commercial",
+                "icon": "building",
+                "photo": "commercial",
+                "title": "Commercial & Hotel Solutions",
+                "action": "Corporate Inquiry",
+                "description": "Discreet, rapid-turnaround bed bug treatments for hotels, hostels, PGs, and corporate office campuses across metro cities."
+              }
+            ],
+            "title": "Complete Bed Bug Treatment Solutions",
+            "eyebrow": "OUR BED BUG SERVICES",
+            "description": "From a single bedroom to large residential and commercial properties, our bed bug specialists provide treatment based on the infestation, property type and areas affected."
+          },
+          "signsSection": {
+            "signs": [
+              {
+                "icon": "moon",
+                "line1": "Itchy bites",
+                "line2": "after sleeping"
+              },
+              {
+                "icon": "droplets",
+                "line1": "Blood spots",
+                "line2": "on sheets"
+              },
+              {
+                "icon": "dots",
+                "line1": "Dark spots on",
+                "line2": "mattress seams"
+              },
+              {
+                "icon": "layers",
+                "line1": "Shed skins or",
+                "line2": "eggshells"
+              },
+              {
+                "icon": "armchair",
+                "line1": "Bed bugs in",
+                "line2": "furniture joints"
+              },
+              {
+                "icon": "bug",
+                "line1": "Live bugs or",
+                "line2": "eggs"
+              }
+            ],
+            "title": "Signs You May Have Bed Bugs",
+            "eyebrow": "KNOW THE SIGNS",
+            "helpCard": {
+              "title": "Not sure if you have bed bugs?",
+              "buttonText": "Book Now",
+              "description": "Book an inspection and get expert advice."
+            },
+            "description": "Look out for these common signs of bed bug activity in your home or property."
+          },
+          "processSection": {
+            "steps": [
+              {
+                "icon": "search",
+                "title": "Inspection & Assessment",
+                "stepNumber": "01",
+                "description": "We inspect mattresses, bed frames, furniture, upholstery, cracks and other common hiding areas to identify signs of bed bug activity."
+              },
+              {
+                "icon": "target",
+                "title": "Targeted Treatment",
+                "stepNumber": "02",
+                "description": "Treatment is focused on identified infestation areas and common bed bug harborage based on the property's condition."
+              },
+              {
+                "icon": "calendar",
+                "title": "Follow-up Visits",
+                "stepNumber": "03",
+                "description": "Follow-up visits are provided according to the selected service plan and treatment requirements."
+              },
+              {
+                "icon": "shield",
+                "title": "Prevention Guidance",
+                "stepNumber": "04",
+                "description": "We provide practical guidance on cleaning, preparation and prevention to help reduce the risk of recurring bed bug activity."
+              }
+            ],
+            "title": "A Structured Approach to Bed Bug Treatment",
+            "eyebrow": "OUR TREATMENT PROCESS",
+            "description": "We follow a clear and effective process to identify, treat and help prevent bed bug reinfestation."
+          },
+          "reviewsSection": {
+            "title": "What Our Customers Say About Our Bed Bug Treatment",
+            "rating": "4.9/5",
+            "eyebrow": "Customer Reviews",
+            "description": "Real results from homeowners, tenants, and businesses who eliminated bed bugs with our specialized services.",
+            "reviewCount": "1,200+"
+          },
+          "includedSection": {
+            "cards": [
+              {
+                "icon": "bed",
+                "items": [
+                  "Inspection of common bed bug hiding areas",
+                  "Targeted treatment of affected areas",
+                  "Mattress, bed frame and furniture inspection",
+                  "Treatment of cracks, crevices and other hiding spots"
+                ],
+                "title": "One-Time Bed Bug Treatment",
+                "subtitle": "For Homes, Apartments & Offices"
+              },
+              {
+                "icon": "sofa",
+                "items": [
+                  "Inspection of sofas and upholstered furniture",
+                  "Treatment of affected upholstery and seating areas",
+                  "Attention to common bed bug hiding points",
+                  "Suitable for sofas, couches and other upholstered furniture"
+                ],
+                "title": "Upholstery & Sofa Treatment",
+                "subtitle": "For Sofas, Upholstered Furniture & Seating Areas"
+              },
+              {
+                "icon": "search",
+                "items": [
+                  "Inspection of cracks and crevices",
+                  "Treatment around beds and furniture",
+                  "Focus on common bed bug hiding areas",
+                  "Suitable for difficult-to-reach infestation spots"
+                ],
+                "title": "Cracks & Crevices Treatment",
+                "subtitle": "Targeted Treatment of Common Bed Bug Hiding Spots"
+              },
+              {
+                "icon": "shield",
+                "items": [
+                  "Guidance on cleaning and preparation",
+                  "Recommendations for monitoring bed bug activity",
+                  "Advice on reducing common hiding areas",
+                  "Follow-up guidance based on the level of infestation"
+                ],
+                "title": "Post-Treatment Guidance",
+                "subtitle": "Support to Help Reduce the Risk of Recurring Infestation"
+              }
+            ],
+            "title": "What's Included in Our Treatment",
+            "eyebrow": "WHAT'S INCLUDED",
+            "description": "Our treatment plans cover all the key areas where bed bugs hide and include post-treatment support."
+          },
+          "locationsSection": {
+            "title": "Bed Bug Treatment Across India",
+            "eyebrow": "— SERVICE LOCATIONS",
+            "description": "We provide professional bed bug treatment services in selected cities, with local service teams supporting residential and commercial customers."
+          },
+          "propertiesSection": {
+            "cards": [
+              {
+                "icon": "home",
+                "photo": "homes",
+                "title": "Homes & Apartments",
+                "description": "Bedrooms, mattresses, furniture, sofas and other hiding areas."
+              },
+              {
+                "icon": "calendar",
+                "photo": "hotels",
+                "title": "Hotels & Resorts",
+                "description": "Guest rooms and affected areas with operational focus."
+              },
+              {
+                "icon": "building",
+                "photo": "hostels",
+                "title": "Hostels & PGs",
+                "description": "Shared accommodation and recurring issues."
+              },
+              {
+                "icon": "building",
+                "photo": "offices",
+                "title": "Offices & Workspaces",
+                "description": "Furniture, upholstery and common areas."
+              },
+              {
+                "icon": "home",
+                "photo": "rentals",
+                "title": "Rental Properties",
+                "description": "For tenants, landlords and property managers."
+              }
+            ],
+            "title": "Bed Bug Treatment for Different Property Types",
+            "eyebrow": "WHAT WE TREAT",
+            "description": "We provide treatment for a wide range of residential and commercial properties across India."
+          }
+        }
+      },
+      "plansSection": {
+        "plans": [
+          {
+            "id": "one-time-plan",
+            "items": [
+              "Inspection of common bed bug hiding areas",
+              "Targeted treatment of affected areas",
+              "Mattress, bed and furniture treatment as required",
+              "Post-treatment guidance",
+              "Suitable for homes, apartments, hotels and offices"
+            ],
+            "title": "One-Time Bed Bug Treatment",
+            "action": "Book One-Time Service",
+            "popular": false,
+            "subtitle": "For immediate treatment needs"
+          },
+          {
+            "id": "amc-plan",
+            "items": [
+              "Initial inspection and treatment",
+              "3 scheduled visits over 12 months",
+              "Follow-up treatment visits",
+              "Monitoring for recurring activity",
+              "Guidance to reduce re-infestation risk"
+            ],
+            "title": "1-Year Bed Bug AMC",
+            "action": "Choose 1-Year AMC",
+            "popular": true,
+            "subtitle": "3 Visits Over 12 Months"
+          }
+        ],
+        "title": "One-Time Treatment or 1-Year AMC",
+        "eyebrow": "CHOOSE YOUR SERVICE PLAN",
+        "finePrint": "The recommended plan depends on infestation level, property conditions and service requirements.",
+        "description": "Choose the option that fits your current bed bug situation."
+      },
+      "servicesGrid": {
+        "cards": [
+          {
+            "id": "bed-treatment",
+            "icon": "bug",
+            "photo": "bed-treatment",
+            "title": "Bed Bug Treatment",
+            "action": "Book Service",
+            "description": "Professional treatment for active bed bug infestations in bedrooms, mattresses, bed frames, furniture and other affected areas."
+          },
+          {
+            "id": "one-time",
+            "icon": "calendar",
+            "photo": "one-time",
+            "title": "One-Time Bed Bug Service",
+            "action": "Book Service",
+            "description": "A treatment option for customers looking to address a current bed bug infestation with a focused service based on property conditions."
+          },
+          {
+            "id": "amc",
+            "icon": "shield",
+            "photo": "amc",
+            "title": "1-Year Bed Bug AMC",
+            "action": "Choose AMC",
+            "description": "Three scheduled visits over 12 months for continued treatment support, follow-up and monitoring based on service requirements."
+          },
+          {
+            "id": "inspection",
+            "icon": "search",
+            "photo": "inspection",
+            "title": "Bed Bug Inspection",
+            "action": "Schedule Inspection",
+            "description": "Thorough inspection of mattresses, seams, headboards, baseboards, and furniture to confirm and map the infestation extent."
+          },
+          {
+            "id": "deep",
+            "icon": "shield",
+            "photo": "deep",
+            "title": "Deep Crevice Treatment",
+            "action": "Learn More",
+            "description": "Targeted specialized treatment penetrating deep into upholstery, furniture joints, and fabric folds to eliminate concealed bed bugs."
+          },
+          {
+            "id": "commercial",
+            "icon": "building",
+            "photo": "commercial",
+            "title": "Commercial & Hotel Solutions",
+            "action": "Corporate Inquiry",
+            "description": "Discreet, rapid-turnaround bed bug treatments for hotels, hostels, PGs, and corporate office campuses across metro cities."
+          }
+        ],
+        "title": "Complete Bed Bug Treatment Solutions",
+        "eyebrow": "OUR BED BUG SERVICES",
+        "description": "From a single bedroom to large residential and commercial properties, our bed bug specialists provide treatment based on the infestation, property type and areas affected."
+      },
+      "signsSection": {
+        "signs": [
+          {
+            "icon": "moon",
+            "line1": "Itchy bites",
+            "line2": "after sleeping"
+          },
+          {
+            "icon": "droplets",
+            "line1": "Blood spots",
+            "line2": "on sheets"
+          },
+          {
+            "icon": "dots",
+            "line1": "Dark spots on",
+            "line2": "mattress seams"
+          },
+          {
+            "icon": "layers",
+            "line1": "Shed skins or",
+            "line2": "eggshells"
+          },
+          {
+            "icon": "armchair",
+            "line1": "Bed bugs in",
+            "line2": "furniture joints"
+          },
+          {
+            "icon": "bug",
+            "line1": "Live bugs or",
+            "line2": "eggs"
+          }
+        ],
+        "title": "Signs You May Have Bed Bugs",
+        "eyebrow": "KNOW THE SIGNS",
+        "helpCard": {
+          "title": "Not sure if you have bed bugs?",
+          "buttonText": "Book Now",
+          "description": "Book an inspection and get expert advice."
+        },
+        "description": "Look out for these common signs of bed bug activity in your home or property."
+      },
+      "processSection": {
+        "steps": [
+          {
+            "icon": "search",
+            "title": "Inspection & Assessment",
+            "stepNumber": "01",
+            "description": "We inspect mattresses, bed frames, furniture, upholstery, cracks and other common hiding areas to identify signs of bed bug activity."
+          },
+          {
+            "icon": "target",
+            "title": "Targeted Treatment",
+            "stepNumber": "02",
+            "description": "Treatment is focused on identified infestation areas and common bed bug harborage based on the property's condition."
+          },
+          {
+            "icon": "calendar",
+            "title": "Follow-up Visits",
+            "stepNumber": "03",
+            "description": "Follow-up visits are provided according to the selected service plan and treatment requirements."
+          },
+          {
+            "icon": "shield",
+            "title": "Prevention Guidance",
+            "stepNumber": "04",
+            "description": "We provide practical guidance on cleaning, preparation and prevention to help reduce the risk of recurring bed bug activity."
+          }
+        ],
+        "title": "A Structured Approach to Bed Bug Treatment",
+        "eyebrow": "OUR TREATMENT PROCESS",
+        "description": "We follow a clear and effective process to identify, treat and help prevent bed bug reinfestation."
+      },
+      "reviewsSection": {
+        "title": "What Our Customers Say About Our Bed Bug Treatment",
+        "rating": "4.9/5",
+        "eyebrow": "Customer Reviews",
+        "description": "Real results from homeowners, tenants, and businesses who eliminated bed bugs with our specialized services.",
+        "reviewCount": "1,200+"
+      },
+      "includedSection": {
+        "cards": [
+          {
+            "icon": "bed",
+            "items": [
+              "Inspection of common bed bug hiding areas",
+              "Targeted treatment of affected areas",
+              "Mattress, bed frame and furniture inspection",
+              "Treatment of cracks, crevices and other hiding spots"
+            ],
+            "title": "One-Time Bed Bug Treatment",
+            "subtitle": "For Homes, Apartments & Offices"
+          },
+          {
+            "icon": "sofa",
+            "items": [
+              "Inspection of sofas and upholstered furniture",
+              "Treatment of affected upholstery and seating areas",
+              "Attention to common bed bug hiding points",
+              "Suitable for sofas, couches and other upholstered furniture"
+            ],
+            "title": "Upholstery & Sofa Treatment",
+            "subtitle": "For Sofas, Upholstered Furniture & Seating Areas"
+          },
+          {
+            "icon": "search",
+            "items": [
+              "Inspection of cracks and crevices",
+              "Treatment around beds and furniture",
+              "Focus on common bed bug hiding areas",
+              "Suitable for difficult-to-reach infestation spots"
+            ],
+            "title": "Cracks & Crevices Treatment",
+            "subtitle": "Targeted Treatment of Common Bed Bug Hiding Spots"
+          },
+          {
+            "icon": "shield",
+            "items": [
+              "Guidance on cleaning and preparation",
+              "Recommendations for monitoring bed bug activity",
+              "Advice on reducing common hiding areas",
+              "Follow-up guidance based on the level of infestation"
+            ],
+            "title": "Post-Treatment Guidance",
+            "subtitle": "Support to Help Reduce the Risk of Recurring Infestation"
+          }
+        ],
+        "title": "What's Included in Our Treatment",
+        "eyebrow": "WHAT'S INCLUDED",
+        "description": "Our treatment plans cover all the key areas where bed bugs hide and include post-treatment support."
+      },
+      "locationsSection": {
+        "title": "Bed Bug Treatment Across India",
+        "eyebrow": "— SERVICE LOCATIONS",
+        "description": "We provide professional bed bug treatment services in selected cities, with local service teams supporting residential and commercial customers."
+      },
+      "propertiesSection": {
+        "cards": [
+          {
+            "icon": "home",
+            "photo": "homes",
+            "title": "Homes & Apartments",
+            "description": "Bedrooms, mattresses, furniture, sofas and other hiding areas."
+          },
+          {
+            "icon": "calendar",
+            "photo": "hotels",
+            "title": "Hotels & Resorts",
+            "description": "Guest rooms and affected areas with operational focus."
+          },
+          {
+            "icon": "building",
+            "photo": "hostels",
+            "title": "Hostels & PGs",
+            "description": "Shared accommodation and recurring issues."
+          },
+          {
+            "icon": "building",
+            "photo": "offices",
+            "title": "Offices & Workspaces",
+            "description": "Furniture, upholstery and common areas."
+          },
+          {
+            "icon": "home",
+            "photo": "rentals",
+            "title": "Rental Properties",
+            "description": "For tenants, landlords and property managers."
+          }
+        ],
+        "title": "Bed Bug Treatment for Different Property Types",
+        "eyebrow": "WHAT WE TREAT",
+        "description": "We provide treatment for a wide range of residential and commercial properties across India."
+      }
+    },
+    "hero_badge": "BED BUG SPECIALISTS · 100% m,jkhytfdxcvbnm,"
+  },
+  "updatedAt": "2026-09-21T07:23:37.605Z"
+}

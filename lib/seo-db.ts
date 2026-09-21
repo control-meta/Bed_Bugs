@@ -58,10 +58,10 @@ function getDefaultPagesSeed(): Record<string, PageSeoItem> {
     "/services": {
       path: "/services",
       pageName: "Services",
-      title: "Bed Bug Pest Control Services | Chemical, Heat & Organic Treatment",
+      title: "Bed Bug Pest Control Services | Chemical & Odorless Treatment",
       description:
-        "Comprehensive bed bug elimination services: chemical treatment, heat treatment, AMC contracts, and eco-friendly solutions with 12-month warranty.",
-      keywords: ["bed bug heat treatment", "chemical bed bug treatment", "bed bug amc contract"],
+        "Comprehensive bed bug elimination services: odorless treatment, targeted spray, AMC contracts, and eco-friendly solutions with 12-month warranty.",
+      keywords: ["bed bug pest control", "chemical bed bug treatment", "bed bug amc contract"],
       ogImage: "/images/hero-tech-bed.webp",
       canonical: "https://bedbugstreatment.co.in/services",
       updatedAt: new Date().toISOString(),
@@ -180,8 +180,8 @@ function getDefaultImagesSeed(): Record<string, ImageSeoItem> {
     },
     {
       src: "/images/treatment-3.png",
-      altText: "Thermal heat treatment chamber eliminating bed bugs at all life stages",
-      locationHint: "Treatment Method Card 3 (Thermal Heat)",
+      altText: "Targeted advanced treatment eliminating bed bugs at all life stages",
+      locationHint: "Treatment Method Card 3",
       pages: ["/", "/services"],
     },
     {
@@ -229,9 +229,9 @@ function getDefaultImagesSeed(): Record<string, ImageSeoItem> {
       pages: ["/services"],
     },
     {
-      src: "/images/services/service-heat.jpg",
-      altText: "Industrial high-temperature heat treatment eradicating bed bug eggs",
-      locationHint: "Heat Treatment Service Card",
+      src: "/images/services/service-deep-treatment.jpg",
+      altText: "Intensive targeted eradication treatment destroying bed bug eggs",
+      locationHint: "Intensive Treatment Service Card",
       pages: ["/services"],
     },
     {

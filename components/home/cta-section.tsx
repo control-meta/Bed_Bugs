@@ -47,20 +47,14 @@ export function CtaSection({
             <div className="px-7 pb-8 pt-10 max-sm:px-6 max-sm:pb-2 max-sm:pt-6 max-sm:text-center sm:px-10 lg:py-14">
               <p className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.28em] text-brand-300 max-sm:justify-center max-sm:text-[0.65rem] max-sm:tracking-[0.2em]">
                 <span className="h-px w-8 bg-brand-500" />
-                Book Your Book Bed Bug Treatment
+                BOOK YOUR BED BUG TREATMENT
               </p>
               <h2 className="mt-4 font-display text-2xl font-extrabold leading-tight tracking-tight text-white max-sm:mt-3 max-sm:text-[1.4rem] sm:text-3xl lg:text-[2.25rem]">
-                Say goodbye to bed bugs{" "}
-                <span className="text-brand-300">permanently.</span>
+                Take Back Your Home From{" "}
+                <span className="whitespace-nowrap text-brand-300">Bed Bugs.</span>
               </h2>
               <p className="mt-4 max-w-lg text-sm leading-relaxed text-white/85 max-sm:mx-auto max-sm:mt-3 max-sm:text-[0.8rem]">
-                <span className="max-sm:hidden">
-                  Schedule your Book Bed Bug Treatment today. Same-day service available
-                  across Pune, Mumbai, Bangalore, Delhi &amp; Noida.
-                </span>
-                <span className="hidden max-sm:inline">
-                  Book Bed Bug Treatment with same-day service available.
-                </span>
+                Professional, odorless treatment designed to target bed bugs in mattresses, bed frames, furniture, cracks, and other hiding areas.
               </p>
               <div className="mt-6 flex flex-col items-center gap-3 max-sm:mt-5 sm:flex-row sm:justify-center sm:gap-2.5">
                 <a
@@ -82,7 +76,7 @@ export function CtaSection({
               </div>
               <p className="mt-5 flex items-center justify-center gap-2 text-xs font-medium text-white/80 max-sm:hidden max-sm:mt-4">
                 <ShieldCheck className="h-4 w-4 shrink-0 text-brand-300" />
-                Professional, effective and 100% odorless bed bug treatment for homes, hotels and businesses across India.
+                One-Time Treatment & 1-Year AMC Available.
               </p>
             </div>
 

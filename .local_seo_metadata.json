@@ -32,10 +32,10 @@
     "/services": {
       "path": "/services",
       "pageName": "Services",
-      "title": "Bed Bug Pest Control Services | Chemical, Heat & Organic Treatment",
-      "description": "Comprehensive bed bug elimination services: chemical treatment, heat treatment, AMC contracts, and eco-friendly solutions with 12-month warranty.",
+      "title": "Bed Bug Pest Control Services | Chemical & Odorless Treatment",
+      "description": "Comprehensive bed bug elimination services: odorless treatment, targeted spray, AMC contracts, and eco-friendly solutions with 12-month warranty.",
       "keywords": [
-        "bed bug heat treatment",
+        "bed bug pest control",
         "chemical bed bug treatment",
         "bed bug amc contract"
       ],
@@ -277,8 +277,8 @@
     },
     "/images/treatment-3.png": {
       "src": "/images/treatment-3.png",
-      "altText": "Thermal heat treatment chamber eliminating bed bugs at all life stages",
-      "locationHint": "Treatment Method Card 3 (Thermal Heat)",
+      "altText": "Targeted advanced treatment eliminating bed bugs at all life stages",
+      "locationHint": "Treatment Method Card 3",
       "pages": [
         "/",
         "/services"
@@ -357,14 +357,14 @@
       "id": "/images/services/service-inspection.jpg",
       "updatedAt": "2026-09-19T06:14:56.989Z"
     },
-    "/images/services/service-heat.jpg": {
-      "src": "/images/services/service-heat.jpg",
-      "altText": "Industrial high-temperature heat treatment eradicating bed bug eggs",
-      "locationHint": "Heat Treatment Service Card",
+    "/images/services/service-deep-treatment.jpg": {
+      "src": "/images/services/service-deep-treatment.jpg",
+      "altText": "Intensive targeted eradication treatment destroying bed bug eggs",
+      "locationHint": "Intensive Treatment Service Card",
       "pages": [
         "/services"
       ],
-      "id": "/images/services/service-heat.jpg",
+      "id": "/images/services/service-deep-treatment.jpg",
       "updatedAt": "2026-09-19T06:14:56.989Z"
     },
     "/images/services/service-crevice.jpg": {
@@ -550,10 +550,10 @@
       ],
       "updatedAt": "2026-09-19T06:14:56.989Z"
     },
-    "/images/services/service-heat.png": {
-      "id": "/images/services/service-heat.png",
-      "src": "/images/services/service-heat.png",
-      "altText": "Service heat - Bed Bug Pest Control",
+    "/images/services/service-deep-treatment.png": {
+      "id": "/images/services/service-deep-treatment.png",
+      "src": "/images/services/service-deep-treatment.png",
+      "altText": "Targeted odorless bed bug treatment inside a bedroom",
       "locationHint": "Service Detail Image",
       "pages": [
         "/services"

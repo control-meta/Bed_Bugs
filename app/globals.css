@@ -416,6 +416,13 @@ body:has([data-admin-portal="true"]) footer {
   display: none !important;
 }
 
+/* Scale the admin dashboard to 90% while still filling the viewport */
+#admin-root {
+  zoom: 0.9;
+  width: calc(100vw / 0.9);
+  height: calc(100vh / 0.9);
+}
+
 /* Show a hand cursor on every clickable element (Tailwind v4 resets buttons to the default arrow) */
 a[href],
 button:not(:disabled),

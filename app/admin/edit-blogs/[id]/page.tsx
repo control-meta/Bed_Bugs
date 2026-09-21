@@ -27,6 +27,7 @@ import {
   Share2,
   PhoneCall,
   User,
+  Clock,
 } from "lucide-react";
 import type { BlogItem } from "@/lib/blog-db";
 
@@ -47,6 +48,7 @@ export default function EditBlogStudioPage({
   // Form state
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
+  const [status, setStatus] = useState<"draft" | "published">("published");
 
   const [primaryKeyword, setPrimaryKeyword] = useState("");
   const [keywordsStr, setKeywordsStr] = useState("");
@@ -75,6 +77,7 @@ export default function EditBlogStudioPage({
           setBlog(b);
           setTitle(b.title);
           setSlug(b.slug);
+          setStatus((b.status as "draft" | "published") || "published");
           setPrimaryKeyword(b.primaryKeyword || "");
           setKeywordsStr((b.keywords || []).join(", "));
           setImageUrl(b.imageUrl || "");
@@ -98,7 +101,8 @@ export default function EditBlogStudioPage({
   const readTime = `${Math.max(1, Math.round(wordCount / 200))} min read`;
 
   // Save changes
-  const handleSave = async () => {
+  const handleSave = async (overrideStatus?: "draft" | "published") => {
+    const targetStatus = overrideStatus || status;
     setSaving(true);
     setSaveSuccess(false);
     setError(null);
@@ -118,7 +122,8 @@ export default function EditBlogStudioPage({
           primaryKeyword,
           keywords,
           imageUrl,
-          status: "published",
+          status: targetStatus,
+          autoPublishEligible: targetStatus === "published",
           markdown,
           readTime,
         }),
@@ -128,7 +133,10 @@ export default function EditBlogStudioPage({
       if (!res.ok) throw new Error(data.error || "Failed to save");
 
       setSaveSuccess(true);
-      if (data.blog) setBlog(data.blog);
+      if (data.blog) {
+        setBlog(data.blog);
+        setStatus((data.blog.status as "draft" | "published") || targetStatus);
+      }
       setTimeout(() => setSaveSuccess(false), 3000);
     } catch (err: any) {
       setError(err.message || "Failed to save blog");
@@ -261,32 +269,106 @@ export default function EditBlogStudioPage({
         </div>
 
         <div className="flex items-center gap-2">
-          {/* Status Badge */}
-          <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-2.5 py-1.5 text-xs font-bold text-emerald-800 cursor-default">
-            Status: Published
+          {/* Status Switcher (Draft vs Published) */}
+          <div className="flex items-center rounded-xl border border-neutral-200 bg-neutral-100 p-0.5">
+            <button
+              type="button"
+              onClick={() => setStatus("draft")}
+              className={`flex items-center gap-1 rounded-lg px-2.5 py-1 text-xs font-bold transition ${
+                status === "draft"
+                  ? "bg-amber-100 text-amber-800 shadow-xs border border-amber-300"
+                  : "text-neutral-500 hover:text-neutral-700"
+              }`}
+            >
+              <Clock className="h-3 w-3" />
+              <span>Draft</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setStatus("published")}
+              className={`flex items-center gap-1 rounded-lg px-2.5 py-1 text-xs font-bold transition ${
+                status === "published"
+                  ? "bg-emerald-600 text-white shadow-xs"
+                  : "text-neutral-500 hover:text-neutral-700"
+              }`}
+            >
+              <CheckCircle2 className="h-3 w-3" />
+              <span>Published</span>
+            </button>
           </div>
 
-          {/* View Live on Website */}
-          <Link
-            href={`/${slug}`}
-            target="_blank"
-            className="flex items-center gap-1 rounded-xl border border-neutral-200 bg-white px-3 py-1.5 text-xs font-semibold text-neutral-700 hover:bg-neutral-50 transition"
-          >
-            <ExternalLink className="h-3.5 w-3.5" />
-            <span className="hidden sm:inline">View Live</span>
-          </Link>
+          {/* View Live on Website or Draft Notice */}
+          {status === "published" ? (
+            <Link
+              href={`/${slug}`}
+              target="_blank"
+              className="flex items-center gap-1 rounded-xl border border-neutral-200 bg-white px-3 py-1.5 text-xs font-semibold text-neutral-700 hover:bg-neutral-50 transition"
+              title="View live on public website"
+            >
+              <ExternalLink className="h-3.5 w-3.5" />
+              <span className="hidden sm:inline">View Live</span>
+            </Link>
+          ) : (
+            <span
+              title="Draft is unpublished and hidden from public visitors"
+              className="hidden sm:flex items-center gap-1 rounded-xl border border-amber-200 bg-amber-50 px-2.5 py-1.5 text-xs font-bold text-amber-700 cursor-default"
+            >
+              <Lock className="h-3 w-3" />
+              Draft (Hidden)
+            </span>
+          )}
+
+          {/* If currently draft, show a quick 'Publish Now' button */}
+          {status === "draft" && (
+            <button
+              type="button"
+              onClick={() => handleSave("published")}
+              disabled={saving}
+              className="flex items-center gap-1.5 rounded-xl bg-emerald-600 px-3.5 py-1.5 text-xs font-bold text-white hover:bg-emerald-700 transition shadow-xs disabled:opacity-50"
+              title="Publish this draft immediately to website"
+            >
+              <CheckCircle2 className="h-3.5 w-3.5" />
+              <span>Publish Now</span>
+            </button>
+          )}
 
           {/* Save Button */}
           <button
-            onClick={handleSave}
+            type="button"
+            onClick={() => handleSave()}
             disabled={saving}
-            className="flex items-center gap-1.5 rounded-xl bg-emerald-600 px-4 py-1.5 text-xs font-bold text-white hover:bg-emerald-700 transition shadow-xs disabled:opacity-50"
+            className={`flex items-center gap-1.5 rounded-xl px-4 py-1.5 text-xs font-bold text-white transition shadow-xs disabled:opacity-50 ${
+              status === "draft"
+                ? "bg-amber-600 hover:bg-amber-700"
+                : "bg-neutral-900 hover:bg-neutral-800"
+            }`}
           >
             {saving ? <RefreshCw className="h-3.5 w-3.5 animate-spin" /> : <Save className="h-3.5 w-3.5" />}
-            {saving ? "Saving..." : saveSuccess ? "Saved!" : "Save Changes"}
+            {saving ? "Saving..." : saveSuccess ? "Saved!" : status === "draft" ? "Save Draft" : "Save Changes"}
           </button>
         </div>
       </header>
+
+      {/* DRAFT NOTICE BANNER */}
+      {status === "draft" && (
+        <div className="flex items-center justify-between border-b border-amber-200 bg-amber-50 px-4 py-2 text-xs text-amber-900 shrink-0">
+          <div className="flex items-center gap-2">
+            <span className="flex h-2 w-2 rounded-full bg-amber-500 animate-pulse" />
+            <span className="font-semibold">Draft Mode:</span>
+            <span className="text-amber-800">
+              This article is saved in your database but hidden from public visitors. Use the split live preview to inspect changes before publishing.
+            </span>
+          </div>
+          <button
+            onClick={() => handleSave("published")}
+            disabled={saving}
+            className="flex items-center gap-1 rounded-lg bg-emerald-600 px-2.5 py-1 text-[11px] font-bold text-white hover:bg-emerald-700 transition shrink-0 ml-3"
+          >
+            <CheckCircle2 className="h-3 w-3" />
+            Publish Now
+          </button>
+        </div>
+      )}
 
       {/* NOTIFICATIONS */}
       {error && (

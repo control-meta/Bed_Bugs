@@ -20,6 +20,7 @@ import type { BlogItem } from "@/lib/blog-db";
 
 export default function EditBlogsPage() {
   const [blogs, setBlogs] = useState<BlogItem[]>([]);
+  const [stats, setStats] = useState({ total: 0, published: 0, draft: 0 });
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -34,6 +35,15 @@ export default function EditBlogsPage() {
       const data = await res.json();
       if (data.blogs) {
         setBlogs(data.blogs);
+      }
+      if (data.stats) {
+        setStats(data.stats);
+      } else if (data.blogs) {
+        setStats({
+          total: data.blogs.length,
+          published: data.blogs.filter((b: BlogItem) => b.status === "published").length,
+          draft: data.blogs.filter((b: BlogItem) => b.status === "draft").length,
+        });
       }
     } catch (err) {
       console.error("Failed to load blogs:", err);
@@ -58,6 +68,12 @@ export default function EditBlogsPage() {
       const data = await res.json();
       if (data.success) {
         setBlogs((prev) => prev.filter((b) => b.id !== deleteTarget.id));
+        setStats((prev) => ({
+          ...prev,
+          total: Math.max(0, prev.total - 1),
+          published: deleteTarget.status === "published" ? Math.max(0, prev.published - 1) : prev.published,
+          draft: deleteTarget.status === "draft" ? Math.max(0, prev.draft - 1) : prev.draft,
+        }));
         setDeleteTarget(null);
       }
     } catch (err) {
@@ -66,10 +82,6 @@ export default function EditBlogsPage() {
       setIsDeleting(false);
     }
   };
-
-  // Metrics
-  const totalCount = blogs.length;
-  const publishedCount = blogs.filter((b) => b.status === "published").length;
 
   return (
     <div className="flex flex-col gap-6 p-4 sm:p-6 lg:p-8 min-h-full">
@@ -81,7 +93,7 @@ export default function EditBlogsPage() {
             Blog Articles Manager
           </h1>
           <p className="text-xs text-neutral-500 mt-1">
-            Browse, edit, live-preview, and AI-regenerate all articles with preserved URLs and local images.
+            Browse, edit, live-preview, and manage published articles & saved drafts with preserved URLs and local images.
           </p>
         </div>
 
@@ -97,14 +109,14 @@ export default function EditBlogsPage() {
       </div>
 
       {/* STATS CARDS */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
         <div className="rounded-2xl border border-neutral-200/80 bg-white p-4 shadow-sm">
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium text-neutral-500">Total Articles</span>
             <FileText className="h-4 w-4 text-neutral-400" />
           </div>
-          <p className="text-2xl font-bold text-neutral-900 mt-2">{totalCount}</p>
-          <span className="text-[10px] text-neutral-400">Available in DB</span>
+          <p className="text-2xl font-bold text-neutral-900 mt-2">{stats.total}</p>
+          <span className="text-[10px] text-neutral-400">Available in database</span>
         </div>
 
         <div className="rounded-2xl border border-neutral-200/80 bg-white p-4 shadow-sm">
@@ -112,8 +124,17 @@ export default function EditBlogsPage() {
             <span className="text-xs font-medium text-neutral-500">Published</span>
             <CheckCircle2 className="h-4 w-4 text-emerald-500" />
           </div>
-          <p className="text-2xl font-bold text-emerald-600 mt-2">{publishedCount}</p>
-          <span className="text-[10px] text-emerald-500 font-medium">Live on site</span>
+          <p className="text-2xl font-bold text-emerald-600 mt-2">{stats.published}</p>
+          <span className="text-[10px] text-emerald-500 font-medium">Live on public site</span>
+        </div>
+
+        <div className="rounded-2xl border border-neutral-200/80 bg-white p-4 shadow-sm">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-medium text-neutral-500">Drafts</span>
+            <Clock className="h-4 w-4 text-amber-500" />
+          </div>
+          <p className="text-2xl font-bold text-amber-600 mt-2">{stats.draft}</p>
+          <span className="text-[10px] text-amber-600 font-medium">Saved in DB (Unpublished)</span>
         </div>
       </div>
 
@@ -132,19 +153,33 @@ export default function EditBlogsPage() {
 
         <div className="flex items-center gap-1.5 bg-neutral-100 p-1 rounded-xl shrink-0">
           {[
-            { id: "all", label: "All" },
-            { id: "published", label: "Published" },
+            { id: "all", label: "All", count: stats.total },
+            { id: "published", label: "Published", count: stats.published },
+            { id: "draft", label: "Drafts", count: stats.draft },
           ].map((pill) => (
             <button
               key={pill.id}
               onClick={() => setStatusFilter(pill.id)}
-              className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
+              className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
                 statusFilter === pill.id
                   ? "bg-white text-neutral-900 shadow-xs"
                   : "text-neutral-500 hover:text-neutral-700"
               }`}
             >
-              {pill.label}
+              <span>{pill.label}</span>
+              <span
+                className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold leading-none ${
+                  statusFilter === pill.id
+                    ? pill.id === "draft"
+                      ? "bg-amber-100 text-amber-800"
+                      : pill.id === "published"
+                      ? "bg-emerald-100 text-emerald-800"
+                      : "bg-neutral-100 text-neutral-800"
+                    : "bg-neutral-200/70 text-neutral-600"
+                }`}
+              >
+                {pill.count}
+              </span>
             </button>
           ))}
         </div>
@@ -209,13 +244,14 @@ export default function EditBlogsPage() {
                     <div className="flex flex-col min-w-0 flex-1">
                       <div className="flex items-center gap-2 flex-wrap mb-1">
                         <span
-                          className={`rounded-md px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${
+                          className={`rounded-md px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 ${
                             blog.status === "published"
                               ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
                               : "bg-amber-50 text-amber-700 border border-amber-200"
                           }`}
                         >
-                          {blog.status}
+                          {blog.status === "draft" && <Clock className="h-3 w-3 text-amber-600" />}
+                          {blog.status === "draft" ? "Draft" : "Published"}
                         </span>
 
                         {blog.primaryKeyword && (
@@ -241,7 +277,12 @@ export default function EditBlogsPage() {
                           /{blog.slug}
                         </span>
                         <span className="text-[11px]">
-                          Published: {new Date(blog.createdAt).toLocaleDateString("en-IN", { month: "short", day: "numeric", year: "numeric" })}
+                          {blog.status === "draft" ? "Draft saved: " : "Published: "}
+                          {new Date(blog.createdAt).toLocaleDateString("en-IN", {
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric",
+                          })}
                         </span>
                       </div>
                     </div>
@@ -249,14 +290,23 @@ export default function EditBlogsPage() {
 
                   {/* Right: Actions */}
                   <div className="flex items-center gap-2 self-end md:self-center shrink-0">
-                    <Link
-                      href={`/${blog.slug}`}
-                      target="_blank"
-                      title="View live on website"
-                      className="flex h-8 w-8 items-center justify-center rounded-lg border border-neutral-200 bg-white text-neutral-500 hover:text-neutral-900 hover:border-neutral-300 transition"
-                    >
-                      <ExternalLink className="h-4 w-4" />
-                    </Link>
+                    {blog.status === "published" ? (
+                      <Link
+                        href={`/${blog.slug}`}
+                        target="_blank"
+                        title="View live on website"
+                        className="flex h-8 w-8 items-center justify-center rounded-lg border border-neutral-200 bg-white text-neutral-500 hover:text-neutral-900 hover:border-neutral-300 transition"
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                      </Link>
+                    ) : (
+                      <span
+                        title="Draft is unpublished and hidden from visitors"
+                        className="flex h-8 items-center px-2.5 rounded-lg border border-amber-200 bg-amber-50/70 text-[10px] font-bold text-amber-700 select-none cursor-default"
+                      >
+                        Draft (Hidden)
+                      </span>
+                    )}
 
                     <Link
                       href={`/admin/edit-blogs/${blog.id}`}

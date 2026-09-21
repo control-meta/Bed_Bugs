@@ -7,8 +7,21 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get("search") || undefined;
     const status = searchParams.get("status") || undefined;
 
-    const blogs = await getAllBlogs({ search, status });
-    return NextResponse.json({ blogs, total: blogs.length });
+    // Fetch all blogs matching the search query to compute overall stats
+    const allBlogsForSearch = await getAllBlogs({ search });
+    const stats = {
+      total: allBlogsForSearch.length,
+      published: allBlogsForSearch.filter((b) => b.status === "published").length,
+      draft: allBlogsForSearch.filter((b) => b.status === "draft").length,
+    };
+
+    // Filter by status if specified and not 'all'
+    const blogs =
+      status && status !== "all"
+        ? allBlogsForSearch.filter((b) => b.status === status)
+        : allBlogsForSearch;
+
+    return NextResponse.json({ blogs, total: blogs.length, stats });
   } catch (err: any) {
     console.error("[api/admin/blogs] GET error:", err);
     return NextResponse.json({ error: err.message || "Failed to fetch blogs" }, { status: 500 });

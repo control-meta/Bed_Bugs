@@ -23,7 +23,7 @@ export interface SanitizationResult {
 
 const SAFE_FALLBACKS = {
   price: "Treatment costs vary based on property size, infestation severity, treatment method, location, and the number of visits required.",
-  heat: "Sustained lethal heat treatment requires controlled exposure—typically 48°C to 50°C (118°F to 122°F) maintained for a specified duration to penetrate mattresses and structural harborages.",
+  heat: "Sustained lethal odorless treatment requires controlled exposure—typically 48°C to 50°C (118°F to 122°F) maintained for a specified duration to penetrate mattresses and structural harborages.",
   homeRemedies: "While substances such as neem oil, turmeric, and essential oils are commonly discussed online, laboratory testing demonstrates they lack scientific efficacy for eradicating established bed bug populations.",
   durationAndGuarantee: "Because bed bug eggs can hatch 6 to 10 days after an initial treatment, complete eradication relies on thorough professional inspection and targeted follow-up visits rather than single-visit guarantees.",
   intro: "Confirming a bed bug infestation requires identifying physical evidence—such as live insects, cast skins, or fecal spotting along mattress seams—rather than relying solely on bite marks. An effective control plan combines non-chemical preparation, high-heat laundering, and targeted professional treatment to eliminate both active bugs and newly hatched eggs."

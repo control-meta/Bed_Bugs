@@ -263,8 +263,8 @@ const ctaImagesRow1 = [
     alt: "Targeted bed bug spray treatment",
   },
   {
-    src: "/images/services/service-heat.jpg",
-    alt: "Superheated dry steam bed bug treatment",
+    src: "/images/services/service-deep-treatment.jpg",
+    alt: "Targeted advanced bed bug treatment",
   },
 ];
 
@@ -590,98 +590,6 @@ export function LocationPageContent({
           </div>
         </section>
 
-        {/* 3. Localities & Neighborhoods Coverage */}
-        <section className="bg-cream/50 pt-8 pb-4 lg:pt-10 lg:pb-5">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col items-center text-center">
-              <p className="flex items-center font-semibold uppercase gap-2.5 text-[11px] tracking-[0.22em] text-brand-600">
-                <span className="h-px bg-current w-6" />
-                <EditableItem
-                  id="coverageEyebrow"
-                  label="Coverage Eyebrow"
-                  value={customStyles?.coverageEyebrow || "Coverage Zones"}
-                  as="span"
-                />
-                <span className="h-px bg-current w-6" />
-              </p>
-              <EditableItem
-                id="coverageTitle"
-                label="Coverage Title"
-                value={
-                  customStyles?.coverageTitle ||
-                  `Neighborhoods we cover across ${location.name}`
-                }
-                as="h2"
-                className="max-w-3xl font-display font-extrabold tracking-tight mt-3 text-2xl sm:text-3xl lg:text-4xl text-ink"
-              />
-              <EditableItem
-                id="coverageDesc"
-                label="Coverage Description"
-                value={
-                  customStyles?.coverageDesc ||
-                  `Our mobile extermination units are stationed across all key zones in ${location.name} to ensure same-day arrival within ${location.responseTime}.`
-                }
-                as="p"
-                className="max-w-2xl leading-relaxed mt-4 text-sm text-ink/65"
-              />
-            </div>
-
-            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {(location.coverageAreas || []).map((area, idx) => (
-                <div
-                  key={idx}
-                  className="flex flex-col rounded-2xl border border-ink/10 bg-white p-6 text-center shadow-sm transition hover:border-brand-500/40 sm:text-left"
-                >
-                  <div className="flex flex-col items-center gap-3 border-b border-ink/10 pb-4 text-center sm:flex-row sm:text-left">
-                    <span className="mx-auto flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-600/10 text-brand-600 sm:mx-0">
-                      <MapPin className="h-4 w-4" />
-                    </span>
-                    <div>
-                      <EditableItem
-                        id={`zone-${idx}-title`}
-                        label={`Zone #${idx + 1} Title`}
-                        value={area.zone}
-                        as="h3"
-                        className="font-display text-base font-bold text-ink"
-                      />
-                      <p className="text-xs text-ink/50">
-                        {area.localities.length} major localities covered
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="mt-4 flex flex-wrap justify-center gap-2 sm:justify-start">
-                    {area.localities.map((locality, lIdx) => (
-                      <EditableItem
-                        key={lIdx}
-                        id={`zone-${idx}-loc-${lIdx}`}
-                        label={`Locality ${locality}`}
-                        value={locality}
-                        as="span"
-                        className="inline-flex items-center rounded-lg border border-ink/5 bg-cream/70 px-2.5 py-1 text-xs font-medium text-ink/80 transition hover:border-brand-500/30 hover:bg-brand-50 hover:text-brand-700"
-                      />
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-8 rounded-2xl border border-brand-500/20 bg-brand-50/50 p-5 text-center">
-              <EditableItem
-                id="coverageNoteText"
-                label="Coverage Footer Note"
-                value={
-                  customStyles?.coverageNoteText ||
-                  `Don't see your specific sector or colony listed? We service all residential and commercial addresses within 45 km of ${location.name} center.`
-                }
-                as="div"
-                className="text-xs font-medium text-ink/80 sm:text-sm"
-              />
-
-            </div>
-          </div>
-        </section>
-
         {/* 2. Local Highlights & City Context */}
         <section className="bg-white py-8 lg:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -920,6 +828,98 @@ export function LocationPageContent({
           </div>
         </section>
 
+        {/* 3. Localities & Neighborhoods Coverage */}
+        <section id="coverage-zones" className="bg-cream/50 pt-8 pb-4 lg:pt-10 lg:pb-5">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col items-center text-center">
+              <p className="flex items-center font-semibold uppercase gap-2.5 text-[11px] tracking-[0.22em] text-brand-600">
+                <span className="h-px bg-current w-6" />
+                <EditableItem
+                  id="coverageEyebrow"
+                  label="Coverage Eyebrow"
+                  value={customStyles?.coverageEyebrow || "Coverage Zones"}
+                  as="span"
+                />
+                <span className="h-px bg-current w-6" />
+              </p>
+              <EditableItem
+                id="coverageTitle"
+                label="Coverage Title"
+                value={
+                  customStyles?.coverageTitle ||
+                  `Neighborhoods we cover across ${location.name}`
+                }
+                as="h2"
+                className="max-w-3xl font-display font-extrabold tracking-tight mt-3 text-2xl sm:text-3xl lg:text-4xl text-ink"
+              />
+              <EditableItem
+                id="coverageDesc"
+                label="Coverage Description"
+                value={
+                  customStyles?.coverageDesc ||
+                  `Our mobile extermination units are stationed across all key zones in ${location.name} to ensure same-day arrival within ${location.responseTime}.`
+                }
+                as="p"
+                className="max-w-2xl leading-relaxed mt-4 text-sm text-ink/65"
+              />
+            </div>
+
+            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {(location.coverageAreas || []).map((area, idx) => (
+                <div
+                  key={idx}
+                  className="flex flex-col rounded-2xl border border-ink/10 bg-white p-6 text-center shadow-sm transition hover:border-brand-500/40 sm:text-left"
+                >
+                  <div className="flex flex-col items-center gap-3 border-b border-ink/10 pb-4 text-center sm:flex-row sm:text-left">
+                    <span className="mx-auto flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-600/10 text-brand-600 sm:mx-0">
+                      <MapPin className="h-4 w-4" />
+                    </span>
+                    <div>
+                      <EditableItem
+                        id={`zone-${idx}-title`}
+                        label={`Zone #${idx + 1} Title`}
+                        value={area.zone}
+                        as="h3"
+                        className="font-display text-base font-bold text-ink"
+                      />
+                      <p className="text-xs text-ink/50">
+                        {area.localities.length} major localities covered
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 flex flex-wrap justify-center gap-2 sm:justify-start">
+                    {area.localities.map((locality, lIdx) => (
+                      <EditableItem
+                        key={lIdx}
+                        id={`zone-${idx}-loc-${lIdx}`}
+                        label={`Locality ${locality}`}
+                        value={locality}
+                        as="span"
+                        className="inline-flex items-center rounded-lg border border-ink/5 bg-cream/70 px-2.5 py-1 text-xs font-medium text-ink/80 transition hover:border-brand-500/30 hover:bg-brand-50 hover:text-brand-700"
+                      />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-8 rounded-2xl border border-brand-500/20 bg-brand-50/50 p-5 text-center">
+              <EditableItem
+                id="coverageNoteText"
+                label="Coverage Footer Note"
+                value={
+                  customStyles?.coverageNoteText ||
+                  `Don't see your specific sector or colony listed? We service all residential and commercial addresses within 45 km of ${location.name} center.`
+                }
+                as="div"
+                className="text-xs font-medium text-ink/80 sm:text-sm"
+              />
+
+            </div>
+          </div>
+        </section>
+
         {/* 6. Customer Reviews Section (Original Marquee Carousel + Editable Headings) */}
         <TestimonialsSection
           id="local-reviews"
@@ -1144,7 +1144,7 @@ export function LocationPageContent({
                     <EditableItem
                       id="ctaEyebrow"
                       label="CTA Eyebrow"
-                      value={customStyles?.ctaEyebrow || "Book Your Bed Bug Treatment"}
+                      value={customStyles?.ctaEyebrow || "BOOK YOUR BED BUG TREATMENT"}
                       as="span"
                     />
                   </p>
@@ -1153,18 +1153,27 @@ export function LocationPageContent({
                       id="ctaTitle"
                       label="CTA Title"
                       value={
-                        customStyles?.ctaTitle || "Say goodbye to bed bugs permanently."
+                        customStyles?.ctaTitle || "Take Back Your Home From Bed Bugs."
                       }
                       as="span"
                       className="[&>span:last-child]:text-brand-300"
-                    />
+                    >
+                      {customStyles?.ctaTitle ? (
+                        customStyles.ctaTitle
+                      ) : (
+                        <>
+                          Take Back Your Home From{" "}
+                          <span className="whitespace-nowrap text-brand-300">Bed Bugs.</span>
+                        </>
+                      )}
+                    </EditableItem>
                   </div>
                   <EditableItem
                     id="ctaDesc"
                     label="CTA Description"
                     value={
                       customStyles?.ctaDesc ||
-                      `Schedule your Bed Bug Treatment today. Same-day service available across Pune, Mumbai, Bangalore, Delhi & Noida.`
+                      `Professional, odorless treatment designed to target bed bugs in mattresses, bed frames, furniture, cracks, and other hiding areas.`
                     }
                     as="p"
                     className="mt-4 max-w-lg text-sm leading-relaxed text-white/85 max-sm:mx-auto max-sm:mt-3 max-sm:text-[0.8rem]"
@@ -1219,7 +1228,7 @@ export function LocationPageContent({
                   </div>
                   <p className="mt-5 flex items-center justify-center gap-2 text-xs font-medium text-white/80 max-sm:hidden max-sm:mt-4">
                     <ShieldCheck className="h-4 w-4 shrink-0 text-brand-300" />
-                    Professional, effective and 100% odorless bed bug treatment for homes, hotels and businesses across India.
+                    One-Time Treatment & 1-Year AMC Available.
                   </p>
                 </div>
 

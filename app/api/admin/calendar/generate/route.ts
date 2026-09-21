@@ -3,50 +3,304 @@ import OpenAI from "openai";
 const googleTrends = require("google-trends-api");
 import { saveCalendarPlans, BlogPlan } from "@/lib/calendar-db";
 
-const SYSTEM_PROMPT = `You are a Senior SEO Content Strategist for BedBugsTreatment.co.in, a professional and highly specialized bed bug treatment website in India.
+const SYSTEM_PROMPT = `You are a Senior SEO Content Strategist for BedBugsTreatment.co.in, India's premier specialized bed bug eradication and inspection platform.
 
-Your task is to generate blog topics for the specified date range. Do NOT generate topics for dates that have already passed. Only generate for the requested start date to end date inclusive.
+Your task is to generate blog topics and target keywords for the specified date range. Do NOT generate topics for dates that have already passed. Only generate for the requested start date to end date inclusive.
 
 For each post, include:
 - "date": ISO date string (YYYY-MM-DD)
-- "topic": A specific, search-intent-focused blog title targeting Indian bed bug treatment searchers
-- "keywords": Array of 2-3 target keywords
+- "topic": A specific, search-intent-focused blog title strictly about BED BUGS for Indian searchers
+- "keywords": Array of exactly 5 target keywords that are STRICTLY and EXCLUSIVELY related to BED BUGS (e.g., "bed bug treatment Bangalore", "how to identify bed bug bites", "odorless bed bug spray", "bed bug odorless treatment cost", "khatmal marne ka tarika")
 - "searchVolume": Return an empty string ""
 - "type": One of "how-to", "guide", "list", "comparison", "local", "educational"
 
-**CRITICAL INSTRUCTION: You MUST ONLY generate topics that are strictly related to BED BUGS. Under NO CIRCUMSTANCES should you generate topics about cockroaches, termites, rodents, ants, mosquitoes, or any other general pests. EVERY single topic MUST be specifically about bed bugs.** Focus heavily on practical, location-specific (Mumbai, Delhi, Bangalore, Pune), and actionable bed bug advice. Mix different types of content day by day. Ensure every single day in the requested range has a unique, high-intent topic about bed bugs.
+**CRITICAL INSTRUCTION: STRICTLY BED BUGS ONLY (ZERO TOLERANCE FOR OTHER PESTS):**
+1. KEYWORDS MUST BE SPECIFICALLY ABOUT BED BUGS:
+   - EVERY SINGLE KEYWORD in the "keywords" array MUST explicitly include "bed bug", "bed bugs", or specific bed bug terminology (e.g. "bed bug bites", "bed bug eggs", "khatmal", "bed bug spray").
+   - Under NO CIRCUMSTANCES should any keyword be about cockroaches, termites, rodents, rats, ants, mosquitoes, or generic pest control.
+   - Prohibited keywords: "pest control services", "cockroach control", "termite spray", "general pest treatment", "home hygiene tips".
+   - Approved keywords: "bed bug treatment cost in Delhi", "signs of bed bugs in mattress", "odorless bed bug odorless treatment", "bed bug inspection checklist", "how to kill bed bugs permanently", "bed bug bites vs mosquito bites", "steam treatment for bed bugs".
+
+2. DIVERSE CONTENT ANGLES:
+    - Focus heavily on practical, location-specific Indian situations (Bangalore, Mumbai, Delhi, Pune, Hyderabad, Chennai, Gurgaon, Noida).
+    - Mix different types of content day by day (how-to guides, cost breakdowns, DIY myth-busting vs professional treatment, diwan and box-bed inspections, tenant checklists).
+    - Every title must be materially different from every other title. Never repeat generic titles such as "Effective Bed Bug Treatment Methods" or change only the city name.
+    - Use one distinct search intent per day: bites, cost, mattress inspection, eggs, odorless treatment, steam, prevention, travel, tenants, hotels, children and pets, DIY myths, treatment preparation, warranty, and related angles.
+    - Return exactly 5 keywords for every post. Every day's 5 keywords must cover different search intents: primary topic, local/service, cost or commercial, problem/symptom, and prevention or solution.
+    - Do not reuse a keyword anywhere else in the monthly plan. Do not create near-duplicates by changing only the city or word order. Each day must target a distinct search query cluster.
+    - Prefer high-intent Indian SEO phrases such as "bed bug treatment near me", "bed bug treatment cost in Delhi", "signs of bed bugs in mattress", "professional bed bug exterminator", and "how to get rid of bed bugs permanently".
 
 Return ONLY a valid JSON object in this exact format:
 {
   "plan": [
     {
       "date": "YYYY-MM-DD",
-      "topic": "Blog title here",
-      "keywords": ["keyword 1", "keyword 2"],
+      "topic": "Exhaustive Bed Bug Topic Title",
+      "keywords": ["specific bed bug keyword 1", "specific bed bug keyword 2", "specific bed bug keyword 3", "specific bed bug keyword 4", "specific bed bug keyword 5"],
       "searchVolume": "",
       "type": "how-to"
     }
   ]
 }`;
 
-const FALLBACK_PROMPT = `You are an SEO expert. Generate a 5-day emergency content calendar specifically about BED BUG control and BED BUG treatment. Do NOT mention any other pests like cockroaches or rodents.
+const FALLBACK_PROMPT = `You are an SEO expert. Generate a 5-day emergency content calendar specifically about BED BUG control and BED BUG treatment in India.
+Do NOT mention any other pests like cockroaches, termites, or rodents.
+Every single keyword MUST be specifically and strictly related to BED BUGS.
 
 Output exactly a JSON array of objects.
 Each object must have:
 - date: "YYYY-MM-DD"
-- title: "Catchy Title about Bed Bugs"
+- title: "Catchy Title strictly about Bed Bugs"
 - description: "Short description"
-- primaryKeyword: "main SEO keyword"
+- primaryKeyword: "bed bug specific keyword"
 - trendScore: 85
 
 ONLY output the raw JSON array.`;
 
 const TOPIC_SUGGESTION_PROMPT = `You are a local SEO expert in India.
-Provide 3 alternative, broader, mainstream BED BUG treatment topics and short-tail keywords that Indian users actively search for (e.g., "bed bug treatment", "how to get rid of bed bugs", "bed bug bites").
-Do NOT include any topics about cockroaches, rodents, or general pest control.
+Provide 3 alternative, broader, mainstream BED BUG treatment topics and short-tail keywords that Indian users actively search for (e.g., "bed bug treatment", "how to get rid of bed bugs", "bed bug bites", "bed bug spray").
+Do NOT include any topics or keywords about cockroaches, termites, rodents, or general pest control. Every keyword must specifically contain "bed bug" or "bed bugs".
 
 Output EXACTLY a JSON array of 3 strings. Example: ["Bed Bug Treatment Cost", "Bed Bug Symptoms", "DIY Bed Bug Removal"]
 No markdown, no markdown blocks.`;
+
+const UNIQUE_TITLE_TEMPLATES = [
+  "How to Identify Bed Bug Bites Before They Spread",
+  "Bed Bug Treatment Cost in {location}: What Homeowners Should Know",
+  "Mattress Inspection Checklist for Hidden Bed Bugs",
+  "DIY Bed Bug Removal Mistakes That Make Infestations Worse",
+  "Odorless Bed Bug Treatment: Process, Safety, and Results",
+  "How to Remove Bed Bug Eggs from Mattresses and Furniture",
+  "Bed Bug Chemical Spray vs Steam: Which Works Better?",
+  "Bed Bug Prevention Tips for Tenants Moving into a New Home",
+  "Signs of Bed Bugs in Sofas, Diwans, and Box Beds",
+  "How Long Does Professional Bed Bug Treatment Take?",
+  "Bed Bug Bites vs Mosquito Bites: Key Differences",
+  "Best Bed Bug Spray for Indoor Home Treatment in India",
+  "Bed Bug Infestation Checklist for Hotels and Guest Houses",
+  "When to Call a Professional Bed Bug Exterminator",
+  "How to Check Second-Hand Furniture for Bed Bugs",
+  "Bed Bug Treatment for Children and Pets: Safety Guide",
+  "Can Bed Bugs Survive in Clothes, Luggage, and Bedding?",
+  "Steam Cleaning for Bed Bugs: What It Can and Cannot Do",
+  "Bed Bug Powder, Spray, or Steam: Comparing Treatment Options",
+  "How to Prepare Your Home for Professional Bed Bug Treatment",
+  "Bed Bug Warranty and Follow-Up Visits: What to Expect",
+  "Emergency Bed Bug Treatment After a Hotel Stay",
+  "How Bed Bugs Enter Apartments and Shared Buildings",
+  "Bed Bug Life Cycle: Eggs, Nymphs, and Adult Bugs Explained",
+  "How to Prevent Bed Bugs During Travel and Relocation",
+  "Bed Bug Treatment for Rental Homes: Tenant and Landlord Guide",
+  "Do Bed Bug Foggers Work? Safer Alternatives Explained",
+  "How to Find Bed Bugs in Mattress Seams and Bed Frames",
+  "Monsoon Bed Bug Prevention for Indian Homes",
+  "Bed Bug Treatment for Hostels, PGs, and Student Rooms",
+  "How to Stop Bed Bugs from Returning After Treatment",
+  "Bed Bug Inspection Before Buying or Renting a Home",
+  "Professional Bed Bug Treatment for Office and Commercial Spaces",
+  "Natural Bed Bug Remedies: What Helps and What Does Not",
+  "Bed Bug Control for Wooden Beds, Cabinets, and Cracks",
+];
+
+const FORBIDDEN_PESTS = ["cockroach", "termite", "rodent", "ant", "mosquito", "rat", "lizard", "spider", "wasp", "fly", "beetle", "flea", "tick"];
+
+/**
+ * Ensures every keyword is 100% strictly related to bed bugs.
+ * Strips any generic or non-bed-bug pest terms and enforces the bed bug focus.
+ */
+function sanitizeBedBugKeywords(keywords: string[]): string[] {
+  const clean: string[] = [];
+
+  for (const kw of keywords) {
+    if (!kw || typeof kw !== "string") continue;
+    const trimmed = kw.trim();
+    const lower = trimmed.toLowerCase();
+
+    // Reject any keyword referencing other pests
+    if (FORBIDDEN_PESTS.some(p => lower.includes(p))) {
+      continue;
+    }
+
+    // If it already explicitly contains "bed bug" or "khatmal", keep it
+    if (lower.includes("bed bug") || lower.includes("khatmal")) {
+      clean.push(trimmed);
+      continue;
+    }
+
+    // If it's a generic pest keyword (e.g. "pest control Bangalore", "inspection cost"), anchor it to bed bugs
+    if (lower.includes("pest control")) {
+      clean.push(trimmed.replace(/pest control/i, "bed bug pest control"));
+    } else {
+      clean.push(`bed bug ${trimmed}`);
+    }
+  }
+
+  // Keep five distinct keywords per day. The final monthly pass adds
+  // additional SEO-focused keywords when OpenAI returns too few.
+  const fallbackKeywords = [
+    "bed bug treatment",
+    "bed bug inspection",
+    "bed bug treatment cost",
+    "signs of bed bugs in mattress",
+    "how to get rid of bed bugs permanently",
+  ];
+
+  for (const fallback of fallbackKeywords) {
+    if (clean.length >= 5) break;
+    if (!clean.some((keyword) => normalizeKeyword(keyword) === normalizeKeyword(fallback))) {
+      clean.push(fallback);
+    }
+  }
+
+  return Array.from(new Set(clean.map((keyword) => keyword.trim()))).slice(0, 5);
+}
+
+const SEO_LOCATIONS = [
+  "Bangalore",
+  "Mumbai",
+  "Delhi",
+  "Pune",
+  "Hyderabad",
+  "Chennai",
+  "Gurgaon",
+  "Noida",
+  "Kolkata",
+  "India",
+];
+
+const SEO_ANGLES = [
+  "treatment near me",
+  "professional exterminator",
+  "treatment cost",
+  "inspection checklist",
+  "spray treatment",
+  "mattress treatment",
+  "deep treatment",
+  "steam treatment",
+  "eggs removal",
+  "bites treatment",
+  "infestation signs",
+  "prevention tips",
+  "same day service",
+  "odorless treatment",
+  "home treatment",
+  "hotel room inspection",
+  "hostel room treatment",
+  "rental home treatment",
+  "sofa treatment",
+  "furniture inspection",
+  "DIY mistakes",
+  "permanent removal",
+  "odorless treatment",
+  "powder treatment",
+  "life cycle guide",
+  "travel prevention",
+  "tenant checklist",
+  "children safe treatment",
+  "monsoon prevention",
+  "warranty service",
+  "emergency service",
+  "room disinfection",
+];
+
+function normalizeKeyword(keyword: string): string {
+  return keyword
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function titleTokens(title: string): Set<string> {
+  return new Set(
+    title
+      .toLowerCase()
+      .replace(/[^a-z0-9\s]/g, "")
+      .split(/\s+/)
+      .filter(Boolean)
+      .map((token) => token.replace(/s$/, "")),
+  );
+}
+
+function titlesAreTooSimilar(first: string, second: string): boolean {
+  const firstTokens = titleTokens(first);
+  const secondTokens = titleTokens(second);
+  const intersection = [...firstTokens].filter((token) => secondTokens.has(token)).length;
+  const smallerTitleSize = Math.min(firstTokens.size, secondTokens.size);
+
+  return first.trim().toLowerCase() === second.trim().toLowerCase() || (smallerTitleSize > 0 && intersection / smallerTitleSize >= 0.75);
+}
+
+function ensureUniqueTopics(posts: BlogPlan[]): void {
+  const acceptedTitles: string[] = [];
+
+  for (let index = 0; index < posts.length; index++) {
+    const post = posts[index];
+    const isDuplicate = acceptedTitles.some((title) => titlesAreTooSimilar(title, post.topic));
+
+    if (isDuplicate) {
+      const location = SEO_LOCATIONS[index % SEO_LOCATIONS.length];
+      const candidates = UNIQUE_TITLE_TEMPLATES.map((template) =>
+        template.replace("{location}", location),
+      );
+
+      const replacement = candidates.find(
+        (candidate) => !acceptedTitles.some((title) => titlesAreTooSimilar(title, candidate)),
+      );
+
+      if (replacement) {
+        post.topic = replacement;
+      } else {
+        post.topic = `${UNIQUE_TITLE_TEMPLATES[index % UNIQUE_TITLE_TEMPLATES.length].replace("{location}", location)} — ${post.date}`;
+      }
+    }
+
+    acceptedTitles.push(post.topic);
+  }
+}
+
+function buildUniqueSeoKeywords(
+  existingKeywords: string[],
+  topic: string,
+  postIndex: number,
+  usedKeywords: Set<string>,
+): string[] {
+  const selected: string[] = [];
+
+  for (const keyword of existingKeywords) {
+    const normalized = normalizeKeyword(keyword);
+    if (normalized && !usedKeywords.has(normalized) && !selected.some((item) => normalizeKeyword(item) === normalized)) {
+      selected.push(keyword.trim());
+      usedKeywords.add(normalized);
+    }
+    if (selected.length === 5) return selected;
+  }
+
+  const topicHint = topic
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, "")
+    .replace(/\b(about|guide|ways|tips|how|what|why|bed|bugs?|india|indian)\b/g, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .split(" ")
+    .slice(0, 3)
+    .join(" ");
+
+  for (let offset = 0; selected.length < 5 && offset < SEO_ANGLES.length * SEO_LOCATIONS.length; offset++) {
+    const angle = SEO_ANGLES[(postIndex * 5 + offset) % SEO_ANGLES.length];
+    const location = SEO_LOCATIONS[(postIndex + Math.floor(offset / SEO_ANGLES.length)) % SEO_LOCATIONS.length];
+    const topicPrefix = topicHint && offset % 2 === 0 ? `${topicHint} ` : "";
+    const candidate = `bed bug ${topicPrefix}${angle} in ${location}`.replace(/\s+/g, " ");
+    const normalized = normalizeKeyword(candidate);
+
+    if (!usedKeywords.has(normalized)) {
+      selected.push(candidate);
+      usedKeywords.add(normalized);
+    }
+  }
+
+  return selected.slice(0, 5);
+}
 
 async function fetchTrendScore(keyword: string): Promise<number | null> {
   try {
@@ -67,12 +321,14 @@ async function fetchTrendScore(keyword: string): Promise<number | null> {
 }
 
 async function getAlternativeTopics(openai: OpenAI, originalTopic: string, originalKeyword: string): Promise<{topic: string, keyword: string}[]> {
-  const prompt = `The blog topic "${originalTopic}" with keyword "${originalKeyword}" is too specific and has 0 search volume on Google Trends. 
-Provide 3 alternative, broader, mainstream pest control topics and short-tail keywords that Indian users actively search for (e.g., "bed bug treatment", "pest control services", "cockroach control").
+  const prompt = `The blog topic "${originalTopic}" with keyword "${originalKeyword}" has low search volume on Google Trends. 
+Provide 3 alternative, high-volume, mainstream BED BUG treatment topics and short-tail keywords that Indian users actively search for (e.g., "bed bug treatment", "how to kill bed bugs", "bed bug bites", "bed bug spray").
+CRITICAL: Every alternative topic and keyword MUST be strictly about BED BUGS only. Under NO circumstances include cockroaches, termites, rodents, or generic pest control.
+
 Return ONLY JSON in this format:
 {
   "alternatives": [
-    { "topic": "Broader Topic Title", "keyword": "short tail keyword" }
+    { "topic": "Bed Bug Topic Title", "keyword": "bed bug keyword" }
   ]
 }`;
 
@@ -80,12 +336,15 @@ Return ONLY JSON in this format:
     const response = await openai.chat.completions.create({
       model: "gpt-4o",
       messages: [{ role: "user", content: prompt }],
-      temperature: 0.8,
+      temperature: 0.7,
       response_format: { type: "json_object" },
     });
     const content = response.choices[0]?.message?.content || "{}";
     const parsed = JSON.parse(content);
-    return parsed.alternatives || [];
+    return (parsed.alternatives || []).map((alt: any) => ({
+      topic: alt.topic,
+      keyword: alt.keyword?.toLowerCase().includes("bed bug") ? alt.keyword : `bed bug ${alt.keyword || "treatment"}`
+    }));
   } catch (err) {
     return [];
   }
@@ -146,13 +405,17 @@ export async function POST(req: NextRequest) {
     const monthName = new Date(year, month - 1, 1).toLocaleString("en-US", { month: "long" });
 
     const userPrompt = `Generate a content calendar for ${monthName} ${year} for BedBugsTreatment.co.in.
-CRITICAL DATE REQUIREMENTS:
+CRITICAL REQUIREMENTS:
 - Today's date is: ${today.toISOString().split("T")[0]}
 - DO NOT generate topics for days that have already passed before today!
 - Generate topics ONLY for the CURRENT DAY and UPCOMING DAYS: from ${startDateStr} (Day ${startDay}) to ${endDateStr} (Day ${endDay}) inclusive.
 - There must be exactly ${totalDaysToGenerate} posts in your "plan" array — one for each day in this range.
 - Each item must specify "date" matching the exact YYYY-MM-DD within ${startDateStr} to ${endDateStr}.
-- Target Indian users searching for bed bug treatments, inspection, pest eradication, and prevention.
+- STRICT KEYWORD RULE: EVERY keyword in the "keywords" array must be specifically and strictly about BED BUGS only (e.g., "bed bug treatment", "bed bug spray", "bed bug bites", "khatmal control"). Absolutely NO generic pests or non-bed-bug keywords!
+- Return exactly 5 keywords for each day. All 5 must be distinct, high-intent SEO queries covering different intents, and no keyword may be reused on another day in this plan.
+- Do not create near-duplicates by changing only the city, adding a year, or rearranging words. Build a genuinely different keyword cluster for every date.
+- Every title must be materially different from all other titles. Do not repeat a title or reuse the same title structure with only a city/location changed.
+- Target Indian users searching for bed bug treatments, inspection, eradication, and mattress prevention.
 
 Return the result as a JSON object with a "plan" array.`;
 
@@ -162,8 +425,8 @@ Return the result as a JSON object with a "plan" array.`;
         { role: "system", content: SYSTEM_PROMPT },
         { role: "user", content: userPrompt },
       ],
-      temperature: 0.8,
-      max_tokens: 3500,
+      temperature: 0.7,
+      max_tokens: 9000,
       response_format: { type: "json_object" },
     });
 
@@ -174,14 +437,19 @@ Return the result as a JSON object with a "plan" array.`;
     // Filter and sanitize valid posts matching the expected date range
     const validPosts: BlogPlan[] = rawPlan
       .filter((p: any) => p && p.date && p.topic)
-      .map((p: any) => ({
-        date: p.date,
-        topic: p.topic,
-        keywords: Array.isArray(p.keywords) ? p.keywords : [],
-        searchVolume: "",
-        type: p.type || "guide",
-        status: "planned",
-      }));
+      .map((p: any) => {
+        const rawKeywords = Array.isArray(p.keywords) ? p.keywords : [];
+        const bedBugKeywords = sanitizeBedBugKeywords(rawKeywords);
+
+        return {
+          date: p.date,
+          topic: p.topic,
+          keywords: bedBugKeywords,
+          searchVolume: "",
+          type: p.type || "guide",
+          status: "planned" as const,
+        };
+      });
 
     // Fetch Trends for each valid post to get actual relative interest score
     for (let i = 0; i < validPosts.length; i++) {
@@ -191,7 +459,7 @@ Return the result as a JSON object with a "plan" array.`;
       
       let score = await fetchTrendScore(mainKeyword);
       
-      // If score is 0 or null, attempt to regenerate broader topics
+      // If score is 0 or null, attempt to regenerate broader bed bug topics
       if (score === 0 || score === null) {
         const alternatives = await getAlternativeTopics(openai, post.topic, mainKeyword);
         for (const alt of alternatives) {
@@ -201,7 +469,7 @@ Return the result as a JSON object with a "plan" array.`;
           const altScore = await fetchTrendScore(alt.keyword);
           if (altScore !== null && altScore > 0) {
             post.topic = alt.topic;
-            post.keywords = [alt.keyword];
+            post.keywords = sanitizeBedBugKeywords([alt.keyword]);
             score = altScore;
             break; // found a good one, exit alternative loop
           }
@@ -216,6 +484,22 @@ Return the result as a JSON object with a "plan" array.`;
       
       // small delay before moving to next post
       await new Promise(r => setTimeout(r, 300));
+    }
+
+    // Trend alternatives can return the same generic title for many dates.
+    // Normalize those collisions before persisting the monthly calendar.
+    ensureUniqueTopics(validPosts);
+
+    // Enforce a unique five-keyword SEO cluster for every day after any
+    // trend-based topic replacements have completed.
+    const usedKeywords = new Set<string>();
+    for (let i = 0; i < validPosts.length; i++) {
+      validPosts[i].keywords = buildUniqueSeoKeywords(
+        validPosts[i].keywords,
+        validPosts[i].topic,
+        i,
+        usedKeywords,
+      );
     }
 
     // Save to Database (Supabase with local fallback)

@@ -79,14 +79,19 @@ export async function POST(req: NextRequest) {
 
     const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
     const encoder = new TextEncoder();
+    let isCancelled = false;
 
     const stream = new ReadableStream({
       async start(controller) {
         function emitEvent(type: string, data: any) {
-          controller.enqueue(encoder.encode(JSON.stringify({ type, data }) + "\n"));
+          if (req.signal.aborted || isCancelled) return;
+          try {
+            controller.enqueue(encoder.encode(JSON.stringify({ type, data }) + "\n"));
+          } catch {}
         }
 
         try {
+          if (req.signal.aborted || isCancelled) return;
           let totalTokens = 0;
           const chosenTopic = topic || "Professional Bed Bug Treatment and Prevention in Indian Homes";
 
@@ -109,6 +114,8 @@ CRITICAL OUTLINE REQUIREMENTS:
 - Provide at least 7 to 9 exhaustive, non-overlapping main H2 sections (with H3 subsections) covering biology, detection, room-by-room inspection checklists, prevention matrices, DIY vs professional chemical safety, and regional Indian housing considerations.
 - The outline must be comprehensive enough to comfortably yield at least 2,000 to 2,500 words in the drafted article.`;
 
+          if (req.signal.aborted || isCancelled) return;
+
           const stage1Response = await openai.chat.completions.parse({
             model: "gpt-4o",
             messages: [
@@ -119,7 +126,7 @@ CRITICAL OUTLINE REQUIREMENTS:
               { role: "user", content: stage1Prompt }
             ],
             response_format: zodResponseFormat(Stage1IntentSchema, "research_brief"),
-          });
+          }, { signal: req.signal });
 
           const researchBrief = stage1Response.choices[0]?.message?.parsed;
           totalTokens += stage1Response.usage?.total_tokens || 0;
@@ -175,6 +182,8 @@ ${skipImages ? "8. SKIP IMAGES: Strictly do not include any image placeholders, 
 Research Brief:
 ${JSON.stringify(researchBrief, null, 2)}`;
 
+          if (req.signal.aborted || isCancelled) return;
+
           const stage3Response = await openai.chat.completions.parse({
             model: "gpt-4o",
             messages: [
@@ -185,7 +194,7 @@ ${JSON.stringify(researchBrief, null, 2)}`;
               { role: "user", content: stage3Prompt }
             ],
             response_format: zodResponseFormat(Stage3DraftSchema, "structured_draft"),
-          });
+          }, { signal: req.signal });
 
           const rawDraft = stage3Response.choices[0]?.message?.parsed;
           totalTokens += stage3Response.usage?.total_tokens || 0;
@@ -244,6 +253,8 @@ CRITICAL PUBLICATION REQUIREMENT (MANDATORY >= 2,000 WORDS):
 - DO NOT cut, abbreviate, or summarize content. If the word count is near or below 2,000 words, expand the sections with deeper practical instructions for Indian apartments and homes.
 `;
 
+          if (req.signal.aborted || isCancelled) return;
+
           const stage4Response = await openai.chat.completions.parse({
             model: "gpt-4o",
             messages: [
@@ -252,7 +263,7 @@ CRITICAL PUBLICATION REQUIREMENT (MANDATORY >= 2,000 WORDS):
             ],
             response_format: zodResponseFormat(EditorResponseSchema, "editorial_pass"),
             temperature: 0.3,
-          });
+          }, { signal: req.signal });
 
           const editorialResult = stage4Response.choices[0]?.message?.parsed;
           totalTokens += stage4Response.usage?.total_tokens || 0;
@@ -265,6 +276,7 @@ CRITICAL PUBLICATION REQUIREMENT (MANDATORY >= 2,000 WORDS):
 
           if (currentWords < 2000) {
             console.log(`[blog-generator] Word count was ${currentWords} (< 2000). Running targeted depth expansion pass...`);
+            if (req.signal.aborted || isCancelled) return;
             const expansionResponse = await openai.chat.completions.create({
               model: "gpt-4o",
               messages: [
@@ -278,7 +290,7 @@ CRITICAL PUBLICATION REQUIREMENT (MANDATORY >= 2,000 WORDS):
                 }
               ],
               temperature: 0.4,
-            });
+            }, { signal: req.signal });
 
             const expandedContent = expansionResponse.choices[0]?.message?.content;
             if (expandedContent && expandedContent.trim().split(/\s+/).filter(Boolean).length > currentWords) {
@@ -472,10 +484,18 @@ CRITICAL PUBLICATION REQUIREMENT (MANDATORY >= 2,000 WORDS):
           });
 
         } catch (error: any) {
+          if (req.signal.aborted || isCancelled || error?.name === "AbortError") {
+            return;
+          }
           emitEvent("error", error.message || "Pipeline execution failed.");
         } finally {
-          controller.close();
+          try {
+            controller.close();
+          } catch {}
         }
+      },
+      cancel() {
+        isCancelled = true;
       }
     });
 

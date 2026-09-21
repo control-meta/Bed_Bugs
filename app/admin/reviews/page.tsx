@@ -627,7 +627,7 @@ export default function AdminReviewsPage() {
                 <div>
                   <h3 className="text-sm font-bold text-neutral-900">AI Customer Reviews Generator</h3>
                   <p className="text-[11px] text-neutral-500">
-                    Generates authentic Indian citizen reviews with uniform short content size (20–35 words).
+                    Generates authentic Indian citizen reviews with 100% unique names (zero duplication) and uniform length (20–35 words).
                   </p>
                 </div>
               </div>

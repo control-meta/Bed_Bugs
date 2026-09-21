@@ -12,7 +12,7 @@ export const site = {
   emailHref: "mailto:support@bedbugstreatment.co.in",
   hours: "Open 24/7 for bookings & support",
   rating: "4.9/5",
-  reviewCount: "1,200+",
+  reviewCount: "5,000+",
   homesServed: "50,000+",
   warranty: "12-Month",
   foundedYear: 2011,
@@ -105,11 +105,11 @@ export const testimonials = [
 export const serviceReviews = [
   {
     name: "Ananya Roy",
-    service: "Bed & Mattress Heat Treatment",
+    service: "Bed & Mattress Deep Treatment",
     city: "Mumbai",
     rating: 5,
     quote:
-      "Booked the Intensive Bed & Mattress Heat Treatment for our 3 BHK. The combination of dry steam and odorless micro-spray destroyed all bugs and eggs without damaging our memory foam mattress.",
+      "Booked the Intensive Bed & Mattress Treatment for our 3 BHK. The odorless micro-spray destroyed all bugs and eggs without damaging our memory foam mattress.",
   },
   {
     name: "Rohit Singhania",
@@ -133,7 +133,7 @@ export const serviceReviews = [
     city: "Delhi",
     rating: 5,
     quote:
-      "The 100% Odorless Chemical Treatment was a lifesaver. We didn't have to vacate the house for days or deal with unbearable fumes. Completely bed bug free for over 7 months.",
+      "The 100% Odorless odorless treatment was a lifesaver. We didn't have to vacate the house for days or deal with unbearable fumes. Completely bed bug free for over 7 months.",
   },
   {
     name: "Meenakshi Sundaram",
@@ -257,8 +257,8 @@ export const serviceFaqs = [
     answer: "Yes, suitable areas such as mattresses, bed frames, headboards, sofas and furniture can be inspected and treated as part of the selected service."
   },
   {
-    question: "Do you use smoke, steam or heat for bed bug treatment?",
-    answer: "No. Our bed bug service does not use smoke, steam or heat treatment. We use targeted treatment methods selected according to the property and infestation."
+    question: "Do you use smoke or steam for bed bug treatment?",
+    answer: "No. Our bed bug service does not use smoke or steam. We use targeted treatment methods selected according to the property and infestation."
   },
   {
     question: "Do I need to prepare my home before bed bug treatment?",

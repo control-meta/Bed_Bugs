@@ -2,19 +2,84 @@ import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 import { z } from "zod";
 import { zodResponseFormat } from "openai/helpers/zod";
-import { createReview } from "@/lib/reviews";
+import { getReviews, createReview } from "@/lib/reviews";
 
 const ReviewItemSchema = z.object({
-  name: z.string().describe("Authentic Indian citizen name (e.g., 'Kavita Iyer', 'Rahul Sharma', 'Sneha Kulkarni', 'Amitabh Sen', 'Priya N.')"),
-  city: z.string().describe("Indian city or locality relevant to the target page"),
-  service: z.string().describe("Specific pest control service (e.g., 'Odorless Bed Bug Treatment', 'Bed Bug Inspection & Spray', '1-Year Bed Bug AMC')"),
-  rating: z.number().int().min(4).max(5).describe("Customer rating (mostly 5, occasional 4)"),
-  quote: z.string().describe("Short, authentic, human-like customer review of exactly 20 to 35 words (1-2 sentences)."),
+  name: z.string().describe("100% Unique authentic Indian citizen name with both first and last name, or first name + initial."),
+  city: z.string().describe("Indian city or locality matching the target page context"),
+  service: z.string().describe("Specific bed bug treatment service (e.g., 'Odorless Bed Bug Eradication', '1-Year Bed Bug AMC', 'Mattress & Cot Deep Chemical Spray', 'Bed Bug Steam & odorless treatment')"),
+  rating: z.number().int().min(4).max(5).describe("Customer rating: 5 or 4"),
+  quote: z.string().describe("Short, highly authentic customer review of exactly 20 to 35 words (1-2 sentences)."),
 });
 
 const ReviewListSchema = z.object({
   reviews: z.array(ReviewItemSchema),
 });
+
+// Rich pools of authentic Indian names across different linguistic regions & communities
+const FEMALE_FIRST_NAMES = [
+  "Ananya", "Sunita", "Divya", "Swati", "Meera", "Tanvi", "Bhavna", "Ritu", "Shilpa", "Archana",
+  "Shalini", "Pallavi", "Deepali", "Rekha", "Aarti", "Pooja", "Neha", "Kavita", "Snehal", "Shruti",
+  "Radhika", "Preeti", "Shweta", "Manisha", "Aditi", "Smita", "Payal", "Garima", "Vandana", "Priyanka",
+  "Rashmi", "Komal", "Supriya", "Anusha", "Sowmya", "Vidya", "Malini", "Lakshmi", "Geetha", "Deepa",
+  "Harini", "Keerthi", "Aparna", "Tanushree", "Gayatri", "Nandini", "Madhavi", "Rupali", "Urmila", "Vaishali"
+];
+
+const MALE_FIRST_NAMES = [
+  "Rahul", "Vikram", "Rohit", "Arjun", "Amit", "Anand", "Rajesh", "Karan", "Nikhil", "Varun",
+  "Gaurav", "Nitin", "Vinay", "Rakesh", "Sameer", "Alok", "Suresh", "Pradeep", "Sandeep", "Ashok",
+  "Harish", "Manoj", "Karthik", "Chetan", "Abhinav", "Kunal", "Saurabh", "Tarun", "Mayank", "Prashant",
+  "Sumit", "Manish", "Sachin", "Tushar", "Mahesh", "Girish", "Naveen", "Sridhar", "Vignesh", "Ramesh",
+  "Venkat", "Balaji", "Praveen", "Deepak", "Hemant", "Subhash", "Dharmesh", "Bhaskar", "Gautam", "Devendra"
+];
+
+const SURNAMES = [
+  // North & Central
+  "Verma", "Sharma", "Gupta", "Tyagi", "Malhotra", "Kapoor", "Bhatia", "Rawat", "Chauhan", "Yadav",
+  "Saxena", "Mishra", "Pandey", "Joshi", "Tripathi", "Tiwari", "Agarwal", "Bansal", "Goel", "Singhal",
+  "Mittal", "Ahuja", "Juneja", "Sethi", "Grover", "Anand", "Chhabra", "Soni", "Bhardwaj", "Choudhary",
+  // West / Maharashtra / Gujarat
+  "Kulkarni", "Deshpande", "Gokhale", "Shinde", "Patil", "Tambe", "Jadhav", "Sawant", "Kamat", "Prabhu",
+  "Gaikwad", "More", "Salunkhe", "Pawar", "Bhosale", "Deshmukh", "Chitnis", "Shah", "Mehta", "Parekh",
+  "Zaveri", "Trivedi", "Desai", "Bhatt", "Pandya", "Vora", "Doshi", "Solanki", "Vaghela", "Rupani",
+  // South (Karnataka, Tamil Nadu, Andhra, Telangana, Kerala)
+  "Hegde", "Gowda", "Shettigar", "Rao", "Pai", "Ramanathan", "Ranganathan", "Balasubramanian",
+  "Venkataraman", "Sundaram", "Natarajan", "Krishnan", "Murugan", "Iyer", "Iyengar", "Reddy",
+  "Choudary", "Raju", "Naidu", "Varma", "Prasad", "Nair", "Menon", "Kurian", "Varghese", "Pillai",
+  "Nambiar", "Mathew", "Cherian", "Pillay",
+  // East (Bengal, Odisha, Assam)
+  "Banerjee", "Mukherjee", "Chatterjee", "Bhattacharya", "Dutta", "Ganguly", "Sen", "Ghosh", "Mohanty",
+  "Patnaik", "Barua", "Saikia", "Dasgupta", "Bhowmik", "Majumdar", "Sarkar", "Chakraborty", "Roy", "Debnath"
+];
+
+/**
+ * Generates an authentic, guaranteed unique Indian citizen name that does not exist in usedSet.
+ */
+function generateUniqueIndianName(usedSet: Set<string>): string {
+  for (let attempt = 0; attempt < 300; attempt++) {
+    const isFemale = Math.random() > 0.5;
+    const firstList = isFemale ? FEMALE_FIRST_NAMES : MALE_FIRST_NAMES;
+    const first = firstList[Math.floor(Math.random() * firstList.length)];
+    const last = SURNAMES[Math.floor(Math.random() * SURNAMES.length)];
+
+    // Mix full last name (75%) and last initial (25%)
+    const useInitial = Math.random() < 0.25;
+    const candidate = useInitial ? `${first} ${last[0]}.` : `${first} ${last}`;
+
+    if (!usedSet.has(candidate.toLowerCase())) {
+      usedSet.add(candidate.toLowerCase());
+      return candidate;
+    }
+  }
+
+  // Ultra-rare fallback if saturated
+  const fallbackNumber = Math.floor(100 + Math.random() * 900);
+  const isFemale = Math.random() > 0.5;
+  const first = isFemale ? FEMALE_FIRST_NAMES[Math.floor(Math.random() * FEMALE_FIRST_NAMES.length)] : MALE_FIRST_NAMES[Math.floor(Math.random() * MALE_FIRST_NAMES.length)];
+  const candidate = `${first} K.${fallbackNumber}`;
+  usedSet.add(candidate.toLowerCase());
+  return candidate;
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -28,60 +93,90 @@ export async function POST(request: NextRequest) {
     const status = body.status === "pending" ? "pending" : "approved";
     const ratingType = body.rating_type || "mostly_5";
 
+    // 1. Fetch all existing reviews to establish a strict exclusion list of already used names
+    const { reviews: existingReviews } = await getReviews({ status: "all", limit: 5000 });
+    const existingNamesSet = new Set<string>();
+    const existingNamesList: string[] = [];
+
+    for (const r of existingReviews) {
+      if (r.name && typeof r.name === "string") {
+        const trimmed = r.name.trim();
+        if (trimmed) {
+          existingNamesSet.add(trimmed.toLowerCase());
+          existingNamesList.push(trimmed);
+        }
+      }
+    }
+
     const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-    // Derive city context from page slug
-    let cityHint = "Major Indian cities like Bangalore, Mumbai, Pune, Delhi, Hyderabad, or Chennai";
+    // 2. Derive city & locality context from page slug
+    let cityHint = "Major Indian cities like Bangalore, Mumbai, Pune, Delhi, Hyderabad, Chennai, or Kolkata";
     const cleanSlug = pageSlug.toLowerCase().replace(/^\/|\/$/g, "");
     if (cleanSlug.includes("bangalore") || cleanSlug.includes("bengaluru")) {
-      cityHint = "Bangalore (mention areas like Koramangala, Indiranagar, HSR Layout, Whitefield, or Bellandur)";
+      cityHint = "Bangalore (mention localities like Koramangala, Indiranagar, HSR Layout, Whitefield, Bellandur, or Electronic City)";
     } else if (cleanSlug.includes("pune")) {
-      cityHint = "Pune (mention areas like Baner, Wakad, Kothrud, Viman Nagar, or Hadapsar)";
+      cityHint = "Pune (mention localities like Baner, Wakad, Kothrud, Viman Nagar, Hadapsar, or Hinjewadi)";
     } else if (cleanSlug.includes("mumbai")) {
-      cityHint = "Mumbai (mention areas like Andheri, Thane, Borivali, Powai, or Bandra)";
+      cityHint = "Mumbai (mention localities like Andheri West, Thane, Borivali, Powai, Bandra, or Kandivali)";
     } else if (cleanSlug.includes("delhi")) {
-      cityHint = "Delhi NCR (mention areas like Dwarka, Rohini, South Ex, or Vasant Kunj)";
+      cityHint = "Delhi NCR (mention localities like Dwarka, Rohini, South Extension, Vasant Kunj, or Saket)";
     } else if (cleanSlug.includes("noida")) {
-      cityHint = "Noida / Greater Noida (mention sectors like Sector 62, Sector 18, or Sector 137)";
+      cityHint = "Noida / Greater Noida (mention sectors like Sector 62, Sector 18, Sector 137, or Sector 76)";
     } else if (cleanSlug.includes("hyderabad")) {
-      cityHint = "Hyderabad (mention areas like Gachibowli, Madhapur, or Kukatpally)";
+      cityHint = "Hyderabad (mention localities like Gachibowli, Madhapur, Kukatpally, Banjara Hills, or Kondapur)";
     } else if (cleanSlug.includes("chennai")) {
-      cityHint = "Chennai (mention areas like Velachery, Anna Nagar, or T Nagar)";
+      cityHint = "Chennai (mention localities like Velachery, Anna Nagar, T Nagar, Adyar, or OMR)";
     } else if (cleanSlug.includes("gurgaon")) {
-      cityHint = "Gurgaon (mention Cyber City, Sector 56, or Sohna Road)";
+      cityHint = "Gurgaon (mention Cyber City, Sector 56, Golf Course Road, or Sohna Road)";
+    } else if (cleanSlug.includes("kolkata")) {
+      cityHint = "Kolkata (mention Salt Lake, New Town, Ballygunge, Park Street, or Behala)";
+    } else if (cleanSlug.includes("services")) {
+      cityHint = "Across metropolitan Indian apartments and homes (mention thorough mattress seam inspection, odorless spray, and 1-year warranty)";
     }
 
     const ratingInstruction =
       ratingType === "all_5"
         ? "All ratings must be 5 stars."
         : ratingType === "mixed"
-        ? "Give roughly 70% 5-star ratings and 30% 4-star ratings with constructive positive feedback."
+        ? "Give roughly 75% 5-star ratings and 25% 4-star ratings with constructive positive feedback."
         : "Give 90% 5-star ratings and 10% 4-star ratings for realistic authenticity.";
 
+    // Take the most recent 120 names as explicit exclusion instructions for OpenAI prompt
+    const recentExcludedNames = existingNamesList.slice(0, 120);
+
     const systemPrompt = `
-You are the customer feedback intelligence engine for BedBugsTreatment.co.in, India's leading odorless bed bug extermination service.
+You are the customer review intelligence engine for BedBugsTreatment.co.in, India's premier professional odorless bed bug extermination service.
 
 Generate exactly ${count} realistic, human-like customer reviews written by real Indian citizens.
 
-CRITICAL RULES:
-1. REAL INDIAN CITIZEN NAMES:
-   - Use diverse, natural Indian names from different regions: e.g., "Rohit Sharma", "Sneha Kulkarni", "Vikram Sen", "Pooja Nair", "Arjun Reddy", "Kavita Joshi", "Amit Patel", "Deepa Verma", "Anand Iyer", "Neha Deshmukh", "Rajesh Das".
-   - You can also use authentic first name + last initial (e.g. "Rohit S.", "Sneha K.").
-2. UNIFORM SHORT CONTENT SIZE:
-   - EVERY review MUST be short: strictly 20 to 35 words long (1 to 2 sentences max).
-   - Maintain the EXACT SAME content size across all generated reviews so they fit beautifully in website review cards without awkward line height gaps.
-   - Do NOT write essays, bullet points, or multi-paragraph reviews.
-3. AUTHENTIC HUMAN TONE:
-   - Natural conversational Indian English.
-   - Specific realistic customer situations:
-     * Odorless spray that didn't disturb elderly parents or kids.
-     * Relief after weeks of itching and sleepless nights.
-     * Technician arrived on time and thoroughly checked mattress seams.
-     * No need to throw away expensive mattresses.
-     * Free follow-up visit under the 12-month warranty was prompt.
+CRITICAL RULES FOR REVIEWS:
+
+1. ABSOLUTELY ZERO NAME DUPLICATION (MANDATORY):
+   - The following ${recentExcludedNames.length} names have ALREADY been used on our platform. You are STRICTLY FORBIDDEN from using any of these names or minor variations of them:
+   ${recentExcludedNames.length > 0 ? recentExcludedNames.join(", ") : "None yet"}
+   - EVERY review in this batch MUST have a completely UNIQUE name from one another.
+   - Use diverse Indian names representing different regions (North, South, East, West, Maharashtra, Gujarat, Bengal, Karnataka, Tamil Nadu, Andhra, Punjab).
+   - Both male and female names.
+   - You can format names as either "Firstname Lastname" (e.g., "Ananya Deshpande", "Karthik Hegde") or "Firstname Initial." (e.g., "Swati R.", "Arjun K.").
+
+2. UNIFORM CONTENT LENGTH:
+   - Every review quote MUST be strictly between 20 and 35 words (1 to 2 sentences max).
+   - This ensures review cards on the website render with identical heights without awkward empty spaces.
+
+3. AUTHENTIC HOMEOWNER & TENANT CONTEXT:
+   - Sound like real Indian citizens dealing with bed bugs:
+     * Odorless treatment that didn't disturb elderly parents, toddlers, or pets.
+     * Relief from midnight itching, red bite marks, and blood stains on bedsheets.
+     * Technician thoroughly checked wooden diwans, box beds, mattress piped seams, and switchboard crevices.
+     * No need to throw away expensive teak wood beds or mattresses.
+     * Saved money after wasting weeks on ineffective grocery store sprays.
+     * Transparent pricing with on-site inspection and free follow-up under 1-year AMC.
+
 4. LOCATION CONTEXT:
-   - Target page slug: "${pageSlug}"
+   - Target page: "${pageSlug}"
    - Preferred city/locality: ${cityHint}.
+
 5. RATINGS:
    - ${ratingInstruction}
 `;
@@ -92,11 +187,11 @@ CRITICAL RULES:
         { role: "system", content: systemPrompt },
         {
           role: "user",
-          content: `Generate ${count} short, authentic Indian customer reviews for page "${pageSlug}". Keep every review strictly between 20 and 35 words.`,
+          content: `Generate ${count} completely unique, authentic Indian customer reviews for page "${pageSlug}". Every person's name MUST be completely unique and never used before. Strictly 20 to 35 words per review.`,
         },
       ],
       response_format: zodResponseFormat(ReviewListSchema, "reviews_data"),
-      temperature: 0.7, // Good authentic variety
+      temperature: 0.8, // Slightly higher temperature for rich naming diversity
     });
 
     const parsed = completion.choices[0]?.message?.parsed;
@@ -104,18 +199,35 @@ CRITICAL RULES:
       throw new Error("AI failed to generate reviews.");
     }
 
-    // Save each review into the database / local store
+    // 3. Programmatic Post-Validation & Guaranteed Deduplication
+    // Ensure that even if OpenAI hallucinates an existing or duplicate name, it is immediately corrected!
+    const batchUsedNames = new Set<string>(existingNamesSet);
     const createdReviews = [];
+
     for (const rev of parsed.reviews) {
+      let finalName = (rev.name || "").trim();
+      const normalized = finalName.toLowerCase();
+
+      // If duplicate or empty, replace with an authentic, guaranteed unique name
+      if (!finalName || batchUsedNames.has(normalized)) {
+        finalName = generateUniqueIndianName(batchUsedNames);
+      } else {
+        batchUsedNames.add(normalized);
+      }
+
+      // Ensure review quote is clean
+      const cleanQuote = rev.quote.trim().replace(/^["']|["']$/g, "");
+
       const created = await createReview({
-        name: rev.name,
-        city: rev.city,
-        service: rev.service,
-        rating: rev.rating,
-        quote: rev.quote,
+        name: finalName,
+        city: rev.city || "Bangalore",
+        service: rev.service || "Odorless Bed Bug Treatment",
+        rating: rev.rating || 5,
+        quote: cleanQuote,
         status,
         page_slug: pageSlug === "all" ? null : pageSlug,
       });
+
       createdReviews.push(created);
     }
 
@@ -123,7 +235,7 @@ CRITICAL RULES:
       success: true,
       count: createdReviews.length,
       reviews: createdReviews,
-      message: `Successfully generated and saved ${createdReviews.length} authentic Indian citizen reviews!`,
+      message: `Successfully generated and saved ${createdReviews.length} authentic Indian citizen reviews with 100% unique names!`,
     });
   } catch (error: any) {
     console.error("[api/admin/reviews/generate] Error:", error);

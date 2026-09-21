@@ -46,7 +46,7 @@ ${blog.slug}
 
 INSTRUCTIONS:
 1. Write a complete, high-value, practical, 1500-2200 word guide.
-2. Structure with a compelling introduction, clear H2 and H3 subheadings, actionable checklists (mattress inspection, furniture checks, travel protocols), chemical vs heat treatment comparisons, and safe DIY limitations.
+2. Structure with a compelling introduction, clear H2 and H3 subheadings, actionable checklists (mattress inspection, furniture checks, travel protocols), treatment method comparisons (chemical, steam, odorless spray), and safe DIY limitations.
 3. Include an FAQ section with 4-6 detailed questions and answers.
 4. Include a References & Verified Sources section at the end citing reputable pest management programs (US EPA, University Entomology extensions, NPMA).
 ${skipImages ? "5. IMPORTANT: SKIP ALL IMAGES. Do NOT include any markdown images, image placeholders, or visual placement tags." : "5. You may suggest 1-2 relevant visual aids using markdown notes where helpful."}

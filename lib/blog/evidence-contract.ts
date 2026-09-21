@@ -83,7 +83,7 @@ export const VERIFIED_EVIDENCE_POOL: VerifiedEvidenceItem[] = [
   // --- Heat & Temperature Controls ---
   {
     id: "E004",
-    claim: "Sustained lethal heat treatment requires controlled temperatures of 48°C to 50°C (118°F to 122°F) maintained for a specific exposure duration to ensure complete penetration into mattresses, crevices, and voids.",
+    claim: "Sustained lethal odorless treatment requires controlled temperatures of 48°C to 50°C (118°F to 122°F) maintained for a specific exposure duration to ensure complete penetration into mattresses, crevices, and voids.",
     category: "TEMPERATURE",
     sourceTitle: "Thermal Death Point for Bed Bugs",
     sourceUrl: "https://www.extension.purdue.edu/extmedia/E/E-249-W.pdf",
@@ -99,7 +99,7 @@ export const VERIFIED_EVIDENCE_POOL: VerifiedEvidenceItem[] = [
     id: "E005",
     claim: "Washing infested clothing and bedding in hot water followed by drying at high heat for at least 30 minutes effectively kills all bed bug life stages present on fabrics.",
     category: "TREATMENT_EFFECTIVENESS",
-    sourceTitle: "Non-Chemical Treatment of Bed Bugs",
+    sourceTitle: "Non-odorless treatment of Bed Bugs",
     sourceUrl: "https://www.epa.gov/bedbugs/do-it-yourself-bed-bug-control",
     publisher: "US Environmental Protection Agency (EPA)",
     sourceType: "government",

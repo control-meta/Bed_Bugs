@@ -22,7 +22,7 @@
     "activeTechnicians": "22+ Field Technicians",
     "homesTreated": "15,800+",
     "rating": "4.9/5",
-    "reviewCount": "420+",
+    "reviewCount": "4,880+",
     "phone": "+919769321234",
     "phoneDisplay": "+91 97693 21234",
     "whatsappText": "Hi, I need urgent bed bug treatment in Bangalore.",
@@ -167,7 +167,7 @@
       {
         "city": "Bangalore",
         "name": "Karthik Rao",
-        "quote": "Brought bed bugs home from a business hotel. Technicians came to our Whitefield villa within 2 hours of calling. Modern equipment, heat treatment, and clear preventive instructions.",
+        "quote": "Brought bed bugs home from a business hotel. Technicians came to our Whitefield villa within 2 hours of calling. Modern equipment, targeted treatment, and clear preventive instructions.",
         "rating": 5,
         "locality": "Whitefield"
       },
@@ -188,7 +188,7 @@
       {
         "city": "Bangalore",
         "name": "Swati Mukherjee",
-        "quote": "Top-notch customer support and transparent pricing. No hidden fees or upselling. The technician explained the egg cycle and did a comprehensive heat steam treatment.",
+        "quote": "Top-notch customer support and transparent pricing. No hidden fees or upselling. The technician explained the egg cycle and did a comprehensive targeted spray treatment.",
         "rating": 5,
         "locality": "Indiranagar"
       },
@@ -203,11 +203,11 @@
     "status": "published",
     "customStyles": {
       "fontFamily": "var(--font-poppins)",
-      "step3_desc": "Superheated dry steam penetrates fabric fibers and furniture joints to destroy hidden egg clusters.",
+      "step3_desc": "Targeted deep treatment penetrates fabric fibers and furniture joints to destroy hidden egg clusters.",
       "accentColor": "#1f8055",
       "heroHeading": "Bed Bug Treatment in <span style=\"color: rgb(0, 140, 90);\">Bangalore</span>",
       "step2_title": "Targeted Odorless Treatment",
-      "step3_title": "High-Heat Egg Eradication",
+      "step3_title": "Deep Egg Eradication",
       "step4_title": "12-Month Warranty Protection",
       "heroTitleSize": "text-4xl lg:text-[3rem]",
       "heroTitleWeight": "font-extrabold",
@@ -243,7 +243,7 @@
     "activeTechnicians": "20+ Certified Technicians",
     "homesTreated": "16,400+",
     "rating": "4.9/5",
-    "reviewCount": "450+",
+    "reviewCount": "4,780+",
     "phone": "+919769321234",
     "phoneDisplay": "+91 97693 21234",
     "whatsappText": "Hi, I need urgent bed bug treatment in Delhi.",
@@ -416,7 +416,7 @@
         "locality": "Laxmi Nagar",
         "city": "Delhi",
         "rating": 5,
-        "quote": "Solved our months-long bed bug crisis in Laxmi Nagar. The dual heat and odorless chemical method neutralized all bugs and eggs. Very grateful!"
+        "quote": "Solved our months-long bed bug crisis in Laxmi Nagar. The targeted and odorless chemical method neutralized all bugs and eggs. Very grateful!"
       }
     ],
     "status": "published",
@@ -452,7 +452,7 @@
     "activeTechnicians": "26+ Field Specialists",
     "homesTreated": "18,200+",
     "rating": "4.9/5",
-    "reviewCount": "490+",
+    "reviewCount": "4,950+",
     "phone": "+919769321234",
     "phoneDisplay": "+91 97693 21234",
     "whatsappText": "Hi, I need urgent bed bug treatment in Mumbai.",
@@ -546,7 +546,7 @@
       },
       {
         "title": "Zero Furniture Disposal",
-        "description": "Our targeted steam and chemical treatment reaches deep into mattress seams so you never have to discard costly beds or sofas."
+        "description": "Our targeted steam and odorless treatment reaches deep into mattress seams so you never have to discard costly beds or sofas."
       },
       {
         "title": "12-Month Warranty & Support",
@@ -665,7 +665,7 @@
     "activeTechnicians": "16+ Certified Technicians",
     "homesTreated": "11,800+",
     "rating": "4.9/5",
-    "reviewCount": "340+",
+    "reviewCount": "4,550+",
     "phone": "+919769321234",
     "phoneDisplay": "+91 97693 21234",
     "whatsappText": "Hi, I need urgent bed bug treatment in Noida.",
@@ -872,7 +872,7 @@
     "activeTechnicians": "18+ Certified Technicians",
     "homesTreated": "50,000+",
     "rating": "4.9/5",
-    "reviewCount": "380+",
+    "reviewCount": "4,650+",
     "phone": "+919769321234",
     "phoneDisplay": "+91 97693 21234",
     "whatsappText": "Hi, I need urgent bed bug treatment in Pune.",
@@ -1047,7 +1047,7 @@
       {
         "city": "Pune",
         "name": "Sunita Gaikwad",
-        "quote": "Had infant twins at home so I was very worried about toxic chemicals. Their eco-safe certified spray and superheated steam eliminated every bug without any lingering odor.",
+        "quote": "Had infant twins at home so I was very worried about toxic chemicals. Their eco-safe certified spray eliminated every bug without any lingering odor.",
         "rating": 5,
         "locality": "Viman Nagar"
       }
@@ -1061,7 +1061,7 @@
       "heroTitleWeight": "font-extrabold",
       "methodologyDesc": "Our scientific, dual-action extermination strategy kills adult bugs instantly and neutralizes eggs so they never hatch again.",
       "methodologyTitle": "How we eliminate bed bugs in Pune",
-      "step3_title": "High-Heat Egg Eradication",
+      "step3_title": "Deep Egg Eradication",
       "methodologyEyebrow": "Our Proven Methodology"
     },
     "updatedAt": "2026-09-19T08:50:12.239Z",

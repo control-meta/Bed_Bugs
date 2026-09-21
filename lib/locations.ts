@@ -70,7 +70,7 @@ export const locations: LocationInfo[] = [
     activeTechnicians: "18+ Certified Technicians",
     homesTreated: "50,000+",
     rating: "4.9/5",
-    reviewCount: "380+",
+    reviewCount: "4,650+",
     phone: "+919769321234",
     phoneDisplay: "+91 97693 21234",
     whatsappText: "Hi, I need urgent bed bug treatment in Pune.",
@@ -194,7 +194,7 @@ export const locations: LocationInfo[] = [
         city: "Pune",
         rating: 5,
         quote:
-          "Had infant twins at home so I was very worried about toxic chemicals. Their eco-safe certified spray and superheated steam eliminated every bug without any lingering odor.",
+          "Had infant twins at home so I was very worried about toxic chemicals. Their eco-safe certified spray eliminated every bug without any lingering odor.",
       },
     ],
   },
@@ -223,7 +223,7 @@ export const locations: LocationInfo[] = [
     activeTechnicians: "26+ Field Specialists",
     homesTreated: "18,200+",
     rating: "4.9/5",
-    reviewCount: "490+",
+    reviewCount: "4,950+",
     phone: "+919769321234",
     phoneDisplay: "+91 97693 21234",
     whatsappText: "Hi, I need urgent bed bug treatment in Mumbai.",
@@ -259,7 +259,7 @@ export const locations: LocationInfo[] = [
       },
       {
         title: "Zero Furniture Disposal",
-        description: "Our targeted steam and chemical treatment reaches deep into mattress seams so you never have to discard costly beds or sofas.",
+        description: "Our targeted steam and odorless treatment reaches deep into mattress seams so you never have to discard costly beds or sofas.",
       },
       {
         title: "12-Month Warranty & Support",
@@ -376,7 +376,7 @@ export const locations: LocationInfo[] = [
     activeTechnicians: "22+ Field Technicians",
     homesTreated: "15,800+",
     rating: "4.9/5",
-    reviewCount: "420+",
+    reviewCount: "4,880+",
     phone: "+919769321234",
     phoneDisplay: "+91 97693 21234",
     whatsappText: "Hi, I need urgent bed bug treatment in Bangalore.",
@@ -468,7 +468,7 @@ export const locations: LocationInfo[] = [
         city: "Bangalore",
         rating: 5,
         quote:
-          "Brought bed bugs home from a business hotel. Technicians came to our Whitefield villa within 2 hours of calling. Modern equipment, heat treatment, and clear preventive instructions.",
+          "Brought bed bugs home from a business hotel. Technicians came to our Whitefield villa within 2 hours of calling. Modern equipment, targeted treatment, and clear preventive instructions.",
       },
       {
         name: "Divya Sundaram",
@@ -492,7 +492,7 @@ export const locations: LocationInfo[] = [
         city: "Bangalore",
         rating: 5,
         quote:
-          "Top-notch customer support and transparent pricing. No hidden fees or upselling. The technician explained the egg cycle and did a comprehensive heat steam treatment.",
+          "Top-notch customer support and transparent pricing. No hidden fees or upselling. The technician explained the egg cycle and did a comprehensive targeted spray treatment.",
       },
       {
         name: "Naveen Reddy",
@@ -529,7 +529,7 @@ export const locations: LocationInfo[] = [
     activeTechnicians: "20+ Certified Technicians",
     homesTreated: "16,400+",
     rating: "4.9/5",
-    reviewCount: "450+",
+    reviewCount: "4,780+",
     phone: "+919769321234",
     phoneDisplay: "+91 97693 21234",
     whatsappText: "Hi, I need urgent bed bug treatment in Delhi.",
@@ -653,7 +653,7 @@ export const locations: LocationInfo[] = [
         city: "Delhi",
         rating: 5,
         quote:
-          "Solved our months-long bed bug crisis in Laxmi Nagar. The dual heat and odorless chemical method neutralized all bugs and eggs. Very grateful!",
+          "Solved our months-long bed bug crisis in Laxmi Nagar. The targeted and odorless chemical method neutralized all bugs and eggs. Very grateful!",
       },
     ],
   },
@@ -682,7 +682,7 @@ export const locations: LocationInfo[] = [
     activeTechnicians: "16+ Certified Technicians",
     homesTreated: "11,800+",
     rating: "4.9/5",
-    reviewCount: "340+",
+    reviewCount: "4,550+",
     phone: "+919769321234",
     phoneDisplay: "+91 97693 21234",
     whatsappText: "Hi, I need urgent bed bug treatment in Noida.",

@@ -262,7 +262,8 @@ REQUIREMENTS:
 1. Catchy, SEO-optimized title tailored for Indian homeowners, tenants, and families (avoid generic buzzwords).
 2. Clean url slug in kebab-case matching the topic (e.g., bed-bug-prevention-indian-homes).
 3. Engaging introduction addressing the exact problem Indian households face (monsoons/humidity, shared walls in high-rises, travel/packing habits).
-4. MANDATORY MINIMUM LENGTH: The blog post MUST be comprehensive, deeply researched, and contain AT LEAST 2,000 WORDS (target 2,200 to 2,600 words).
+4. CRITICAL: STRICTLY ABOUT BED BUGS. DO NOT mention, compare, or generate content about cockroaches, termites, rodents, mosquitoes, ants, or any other general pests.
+5. MANDATORY MINIMUM LENGTH: The blog post MUST be comprehensive, deeply researched, and contain AT LEAST 2,000 WORDS (target 2,200 to 2,600 words).
 5. Structure into 7 to 9 detailed main sections with ## (H2) and ### (H3) subheadings. Each section must have 300 to 450 words of practical technical entomology, room-by-room step-by-step procedures, and regional Indian housing considerations (Bangalore, Mumbai, Delhi-NCR, Pune, Hyderabad, Chennai).
 6. MANDATORY: Include at least TWO rich comparison / reference data tables in GitHub Flavored Markdown format:
    - Table 1: Room Vulnerability & Prevention Checklist (| Living Area / Item | Vulnerability Level | Key Inspection Habit | Recommended Frequency |)
