@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import { randomUUID } from "crypto";
 import { getSupabase } from "./supabase";
+import { persistBlogAssetReferences } from "./blog/image-storage";
 
 export type BlogItem = {
   id: string;
@@ -248,6 +249,11 @@ export async function saveBlog(
 ): Promise<{ blog: BlogItem; backend: "supabase" | "local" }> {
   const now = new Date().toISOString();
   const existing = blog.id ? await getBlogById(blog.id) : await getBlogBySlug(blog.slug);
+  const durableAssets = await persistBlogAssetReferences({
+    markdown: blog.markdown ?? existing?.markdown ?? "",
+    imageUrl: blog.imageUrl ?? existing?.imageUrl ?? "",
+    images: blog.images ?? existing?.images ?? [],
+  });
 
   const complete: BlogItem = {
     id: existing?.id || blog.id || randomUUID(),
@@ -256,11 +262,11 @@ export async function saveBlog(
     topic: blog.topic ?? existing?.topic ?? "",
     primaryKeyword: blog.primaryKeyword ?? existing?.primaryKeyword ?? "",
     keywords: blog.keywords ?? existing?.keywords ?? (blog.primaryKeyword ? [blog.primaryKeyword] : []),
-    markdown: (blog.markdown ?? existing?.markdown ?? "").replace(/^\s*#\s+[^\n]+(?:\r?\n)+/, ""),
+    markdown: durableAssets.markdown.replace(/^\s*#\s+[^\n]+(?:\r?\n)+/, ""),
     contentHtml: blog.contentHtml ?? existing?.contentHtml ?? "",
     excerpt: blog.excerpt ?? existing?.excerpt ?? "",
-    imageUrl: blog.imageUrl ?? existing?.imageUrl ?? "",
-    images: blog.images ?? existing?.images ?? [],
+    imageUrl: durableAssets.imageUrl,
+    images: durableAssets.images,
     status: blog.status ?? existing?.status ?? "published",
     publicationStatus: blog.publicationStatus ?? existing?.publicationStatus ?? "READY",
     autoPublishEligible: blog.autoPublishEligible ?? existing?.autoPublishEligible ?? true,

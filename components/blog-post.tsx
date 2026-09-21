@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { PhoneCall, ShieldCheck } from "lucide-react";
 import { OpenFormButton } from "@/components/open-form-button";
 import type { BlogItem } from "@/lib/blog-db";
+import { FloatingBubblesBg } from "@/components/floating-bubbles-bg";
 
 const SITE_URL = "https://bedbugstreatment.co.in";
 
@@ -28,6 +30,7 @@ export function buildBlogPostMetadata(blog: BlogItem): Metadata {
 }
 
 export function BlogPostArticle({ blog }: { blog: BlogItem }) {
+  const firstMarkdownImage = blog.markdown.match(/!\[[^\]]*\]\(([^)]+)\)/)?.[1];
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -57,7 +60,9 @@ export function BlogPostArticle({ blog }: { blog: BlogItem }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <article className="min-h-screen bg-white pb-16 pt-16 sm:pt-20 lg:pt-24">
+      <div className="relative overflow-hidden">
+        <FloatingBubblesBg />
+        <article className="relative z-10 min-h-screen pb-16 pt-16 sm:pt-20 lg:pt-24">
         <div className="container mx-auto max-w-4xl px-4 sm:px-6">
 
           {/* Title */}
@@ -68,10 +73,14 @@ export function BlogPostArticle({ blog }: { blog: BlogItem }) {
           {/* Featured Image - Elegantly sized and centered (only if not already embedded at the top of markdown) */}
           {blog.imageUrl && !blog.markdown.includes(blog.imageUrl) && (
             <div className="mb-10 flex justify-center">
-              <div className="w-full max-w-xl aspect-[3/2] rounded-2xl overflow-hidden border border-neutral-200/80 shadow-md bg-neutral-100">
-                <img
+              <div className="relative w-full max-w-xl aspect-[3/2] rounded-2xl overflow-hidden border border-neutral-200/80 shadow-md bg-neutral-100">
+                <Image
                   src={blog.imageUrl}
                   alt={blog.title}
+                  fill
+                  sizes="(max-width: 640px) 100vw, 576px"
+                  quality={78}
+                  preload
                   className="w-full h-full object-cover object-top"
                 />
               </div>
@@ -85,11 +94,16 @@ export function BlogPostArticle({ blog }: { blog: BlogItem }) {
               components={{
                 img: ({ node, ...props }) => (
                   <span className="my-8 flex flex-col items-center not-prose w-full">
-                    <span className="w-full max-w-xl aspect-[3/2] rounded-2xl overflow-hidden border border-neutral-200/80 shadow-md bg-neutral-100 block">
-                      <img
-                        {...props}
+                    <span className="relative w-full max-w-xl aspect-[3/2] rounded-2xl overflow-hidden border border-neutral-200/80 shadow-md bg-neutral-100 block">
+                      <Image
+                        src={typeof props.src === "string" ? props.src : ""}
+                        alt={props.alt || ""}
+                        title={props.title || undefined}
+                        fill
+                        sizes="(max-width: 640px) 100vw, 576px"
+                        quality={78}
+                        preload={props.src === firstMarkdownImage}
                         className="w-full h-full object-cover object-top m-0"
-                        loading="lazy"
                       />
                     </span>
                     {props.alt && (
@@ -135,6 +149,7 @@ export function BlogPostArticle({ blog }: { blog: BlogItem }) {
           </div>
         </div>
       </article>
+      </div>
     </>
   );
 }

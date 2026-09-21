@@ -36,6 +36,16 @@ export function isSupabaseConfigured(): boolean {
 
 let supabaseInstance: SupabaseClient | null = null;
 
+// The application only uses PostgREST and Storage. Newer supabase-js releases
+// initialize the Realtime client eagerly and require a WebSocket constructor,
+// while the deployed Node 20 runtime does not expose one. Supplying an inert
+// transport keeps the unused Realtime feature from blocking database/storage.
+const DisabledRealtimeTransport = class {
+  constructor() {
+    throw new Error("Supabase Realtime is not enabled for this application.");
+  }
+} as unknown as typeof WebSocket;
+
 export function getSupabase(): SupabaseClient | null {
   if (!isSupabaseConfigured()) {
     return null;
@@ -45,6 +55,9 @@ export function getSupabase(): SupabaseClient | null {
       auth: {
         persistSession: false,
         autoRefreshToken: false,
+      },
+      realtime: {
+        transport: globalThis.WebSocket || DisabledRealtimeTransport,
       },
     });
   }

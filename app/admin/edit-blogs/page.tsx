@@ -26,6 +26,14 @@ export default function EditBlogsPage() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [deleteTarget, setDeleteTarget] = useState<BlogItem | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [regenerateTarget, setRegenerateTarget] = useState<BlogItem | null>(null);
+  const [regenerateKeywords, setRegenerateKeywords] = useState("");
+
+  useEffect(() => {
+    if (regenerateTarget) {
+      setRegenerateKeywords(regenerateTarget.keywords?.join(", ") || regenerateTarget.primaryKeyword || "");
+    }
+  }, [regenerateTarget]);
 
   // Load blogs from API
   const loadBlogs = async () => {
@@ -317,6 +325,14 @@ export default function EditBlogsPage() {
                     </Link>
 
                     <button
+                      onClick={() => setRegenerateTarget(blog)}
+                      title="Regenerate blog"
+                      className="flex h-8 w-8 items-center justify-center rounded-lg border border-amber-200 bg-amber-50 text-amber-600 hover:bg-amber-100 transition"
+                    >
+                      <RefreshCw className="h-4 w-4" />
+                    </button>
+
+                    <button
                       onClick={() => setDeleteTarget(blog)}
                       title="Delete blog"
                       className="flex h-8 w-8 items-center justify-center rounded-lg border border-red-200 bg-red-50 text-red-600 hover:bg-red-100 transition"
@@ -330,6 +346,51 @@ export default function EditBlogsPage() {
           </div>
         )}
       </div>
+
+      {/* REGENERATE MODAL */}
+      {regenerateTarget && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-xs">
+          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl border border-neutral-200">
+            <div className="flex items-center gap-3 text-emerald-600 mb-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100">
+                <RefreshCw className="h-5 w-5" />
+              </div>
+              <h3 className="text-base font-bold text-neutral-900">Regenerate Blog</h3>
+            </div>
+            <p className="text-xs text-neutral-600 leading-relaxed mb-4">
+              You are about to regenerate <strong className="text-neutral-900">"{regenerateTarget.title}"</strong>.
+              The URL <span className="font-mono bg-neutral-100 px-1 rounded text-[10px]">/{regenerateTarget.slug}</span> will be preserved.
+            </p>
+
+            <div className="flex flex-col gap-1.5 mb-6">
+              <label className="text-xs font-semibold text-neutral-800">Target Keywords for Generation</label>
+              <input
+                type="text"
+                value={regenerateKeywords}
+                onChange={(e) => setRegenerateKeywords(e.target.value)}
+                placeholder="e.g. bed bugs, termite control"
+                className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2 text-xs text-neutral-900 placeholder:text-neutral-400 outline-none transition focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-500/10"
+              />
+            </div>
+
+            <div className="flex items-center justify-end gap-2.5">
+              <button
+                onClick={() => setRegenerateTarget(null)}
+                className="rounded-xl border border-neutral-200 px-4 py-2 text-xs font-semibold text-neutral-700 hover:bg-neutral-50 transition"
+              >
+                Cancel
+              </button>
+              <Link
+                href={`/admin/blog-generator?topic=${encodeURIComponent(regenerateTarget.topic || regenerateTarget.title)}&keywords=${encodeURIComponent(regenerateKeywords)}&slug=${encodeURIComponent(regenerateTarget.slug)}`}
+                className="flex items-center gap-1.5 rounded-xl bg-emerald-600 px-4 py-2 text-xs font-bold text-white hover:bg-emerald-700 transition"
+              >
+                <RefreshCw className="h-3.5 w-3.5" />
+                Proceed to Generator
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* DELETE CONFIRMATION MODAL */}
       {deleteTarget && (

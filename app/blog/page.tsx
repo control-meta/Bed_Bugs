@@ -3,6 +3,7 @@ import { PageHero } from "@/components/page-hero";
 import { BlogList } from "@/components/blog-list";
 import { getAllBlogs } from "@/lib/blog-db";
 import { checkAndExecuteDueAutoPublish } from "@/lib/auto-publish-service";
+import { FloatingBubblesBg } from "@/components/floating-bubbles-bg";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -39,11 +40,13 @@ export default async function BlogPage() {
         description="Expert articles, DIY limitations, identification guides, and professional pest control insights for homes across India."
       />
 
-      <section className="pb-12 md:pb-16 pt-4 md:pt-6 bg-neutral-50 border-t border-neutral-200/80">
-        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <section className="relative pb-12 md:pb-16 pt-4 md:pt-6 border-t border-neutral-200/80 overflow-hidden">
+        <FloatingBubblesBg />
+        <div className="relative z-10 container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <BlogList blogs={blogs} />
         </div>
       </section>
     </>
   );
 }
+

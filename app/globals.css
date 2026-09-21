@@ -470,3 +470,137 @@ select:disabled,
   0% { width: 20%; }
   100% { width: 90%; }
 }
+
+/* --- Research workflow animation --- */
+.research-stage {
+  position: absolute;
+  left: 50%;
+  top: 12rem;
+  width: min(32rem, calc(100% - 2rem));
+  transform: translateX(-50%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.research-stage-search { animation: research-stage-search 12s ease-in-out infinite; }
+.research-stage-gather { animation: research-stage-gather 12s ease-in-out infinite; }
+.research-stage-analyse { animation: research-stage-analyse 12s ease-in-out infinite; }
+.research-stage-write { animation: research-stage-write 12s ease-in-out infinite; }
+.research-stage-verify { animation: research-stage-verify 12s ease-in-out infinite; }
+
+.research-source,
+.research-evidence,
+.research-line,
+.research-bar {
+  animation: research-rise 2.4s ease-out both;
+}
+
+.research-fill {
+  animation: research-fill 2.4s ease-in-out infinite alternate;
+  transform-origin: left;
+}
+
+.research-orb {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(2px);
+  pointer-events: none;
+}
+
+.research-orb-one {
+  right: 4%;
+  top: 15%;
+  width: 9rem;
+  height: 9rem;
+  background: rgba(167, 243, 208, .28);
+  animation: research-orb-one 9s ease-in-out infinite;
+}
+
+.research-orb-two {
+  bottom: 7%;
+  left: 4%;
+  width: 7rem;
+  height: 7rem;
+  background: rgba(186, 230, 253, .3);
+  animation: research-orb-two 11s ease-in-out infinite;
+}
+
+.research-typing { animation: research-typing 1s step-end infinite; }
+.research-caret { animation: blink 1s step-end infinite; }
+.research-check-ring { animation: research-check 2.4s ease-in-out infinite; }
+
+@keyframes research-stage-search {
+  0%, 18% { opacity: 0; transform: translate(-50%, 10px); }
+  4%, 14% { opacity: 1; transform: translate(-50%, 0); }
+  20%, 100% { opacity: 0; transform: translate(-50%, -5px); }
+}
+
+@keyframes research-stage-gather {
+  0%, 19% { opacity: 0; transform: translate(-50%, 10px); }
+  23%, 35% { opacity: 1; transform: translate(-50%, 0); }
+  39%, 100% { opacity: 0; transform: translate(-50%, -5px); }
+}
+
+@keyframes research-stage-analyse {
+  0%, 38% { opacity: 0; transform: translate(-50%, 10px); }
+  42%, 54% { opacity: 1; transform: translate(-50%, 0); }
+  58%, 100% { opacity: 0; transform: translate(-50%, -5px); }
+}
+
+@keyframes research-stage-write {
+  0%, 57% { opacity: 0; transform: translate(-50%, 10px); }
+  61%, 74% { opacity: 1; transform: translate(-50%, 0); }
+  78%, 100% { opacity: 0; transform: translate(-50%, -5px); }
+}
+
+@keyframes research-stage-verify {
+  0%, 77% { opacity: 0; transform: translate(-50%, 10px); }
+  81%, 94% { opacity: 1; transform: translate(-50%, 0); }
+  98%, 100% { opacity: 0; transform: translate(-50%, -5px); }
+}
+
+@keyframes research-rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes research-fill {
+  from { transform: scaleX(.45); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes research-typing {
+  0%, 100% { opacity: .45; }
+  50% { opacity: 1; }
+}
+
+@keyframes research-check {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+  50% { transform: scale(1.06); box-shadow: 0 0 0 10px rgba(16, 185, 129, .08); }
+}
+
+@keyframes research-orb-one {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-2rem, 1.5rem) scale(1.15); }
+}
+
+@keyframes research-orb-two {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(2rem, -1rem) scale(1.1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .research-stage,
+  .research-orb,
+  .research-source,
+  .research-evidence,
+  .research-line,
+  .research-bar,
+  .research-fill,
+  .research-typing,
+  .research-check-ring {
+    animation: none !important;
+  }
+
+  .research-stage-search { opacity: 1; }
+}

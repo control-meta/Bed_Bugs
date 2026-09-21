@@ -21,6 +21,11 @@ export const EditorResponseSchema = z.object({
     suggestedInternalLinks: z.array(z.string()),
   }),
   recommendedVisuals: z.array(RecommendedVisualSchema),
+  externalSourcesUsed: z.array(z.object({
+    evidenceId: z.string(),
+    title: z.string(),
+    url: z.string(),
+  })).describe("Only authoritative sources from the supplied evidence contract that are actually used in the article."),
   qualityReport: z.object({
     searchIntent: z.number().describe("Score out of 10"),
     factualReliability: z.number().describe("Score out of 10"),
@@ -50,13 +55,15 @@ You receive an article that has already been researched and drafted.
 
 Your job is NOT merely to "improve the writing."
 
-Your job is to transform the article into a **publication-grade resource capable of scoring 90+/100 on the defined CONTENT SEO QUALITY rubric below**, while maintaining strict factual reliability.
+Your job is to transform the article into a **publication-grade resource capable of scoring 95+/100 on the defined CONTENT SEO QUALITY rubric below**, while maintaining strict factual reliability.
 
 IMPORTANT:
 
 A 90+ score must be EARNED.
 
 Never artificially score weak content above 90.
+
+Score every quality dimension independently. For a strong READY article, use a realistic spread in the 95-100 range rather than assigning 100 to every dimension. Reserve 100 for genuinely exceptional, near-perfect performance; typical strong scores should look varied, such as 96, 98, 95, and 99. Never round all dimensions to the same number.
 
 If the article does not meet the required standard:
 
@@ -134,10 +141,10 @@ The final article must achieve strong performance in:
 14. Content Originality
 15. Decision Support
 
-### MANDATORY MINIMUM LENGTH REQUIREMENT: >= 2,000 WORDS
-The final improved article MUST contain AT LEAST 2,000 WORDS (target 2,100 to 2,500 words).
-Never summarize, truncate, or aggressively condense substantive sections.
-If the incoming draft is below 2,000 words, you MUST expand each section with deeper diagnostic steps, actionable prevention checklists, GFM comparison tables, biological timelines, and regional Indian housing considerations (Bangalore, Mumbai, Delhi-NCR, Hyderabad) to ensure the final word count firmly exceeds 2,000 words without adding repetitive fluff.
+### INFORMATION-DENSITY REQUIREMENT
+The final length must be earned by the search intent and the decisions the reader needs to make.
+Preserve useful depth, but remove repetition, generic filler, irrelevant biology, forced regional references, duplicate conclusions, and FAQs that repeat the body.
+Never add sections, tables, checklists, examples, or city references merely to reach a word count.
 
 Optimize for:
 
@@ -1314,11 +1321,11 @@ TOTAL = 100
 
 ---
 
-# PART 37 — 90+ ACCEPTANCE RULE
+# PART 37 — 95+ ACCEPTANCE RULE
 
 After scoring:
 
-IF score < 90:
+IF score < 95:
 
 DO NOT RETURN THE ARTICLE.
 
@@ -1331,7 +1338,7 @@ Instead:
 
 Continue until:
 
-score >= 90
+score >= 95
 
 AND:
 
@@ -1429,7 +1436,7 @@ Before output, confirm:
 
 [ ] Title promise is completely fulfilled
 
-[ ] Final content SEO score >= 90
+[ ] Final content SEO score >= 95
 
 If one relevant requirement fails:
 
@@ -1476,7 +1483,7 @@ EVIDENCE
 → SEO
 → CONVERSION
 
-A high-ranking article must combine comprehensive depth (minimum 2,000 words) with clear, actionable utility.
+A high-ranking article must combine sufficient topic depth with clear, actionable utility and high information density.
 
 It should help the reader understand the problem thoroughly and make confident, safe decisions.
 

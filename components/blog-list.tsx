@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, BookOpen, Image as ImageIcon } from "lucide-react";
 import type { BlogItem } from "@/lib/blog-db";
 
@@ -28,7 +29,7 @@ export function BlogList({ blogs }: { blogs: BlogItem[] }) {
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-        {visibleBlogs.map((blog) => (
+        {visibleBlogs.map((blog, index) => (
           <article
             key={blog.id}
             className="group flex flex-col rounded-2xl bg-white border border-neutral-200/80 overflow-hidden shadow-xs hover:shadow-lg hover:border-brand-200 transition-all duration-300"
@@ -36,9 +37,13 @@ export function BlogList({ blogs }: { blogs: BlogItem[] }) {
             {/* Thumbnail Image */}
             <Link href={`/${blog.slug}`} className="relative aspect-[3/2] w-full overflow-hidden bg-neutral-100 block">
               {blog.imageUrl ? (
-                <img
+                <Image
                   src={blog.imageUrl}
                   alt={blog.title}
+                  fill
+                  sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"
+                  quality={72}
+                  preload={index === 0}
                   className="h-full w-full object-cover object-top transition-opacity duration-300 group-hover:opacity-95"
                 />
               ) : (

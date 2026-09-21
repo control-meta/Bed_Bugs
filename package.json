@@ -10,7 +10,7 @@
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
-    "test:blog": "node --test tests/blog-safety.test.mjs"
+    "test:blog": "node --test tests/blog-safety.test.mjs && node --import tsx --test tests/blog-image-pipeline.test.ts tests/blog-editorial-standards.test.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.116.0",

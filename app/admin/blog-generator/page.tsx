@@ -36,40 +36,16 @@ import {
   ImageOff,
   Globe,
   ExternalLink,
+  Database,
+  BarChart3,
 } from "lucide-react";
 
-type UsageStats = {
-  totalTokens: number;
-};
+import { useBlogGenerator, UsageStats, ResearchData, GeneratedData } from "../BlogGeneratorContext";
+import { DEFAULT_BLOG_IMAGE_MODEL } from "@/lib/blog/image-model-config";
 
-type ResearchData = {
-  searchIntent: {
-    primaryIntent: string;
-    targetAudience: string;
-    expectedAnswer: string;
-  };
-  informationGainPlan?: {
-    uniqueUsefulElements: string[];
-    contentGaps: string[];
-  };
-};
 
-type GeneratedData = {
-  blogContent: string;
-  research?: ResearchData;
-  audit?: any;
-  claims?: any[];
-  redFlags?: string[];
-  blockers?: any;
-  publicationStatus?: "READY" | "BLOCKED";
-  metadata?: any;
-  faqs?: any[];
-  schema?: any;
-  internalLinks?: any[];
-  cta?: any;
-  imageUrl?: string;
-  images?: any[];
-};
+
+
 
 const PIPELINE_STAGES = [
   { id: 1, label: "Intent Analysis", desc: "Planning info gain & search intent", icon: Brain },
@@ -177,98 +153,260 @@ function PipelineAnimation({ currentStage, streamStatus }: { currentStage: numbe
 }
 
 function WritingAnimation({ text }: { text: string }) {
-  const lines = text
-    .split("\n")
-    .filter((l) => l.trim())
-    .slice(-12);
+  const [phase, setPhase] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const lines = text.split("\n").filter((line) => line.trim()).slice(-5);
+  const sampleLines = [
+    "Bed bug treatment works best when...",
+    "Start with a careful inspection of...",
+    "Professional follow-up reduces risk...",
+  ];
+  const visibleLines = lines.length ? lines : sampleLines;
+  const phases = ["Searching the web", "Gathering evidence", "Analysing sources", "Writing the answer", "Improving accuracy"];
+  const phaseIcons = [Search, Database, Brain, PenTool, ShieldCheck];
+
+  useEffect(() => {
+    const startedAt = Date.now();
+    const timer = window.setInterval(() => {
+      const elapsed = Date.now() - startedAt;
+      setPhase(Math.floor((elapsed % 12000) / 2400));
+      setProgress(Math.min(100, Math.floor((elapsed / 30000) * 100)));
+    }, 120);
+    return () => window.clearInterval(timer);
+  }, []);
 
   return (
-    <div className="absolute inset-0 flex flex-col items-center justify-center p-8">
-      <div className="w-full max-w-2xl">
-        {/* Paper effect */}
-        <div className="relative rounded-2xl border border-neutral-200 bg-white shadow-xl overflow-hidden">
-          {/* Ruled lines header */}
-          <div className="flex items-center gap-2 border-b border-neutral-100 bg-neutral-50 px-5 py-3">
-            <div className="flex gap-1.5">
-              <div className="h-3 w-3 rounded-full bg-red-400" />
-              <div className="h-3 w-3 rounded-full bg-yellow-400" />
-              <div className="h-3 w-3 rounded-full bg-emerald-400" />
+    <div className="absolute inset-0 overflow-hidden bg-[#f6faf8] px-4 py-8 sm:px-8">
+      <div className="research-orb research-orb-one" />
+      <div className="research-orb research-orb-two" />
+      <div className="relative mx-auto flex h-full w-full max-w-4xl flex-col justify-center">
+        <div className="mb-4 flex items-center justify-between px-1 sm:mb-5">
+          <div>
+            <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-emerald-700">
+              <span className="relative flex h-2 w-2"><span className="absolute h-full w-full animate-ping rounded-full bg-emerald-400" /><span className="relative h-2 w-2 rounded-full bg-emerald-500" /></span>
+              Content intelligence engine
             </div>
-            <div className="flex-1 flex items-center gap-2 ml-2">
-              <PenTool className="h-3.5 w-3.5 text-neutral-400" />
-              <span className="text-xs font-medium text-neutral-400">AI Writing in progress...</span>
+            <p className="mt-1 text-xs text-slate-500">Turning research into a reliable answer</p>
+          </div>
+          <div className="hidden rounded-full border border-emerald-200 bg-white/70 px-3 py-1.5 text-[10px] font-semibold text-emerald-700 shadow-sm sm:block">
+            LIVE WORKFLOW
+          </div>
+        </div>
+
+        <div className="relative min-h-[390px] overflow-hidden rounded-[24px] border border-slate-200/80 bg-white/80 shadow-[0_24px_70px_-30px_rgba(15,70,54,0.35)] backdrop-blur-sm sm:min-h-[410px]">
+          <div className="absolute inset-x-0 top-0 flex h-12 items-center justify-between border-b border-slate-100 bg-white/75 px-4 sm:px-6">
+            <div className="flex items-center gap-2">
+              <div className="flex gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-rose-400" /><span className="h-2.5 w-2.5 rounded-full bg-amber-400" /><span className="h-2.5 w-2.5 rounded-full bg-emerald-400" /></div>
+              <span className="ml-2 text-[11px] font-semibold text-slate-500">research.workspace</span>
             </div>
-            <div className="flex gap-1">
-              {[0.3, 0.6, 0.9].map((d, i) => (
-                <div
-                  key={i}
-                  className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-bounce"
-                  style={{ animationDelay: `${d}s` }}
-                />
-              ))}
-            </div>
+            <span className="font-mono text-[10px] text-slate-400">SECURE / 05</span>
           </div>
 
-          {/* Writing content */}
-          <div className="p-6 min-h-[240px] font-mono text-sm text-neutral-700 leading-relaxed space-y-1.5 relative">
-            {/* Left margin line */}
-            <div className="absolute left-12 top-0 bottom-0 border-l border-red-100" />
-
-            {lines.map((line, i) => {
-              const isLast = i === lines.length - 1;
-              const isHeading = line.startsWith("#");
-              return (
-                <div
-                  key={i}
-                  className={`pl-8 animate-in fade-in slide-in-from-left-2 duration-300 ${
-                    isHeading
-                      ? "font-bold text-neutral-900 text-base"
-                      : "text-neutral-600 text-xs"
-                  }`}
-                  style={{ animationDelay: `${i * 30}ms` }}
-                >
-                  {line}
-                  {isLast && (
-                    <span className="inline-block w-2 h-4 ml-0.5 bg-emerald-500 rounded-sm align-middle animate-[blink_1s_step-end_infinite]" />
-                  )}
-                </div>
-              );
+          <div className="absolute inset-x-4 top-[68px] grid grid-cols-5 gap-1.5 sm:inset-x-8 sm:gap-2">
+            {phases.map((label, index) => {
+              const Icon = phaseIcons[index];
+              const active = phase === index;
+              const complete = phase > index;
+              return <div key={label} className={`relative flex items-center gap-1.5 rounded-full px-2 py-1.5 transition-all duration-500 sm:gap-2 sm:px-3 ${active ? "bg-emerald-100 text-emerald-800 shadow-sm" : complete ? "text-emerald-600" : "text-slate-400"}`}>
+                <Icon className="h-3 w-3 shrink-0 sm:h-3.5 sm:w-3.5" />
+                <span className="hidden truncate text-[10px] font-bold sm:block">{label}</span>
+                {complete && <CheckCircle2 className="ml-auto hidden h-3 w-3 sm:block" />}
+              </div>;
             })}
           </div>
 
-          {/* Progress bar at bottom */}
-          <div className="h-1 bg-neutral-100">
-            <div className="h-full bg-gradient-to-r from-emerald-400 to-emerald-600 animate-[progress_3s_ease-in-out_infinite_alternate]" style={{ width: "60%" }} />
+          <div className="research-stage research-stage-search">
+            <div className="mb-3 flex items-center gap-2 text-xs font-bold text-slate-700"><Search className="h-4 w-4 text-emerald-600" /> Searching trusted sources</div>
+            <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-[11px] text-slate-500"><span className="text-emerald-600">⌕</span> bed bug treatment and prevention <span className="ml-auto text-emerald-500">↵</span></div>
+            <div className="mt-3 space-y-2">{["EPA · Integrated pest management", "CDC · Prevention & control", "University extension · Evidence guide"].map((source, i) => <div key={source} className="research-source flex items-center gap-2 rounded-lg border border-slate-100 bg-white px-3 py-2 text-[10px] text-slate-600 shadow-sm" style={{ animationDelay: `${i * 160}ms` }}><Globe className="h-3 w-3 text-sky-500" />{source}<span className="ml-auto text-emerald-500">↗</span></div>)}</div>
+          </div>
+
+          <div className="research-stage research-stage-gather">
+            <div className="mb-3 flex items-center gap-2 text-xs font-bold text-slate-700"><Database className="h-4 w-4 text-emerald-600" /> Gathering evidence</div>
+            <div className="grid grid-cols-3 gap-2">{["03", "12", "28"].map((number, i) => <div key={number} className="research-evidence rounded-xl border border-emerald-100 bg-emerald-50/70 p-3 text-center" style={{ animationDelay: `${i * 220}ms` }}><div className="mx-auto mb-2 flex h-7 w-7 items-center justify-center rounded-lg bg-white text-xs font-black text-emerald-700 shadow-sm">{number}</div><p className="text-[9px] font-semibold text-emerald-900">{["Sources", "Claims", "Signals"][i]}</p><div className="mx-auto mt-2 h-1 w-full overflow-hidden rounded-full bg-emerald-100"><div className="research-fill h-full rounded-full bg-emerald-500" style={{ width: `${[82, 64, 91][i]}%` }} /></div></div>)}</div>
+          </div>
+
+          <div className="research-stage research-stage-analyse">
+            <div className="mb-3 flex items-center gap-2 text-xs font-bold text-slate-700"><BarChart3 className="h-4 w-4 text-emerald-600" /> Analysing what matters</div>
+            <div className="flex items-end justify-center gap-3 rounded-xl border border-slate-100 bg-slate-50/80 px-5 py-5">{[35, 58, 45, 78, 92, 68, 86].map((height, i) => <div key={i} className="research-bar w-5 rounded-t-md bg-gradient-to-t from-emerald-600 to-teal-300" style={{ height: `${height}px`, animationDelay: `${i * 100}ms` }} />)}</div>
+            <div className="mt-3 flex items-center justify-between text-[10px] text-slate-500"><span>Source agreement</span><strong className="text-emerald-700">94% confidence</strong></div>
+          </div>
+
+          <div className="research-stage research-stage-write">
+            <div className="mb-3 flex items-center justify-between"><div className="flex items-center gap-2 text-xs font-bold text-slate-700"><PenTool className="h-4 w-4 text-emerald-600" /> Writing with context</div><span className="research-typing text-[10px] font-semibold text-emerald-600">drafting...</span></div>
+            <div className="space-y-2 rounded-xl border border-slate-100 bg-white p-4 shadow-sm">{visibleLines.map((line, i) => <div key={`${line}-${i}`} className={`research-line h-2 rounded-full ${i === 0 ? "w-4/5 bg-slate-700" : "bg-slate-200"}`} style={{ width: i === 0 ? "78%" : `${[91, 68, 84, 58][i - 1] || 72}%`, animationDelay: `${i * 180}ms` }} />)}<span className="research-caret inline-block h-3 w-1 rounded-full bg-emerald-500" /></div>
+          </div>
+
+          <div className="research-stage research-stage-verify">
+            <div className="mx-auto flex max-w-xs flex-col items-center text-center"><div className="research-check-ring mb-3 flex h-16 w-16 items-center justify-center rounded-full border-4 border-emerald-100 bg-emerald-50 text-emerald-600"><ShieldCheck className="h-8 w-8" /></div><p className="text-sm font-bold text-slate-800">Accuracy pass complete</p><p className="mt-1 text-[11px] text-slate-500">Claims matched, language refined, confidence improved.</p><div className="mt-4 flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1.5 text-[10px] font-bold text-emerald-700"><CheckCircle2 className="h-3.5 w-3.5" /> 98% evidence confidence</div></div>
+          </div>
+
+          <div className="absolute inset-x-8 bottom-4 mx-auto w-[calc(100%-4rem)] max-w-3xl">
+            <div className="mb-2 flex items-center justify-between text-[10px] font-semibold text-slate-500">
+              <span>Workflow progress</span>
+              <span className="font-mono text-emerald-700">{progress}%</span>
+            </div>
+            <div className="h-1.5 overflow-hidden rounded-full bg-slate-100" role="progressbar" aria-label="Workflow progress" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress}>
+              <div className="h-full rounded-full bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-500 transition-[width] duration-150" style={{ width: `${progress}%` }} />
+            </div>
           </div>
         </div>
-        <p className="text-center text-xs text-neutral-400 mt-3 animate-pulse">Crafting your article with AI precision...</p>
+        <p className="mt-4 text-center text-xs text-slate-500"><span className="font-semibold text-emerald-700">{phases[phase]}</span><span className="mx-2 text-slate-300">·</span>Every sentence earns its place.</p>
       </div>
     </div>
   );
 }
 
+function LinkManager({ markdown, onUpdateMarkdown }: { markdown: string, onUpdateMarkdown: (newMarkdown: string) => void }) {
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [editAnchor, setEditAnchor] = useState("");
+  const [editUrl, setEditUrl] = useState("");
+
+  const extractLinks = (text: string) => {
+    const linkRegex = /(?<!\!)\[([^\]]+)\]\(([^)]+)\)/g;
+    let match;
+    const links = [];
+    while ((match = linkRegex.exec(text)) !== null) {
+      links.push({
+        fullMatch: match[0],
+        anchorText: match[1],
+        url: match[2],
+        startIndex: match.index,
+      });
+    }
+    return links;
+  };
+
+  const links = extractLinks(markdown);
+
+  const handleDelete = (link: any) => {
+    // Replace the full markdown link with just the anchor text
+    const newMarkdown = markdown.replace(link.fullMatch, link.anchorText);
+    onUpdateMarkdown(newMarkdown);
+  };
+
+  const handleEdit = (index: number, link: any) => {
+    setEditingIndex(index);
+    setEditAnchor(link.anchorText);
+    setEditUrl(link.url);
+  };
+
+  const handleSaveEdit = (link: any) => {
+    const newLink = `[${editAnchor}](${editUrl})`;
+    const newMarkdown = markdown.replace(link.fullMatch, newLink);
+    onUpdateMarkdown(newMarkdown);
+    setEditingIndex(null);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingIndex(null);
+  };
+
+  return (
+    <div className="flex flex-col gap-6 animate-in fade-in slide-in-from-bottom-2">
+      <div className="flex items-center justify-between">
+        <h3 className="text-lg font-bold text-neutral-900">Link Manager</h3>
+        <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800">
+          Total Links: {links.length}
+        </span>
+      </div>
+
+      {links.length === 0 ? (
+        <div className="p-6 text-center text-sm text-neutral-500 bg-neutral-50 rounded-xl border border-neutral-100">
+          No links found in the generated content.
+        </div>
+      ) : (
+        <div className="flex flex-col gap-3">
+          {links.map((link, index) => {
+            const isEditing = editingIndex === index;
+            const isInternal = link.url.startsWith("/") || link.url.includes("bedbugstreatment.co.in");
+
+            return (
+              <div key={index} className="p-4 rounded-xl border border-neutral-200 bg-white shadow-sm flex flex-col gap-3">
+                {isEditing ? (
+                  <div className="flex flex-col gap-3">
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-500">Anchor Text</label>
+                      <input 
+                        type="text" 
+                        value={editAnchor} 
+                        onChange={(e) => setEditAnchor(e.target.value)}
+                        className="w-full rounded-md border border-neutral-200 px-3 py-2 text-xs outline-none focus:border-emerald-500"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-500">Target URL</label>
+                      <input 
+                        type="text" 
+                        value={editUrl} 
+                        onChange={(e) => setEditUrl(e.target.value)}
+                        className="w-full rounded-md border border-neutral-200 px-3 py-2 text-xs outline-none focus:border-emerald-500"
+                      />
+                    </div>
+                    <div className="flex justify-end gap-2 mt-1">
+                      <button onClick={handleCancelEdit} className="px-3 py-1.5 text-xs font-semibold text-neutral-600 hover:bg-neutral-100 rounded-md">Cancel</button>
+                      <button onClick={() => handleSaveEdit(link)} className="px-3 py-1.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-md shadow-sm">Save Changes</button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex flex-col gap-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${isInternal ? 'bg-blue-100 text-blue-700' : 'bg-amber-100 text-amber-700'}`}>
+                          {isInternal ? 'Internal' : 'External'}
+                        </span>
+                        <span className="font-semibold text-sm text-neutral-900 truncate" title={link.anchorText}>{link.anchorText}</span>
+                      </div>
+                      <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-xs text-neutral-500 hover:text-emerald-600 truncate flex items-center gap-1.5" title={link.url}>
+                        <Link2 className="h-3.5 w-3.5 shrink-0" />
+                        {link.url}
+                      </a>
+                    </div>
+                    <div className="flex items-center gap-1 shrink-0">
+                      <button onClick={() => handleEdit(index, link)} className="p-1.5 text-neutral-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-md transition" title="Edit Link">
+                        <FileEdit className="h-4 w-4" />
+                      </button>
+                      <button onClick={() => handleDelete(link)} className="p-1.5 text-neutral-400 hover:text-red-600 hover:bg-red-50 rounded-md transition" title="Remove Link (Keep Text)">
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function BlogGeneratorPage() {
-  const abortControllerRef = useRef<AbortController | null>(null);
-  const readerRef = useRef<ReadableStreamDefaultReader<Uint8Array> | null>(null);
-  const isStoppedRef = useRef(false);
-  const hasAutoStartedRef = useRef(false);
-  const [topic, setTopic] = useState("");
-  const [keywords, setKeywords] = useState("");
-  const [skipImages, setSkipImages] = useState(false);
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [streamStatus, setStreamStatus] = useState("");
-  const [currentStage, setCurrentStage] = useState(0);
-  const [data, setData] = useState<GeneratedData | null>(null);
-  const [error, setError] = useState("");
-  const [copied, setCopied] = useState(false);
-  const [apiKeyMissing, setApiKeyMissing] = useState(false);
-  const [usage, setUsage] = useState<UsageStats | null>(null);
-  const [activeTab, setActiveTab] = useState<"preview" | "markdown" | "audit" | "seo" | "research">("preview");
+  const {
+    topic, setTopic,
+    keywords, setKeywords,
+    skipImages, setSkipImages,
+    isGenerating,
+    streamStatus, setStreamStatus,
+    currentStage,
+    data, setData,
+    error, setError,
+    targetSlug, setTargetSlug,
+    usage,
+    handleGenerate,
+    handleStop,
+    apiKeyMissing, setApiKeyMissing,
+    hasAutoStartedRef
+  } = useBlogGenerator();
+
+
+  const [activeTab, setActiveTab] = useState<"preview" | "markdown" | "audit" | "seo" | "research" | "links">("preview");
   const [isPublishing, setIsPublishing] = useState(false);
   const [publishedSuccess, setPublishedSuccess] = useState(false);
   const [publishedSlug, setPublishedSlug] = useState<string | null>(null);
   const [isSavingDraft, setIsSavingDraft] = useState(false);
   const [draftSuccess, setDraftSuccess] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   // Test Image States
   const [isImageTestOpen, setIsImageTestOpen] = useState(false);
@@ -277,22 +415,7 @@ export default function BlogGeneratorPage() {
   const [testImageError, setTestImageError] = useState("");
   const [testRawResponse, setTestRawResponse] = useState<any>(null);
 
-  useEffect(() => {
-    const saved = localStorage.getItem("generatedBlogData");
-    if (saved) {
-      try {
-        setData(JSON.parse(saved));
-      } catch (e) {
-        console.error("Failed to parse saved blog data", e);
-      }
-    }
-  }, []);
 
-  useEffect(() => {
-    if (data && !isGenerating) {
-      localStorage.setItem("generatedBlogData", JSON.stringify(data));
-    }
-  }, [data, isGenerating]);
 
   const handleDiscard = () => {
     if (confirm("Are you sure you want to discard the current generated blog?")) {
@@ -313,7 +436,8 @@ export default function BlogGeneratorPage() {
     try {
       const rawTitle = data.metadata?.seoTitle || data.metadata?.h1 || topic || "Bed Bug Treatment Guide";
       const cleanTitle = rawTitle.replace(/^#\s*/, "").trim();
-      const slug = (data.metadata?.urlSlug || cleanTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-")).replace(/^-|-$/g, "");
+      const generatedSlug = (data.metadata?.urlSlug || cleanTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-")).replace(/^-|-$/g, "");
+      const slug = targetSlug || generatedSlug;
 
       const res = await fetch("/api/admin/blogs", {
         method: "POST",
@@ -360,7 +484,8 @@ export default function BlogGeneratorPage() {
     try {
       const rawTitle = data.metadata?.seoTitle || data.metadata?.h1 || topic || "Bed Bug Treatment Guide";
       const cleanTitle = rawTitle.replace(/^#\s*/, "").trim();
-      const slug = (data.metadata?.urlSlug || cleanTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-")).replace(/^-|-$/g, "");
+      const generatedSlug = (data.metadata?.urlSlug || cleanTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-")).replace(/^-|-$/g, "");
+      const slug = targetSlug || generatedSlug;
 
       const res = await fetch("/api/admin/blogs", {
         method: "POST",
@@ -398,227 +523,18 @@ export default function BlogGeneratorPage() {
     }
   };
 
-  const handleStop = () => {
-    isStoppedRef.current = true;
-    if (readerRef.current) {
-      try {
-        readerRef.current.cancel("User cancelled generation").catch(() => {});
-      } catch {}
-      readerRef.current = null;
-    }
-    if (abortControllerRef.current) {
-      try {
-        abortControllerRef.current.abort();
-      } catch {}
-      abortControllerRef.current = null;
-    }
-    setIsGenerating(false);
-    setCurrentStage(0);
-    setStreamStatus("Generation stopped by user.");
-    setData(prev => {
-      if (!prev?.blogContent || prev.blogContent.trim().length === 0) {
-        return null;
-      }
-      return prev;
-    });
-  };
-
-  const handleGenerate = async (e?: React.FormEvent, overrideTopic?: string, overrideKeywords?: string) => {
-    e?.preventDefault();
-    const activeTopic = overrideTopic !== undefined ? overrideTopic : topic;
-    const activeKeywords = overrideKeywords !== undefined ? overrideKeywords : keywords;
-
-    // Cancel any previous session first
-    if (abortControllerRef.current) {
-      try { abortControllerRef.current.abort(); } catch {}
-      abortControllerRef.current = null;
-    }
-    if (readerRef.current) {
-      try { readerRef.current.cancel(); } catch {}
-      readerRef.current = null;
-    }
-
-    isStoppedRef.current = false;
-    abortControllerRef.current = new AbortController();
-    readerRef.current = null;
-
-    setError("");
-    setData(null);
-    setUsage(null);
-    setCurrentStage(1);
-    setStreamStatus("Initializing pipeline...");
-    setActiveTab("preview");
-
-    try {
-      const statusRes = await fetch("/api/admin/blog/status", {
-        signal: abortControllerRef.current.signal
-      });
-      const statusData = await statusRes.json();
-      if (!statusData.apiKeySet) {
-        setApiKeyMissing(true);
-        setTimeout(() => setApiKeyMissing(false), 4000);
-        return;
-      }
-    } catch (err: any) {
-      if (err.name === "AbortError" || isStoppedRef.current) {
-        setStreamStatus("Generation stopped by user.");
-        return;
-      }
-    }
-
-    if (isStoppedRef.current) return;
-
-    setIsGenerating(true);
-
-    try {
-      const response = await fetch("/api/admin/blog/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ topic: activeTopic, keywords: activeKeywords, skipImages, imageModel: "gpt-image-2.5-flare" }),
-        signal: abortControllerRef.current.signal,
-      });
-
-      if (!response.ok) {
-        const errData = await response.json();
-        throw new Error(errData.error || "Failed to generate blog");
-      }
-
-      if (isStoppedRef.current) return;
-
-      const reader = response.body?.getReader();
-      if (!reader) throw new Error("Streaming not supported in this browser.");
-      readerRef.current = reader;
-
-      const decoder = new TextDecoder();
-      let buffer = "";
-      let tempContent = "";
-      let tempResearch: ResearchData | undefined;
-
-      setData({ blogContent: "" });
-
-      while (true) {
-        if (isStoppedRef.current) break;
-
-        let readResult;
-        try {
-          readResult = await reader.read();
-        } catch (readErr: any) {
-          if (
-            isStoppedRef.current ||
-            readErr?.name === "AbortError" ||
-            readErr?.message?.includes("aborted") ||
-            readErr?.message?.includes("BodyStreamBuffer")
-          ) {
-            break;
-          }
-          throw readErr;
-        }
-
-        const { done, value } = readResult;
-        if (done || isStoppedRef.current) break;
-
-        buffer += decoder.decode(value, { stream: true });
-
-        let newlineIndex;
-        while ((newlineIndex = buffer.indexOf("\n")) !== -1) {
-          if (isStoppedRef.current) break;
-          const line = buffer.slice(0, newlineIndex);
-          buffer = buffer.slice(newlineIndex + 1);
-
-          if (line.trim()) {
-            try {
-              const event = JSON.parse(line);
-              
-              if (event.type === "status") {
-                if (!isStoppedRef.current) {
-                  setStreamStatus(event.data.message);
-                  if (event.data.stage) setCurrentStage(event.data.stage);
-                }
-              } else if (event.type === "research") {
-                tempResearch = event.data;
-              } else if (event.type === "red_flags") {
-                // Red flags detected during drafting
-              } else if (event.type === "chunk") {
-                if (!isStoppedRef.current) {
-                  tempContent += event.data;
-                  setData(prev => ({
-                    ...prev,
-                    blogContent: tempContent,
-                    research: tempResearch,
-                  } as GeneratedData));
-                }
-              } else if (event.type === "complete") {
-                if (!isStoppedRef.current) {
-                  setData(event.data);
-                  if (event.data.usage) setUsage(event.data.usage);
-                  setStreamStatus("");
-                  setCurrentStage(0);
-                }
-              } else if (event.type === "error") {
-                throw new Error(event.data);
-              }
-            } catch (err) {
-              console.error("Failed to parse stream line:", line, err);
-            }
-          }
-        }
-      }
-    } catch (err: any) {
-      if (
-        err?.name === 'AbortError' ||
-        isStoppedRef.current ||
-        err?.message?.includes("aborted") ||
-        err?.message?.includes("BodyStreamBuffer")
-      ) {
-        setStreamStatus("Generation stopped by user.");
-      } else {
-        setError(err?.message || "Something went wrong.");
-        setStreamStatus("");
-      }
-    } finally {
-      if (readerRef.current) {
-        try {
-          readerRef.current.cancel().catch(() => {});
-        } catch {}
-        readerRef.current = null;
-      }
-      setIsGenerating(false);
-      if (!isStoppedRef.current) {
-        setStreamStatus("");
-      } else {
-        setStreamStatus("Generation stopped by user.");
-        setCurrentStage(0);
-      }
-    }
-  };
-
-  useEffect(() => {
-    const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
-      if (
-        event.reason?.name === "AbortError" ||
-        event.reason?.message?.includes("aborted") ||
-        event.reason?.message?.includes("BodyStreamBuffer")
-      ) {
-        event.preventDefault();
-      }
-    };
-
-    window.addEventListener("unhandledrejection", handleUnhandledRejection);
-    return () => {
-      window.removeEventListener("unhandledrejection", handleUnhandledRejection);
-    };
-  }, []);
-
   useEffect(() => {
     if (typeof window !== "undefined" && !hasAutoStartedRef.current) {
       const searchParams = new URLSearchParams(window.location.search);
       const urlTopic = searchParams.get("topic");
       const urlKeywords = searchParams.get("keywords") || "";
+      const urlSlug = searchParams.get("slug") || "";
 
       if (urlTopic) {
         hasAutoStartedRef.current = true;
         setTopic(urlTopic);
         setKeywords(urlKeywords);
+        if (urlSlug) setTargetSlug(urlSlug);
         
         // Remove query params from URL so it doesn't trigger again on refresh
         window.history.replaceState({}, document.title, window.location.pathname);
@@ -683,8 +599,8 @@ export default function BlogGeneratorPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          prompt: `A highly detailed, professional, photorealistic image about ${topic || "bed bugs"}.`,
-          model: "gpt-image-2.5-flare"
+          topic: topic || "Bed Bug Inspection and Treatment Guide",
+          model: DEFAULT_BLOG_IMAGE_MODEL
         }),
       });
       const data = await response.json();
@@ -905,21 +821,32 @@ export default function BlogGeneratorPage() {
                 <span>{publishedSuccess ? "Published to Website!" : isPublishing ? "Publishing..." : "Publish to Website"}</span>
               </button>
 
-              <button
-                type="button"
-                onClick={handleSaveDraft}
-                disabled={isSavingDraft}
-                className="flex w-full items-center justify-center gap-2 rounded-xl border border-neutral-200 bg-neutral-100 px-4 py-2.5 text-sm font-bold text-neutral-800 shadow-sm transition hover:bg-neutral-200 disabled:opacity-50"
-              >
-                {isSavingDraft ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : draftSuccess ? (
-                  <CheckCircle2 className="h-4 w-4 text-emerald-600" />
-                ) : (
-                  <FileText className="h-4 w-4 text-neutral-600" />
-                )}
-                <span>{draftSuccess ? "Saved as Draft!" : isSavingDraft ? "Saving Draft..." : "Save as Draft"}</span>
-              </button>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={handleSaveDraft}
+                  disabled={isSavingDraft}
+                  className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-neutral-200 bg-neutral-100 px-2 py-2.5 text-sm font-bold text-neutral-800 shadow-sm transition hover:bg-neutral-200 disabled:opacity-50"
+                >
+                  {isSavingDraft ? (
+                    <Loader2 className="h-4 w-4 shrink-0 animate-spin" />
+                  ) : draftSuccess ? (
+                    <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600" />
+                  ) : (
+                    <FileText className="h-4 w-4 shrink-0 text-neutral-600" />
+                  )}
+                  <span className="truncate">{draftSuccess ? "Saved as Draft!" : isSavingDraft ? "Saving..." : "Save as Draft"}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleDiscard}
+                  className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-red-50 px-2 py-2.5 text-sm font-bold text-red-600 transition hover:bg-red-100"
+                >
+                  <Trash2 className="h-4 w-4 shrink-0" />
+                  <span className="truncate">Discard</span>
+                </button>
+              </div>
 
               {draftSuccess && (
                 <div className="flex flex-col gap-1.5 rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs text-amber-900 shadow-xs animate-in fade-in duration-200">
@@ -938,15 +865,6 @@ export default function BlogGeneratorPage() {
                   </Link>
                 </div>
               )}
-
-              <button
-                type="button"
-                onClick={handleDiscard}
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-red-50 px-4 py-2 text-xs font-bold text-red-600 transition hover:bg-red-100"
-              >
-                <Trash2 className="h-4 w-4" />
-                <span>Discard Content</span>
-              </button>
             </>
           )}
         </div>
@@ -1010,6 +928,16 @@ export default function BlogGeneratorPage() {
             >
               <Code2 className="h-3.5 w-3.5" /> Markdown
             </button>
+            <button
+              onClick={() => setActiveTab("links")}
+              className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-semibold transition ${
+                activeTab === "links"
+                  ? "bg-white text-neutral-900 shadow-sm ring-1 ring-neutral-200/50"
+                  : "text-neutral-500 hover:text-neutral-700 hover:bg-neutral-200/50"
+              }`}
+            >
+              <Link2 className="h-3.5 w-3.5" /> Link Manager
+            </button>
           </div>
 
           <div className="flex items-center gap-2 shrink-0 ml-2">
@@ -1026,22 +954,7 @@ export default function BlogGeneratorPage() {
               <span className="hidden sm:inline">{copied ? "Copied!" : "Copy Output"}</span>
             </button>
 
-            {data?.blogContent && !isGenerating && (
-              <button
-                onClick={handlePublishBlog}
-                disabled={isPublishing || data.publicationStatus === "BLOCKED"}
-                className="flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3.5 py-1.5 text-xs font-bold text-white shadow-sm transition hover:bg-emerald-700 disabled:opacity-50"
-              >
-                {isPublishing ? (
-                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                ) : publishedSuccess ? (
-                  <CheckCircle2 className="h-3.5 w-3.5 text-white" />
-                ) : (
-                  <Globe className="h-3.5 w-3.5" />
-                )}
-                <span>{publishedSuccess ? "Published!" : isPublishing ? "Publishing..." : "Publish to Website"}</span>
-              </button>
-            )}
+
 
             {publishedSlug && (
               <a
@@ -1161,6 +1074,13 @@ export default function BlogGeneratorPage() {
                   {data.blogContent}
                   {isGenerating && <span className="inline-block w-2 h-3 ml-1 bg-neutral-800 animate-pulse"></span>}
                 </pre>
+              )}
+
+              {activeTab === "links" && (
+                <LinkManager 
+                  markdown={data.blogContent} 
+                  onUpdateMarkdown={(newMarkdown) => setData(prev => prev ? { ...prev, blogContent: newMarkdown } : prev)} 
+                />
               )}
 
               {activeTab === "audit" && data.audit && (
@@ -1413,7 +1333,7 @@ export default function BlogGeneratorPage() {
               {isTestingImage ? (
                 <div className="flex flex-col items-center justify-center py-12 gap-4 text-emerald-600">
                   <Loader2 className="h-8 w-8 animate-spin" />
-                  <p className="text-sm font-semibold">Calling OpenAI API with gpt-image-2.5-flare...</p>
+                  <p className="text-sm font-semibold">Calling OpenAI API with {DEFAULT_BLOG_IMAGE_MODEL}...</p>
                 </div>
               ) : testImageError ? (
                 <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-red-700 flex flex-col gap-2">

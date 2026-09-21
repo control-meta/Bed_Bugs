@@ -1,10 +1,10 @@
 import fs from "fs";
 import path from "path";
-import crypto from "crypto";
 import OpenAI from "openai";
 import { getCalendarPlans, saveCalendarPlans, BlogPlan } from "./calendar-db";
 import { saveBlog, BlogItem } from "./blog-db";
-import { injectBlogImages, BlogImage } from "./blog/image-selector";
+import { injectBlogImages } from "./blog/image-selector";
+import { generateFreshBlogImages } from "./blog/ai-image-generator";
 
 export interface AutoPublishLog {
   id: string;
@@ -330,76 +330,35 @@ Return strictly valid JSON with this format:
       }
     }
 
-    // STAGE: AI IMAGE GENERATION
-    let customTopImage: BlogImage | null = null;
-    let customMidImage: BlogImage | null = null;
-    
-    try {
-      console.log(`[auto-publish] Generating AI Images for: "${planItem.topic}"...`);
-      const imageModel = "gpt-image-2.5-flare";
-      
-      const fetchAndSaveImage = async (url: string, prefix: string) => {
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error(`Failed to fetch image from URL: ${response.statusText}`);
-        }
-        const buffer = Buffer.from(await response.arrayBuffer());
-        const fileName = `${prefix}-${crypto.randomUUID()}.png`;
-        const filePath = path.join(process.cwd(), 'public', 'images', 'blogs', 'ai', fileName);
-        
-        await fs.promises.mkdir(path.dirname(filePath), { recursive: true });
-        await fs.promises.writeFile(filePath, buffer);
-        return `/images/blogs/ai/${fileName}`;
-      };
+    // Fresh images are required. A failed image request must stop publication so
+    // an older curated/published image can never silently replace it.
+    console.log(`[auto-publish] Generating two fresh AI images for: "${planItem.topic}"...`);
+    const generatedImages = await generateFreshBlogImages({
+      openai,
+      topic: planItem.topic,
+      keywords: planItem.keywords,
+      articleMarkdown: baseMarkdown,
+    });
 
-      // Generate Top Image
-      const topImgRes = await openai.images.generate({
-        model: imageModel,
-        prompt: `A highly detailed, professional, photorealistic image about ${planItem.topic}. High quality, no text, no watermarks.`,
-        n: 1,
-        size: "1024x1024",
-      });
-      const topImgUrl = topImgRes.data?.[0]?.url || (topImgRes.data?.[0]?.b64_json ? `data:image/png;base64,${topImgRes.data[0].b64_json}` : null);
-      if (topImgUrl) {
-        const savedPath = await fetchAndSaveImage(topImgUrl, 'ai-top');
-        customTopImage = {
-          url: savedPath,
-          alt: `${planItem.topic} - Hero Image`,
-          caption: `Professional illustration of ${planItem.topic}`,
-          role: "top"
-        };
-      }
-
-      // Generate Mid Image
-      const midImgRes = await openai.images.generate({
-        model: imageModel,
-        prompt: `A close-up, professional inspection or pest control treatment scene related to ${planItem.topic}. High quality, photorealistic, no text, no watermarks.`,
-        n: 1,
-        size: "1024x1024",
-      });
-      const midImgUrl = midImgRes.data?.[0]?.url || (midImgRes.data?.[0]?.b64_json ? `data:image/png;base64,${midImgRes.data[0].b64_json}` : null);
-      if (midImgUrl) {
-        const savedPath = await fetchAndSaveImage(midImgUrl, 'ai-mid');
-        customMidImage = {
-          url: savedPath,
-          alt: `${planItem.topic} - Inspection`,
-          caption: `Detailed view of treatment/inspection for ${planItem.topic}`,
-          role: "middle"
-        };
-      }
-    } catch (err: any) {
-      console.error("[auto-publish] Image Generation Error:", err);
-    }
-
-    // Inject 2 contextually relevant images into the blog content (one at top, one in middle)
+    // Inject the newly generated hero and section images into the blog content.
     const { markdownWithImages, topImage, midImage } = injectBlogImages(
       baseMarkdown,
       planItem.topic,
       planItem.keywords,
       false,
-      customTopImage,
-      customMidImage
+      generatedImages.topImage,
+      generatedImages.midImage
     );
+
+    if (
+      !topImage ||
+      !midImage ||
+      !topImage.url.startsWith("/images/blogs/ai/") ||
+      !midImage.url.startsWith("/images/blogs/ai/") ||
+      topImage.url === midImage.url
+    ) {
+      throw new Error("Fresh blog images were generated but could not be placed in the article.");
+    }
 
     const newBlog = {
       title: parsed.title,
@@ -409,7 +368,7 @@ Return strictly valid JSON with this format:
       keywords: planItem.keywords,
       markdown: markdownWithImages,
       excerpt: parsed.excerpt || `Comprehensive guide on ${parsed.title}. Practical steps and professional pest control insights for Indian homes.`,
-      imageUrl: topImage ? topImage.url : "/images/blogs/bed-bugs-pest-control.png",
+      imageUrl: topImage.url,
       images: [
         ...(topImage ? [{ url: topImage.url, alt: topImage.alt, title: topImage.caption }] : []),
         ...(midImage ? [{ url: midImage.url, alt: midImage.alt, title: midImage.caption }] : []),

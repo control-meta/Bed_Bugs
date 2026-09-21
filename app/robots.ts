@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://bedbugstreatment.co.in";
+
   return {
     rules: [
       {
@@ -12,7 +14,6 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
       },
     ],
-    sitemap: "https://bedbugstreatment.co.in/sitemap.xml",
-    host: "https://bedbugstreatment.co.in",
+    sitemap: `${baseUrl}/sitemap.xml`,
   };
 }

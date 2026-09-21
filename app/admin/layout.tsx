@@ -20,6 +20,7 @@ import {
   BookOpen,
 } from "lucide-react";
 import { CalendarProvider } from "./CalendarContext";
+import { BlogGeneratorProvider } from "./BlogGeneratorContext";
 
 export default function AdminLayout({
   children,
@@ -401,9 +402,11 @@ export default function AdminLayout({
               : "p-3.5 sm:p-4 overflow-hidden flex flex-col"
           }`}
         >
-          <CalendarProvider>
-            {children}
-          </CalendarProvider>
+          <BlogGeneratorProvider>
+            <CalendarProvider>
+              {children}
+            </CalendarProvider>
+          </BlogGeneratorProvider>
         </main>
       </div>
     </div>
