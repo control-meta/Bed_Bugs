@@ -139,7 +139,7 @@ export function FloatingForm() {
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-700 opacity-75" />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-700" />
                 </span>
-                <span>Specialists on Duty</span>
+                <span>Bed Bug Specialists Available</span>
               </div>
 
               {/* Close Button */}

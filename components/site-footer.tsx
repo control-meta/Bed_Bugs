@@ -3,6 +3,7 @@ import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { LogoMark } from "@/components/logo";
 import { navLinks, site } from "@/lib/site";
 import { locations } from "@/lib/locations";
+import { QrPopup } from "@/components/qr-popup";
 
 export function SiteFooter() {
   return (
@@ -14,23 +15,24 @@ export function SiteFooter() {
       />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-8 border-b border-white/10 py-10 max-sm:grid-cols-2 max-sm:gap-6 max-sm:pt-6 max-sm:text-center sm:grid-cols-2 lg:grid-cols-12 lg:gap-6">
-          <div className="lg:col-span-4 max-sm:col-span-2">
-            <div className="flex items-center gap-2.5 max-sm:justify-center">
+        <div className="grid gap-8 border-b border-white/10 py-10 max-sm:grid-cols-2 max-sm:gap-6 max-sm:pt-6 max-sm:text-center sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
+          <div className="text-center max-sm:col-span-2 sm:col-span-1 lg:col-span-4">
+            <div className="flex items-center justify-center gap-2.5">
               <LogoMark className="h-9 w-auto" />
               <span className="font-display text-lg font-bold leading-none tracking-tight">
                 <span className="text-white">BedBug</span>{" "}
                 <span className="text-brand-500">Treatment</span>
               </span>
             </div>
-            <p className="mt-3 max-w-xs text-xs leading-relaxed text-white/55 max-sm:mx-auto">
+            <p className="mx-auto mt-3 max-w-xs text-xs leading-relaxed text-white/55">
               India’s Bed Bug Treatment Specialists
               Professional solutions designed to eliminate bed bugs and help prevent reinfestation.
               Residential • Commercial
             </p>
+            <QrPopup />
           </div>
 
-          <div className="lg:col-span-2 max-sm:col-span-1">
+          <div className="text-center max-sm:col-span-1 sm:col-span-1 lg:col-span-2">
             <h3 className="text-xs font-semibold uppercase tracking-widest text-brand-400">
               Quick Links
             </h3>
@@ -48,7 +50,7 @@ export function SiteFooter() {
             </ul>
           </div>
 
-          <div className="lg:col-span-3 max-sm:col-span-1">
+          <div className="text-center max-sm:col-span-1 sm:col-span-1 lg:col-span-2">
             <h3 className="text-xs font-semibold uppercase tracking-widest text-brand-400">
               Locations
             </h3>
@@ -66,7 +68,7 @@ export function SiteFooter() {
             </ul>
           </div>
 
-          <div className="lg:col-span-3 max-sm:col-span-2">
+          <div className="text-center max-sm:col-span-2 sm:col-span-2 lg:col-span-4">
             <h3 className="text-xs font-semibold uppercase tracking-widest text-brand-400">
               Contact
             </h3>
@@ -138,22 +140,6 @@ export function SiteFooter() {
             © {site.foundedYear}–{new Date().getFullYear()} {site.legalName}. All
             Rights Reserved.
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-white/50">
-            <span className="text-white/35">Service Cities:</span>
-            {locations.map((loc, idx) => (
-              <span key={loc.slug} className="inline-flex items-center gap-2">
-                <Link
-                  href={`/${loc.slug}`}
-                  className="transition hover:text-brand-400 hover:underline"
-                >
-                  {loc.name}
-                </Link>
-                {idx < locations.length - 1 && (
-                  <span className="text-white/20">·</span>
-                )}
-              </span>
-            ))}
-          </div>
         </div>
       </div>
     </footer>

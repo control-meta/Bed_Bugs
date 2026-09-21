@@ -106,16 +106,15 @@ export function BlogPostArticle({ blog }: { blog: BlogItem }) {
                         className="w-full h-full object-cover object-top m-0"
                       />
                     </span>
-                    {props.alt && (
-                      <span className="text-center text-xs text-neutral-500 mt-2.5 font-medium italic block">
-                        {props.alt}
-                      </span>
-                    )}
                   </span>
                 ),
               }}
             >
-              {blog.markdown.replace(/^\s*#\s+[^\n]+(?:\r?\n)+/, "")}
+              {blog.markdown
+                .replace(/^\s*#\s+[^\n]+(?:\r?\n)+/, "") // Remove duplicate H1 at top
+                .replace(/^\s*(?:\*|_)?(?:Image|Photo|Picture|Visual|Caption|Figure|Illustration)(?:\s*showing|\s*:|\s+of).*?(?:\*|_)?\s*$/gim, "") // Strip italicized hallucinated captions
+                .replace(/^\s*(?:\*|_)(?:A|An|Close-up|Close up|Macro).*?(?:\*|_)\s*$/gim, "") // Strip fallback italic captions
+              }
             </ReactMarkdown>
           </div>
 

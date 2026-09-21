@@ -7,12 +7,19 @@ const nextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 2592000,
+    qualities: [50, 72, 75, 78],
     remotePatterns: [
       {
         protocol: "https",
         hostname: "shmvcmwaqokemuobsuzn.supabase.co",
         port: "",
         pathname: "/storage/v1/object/public/blog-images/**",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn.rankyak.com",
+        port: "",
+        pathname: "/**",
       },
     ],
   },

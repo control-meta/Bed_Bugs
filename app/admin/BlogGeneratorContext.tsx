@@ -45,6 +45,8 @@ type BlogGeneratorContextType = {
   setKeywords: (keywords: string) => void;
   skipImages: boolean;
   setSkipImages: (skip: boolean) => void;
+  allowExternalLinks: boolean;
+  setAllowExternalLinks: (allow: boolean) => void;
   isGenerating: boolean;
   streamStatus: string;
   setStreamStatus: (status: string) => void;
@@ -83,6 +85,7 @@ export function BlogGeneratorProvider({ children }: { children: React.ReactNode 
   const [topic, setTopic] = useState("");
   const [keywords, setKeywords] = useState("");
   const [skipImages, setSkipImages] = useState(false);
+  const [allowExternalLinks, setAllowExternalLinks] = useState(true);
   const [isGenerating, setIsGenerating] = useState(false);
   const [streamStatus, setStreamStatus] = useState("");
   const [currentStage, setCurrentStage] = useState(0);
@@ -206,7 +209,7 @@ export function BlogGeneratorProvider({ children }: { children: React.ReactNode 
       const response = await fetch("/api/admin/blog/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ topic: activeTopic, keywords: activeKeywords, skipImages, imageModel: DEFAULT_BLOG_IMAGE_MODEL }),
+        body: JSON.stringify({ topic: activeTopic, keywords: activeKeywords, skipImages, allowExternalLinks, imageModel: DEFAULT_BLOG_IMAGE_MODEL }),
         signal: abortControllerRef.current.signal,
       });
 
@@ -343,6 +346,7 @@ export function BlogGeneratorProvider({ children }: { children: React.ReactNode 
       topic, setTopic,
       keywords, setKeywords,
       skipImages, setSkipImages,
+      allowExternalLinks, setAllowExternalLinks,
       isGenerating,
       streamStatus, setStreamStatus,
       currentStage,

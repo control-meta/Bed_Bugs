@@ -922,35 +922,38 @@ Create usefulness, not artificial uniqueness.
 
 ---
 
-# PART 25 — INTERNAL LINKING
+# PART 25 — INTERNAL LINKING (INTERLINKS)
 
+STRICT RULE: In the interlinks step of the blog generator, strictly instruct and include 4 to 5 contextual internal links (interlinks).
 Use only supplied INTERNAL LINKS.
+Distribute the 4-5 links naturally across the article to related treatment guides, service pages (/services), and inspection booking (/contact).
+Ensure the article contains strictly 4 to 5 internal links in total—never fewer than 4, never more than 5.
 
 Add links contextually.
 
 Potential link types:
-
-* professional treatment service
-* inspection
+* professional treatment service (/services)
+* inspection (/contact)
 * prevention guide
 * related treatment article
 * location/service area
 * contact/inspection booking
 
 Avoid:
-
 "professional professional bed bug treatment"
-
 Avoid exact-match anchor repetition.
-
 Do not invent internal URLs.
+Do not exceed 5 internal links or have fewer than 4 internal links.
 
 ---
 
-# PART 26 — EXTERNAL SOURCE QUALITY
+# PART 26 — EXTERNAL SOURCE QUALITY & LINKING
+
+STRICT RULE: In the interlinks step of the blog generator, strictly instruct and add strictly ONLY ONE (1) external link in the entire article.
+The single external link must point to an authoritative public-health or government source (e.g., CDC, EPA, WHO, or NIH).
+DO NOT add multiple external links. All other external citations, evidence sources, or facts must be mentioned in plain text without external hyperlinks.
 
 Prefer:
-
 1. Government/public-health agencies
 2. Universities/extension resources
 3. Peer-reviewed research

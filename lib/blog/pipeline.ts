@@ -47,11 +47,12 @@ const WRITING_RULES = `
 - Never invent an expert, quote, institution, paper, journal, government document, statistic, URL, certification, award, business claim, price, temperature, duration, dosage, success rate, or treatment interval.
 - For SCIENTIFIC, HEALTH, SAFETY, REGULATORY, PRICE, EXPERT, and STATISTICAL claims, use only the verified evidence supplied below. If it is absent, omit the claim or use a non-specific explanation.
 - Copy source URLs exactly. Cite an important supported claim using a normal Markdown link to its supplied source. Do not create a References section; the application creates it from sources actually used.
-- Use only the supplied internal URLs. Include contextual links in useful paragraphs with varied, natural anchor text.
+- In the interlinks step, strictly add 4 to 5 contextual internal links using only the supplied internal URLs. Strictly add ONLY ONE (1) high-authority external link across the entire article. All other evidence citations must remain plain text.
 - Build sections around search intent. Prefer useful inspection steps, decision aids, checklists, comparison tables, mistakes, preparation, aftercare, and topic-specific FAQs when they improve the answer.
 - Do not add sections only to increase length. Avoid keyword stuffing and repetitive transition words.
 - Return the FAQ content in both the markdown article and the structured faqs field.
 - Start markdown with one H1 matching metadata.h1. Use relative paths such as /services for internal links; never expand them to a made-up domain.
+- NEVER add captions, italicized descriptions, or any text below images. The images must stand alone without a descriptive line below them.
 `;
 
 type StageResult = {
@@ -81,6 +82,17 @@ function ensureFaqSection(markdown: string, faqs: DraftPackage["faqs"]): string 
 
 function removeModelReferences(markdown: string): string {
   return markdown.replace(/\n##\s+(?:References|Sources)\s*\n[\s\S]*$/i, "").trim();
+}
+
+function removeHallucinatedVisuals(markdown: string): string {
+  let clean = markdown;
+  // 1. Strip hallucinated markdown images
+  clean = clean.replace(/!\[[^\]]*\]\([^)]+\)\s*/g, "");
+  // 2. Strip hallucinated italic captions (e.g. *Image showing...*)
+  clean = clean.replace(/^\s*(?:\*|_)?(?:Image|Photo|Picture|Visual|Caption|Figure|Illustration)(?:\s*showing|\s*:|\s+of).*?(?:\*|_)?\s*$/gim, "");
+  // 3. Strip any stray markdown caption lines that are just italics under where an image used to be (if they start with just italics)
+  clean = clean.replace(/^\s*(?:\*|_)(?:A|An|Close-up|Close up|Macro).*?(?:\*|_)\s*$/gim, "");
+  return clean.trim();
 }
 
 function appendVerifiedReferences(markdown: string, evidence: VerifiedFact[]): string {
@@ -293,7 +305,10 @@ export async function runBlogPipeline(input: { topic?: string; keywords?: string
   const evaluate = async (candidateDraft: DraftPackage): Promise<StageResult> => {
     const internalLinks = validInternalLinks(candidateDraft, allowedInternalUrls);
     candidateDraft = { ...candidateDraft, internalLinks };
-    let markdown = ensureFaqSection(removeModelReferences(candidateDraft.markdown), candidateDraft.faqs);
+    
+    let cleanMarkdown = removeHallucinatedVisuals(candidateDraft.markdown);
+    cleanMarkdown = removeModelReferences(cleanMarkdown);
+    let markdown = ensureFaqSection(cleanMarkdown, candidateDraft.faqs);
     markdown = appendVerifiedReferences(markdown, verifiedFacts);
     const warnings = scanHallucinations(markdown, verifiedFacts, [...allowedInternalUrls]);
     if (!verifiedFacts.length && researchBrief.evidenceNeeds.some((need) => need.required)) {

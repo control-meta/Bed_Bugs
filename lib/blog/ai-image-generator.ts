@@ -75,6 +75,21 @@ function extractUsefulHeadings(markdown: string): string[] {
     .filter((heading) => heading && !excluded.test(heading));
 }
 
+function sanitizeAltText(rawAlt: string | undefined, fallback: string): string {
+  if (!rawAlt) return fallback;
+  const lower = rawAlt.toLowerCase();
+  if (
+    lower.includes("cast skins") ||
+    lower.includes("fecal spots") ||
+    lower.includes("close-up image") ||
+    lower.startsWith("infographic showing") ||
+    lower.startsWith("photo of")
+  ) {
+    return fallback;
+  }
+  return cleanInlineText(rawAlt, 160);
+}
+
 export function buildBlogImagePlan({
   topic,
   keywords = [],
@@ -99,7 +114,7 @@ export function buildBlogImagePlan({
         keywordContext ? `The visual must clearly reflect these concepts: ${keywordContext}.` : "",
         "Choose the people, room, tools, evidence, and action that most directly explain this exact topic in an Indian residential setting.",
       ].filter(Boolean).join(" "),
-      alt: cleanInlineText(recommendedVisuals[0]?.altText || `${cleanTopic} illustrated guide`, 160),
+      alt: sanitizeAltText(recommendedVisuals[0]?.altText, `${cleanTopic} - Bed Bug Treatment Guide`),
       caption: `AI-generated visual created specifically for ${cleanTopic}`,
     },
     middle: {
@@ -110,7 +125,7 @@ export function buildBlogImagePlan({
         `Keep it specifically connected to the main topic: "${cleanTopic}".`,
         "Show a different scene and camera angle from the lead image, with useful inspection evidence, treatment equipment, or prevention actions appropriate to this section.",
       ].join(" "),
-      alt: cleanInlineText(recommendedVisuals[1]?.altText || `${middleHeading} — ${cleanTopic}`, 160),
+      alt: sanitizeAltText(recommendedVisuals[1]?.altText, `${middleHeading} — ${cleanTopic}`),
       caption: `AI-generated visual for ${middleHeading}`,
     },
   };

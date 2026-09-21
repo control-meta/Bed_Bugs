@@ -74,10 +74,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${inter.variable} ${poppins.variable} h-full antialiased`}
       data-scroll-behavior="smooth"
     >
-      <body className="flex min-h-full flex-col bg-white">
-        <Script
+      <head>
+        <script
           id="perf-measure-guard"
-          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
@@ -103,6 +102,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             `,
           }}
         />
+      </head>
+      <body className="flex min-h-full flex-col bg-white">
         <ScrollToTop />
         <MarketingOnly>
           <SiteHeader />

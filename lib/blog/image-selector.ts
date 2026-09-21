@@ -210,10 +210,26 @@ export function injectBlogImages(
 
   let text = markdown;
 
+  function cleanAlt(alt: string | undefined, fallback: string): string {
+    if (!alt) return fallback;
+    const lower = alt.toLowerCase();
+    if (
+      lower.includes("cast skins") ||
+      lower.includes("fecal spots") ||
+      lower.includes("close-up image") ||
+      lower.startsWith("infographic showing") ||
+      lower.startsWith("photo of")
+    ) {
+      return fallback;
+    }
+    return alt.trim();
+  }
+
   // 1. INJECT TOP IMAGE
   // Place right after the H1 or first introductory paragraph
   if (!text.includes(topImage.url)) {
-    const topTag = `\n\n![${topImage.alt}](${topImage.url})\n\n`;
+    const topAlt = cleanAlt(topImage.alt, topic.replace(/^#\s*/, "").trim());
+    const topTag = `\n\n![${topAlt}](${topImage.url})\n\n`;
 
     // Match after # Heading and optional first paragraph
     const h1Match = text.match(/^(#[^\n]+(?:\r?\n)+)([\s\S]*?)(\n\n##|\n\n###|$)/);
@@ -235,7 +251,8 @@ export function injectBlogImages(
   // 2. INJECT MIDDLE IMAGE
   // Locate all H2 headings ("## ") and place the middle image right before the middle section
   if (!text.includes(midImage.url)) {
-    const midTag = `\n\n![${midImage.alt}](${midImage.url})\n\n`;
+    const midAlt = cleanAlt(midImage.alt, `${topic.replace(/^#\s*/, "").trim()} Guide`);
+    const midTag = `\n\n![${midAlt}](${midImage.url})\n\n`;
     const h2Matches = Array.from(text.matchAll(/\n##\s+([^\n]+)/g));
 
     if (h2Matches.length >= 3) {

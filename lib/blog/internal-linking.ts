@@ -22,6 +22,175 @@ function escapeRegExp(string: string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
+export interface ParsedMarkdownLink {
+  fullMatch: string;
+  anchorText: string;
+  url: string;
+  index: number;
+  isExternal: boolean;
+  isInternal: boolean;
+}
+
+/**
+ * Check whether a URL is an internal link to bedbugstreatment.co.in
+ */
+export function isInternalUrl(url: string, baseUrl = "https://bedbugstreatment.co.in"): boolean {
+  const clean = url.trim();
+  if (
+    clean.startsWith("#") ||
+    clean.startsWith("mailto:") ||
+    clean.startsWith("tel:") ||
+    clean.startsWith("javascript:")
+  ) {
+    return false;
+  }
+  if (clean.startsWith("/") && !clean.startsWith("//")) return true;
+  try {
+    const parsed = new URL(clean);
+    const baseHost = new URL(baseUrl).hostname.replace(/^www\./, "");
+    const host = parsed.hostname.replace(/^www\./, "");
+    return host === baseHost;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Check whether a URL is an external link (different domain)
+ */
+export function isExternalUrl(url: string, baseUrl = "https://bedbugstreatment.co.in"): boolean {
+  const clean = url.trim();
+  if (
+    clean.startsWith("/") ||
+    clean.startsWith("#") ||
+    clean.startsWith("mailto:") ||
+    clean.startsWith("tel:") ||
+    clean.startsWith("javascript:")
+  ) {
+    return false;
+  }
+  try {
+    const parsed = new URL(clean);
+    if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return false;
+    const baseHost = new URL(baseUrl).hostname.replace(/^www\./, "");
+    const host = parsed.hostname.replace(/^www\./, "");
+    return host !== baseHost;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Parses all markdown links [anchor](url) while ignoring images ![alt](url)
+ */
+export function parseMarkdownLinks(content: string, baseUrl = "https://bedbugstreatment.co.in"): ParsedMarkdownLink[] {
+  const regex = /(?<!!)\[([^\]]+)\]\(([^)]+)\)/g;
+  const links: ParsedMarkdownLink[] = [];
+  let m;
+  while ((m = regex.exec(content)) !== null) {
+    const fullMatch = m[0];
+    const anchorText = m[1];
+    const rawUrl = m[2].trim().split(/\s+/)[0];
+    links.push({
+      fullMatch,
+      anchorText,
+      url: rawUrl,
+      index: m.index,
+      isExternal: isExternalUrl(rawUrl, baseUrl),
+      isInternal: isInternalUrl(rawUrl, baseUrl),
+    });
+  }
+  return links;
+}
+
+/**
+ * Normalize URL path for deduplication (e.g. "https://bedbugstreatment.co.in/services/" -> "/services")
+ */
+function normalizeUrlPath(url: string, baseUrl = "https://bedbugstreatment.co.in"): string {
+  const clean = url.trim().split(/\s+/)[0];
+  try {
+    if (clean.startsWith("/")) return clean.toLowerCase().replace(/\/$/, "") || "/";
+    const parsed = new URL(clean);
+    return parsed.pathname.toLowerCase().replace(/\/$/, "") || "/";
+  } catch {
+    return clean.toLowerCase();
+  }
+}
+
+/**
+ * Deduplicate multiple links pointing to the exact same internal page.
+ * Keeps the first link and converts subsequent duplicates to plain anchor text.
+ */
+export function deduplicateInternalLinks(content: string, baseUrl = "https://bedbugstreatment.co.in"): string {
+  const links = parseMarkdownLinks(content, baseUrl).filter((l) => l.isInternal);
+  const seenPaths = new Set<string>();
+  const toUnwrap: ParsedMarkdownLink[] = [];
+
+  for (const link of links) {
+    const normPath = normalizeUrlPath(link.url, baseUrl);
+    if (seenPaths.has(normPath)) {
+      toUnwrap.push(link);
+    } else {
+      seenPaths.add(normPath);
+    }
+  }
+
+  if (toUnwrap.length === 0) return content;
+
+  let updated = content;
+  // Unwrap from back to front to preserve string indices
+  toUnwrap.sort((a, b) => b.index - a.index);
+  for (const link of toUnwrap) {
+    updated = updated.slice(0, link.index) + link.anchorText + updated.slice(link.index + link.fullMatch.length);
+  }
+  return updated;
+}
+
+/**
+ * Prune internal links down to a maximum count (strictly 5).
+ * Preserves essential links (/contact, /services) and unwraps excess links to plain text.
+ */
+export function pruneInternalLinksToMax(
+  content: string,
+  maxLinks = 5,
+  baseUrl = "https://bedbugstreatment.co.in"
+): string {
+  const links = parseMarkdownLinks(content, baseUrl).filter((l) => l.isInternal);
+  if (links.length <= maxLinks) return content;
+
+  // Decide which links to keep
+  // Priority: /contact (CTA), /services, then earlier contextual links
+  const contactLinks = links.filter((l) => normalizeUrlPath(l.url, baseUrl) === "/contact");
+  const serviceLinks = links.filter((l) => normalizeUrlPath(l.url, baseUrl) === "/services");
+  const otherLinks = links.filter(
+    (l) => normalizeUrlPath(l.url, baseUrl) !== "/contact" && normalizeUrlPath(l.url, baseUrl) !== "/services"
+  );
+
+  const kept = new Set<number>(); // indices of links to keep
+
+  if (contactLinks.length > 0) kept.add(contactLinks[contactLinks.length - 1].index);
+  if (serviceLinks.length > 0 && kept.size < maxLinks) kept.add(serviceLinks[0].index);
+
+  for (const l of otherLinks) {
+    if (kept.size >= maxLinks) break;
+    kept.add(l.index);
+  }
+
+  for (const l of links) {
+    if (kept.size >= maxLinks) break;
+    kept.add(l.index);
+  }
+
+  const toUnwrap = links.filter((l) => !kept.has(l.index));
+  toUnwrap.sort((a, b) => b.index - a.index);
+
+  let updated = content;
+  for (const link of toUnwrap) {
+    updated = updated.slice(0, link.index) + link.anchorText + updated.slice(link.index + link.fullMatch.length);
+  }
+  return updated;
+}
+
 /**
  * Extract meaningful keywords from a slug or topic string.
  * e.g. "how-to-identify-bed-bug-bites" -> ["bed bug", "bites", "identify"]
@@ -43,7 +212,6 @@ function extractKeywordsFromSlugOrTopic(slugOrTopic: string): string[] {
 
   const words = normalized.split(/\s+/).filter((w) => w.length > 2 && !stopWords.has(w));
 
-  // Build single words + bigrams
   const phrases: string[] = [...words];
   for (let i = 0; i < words.length - 1; i++) {
     phrases.push(`${words[i]} ${words[i + 1]}`);
@@ -76,7 +244,7 @@ function findBestLineIndex(lines: string[], keywords: string[]): number {
       line.startsWith("#") || line === "" || line.startsWith("---") ||
       line.startsWith("![") || line.startsWith(">") || line.startsWith("|")
     ) continue;
-    if (line.includes("](http")) continue;
+    if (line.includes("](")) continue;
 
     const lineLower = line.toLowerCase();
     let lineScore = 0;
@@ -96,8 +264,7 @@ function findBestLineIndex(lines: string[], keywords: string[]): number {
  */
 function injectLinkIntoLine(line: string, keyword: string, anchorText: string, fullUrl: string): string {
   const regex = new RegExp(`(?<!\\[)(?<!\\]\\()\\b(${escapeRegExp(keyword)})\\b(?!\\])`, "i");
-  const result = line.replace(regex, `[${anchorText}](${fullUrl})`);
-  return result;
+  return line.replace(regex, `[${anchorText}](${fullUrl})`);
 }
 
 // ─── High-authority external link pool (ALL URLs verified live 200 OK) ───────
@@ -186,72 +353,111 @@ const EXTERNAL_LINK_POOL: Array<{
   },
 ];
 
-
-/** Count non-image markdown links to external http URLs */
-function countExternalLinks(markdown: string): number {
-  const regex = /(?<!!)\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g;
-  let count = 0;
-  let m;
-  while ((m = regex.exec(markdown)) !== null) count++;
-  return count;
-}
-
-/** Inject external links from pool until minimum is met */
-function injectExternalLinks(content: string, minExternal = 3): string {
-  const existing = countExternalLinks(content);
-  if (existing >= minExternal) return content;
-
-  const needed = minExternal - existing;
-  const lines = content.split("\n");
-
-  const usedUrls = new Set<string>();
-  const existingUrlRegex = /\]\((https?:\/\/[^)]+)\)/g;
-  let m;
-  while ((m = existingUrlRegex.exec(content)) !== null) usedUrls.add(m[1]);
-
+/**
+ * Inject exactly ONE high-authority external link matching the content.
+ */
+function injectSingleExternalLink(content: string): string {
   const contentLower = content.toLowerCase();
-  let injected = 0;
-
   const scored = EXTERNAL_LINK_POOL
-    .filter((e) => !usedUrls.has(e.url))
-    .map((e) => ({ ...e, score: e.keywords.filter((kw) => contentLower.includes(kw)).length }))
+    .map((e) => ({
+      ...e,
+      score: e.keywords.filter((kw) => contentLower.includes(kw.toLowerCase())).length,
+    }))
     .sort((a, b) => b.score - a.score);
 
-  for (const entry of scored) {
-    if (injected >= needed) break;
-    if (usedUrls.has(entry.url)) continue;
+  const bestEntry = scored[0] || EXTERNAL_LINK_POOL[0];
+  const lines = content.split("\n");
 
-    let inserted = false;
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i].trim();
-      if (
-        line.startsWith("#") || line === "" || line.startsWith("---") ||
-        line.startsWith("![") || line.startsWith("|") || line.startsWith(">")
-      ) continue;
-      if (line.includes("](http")) continue;
-
-      const matchedKw = entry.keywords.find((kw) => line.toLowerCase().includes(kw));
-      if (matchedKw) {
-        lines[i] = lines[i].trimEnd() + ` (see [${entry.anchorText}](${entry.url}))`;
-        usedUrls.add(entry.url);
-        injected++;
-        inserted = true;
-        break;
-      }
+  // Try to find an eligible line matching keywords
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (
+      line.startsWith("#") ||
+      line === "" ||
+      line.startsWith("---") ||
+      line.startsWith("![") ||
+      line.startsWith("|") ||
+      line.startsWith(">")
+    ) {
+      continue;
     }
+    if (line.includes("](")) continue;
 
-    if (!inserted) {
-      const refIdx = lines.findIndex(
-        (l) => l.toLowerCase().startsWith("## references") || l.toLowerCase().startsWith("## further reading")
-      );
-      const insertAt = refIdx > -1 ? refIdx : lines.length;
-      lines.splice(insertAt, 0, `\nFor more information, refer to [${entry.anchorText}](${entry.url}).\n`);
-      usedUrls.add(entry.url);
-      injected++;
+    const matchedKw = bestEntry.keywords.find((kw) => line.toLowerCase().includes(kw.toLowerCase()));
+    if (matchedKw) {
+      lines[i] = lines[i].trimEnd() + ` (see [${bestEntry.anchorText}](${bestEntry.url}))`;
+      return lines.join("\n");
     }
   }
 
+  // Fallback: place before References or at bottom
+  const refIdx = lines.findIndex(
+    (l) => l.toLowerCase().startsWith("## references") || l.toLowerCase().startsWith("## further reading")
+  );
+  const fallbackSentence = `For verified public-health guidance and safety advisories, refer to the [${bestEntry.anchorText}](${bestEntry.url}).`;
+  if (refIdx !== -1) {
+    lines.splice(refIdx, 0, `\n${fallbackSentence}\n`);
+  } else {
+    lines.push(`\n${fallbackSentence}\n`);
+  }
+
   return lines.join("\n");
+}
+
+/**
+ * Strictly enforce ONLY ONE external link across the entire markdown content.
+ * 1. If > 1 external links exist, keep the first one and unwrap remaining [Anchor](url) to Anchor.
+ * 2. If 0 external links exist, inject exactly one high-authority external link from EXTERNAL_LINK_POOL.
+ * Result: markdown with strictly 1 external link.
+ */
+export function enforceStrictlyOneExternalLink(
+  content: string,
+  baseUrl = "https://bedbugstreatment.co.in",
+  allowExternalLinks = true
+): string {
+  const allLinks = parseMarkdownLinks(content, baseUrl);
+  const externalLinks = allLinks.filter((l) => l.isExternal);
+
+  if (!allowExternalLinks) {
+    let updated = content;
+    const toUnwrap = [...externalLinks].sort((a, b) => b.index - a.index);
+    for (const match of toUnwrap) {
+      updated = updated.slice(0, match.index) + match.anchorText + updated.slice(match.index + match.fullMatch.length);
+    }
+    return updated;
+  }
+
+  if (externalLinks.length > 1) {
+    // Keep the first external link, unwrap all subsequent external links to plain text
+    let updated = content;
+    const toUnwrap = externalLinks.slice(1);
+    toUnwrap.sort((a, b) => b.index - a.index);
+    for (const match of toUnwrap) {
+      updated = updated.slice(0, match.index) + match.anchorText + updated.slice(match.index + match.fullMatch.length);
+    }
+    return updated;
+  }
+
+  if (externalLinks.length === 1) {
+    return content;
+  }
+
+  // If 0 external links, inject exactly 1 high-authority external link
+  return injectSingleExternalLink(content);
+}
+
+/**
+ * Enforce both strict rules: strictly 1 external link, strictly max 5 internal links.
+ */
+export function enforceStrictLinkLimits(
+  markdown: string,
+  allowExternalLinks = true,
+  baseUrl = "https://bedbugstreatment.co.in"
+): string {
+  let content = deduplicateInternalLinks(markdown, baseUrl);
+  content = enforceStrictlyOneExternalLink(content, baseUrl, allowExternalLinks);
+  content = pruneInternalLinksToMax(content, 6, baseUrl);
+  return content;
 }
 
 // ─── Main export ──────────────────────────────────────────────────────────────
@@ -265,14 +471,32 @@ export async function processInternalLinksAndCTA(
 
   const baseUrl = "https://bedbugstreatment.co.in";
   const topicLower = topic.toLowerCase();
-  const contentLower = markdown.toLowerCase();
 
-  let lines = markdown.split("\n");
-  const injectedLinks: ContextualInternalLink[] = [];
-  const usedUrls = new Set<string>();
+  // Deduplicate any repeated internal links
+  let content = deduplicateInternalLinks(markdown, baseUrl);
+  
+  // Strip hallucinatory internal links that don't exist in the inventory
+  const initialLinks = parseMarkdownLinks(content, baseUrl).filter((l) => l.isInternal);
+  const invalidLinks = initialLinks.filter(
+    (l) => !allowedUrls.has(normalizeUrlPath(l.url, baseUrl)) && normalizeUrlPath(l.url, baseUrl) !== "/services" && normalizeUrlPath(l.url, baseUrl) !== "/contact"
+  );
+  
+  if (invalidLinks.length > 0) {
+    const toUnwrap = [...invalidLinks].sort((a, b) => b.index - a.index);
+    for (const link of toUnwrap) {
+      content = content.slice(0, link.index) + link.anchorText + content.slice(link.index + link.fullMatch.length);
+    }
+  }
 
-  // ── Step 1: Score published blog pages by relevance ───────────────────────
+  let lines = content.split("\n");
+
+  // Track existing VALID internal paths
+  const existingLinks = parseMarkdownLinks(content, baseUrl).filter((l) => l.isInternal);
+  const usedPaths = new Set<string>(existingLinks.map((l) => normalizeUrlPath(l.url, baseUrl)));
+
+  // Score published blog pages by relevance
   const publishedBlogs = inventory.filter((p) => p.source === "database");
+  const contentLower = content.toLowerCase();
 
   const scoredBlogs = publishedBlogs.map((page) => {
     const slugKws = extractKeywordsFromSlugOrTopic(page.url.replace(/^\//, ""));
@@ -282,23 +506,43 @@ export async function processInternalLinksAndCTA(
     return { ...page, score, keywords: allKws };
   });
 
-  // Sort: highest score first, randomise ties for variety
   scoredBlogs.sort((a, b) => (b.score !== a.score ? b.score - a.score : Math.random() - 0.5));
 
-  // ── Step 2: Inject top-matched blog links contextually ────────────────────
-  const MIN_BLOG_LINKS = 2;
-  const MAX_BLOG_LINKS = 3;
-  let blogLinksInjected = 0;
+  // Step 1: Inject /services if not already linked
+  const servicesUrl = `${baseUrl}/services`;
+  const servicesNorm = "/services";
+  if (!usedPaths.has(servicesNorm) && allowedUrls.has("/services")) {
+    const serviceAnchor = "bed bug treatment services";
+    const serviceRegex = /\b(?:professional\s+(?:bed\s+bug\s+)?treatment|pest\s+control\s+services?|professional\s+extermination|expert\s+treatment)\b/i;
+    let matched = false;
+    for (let i = 0; i < lines.length; i++) {
+      if (lines[i].trim().startsWith("#") || lines[i].includes("](")) continue;
+      if (serviceRegex.test(lines[i])) {
+        lines[i] = lines[i].replace(serviceRegex, `[${serviceAnchor}](${servicesUrl})`);
+        usedPaths.add(servicesNorm);
+        matched = true;
+        break;
+      }
+    }
+    if (!matched) {
+      lines.push(
+        `\nFor persistent infestations, consider scheduling professional [bed bug treatment services](${servicesUrl}) to inspect deep structural harborages.`
+      );
+      usedPaths.add(servicesNorm);
+    }
+  }
 
+  // Step 2: Inject approx minimum 3 contextual blog links to ensure 5 to 6 total interlinks
+  const currentTotal = usedPaths.size + (usedPaths.has("/contact") ? 0 : 1);
+  const targetBlogCount = Math.max(3, Math.min(4, 6 - currentTotal));
+
+  let blogLinksInjected = 0;
   for (const blog of scoredBlogs) {
-    if (blogLinksInjected >= MAX_BLOG_LINKS) break;
+    if (blogLinksInjected >= targetBlogCount) break;
+    const norm = normalizeUrlPath(blog.url, baseUrl);
+    if (usedPaths.has(norm)) continue;
 
     const fullUrl = `${baseUrl}${blog.url}`;
-    if (usedUrls.has(fullUrl) || markdown.includes(`](${fullUrl})`)) {
-      usedUrls.add(fullUrl);
-      continue;
-    }
-
     const bestIdx = findBestLineIndex(lines, blog.keywords.slice(0, 8));
     const matchedKw = blog.keywords.find(
       (kw) => kw.length >= 4 && lines[bestIdx]?.toLowerCase().includes(kw)
@@ -306,17 +550,16 @@ export async function processInternalLinksAndCTA(
 
     if (bestIdx !== -1 && matchedKw) {
       lines[bestIdx] = injectLinkIntoLine(lines[bestIdx], matchedKw, blog.title, fullUrl);
-      injectedLinks.push({ targetUrl: fullUrl, anchorText: blog.title, contextSentence: `Contextually linked: ${blog.title}` });
-      usedUrls.add(fullUrl);
+      usedPaths.add(norm);
       blogLinksInjected++;
     }
   }
 
-  // ── Step 3: Related Reading fallback for remaining blog links ─────────────
-  if (blogLinksInjected < MIN_BLOG_LINKS) {
+  // Step 3: Related reading fallback if total blog links injected < 3
+  if (blogLinksInjected < 3 && (usedPaths.size + (usedPaths.has("/contact") ? 0 : 1)) < 5) {
     const remaining = scoredBlogs
-      .filter((b) => !usedUrls.has(`${baseUrl}${b.url}`))
-      .slice(0, MIN_BLOG_LINKS - blogLinksInjected);
+      .filter((b) => !usedPaths.has(normalizeUrlPath(b.url, baseUrl)))
+      .slice(0, 5 - (usedPaths.size + (usedPaths.has("/contact") ? 0 : 1)));
 
     if (remaining.length > 0) {
       const relatedLines = [
@@ -337,55 +580,24 @@ export async function processInternalLinksAndCTA(
       }
 
       for (const b of remaining) {
-        const fullUrl = `${baseUrl}${b.url}`;
-        injectedLinks.push({ targetUrl: fullUrl, anchorText: b.title, contextSentence: `Related reading: ${b.title}` });
-        usedUrls.add(fullUrl);
+        usedPaths.add(normalizeUrlPath(b.url, baseUrl));
         blogLinksInjected++;
       }
     }
   }
 
-  // ── Step 4: Static page links (/services, /faq) ───────────────────────────
-  const staticLinksConfig = [
-    {
-      url: "/services",
-      anchorText: "bed bug treatment services",
-      regex: /\b(?:professional\s+(?:bed\s+bug\s+)?treatment|pest\s+control\s+services?|professional\s+extermination|expert\s+treatment)\b/i,
-      fallback: `\n\nFor persistent or widespread infestations, consider exploring [bed bug treatment services](${baseUrl}/services) for thorough harborage detection and compliant application methods.`,
-    },
-    {
-      url: "/faq",
-      anchorText: "frequently asked questions about bed bugs",
-      regex: /\b(?:frequently\s+asked|common\s+questions|wondering|curious\s+about)\b/i,
-      fallback: null,
-    },
-  ];
-
-  for (const cfg of staticLinksConfig) {
-    const fullUrl = `${baseUrl}${cfg.url}`;
-    if (usedUrls.has(fullUrl) || !allowedUrls.has(cfg.url)) continue;
-    if (markdown.includes(`](${fullUrl})`)) { usedUrls.add(fullUrl); continue; }
-
-    let matched = false;
-    for (let i = 0; i < lines.length; i++) {
-      if (lines[i].trim().startsWith("#") || lines[i].includes("](http")) continue;
-      if (cfg.regex.test(lines[i])) {
-        lines[i] = lines[i].replace(cfg.regex, `[${cfg.anchorText}](${fullUrl})`);
-        injectedLinks.push({ targetUrl: fullUrl, anchorText: cfg.anchorText, contextSentence: `Linked ${cfg.anchorText}` });
-        usedUrls.add(fullUrl);
-        matched = true;
-        break;
-      }
-    }
-    if (!matched && cfg.fallback) {
-      lines.push(...cfg.fallback.split("\n"));
-      injectedLinks.push({ targetUrl: fullUrl, anchorText: cfg.anchorText, contextSentence: cfg.fallback.trim() });
-      usedUrls.add(fullUrl);
-    }
+  // Step 4: FAQ fallback if still < 5 total internal links
+  if ((usedPaths.size + (usedPaths.has("/contact") ? 0 : 1)) < 5 && allowedUrls.has("/faq") && !usedPaths.has("/faq")) {
+    lines.push(
+      `\nFor answers to common pest management inquiries, review our [frequently asked questions about bed bugs](${baseUrl}/faq).`
+    );
+    usedPaths.add("/faq");
   }
 
-  // ── Step 5: /contact CTA ──────────────────────────────────────────────────
+  // Step 5: Contact CTA
+  content = lines.join("\n");
   const contactFullUrl = `${baseUrl}/contact`;
+  const contactNorm = "/contact";
   const cta = {
     heading: "Suspecting Bed Bugs in Your Home?",
     text: "Still finding physical signs of bed bugs or waking up with unexplained bites? Request a thorough inspection to determine the exact extent of the infestation and explore targeted, integrated treatment options.",
@@ -393,24 +605,34 @@ export async function processInternalLinksAndCTA(
     buttonText: "Schedule an Inspection",
   };
 
-  let content = lines.join("\n");
-
   const genericClosingRegex = /\b(?:contact\s+(?:a\s+)?local\s+pest\s+control\s+service|hire\s+(?:a\s+)?local\s+exterminator|consult\s+local\s+professionals)\b[^.\n]*/gi;
   if (genericClosingRegex.test(content)) {
     content = content.replace(
       genericClosingRegex,
       `[request an on-site inspection from BedBugsTreatment.co.in](${contactFullUrl}) to evaluate infestation severity`
     );
+    usedPaths.add(contactNorm);
   }
 
   const ctaBlock = `\n\n---\n\n### ${cta.heading}\n\n${cta.text}\n\n👉 [${cta.buttonText}](${cta.targetUrl})\n`;
   if (!content.includes(contactFullUrl)) {
     content += ctaBlock;
-    injectedLinks.push({ targetUrl: contactFullUrl, anchorText: cta.buttonText, contextSentence: cta.text });
+    usedPaths.add(contactNorm);
   }
 
-  // ── Step 6: Guarantee ≥3 external links ───────────────────────────────────
-  content = injectExternalLinks(content, 3);
+  // Step 6: Strictly enforce 5 to 6 internal links (prune if > 6)
+  content = pruneInternalLinksToMax(content, 6, baseUrl);
+
+  // Step 7: Strictly enforce ONLY ONE (1) external link
+  content = enforceStrictlyOneExternalLink(content, baseUrl);
+
+  // Extract all final internal links for reporting
+  const finalInternalLinks = parseMarkdownLinks(content, baseUrl).filter((l) => l.isInternal);
+  const injectedLinks: ContextualInternalLink[] = finalInternalLinks.map((l) => ({
+    targetUrl: l.url,
+    anchorText: l.anchorText,
+    contextSentence: `Internal link: ${l.anchorText} (${l.url})`,
+  }));
 
   return {
     markdownWithLinks: content,

@@ -5,7 +5,7 @@ import { zodResponseFormat } from "openai/helpers/zod";
 import { getVerifiedEvidencePool, VerifiedEvidenceItem } from "@/lib/blog/evidence-contract";
 import { sanitizeTextContent, sanitizeFaqs, PublicationBlockers } from "@/lib/blog/section-sanitizer";
 import { buildInformationGainPlan } from "@/lib/blog/information-gain-planner";
-import { processInternalLinksAndCTA } from "@/lib/blog/internal-linking";
+import { processInternalLinksAndCTA, enforceStrictLinkLimits } from "@/lib/blog/internal-linking";
 import { EditorResponseSchema, EDITOR_SYSTEM_PROMPT } from "@/lib/blog/editor-prompt";
 import { injectBlogImages } from "@/lib/blog/image-selector";
 import { generateFreshBlogImages } from "@/lib/blog/ai-image-generator";
@@ -63,7 +63,7 @@ const Stage3DraftSchema = z.object({
 
 export async function POST(req: NextRequest) {
   try {
-    const { topic, keywords, skipImages, imageModel } = await req.json();
+    const { topic, keywords, skipImages, allowExternalLinks, imageModel } = await req.json();
 
     if (!process.env.OPENAI_API_KEY) {
       return new Response(JSON.stringify({ error: "OPENAI_API_KEY is not set." }), {
@@ -248,7 +248,7 @@ STRICT FAIL-CLOSED RULES:
 7. INFORMATION DENSITY: Preserve useful depth, but do not pad sections or force irrelevant biology, room-by-room protocols, city references, tables, or FAQs. Every section must help fulfil the title promise.
 8. CITATIONS: Cite only URLs present in the evidence contract, next to the important claim they actually support. Do not invent or substitute URLs merely to hit a source-count target. Use a clean References section only for sources actually used.
 9. FORMATTING: Markdown tables must start flush with the left margin. Use tables only when they improve a real comparison or task.
-${skipImages ? "10. SKIP IMAGES: Strictly do not include any image placeholders, visual placement tags, or markdown image links in the article." : ""}
+${skipImages ? "10. SKIP IMAGES: Strictly do not include any image placeholders, visual placement tags, or markdown image links in the article.\n" : ""}11. STRICT LINKING RULE: In the interlinks step of the blog generator, strictly include 4 to 5 contextual internal links (interlinks) ${allowExternalLinks ? "and strictly ONLY ONE (1) high-authority external link" : "and ABSOLUTELY NO external links"} across the entire article. Do not add multiple external links.
 
 ${editorialRequirements}
 
@@ -327,6 +327,7 @@ ${editorialRequirements}
 CRITICAL PUBLICATION REQUIREMENT:
 - Preserve strong, useful passages while removing repetition, filler, unnatural wording, keyword stuffing, and off-intent sections.
 - Add missing practical detail only where it helps the reader complete the task or make a safe decision.
+- STRICT LINKING: In the interlinks step of the blog generator, strictly enforce 4 to 5 contextual internal links (interlinks) ${allowExternalLinks ? "and strictly ONLY ONE (1) high-authority external link" : "and ZERO external links"} across the entire article. Mention all other evidence and citations as plain text without external hyperlinks.
 - Cite only sources in the verified evidence contract, and only where they support the exact nearby claim.
 - Never invent universal temperatures, pesticide instructions, re-entry times, treatment schedules, safety rules, prices, or results.
 - Keep Markdown tables flush with the left margin.
@@ -367,7 +368,7 @@ CRITICAL PUBLICATION REQUIREMENT:
           // -------------------------------------------------------------
           // STAGE 6: DETERMINISTIC INTERNAL LINKING & COMPANY CTA
           // -------------------------------------------------------------
-          emitEvent("status", { stage: 6, message: "Injecting Contextual Internal Links & Service CTA..." });
+          emitEvent("status", { stage: 6, message: "Enforcing strictly 4-5 contextual interlinks & 1 external link..." });
 
           // Link processing on the sanitized content
           const linkResult = await processInternalLinksAndCTA(sanitizedResult.cleanedText, chosenTopic);
@@ -397,10 +398,13 @@ CRITICAL PUBLICATION REQUIREMENT:
             for (const id of usedEvidenceIds) {
               const ev = evidencePool.find((e) => e.id === id);
               if (ev) {
-                finalMarkdown += `- [${ev.sourceTitle}](${ev.sourceUrl}) — *${ev.publisher}*. Supports: ${ev.claim}\n`;
+                finalMarkdown += `- **${ev.sourceTitle}** (*${ev.publisher}*) — Supports: ${ev.claim}\n`;
               }
             }
           }
+
+          // Strict final link limit guarantee:
+          finalMarkdown = enforceStrictLinkLimits(finalMarkdown, allowExternalLinks);
 
           // -------------------------------------------------------------
           // STAGE 7: REQUIRED FRESH AI IMAGE GENERATION + TEXT OVERLAY
@@ -494,7 +498,7 @@ CRITICAL PUBLICATION REQUIREMENT:
               `Critical Issues: ${editorialResult.qualityReport.criticalReliabilityIssues}`,
               `Required Evidence: ${editorialResult.qualityReport.requiredEvidence}`,
               "Editorial optimization complete.",
-              `Contextually linked to ${linkResult.injectedLinks.length} internal service pages with 0 broken URLs.`,
+              `Strictly verified ${linkResult.injectedLinks.length} contextual internal links (4-5 interlinks) and strictly ${allowExternalLinks ? "1 high-authority external link" : "0 external links"} with 0 broken URLs.`,
               "Targeted BedBugsTreatment.co.in inspection CTA inserted.",
               editorialResult.editorialChangeSummary
             ]

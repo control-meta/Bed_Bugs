@@ -53,7 +53,7 @@ const PIPELINE_STAGES = [
   { id: 3, label: "Initial Draft", desc: "Drafting article bound to evidence", icon: Pencil },
   { id: 4, label: "Editorial Pass", desc: "SEO audit, rewrites & info gain", icon: PenTool },
   { id: 5, label: "Quality Gate", desc: "Sanitizing hallucinations & claims", icon: ScanSearch },
-  { id: 6, label: "Internal Links", desc: "Injecting contextual links & CTA", icon: Link2 },
+  { id: 6, label: "Internal Links", desc: "Min 3 blog interlinks & strictly 1 external link", icon: Link2 },
   { id: 7, label: "Image Generation", desc: "Creating AI photorealistic images", icon: ImageIcon },
   { id: 8, label: "Final Audit", desc: "Computing quality metrics", icon: BadgeCheck },
 ];
@@ -320,6 +320,20 @@ function LinkManager({ markdown, onUpdateMarkdown }: { markdown: string, onUpdat
           {links.map((link, index) => {
             const isEditing = editingIndex === index;
             const isInternal = link.url.startsWith("/") || link.url.includes("bedbugstreatment.co.in");
+            
+            // Normalize path for checking
+            let pathToCheck = link.url;
+            try {
+              if (pathToCheck.includes("bedbugstreatment.co.in")) {
+                pathToCheck = new URL(pathToCheck).pathname;
+              }
+            } catch (e) {}
+            
+            const normalized = pathToCheck.split("?")[0].replace(/\/$/, "") || "/";
+            const nonBlogInternalPages = ["/services", "/contact", "/faq", "/about", "/"];
+            
+            // A blog page is an internal link that is NOT one of our known core pages
+            const isBlog = isInternal && !nonBlogInternalPages.includes(normalized);
 
             return (
               <div key={index} className="p-4 rounded-xl border border-neutral-200 bg-white shadow-sm flex flex-col gap-3">
@@ -352,8 +366,8 @@ function LinkManager({ markdown, onUpdateMarkdown }: { markdown: string, onUpdat
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex flex-col gap-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${isInternal ? 'bg-blue-100 text-blue-700' : 'bg-amber-100 text-amber-700'}`}>
-                          {isInternal ? 'Internal' : 'External'}
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${isBlog ? 'bg-purple-100 text-purple-700' : isInternal ? 'bg-blue-100 text-blue-700' : 'bg-amber-100 text-amber-700'}`}>
+                          {isBlog ? 'Internal (Blog)' : isInternal ? 'Internal' : 'External'}
                         </span>
                         <span className="font-semibold text-sm text-neutral-900 truncate" title={link.anchorText}>{link.anchorText}</span>
                       </div>
@@ -386,6 +400,7 @@ export default function BlogGeneratorPage() {
     topic, setTopic,
     keywords, setKeywords,
     skipImages, setSkipImages,
+    allowExternalLinks, setAllowExternalLinks,
     isGenerating,
     streamStatus, setStreamStatus,
     currentStage,
@@ -688,6 +703,33 @@ export default function BlogGeneratorPage() {
                 <span
                   className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out ${
                     skipImages ? "translate-x-4" : "translate-x-0"
+                  }`}
+                />
+              </button>
+            </div>
+
+            {/* Enable External Links Toggle */}
+            <div className="flex items-center justify-between rounded-xl border border-neutral-200/80 bg-neutral-50/80 p-3 transition hover:bg-neutral-50 mt-3">
+              <div className="flex items-center gap-2.5">
+                <div className={`flex h-7 w-7 items-center justify-center rounded-lg transition ${allowExternalLinks ? "bg-emerald-100 text-emerald-600" : "bg-neutral-200 text-neutral-500"}`}>
+                  {allowExternalLinks ? <ExternalLink className="h-4 w-4" /> : <Globe className="h-4 w-4" />}
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-xs font-semibold text-neutral-800">External Links</span>
+                  <span className="text-[10px] text-neutral-500">Allow authority outbound links</span>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setAllowExternalLinks(!allowExternalLinks)}
+                disabled={isGenerating}
+                className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none disabled:opacity-50 ${
+                  allowExternalLinks ? "bg-emerald-500" : "bg-neutral-300"
+                }`}
+              >
+                <span
+                  className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out ${
+                    allowExternalLinks ? "translate-x-4" : "translate-x-0"
                   }`}
                 />
               </button>

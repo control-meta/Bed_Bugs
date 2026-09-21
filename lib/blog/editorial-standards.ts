@@ -10,7 +10,7 @@ EDITORIAL STANDARD:
 - Never invent statistics, experts, research, URLs, temperatures, exposure times, re-entry periods, prices, guarantees, or treatment-success percentages.
 - Important technical and safety claims must use the supplied evidence contract. If the evidence does not support the exact claim, qualify or remove it.
 - Use the primary keyword naturally. Do not force exact-match wording into headings or repeat it unnecessarily.
-- Keep internal links contextual and sparse. Add one educational-first CTA near the end using: problem -> professional inspection/treatment -> clear next action.
+- In the interlinks step of the blog generator: Strictly instruct and add 4 to 5 contextual internal links (interlinks) and strictly ONLY ONE (1) high-authority external link across the entire article. All other evidence sources and citations must be plain text without external hyperlinks. Add one educational-first CTA near the end using: problem -> professional inspection/treatment -> clear next action.
 - FAQs must answer useful questions not already answered in the body.
 - Recommend only schema types whose content is visibly present on the page.
 `;

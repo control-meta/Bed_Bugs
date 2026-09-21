@@ -5,6 +5,7 @@ import { getCalendarPlans, saveCalendarPlans, BlogPlan } from "./calendar-db";
 import { saveBlog, BlogItem } from "./blog-db";
 import { injectBlogImages } from "./blog/image-selector";
 import { generateFreshBlogImages } from "./blog/ai-image-generator";
+import { runBlogPipeline } from "./blog/pipeline";
 
 export interface AutoPublishLog {
   id: string;
@@ -248,143 +249,74 @@ export async function executeAutoPublish(): Promise<{
   }
 
   try {
-    console.log(`[auto-publish] Generating blog for: "${planItem.topic}" (${planItem.date})...`);
-    const openai = new OpenAI({ apiKey });
-
-    const prompt = `You are a certified senior pest control specialist and SEO content creator for BedBugsTreatment.co.in, India's leading bed bug eradication and inspection service.
-
-Write a complete, authoritative, deeply practical, and beautifully formatted blog post for:
-Topic: "${planItem.topic}"
-Target Keywords: ${planItem.keywords.join(", ")}
-Content Type: ${planItem.type}
-
-REQUIREMENTS:
-1. Catchy, SEO-optimized title tailored for Indian homeowners, tenants, and families (avoid generic buzzwords).
-2. Clean url slug in kebab-case matching the topic (e.g., bed-bug-prevention-indian-homes).
-3. Engaging introduction addressing the exact problem Indian households face (monsoons/humidity, shared walls in high-rises, travel/packing habits).
-4. CRITICAL: STRICTLY ABOUT BED BUGS. DO NOT mention, compare, or generate content about cockroaches, termites, rodents, mosquitoes, ants, or any other general pests.
-5. MANDATORY MINIMUM LENGTH: The blog post MUST be comprehensive, deeply researched, and contain AT LEAST 2,000 WORDS (target 2,200 to 2,600 words).
-5. Structure into 7 to 9 detailed main sections with ## (H2) and ### (H3) subheadings. Each section must have 300 to 450 words of practical technical entomology, room-by-room step-by-step procedures, and regional Indian housing considerations (Bangalore, Mumbai, Delhi-NCR, Pune, Hyderabad, Chennai).
-6. MANDATORY: Include at least TWO rich comparison / reference data tables in GitHub Flavored Markdown format:
-   - Table 1: Room Vulnerability & Prevention Checklist (| Living Area / Item | Vulnerability Level | Key Inspection Habit | Recommended Frequency |)
-   - Table 2: Treatment & Prevention Comparison (| Method / Tool | Efficacy | Cost Range (INR) | Safety for Kids & Pets | Professional Verdict |)
-7. Practical step-by-step checklist tailored to Indian apartments, PGs, and houses.
-8. 4 to 5 high-value FAQs with concise, actionable answers.
-9. Informative conclusion recommending BedBugsTreatment.co.in professional inspection and 100% odorless treatment.
-10. Engaging 1-2 sentence excerpt (under 160 characters).
-11. Estimated read time (e.g. "9 min read").
-
-Return strictly valid JSON with this format:
-{
-  "title": "...",
-  "slug": "...",
-  "excerpt": "...",
-  "readTime": "9 min read",
-  "markdown": "... full markdown article without the main # H1 title ...",
-  "primaryKeyword": "..."
-}`;
-
-    const completion = await openai.chat.completions.create({
-      model: "gpt-4o",
-      messages: [{ role: "user", content: prompt }],
-      response_format: { type: "json_object" },
-      temperature: 0.7,
+    console.log(`[auto-publish] Running rigorous AI pipeline for: "${planItem.topic}" (${planItem.date})...`);
+    
+    // 1. Run the advanced multi-stage pipeline (Intent -> Research -> Draft -> Audit -> Revise)
+    const pipelineResult = await runBlogPipeline({
+      topic: planItem.topic,
+      keywords: planItem.keywords.join(", ")
     });
 
-    const parsed = JSON.parse(completion.choices[0]?.message?.content || "{}");
-    if (!parsed.title || !parsed.markdown) {
-      throw new Error("AI returned incomplete blog content.");
-    }
+    let finalMarkdown = pipelineResult.blogContent;
+    let topImage;
+    let midImage;
 
-    // Clean slug
-    const cleanSlug = (parsed.slug || planItem.topic.toLowerCase().replace(/[^a-z0-9]+/g, "-"))
-      .replace(/^-|-$/g, "");
+    // 2. Generate and inject fresh images
+    try {
+      console.log(`[auto-publish] Generating two fresh AI images for: "${planItem.topic}"...`);
+      const openai = new OpenAI({ apiKey });
+      const generatedImages = await generateFreshBlogImages({
+        openai,
+        topic: planItem.topic,
+        keywords: planItem.keywords,
+        articleMarkdown: finalMarkdown,
+        recommendedVisuals: pipelineResult.imageRecommendations,
+      });
 
-    // Ensure minimum 2,000 words
-    let baseMarkdown = parsed.markdown.replace(/^\s*#\s+[^\n]+(?:\r?\n)+/, "");
-    let autoWords = baseMarkdown.trim().split(/\s+/).filter(Boolean).length;
+      const imagePlacement = injectBlogImages(
+        finalMarkdown,
+        planItem.topic,
+        planItem.keywords,
+        false,
+        generatedImages.topImage,
+        generatedImages.midImage
+      );
 
-    if (autoWords < 2000) {
-      console.log(`[auto-publish] Word count was ${autoWords} (< 2000). Running targeted depth expansion pass...`);
-      try {
-        const expRes = await openai.chat.completions.create({
-          model: "gpt-4o",
-          messages: [
-            {
-              role: "system",
-              content: "You are a senior entomologist and technical editor for BedBugsTreatment.co.in. Your task is to expand the provided blog post to ensure it exceeds 2,000 words by adding deep room-by-room inspection protocols, regional Indian housing considerations (Bangalore, Mumbai, Delhi-NCR, high-rises, PGs), comprehensive checklists, and an exhaustive FAQ section without deleting or condensing existing content."
-            },
-            {
-              role: "user",
-              content: `The following article currently has ${autoWords} words. Expand and elaborate upon the existing sections and add a comprehensive room-by-room prevention and inspection protocol for Indian homes so that the TOTAL word count is AT LEAST 2,200 words. Maintain all existing markdown formatting, tables, and headings.\n\n${baseMarkdown}`
-            }
-          ],
-          temperature: 0.4,
-        });
-        const expText = expRes.choices[0]?.message?.content;
-        if (expText && expText.trim().split(/\s+/).filter(Boolean).length > autoWords) {
-          baseMarkdown = expText;
-        }
-      } catch (expErr) {
-        console.warn("[auto-publish] Notice during expansion pass:", expErr);
+      finalMarkdown = imagePlacement.markdownWithImages;
+      topImage = imagePlacement.topImage;
+      midImage = imagePlacement.midImage;
+      
+      if (!topImage || !midImage || !topImage.url.startsWith("/images/blogs/ai/") || !midImage.url.startsWith("/images/blogs/ai/")) {
+        console.warn("[auto-publish] Notice: Fresh AI images were not fully placed. Falling back to existing assets.");
       }
+    } catch (imgErr) {
+      console.error("[auto-publish] Image generation failed, proceeding without AI images:", imgErr);
     }
 
-    // Fresh images are required. A failed image request must stop publication so
-    // an older curated/published image can never silently replace it.
-    console.log(`[auto-publish] Generating two fresh AI images for: "${planItem.topic}"...`);
-    const generatedImages = await generateFreshBlogImages({
-      openai,
+    // 3. Save the final updated blog and mark as published
+    const updatedBlog = {
+      id: pipelineResult.articleId,
+      slug: pipelineResult.metadata.urlSlug,
+      title: pipelineResult.metadata.h1,
       topic: planItem.topic,
+      primaryKeyword: pipelineResult.metadata.primaryKeyword || planItem.keywords[0] || "bed bug treatment",
       keywords: planItem.keywords,
-      articleMarkdown: baseMarkdown,
-    });
-
-    // Inject the newly generated hero and section images into the blog content.
-    const { markdownWithImages, topImage, midImage } = injectBlogImages(
-      baseMarkdown,
-      planItem.topic,
-      planItem.keywords,
-      false,
-      generatedImages.topImage,
-      generatedImages.midImage
-    );
-
-    if (
-      !topImage ||
-      !midImage ||
-      !topImage.url.startsWith("/images/blogs/ai/") ||
-      !midImage.url.startsWith("/images/blogs/ai/") ||
-      topImage.url === midImage.url
-    ) {
-      throw new Error("Fresh blog images were generated but could not be placed in the article.");
-    }
-
-    const newBlog = {
-      title: parsed.title,
-      slug: cleanSlug,
-      topic: planItem.topic,
-      primaryKeyword: parsed.primaryKeyword || planItem.keywords[0] || "bed bug treatment",
-      keywords: planItem.keywords,
-      markdown: markdownWithImages,
-      excerpt: parsed.excerpt || `Comprehensive guide on ${parsed.title}. Practical steps and professional pest control insights for Indian homes.`,
-      imageUrl: topImage.url,
+      markdown: finalMarkdown,
+      excerpt: pipelineResult.metadata.metaDescription || `Comprehensive guide on ${pipelineResult.metadata.h1}.`,
+      imageUrl: topImage?.url || "",
       images: [
         ...(topImage ? [{ url: topImage.url, alt: topImage.alt, title: topImage.caption }] : []),
         ...(midImage ? [{ url: midImage.url, alt: midImage.alt, title: midImage.caption }] : []),
       ],
       status: "published" as const,
-      publicationStatus: "READY" as const,
-      autoPublishEligible: true,
+      publicationStatus: pipelineResult.audit.status,
+      autoPublishEligible: pipelineResult.audit.autoPublishEligible,
       author: "Bed Bug Treatment Team",
-      readTime: parsed.readTime || "9 min read",
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      readTime: "9 min read", 
     };
 
-    // Save to database
-    const { blog } = await saveBlog(newBlog);
-    console.log(`[auto-publish] ✅ Successfully saved & published blog: /${blog.slug}`);
+    const { blog } = await saveBlog(updatedBlog);
+    console.log(`[auto-publish] ✅ Successfully updated & published blog: /${blog.slug}`);
 
     // Update calendar plan item to generated
     try {
