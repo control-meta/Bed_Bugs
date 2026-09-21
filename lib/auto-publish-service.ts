@@ -299,7 +299,7 @@ export async function executeAutoPublish(): Promise<{
       slug: pipelineResult.metadata.urlSlug,
       title: pipelineResult.metadata.h1,
       topic: planItem.topic,
-      primaryKeyword: pipelineResult.metadata.primaryKeyword || planItem.keywords[0] || "bed bug treatment",
+      primaryKeyword: pipelineResult.research.searchIntent.primaryKeyword || planItem.keywords[0] || "bed bug treatment",
       keywords: planItem.keywords,
       markdown: finalMarkdown,
       excerpt: pipelineResult.metadata.metaDescription || `Comprehensive guide on ${pipelineResult.metadata.h1}.`,
