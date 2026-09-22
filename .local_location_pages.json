@@ -646,7 +646,8 @@
       "accentColor": "#1f8055",
       "plan1_btn": "Book One-Time Treatment via WhatsApp",
       "plan2_btn": "Book 1-Year AMC via WhatsApp",
-      "heroHeading": "<span class=\"location-hero-prefix inline-block max-sm:whitespace-nowrap\">Bed Bug Treatment in</span><br/><span style=\"color: rgb(0, 140, 90);\">Mumbai</span>"
+      "heroHeading": "<span class=\"location-hero-prefix inline-block max-sm:whitespace-nowrap\">Bed Bug Treatment in</span><br/><span style=\"color: rgb(0, 140, 90);\">Mumbai</span>",
+      "highlight-0-guarantee": "Comfortable for Home & Office"
     },
     "updatedAt": "2026-09-17T13:30:14.777Z",
     "createdAt": "2026-09-17T13:30:14.777Z",
