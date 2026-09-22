@@ -29,7 +29,7 @@ export function QrPopup() {
         className="inline-flex items-center gap-2 rounded-full bg-brand-500 px-4 py-2 text-xs font-semibold text-white transition hover:bg-brand-600"
       >
         <QrCode className="h-4 w-4" />
-        Scan QR Code
+        Pay Online
       </button>
 
       {isOpen && (
