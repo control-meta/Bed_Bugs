@@ -75,9 +75,9 @@ export const processSteps = [
   },
 ];
 
-export const testimonials = [];
+export const testimonials: any[] = [];
 
-export const serviceReviews = [];
+export const serviceReviews: any[] = [];
 
 export const homeFaqs = [
   {
