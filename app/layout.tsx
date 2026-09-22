@@ -54,6 +54,9 @@ export const metadata: Metadata = {
     "bed bug treatment Delhi",
     "bed bug treatment Noida",
   ],
+  verification: {
+    google: "WSCksZqN235FUmro6h6sNEW0VRcCF0yDhXzkr-jK-TA",
+  },
   openGraph: {
     title: "Bed Bug Treatment — Sleep Peacefully Again",
     description: site.description,
@@ -71,6 +74,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       data-scroll-behavior="smooth"
     >
       <head>
+        <meta
+          name="google-site-verification"
+          content="WSCksZqN235FUmro6h6sNEW0VRcCF0yDhXzkr-jK-TA"
+        />
         <script
           id="perf-measure-guard"
           dangerouslySetInnerHTML={{

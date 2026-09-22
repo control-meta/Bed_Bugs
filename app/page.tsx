@@ -28,6 +28,9 @@ export async function generateMetadata(): Promise<Metadata> {
       description: seo.description,
       images: seo.ogImage ? [{ url: seo.ogImage }] : undefined,
     },
+    verification: {
+      google: "WSCksZqN235FUmro6h6sNEW0VRcCF0yDhXzkr-jK-TA",
+    },
   };
 }
 
