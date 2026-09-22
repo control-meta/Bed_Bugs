@@ -7,13 +7,12 @@ import {
   Clock,
   FileText,
   Loader2,
+  Lock,
   Phone,
   PhoneCall,
   ShieldCheck,
-  Sparkles,
   User,
   X,
-  Zap,
 } from "lucide-react";
 import { site } from "@/lib/site";
 
@@ -115,106 +114,128 @@ export function FloatingForm() {
       {isOpen && (
         <div
           aria-hidden="true"
-          className="fixed inset-0 z-40 bg-black/15 backdrop-blur-[1px] transition-opacity"
+          className="fixed inset-0 z-40 bg-black/25 backdrop-blur-[2px] transition-opacity"
           onClick={() => setIsOpen(false)}
         />
       )}
 
-      {/* Floating Popover Widget (Opens in small on the bottom-left above the icon) */}
+      {/* Floating Popover Widget (Exact match to requested UI, scaled down) */}
       {isOpen && (
         <div
           role="dialog"
           aria-modal="true"
           aria-labelledby="floating-form-title"
-          className="fixed bottom-20 left-4 z-50 w-[calc(100vw-2rem)] sm:bottom-24 sm:left-7 sm:w-[22.5rem] sm:max-w-[22.5rem] overflow-hidden rounded-[1.75rem] border border-ink/10 bg-white shadow-[0_25px_70px_-15px_rgba(15,35,25,0.45)] ring-1 ring-black/5 animate-in fade-in zoom-in-95 duration-200"
+          className="fixed bottom-20 left-4 z-50 w-[calc(100vw-2rem)] sm:bottom-22 sm:left-6 sm:w-[20.5rem] sm:max-w-[20.5rem] overflow-hidden rounded-2xl border border-black/10 bg-white shadow-[0_20px_50px_-10px_rgba(0,0,0,0.4)] ring-1 ring-black/5 animate-in fade-in zoom-in-95 duration-200"
         >
-          {/* Branded Header Banner */}
-          <div className="relative overflow-hidden bg-gradient-to-br from-brand-900 via-brand-800 to-brand-950 p-5 text-white">
-            <div className="absolute -right-6 -top-6 h-28 w-28 rounded-full bg-brand-400/20 blur-xl pointer-events-none" />
-
-            <div className="relative flex items-center justify-between">
-              {/* Live Status Pill */}
-              <div className="inline-flex items-center gap-1.5 rounded-full bg-amber-300 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-amber-950 shadow-[0_0_0_3px_rgba(251,191,36,0.3)]">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-700 opacity-75" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-700" />
+          {/* Header with fresh emerald gradient and yellow specialist pill */}
+          <div className="relative bg-gradient-to-b from-[#16855b] via-[#116e4b] to-[#0d593d] p-4 pb-4.5 text-white sm:p-4.5 sm:pb-5">
+            <div className="flex items-center justify-between gap-2">
+              {/* Yellow Specialists Pill */}
+              <div className="inline-flex items-center gap-1.5 rounded-full bg-[#fed028] px-2.5 py-1 shadow-sm">
+                <div className="flex h-5 w-5 shrink-0 items-center justify-center">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    className="h-5 w-5 text-red-600"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                  >
+                    {/* Crosshair outer circle and ticks */}
+                    <circle cx="12" cy="12" r="8" stroke="currentColor" strokeWidth="1.7" />
+                    <line x1="12" y1="1.5" x2="12" y2="4.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                    <line x1="12" y1="19.5" x2="12" y2="22.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                    <line x1="1.5" y1="12" x2="4.5" y2="12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                    <line x1="19.5" y1="12" x2="22.5" y2="12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                    {/* Bug Silhouette in center */}
+                    <ellipse cx="12" cy="12.5" rx="2.5" ry="3.2" fill="currentColor" />
+                    <circle cx="12" cy="8.2" r="1.3" fill="currentColor" />
+                    <path
+                      d="M9.5 11L7.5 9.8M9.5 13L7 13.5M9.5 15L7.5 16.5M14.5 11L16.5 9.8M14.5 13L17 13.5M14.5 15L16.5 16.5"
+                      stroke="currentColor"
+                      strokeWidth="1.2"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </div>
+                <span className="text-[9.5px] sm:text-[10px] font-black uppercase tracking-tight text-neutral-900 whitespace-nowrap">
+                  Bed Bug Specialists Available
                 </span>
-                <span>Bed Bug Specialists Available</span>
               </div>
 
-              {/* Close Button */}
+              {/* Circular Close Button */}
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
                 aria-label="Close form"
-                className="flex h-7 w-7 items-center justify-center rounded-full bg-white/10 text-white/80 transition hover:bg-white/20 hover:text-white"
+                className="flex h-7 w-7 items-center justify-center rounded-full bg-white/15 text-white/90 transition hover:bg-white/25 hover:text-white cursor-pointer"
               >
-                <X className="h-4 w-4" />
+                <X className="h-3.5 w-3.5" />
               </button>
             </div>
 
-            <div className="relative mt-3 text-center">
+            {/* Title & Subtitle */}
+            <div className="mt-3 text-center">
               <h3
                 id="floating-form-title"
-                className="font-display text-xl font-extrabold tracking-tight text-white sm:text-2xl"
+                className="text-xl font-black tracking-tight text-white sm:text-[21px]"
               >
-                Book Free Inspection
+                Book Your <span className="text-[#a7f3d0]">Free</span> Inspection
               </h3>
-              <p className="mt-1 text-xs text-white/75 leading-relaxed">
-                Get an expert callback within 15 minutes with transparent pricing.
+              <p className="mt-1 text-[11.5px] leading-snug text-white/90 sm:text-xs">
+                Get an expert callback within 15 minutes and receive clear, upfront pricing.
               </p>
             </div>
           </div>
 
           {/* Form Body */}
           {status === "success" ? (
-            <div className="p-6 text-center">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-brand-50 text-brand-600 ring-8 ring-brand-50/60">
-                <CheckCircle2 className="h-8 w-8" />
+            <div className="p-5 text-center">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#ecfdf5] text-[#158058]">
+                <CheckCircle2 className="h-7 w-7" />
               </div>
-              <h4 className="mt-4 font-display text-xl font-bold text-ink">
+              <h4 className="mt-3 font-display text-lg font-bold text-slate-900">
                 Thank You!
               </h4>
-              <p className="mx-auto mt-1.5 max-w-xs text-xs leading-relaxed text-ink/70">
-                Thank you, <strong className="text-ink">{name.split(" ")[0]}</strong>. A technician will call you at <strong className="text-ink">+91 {phone}</strong> in under 15 minutes.
+              <p className="mx-auto mt-1 max-w-xs text-[11.5px] leading-relaxed text-slate-600">
+                Thank you, <strong className="text-slate-900">{name.split(" ")[0]}</strong>. A technician will call you at <strong className="text-slate-900">+91 {phone}</strong> in under 15 minutes.
               </p>
 
-              <div className="mt-5 flex flex-col gap-2.5">
+              <div className="mt-4 flex flex-col gap-2">
                 <a
                   href={site.phoneHref}
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-600 to-brand-700 py-3 text-xs font-bold text-white shadow-md shadow-brand-600/30 transition hover:from-brand-500 hover:to-brand-600"
+                  className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-[#158058] py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-[#126f4c]"
                 >
-                  <PhoneCall className="h-4 w-4" />
+                  <PhoneCall className="h-3.5 w-3.5" />
                   Call Directly: {site.phoneDisplay}
                 </a>
                 <button
                   type="button"
                   onClick={handleReset}
-                  className="inline-flex w-full items-center justify-center rounded-xl border border-ink/10 py-2.5 text-xs font-semibold text-ink/65 transition hover:bg-cream"
+                  className="inline-flex w-full items-center justify-center rounded-lg border border-slate-200 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 cursor-pointer"
                 >
                   Close
                 </button>
               </div>
             </div>
           ) : (
-            <div className="p-5 sm:p-6">
+            <div className="p-4 sm:p-4.5">
               {error && (
-                <div className="mb-3 rounded-xl border border-accent-500/30 bg-accent-50/90 p-2.5 text-center text-xs font-medium text-accent-700">
+                <div className="mb-2.5 rounded-lg border border-red-200 bg-red-50 p-2 text-center text-[11px] font-medium text-red-700">
                   {error}
                 </div>
               )}
 
-              <form onSubmit={handleSubmit} className="space-y-3.5">
+              <form onSubmit={handleSubmit} className="space-y-3">
                 {/* Full Name Field */}
                 <div>
                   <label
                     htmlFor="floating-name-input"
-                    className="mb-1 block text-center text-[10.5px] font-bold uppercase tracking-wider text-ink/65"
+                    className="mb-1 block text-left text-[10px] font-extrabold uppercase tracking-wider text-slate-600"
                   >
                     Your Full Name
                   </label>
-                  <div className="relative flex items-center rounded-xl border border-ink/15 bg-cream/40 focus-within:border-brand-500 focus-within:bg-white focus-within:ring-4 focus-within:ring-brand-500/10 transition">
-                    <span className="pointer-events-none pl-3.5 text-ink/40">
+                  <div className="relative flex items-center rounded-lg border border-slate-200 bg-white focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20 transition">
+                    <span className="pointer-events-none pl-3 text-slate-400">
                       <User className="h-4 w-4" />
                     </span>
                     <input
@@ -227,7 +248,7 @@ export function FloatingForm() {
                       }}
                       placeholder="e.g. Amit Sharma"
                       required
-                      className="w-full py-2.5 pl-2.5 pr-4 text-sm font-medium text-ink outline-none bg-transparent placeholder:text-ink/35 placeholder:font-normal"
+                      className="w-full py-2 pl-2 pr-3 text-xs sm:text-[13px] font-medium text-slate-800 outline-none bg-transparent placeholder:text-slate-400"
                     />
                   </div>
                 </div>
@@ -236,13 +257,13 @@ export function FloatingForm() {
                 <div>
                   <label
                     htmlFor="floating-phone-input"
-                    className="mb-1 block text-center text-[10.5px] font-bold uppercase tracking-wider text-ink/65"
+                    className="mb-1 block text-left text-[10px] font-extrabold uppercase tracking-wider text-slate-600"
                   >
                     Phone Number
                   </label>
-                  <div className="relative flex items-center overflow-hidden rounded-xl border border-ink/15 bg-cream/40 focus-within:border-brand-500 focus-within:bg-white focus-within:ring-4 focus-within:ring-brand-500/10 transition">
-                    <div className="flex items-center gap-1 border-r border-ink/10 bg-ink/5 px-3 py-2.5 text-xs font-bold text-ink/75 select-none">
-                      <Phone className="h-3.5 w-3.5 text-brand-600" />
+                  <div className="relative flex items-center overflow-hidden rounded-lg border border-slate-200 bg-white focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-600/20 transition">
+                    <div className="flex items-center gap-1 border-r border-slate-200 bg-emerald-50/50 px-2.5 py-2 text-xs font-bold text-slate-700 select-none">
+                      <Phone className="h-3.5 w-3.5 text-[#158058]" />
                       <span>+91</span>
                     </div>
                     <input
@@ -254,47 +275,52 @@ export function FloatingForm() {
                       placeholder="98765 43210"
                       maxLength={10}
                       required
-                      className="w-full py-2.5 px-3 text-sm font-semibold tracking-wider text-ink outline-none bg-transparent placeholder:text-ink/35 placeholder:font-normal placeholder:tracking-normal"
+                      className="w-full py-2 px-2.5 text-xs sm:text-[13px] font-medium text-slate-800 outline-none bg-transparent placeholder:text-slate-400"
                     />
                   </div>
                 </div>
 
-                {/* Value / Trust Highlights */}
-                <div className="grid grid-cols-2 gap-2 pt-0.5 text-center text-[11px] text-ink/70">
-                  <div className="flex items-center justify-center gap-1.5 rounded-lg bg-cream/60 py-1.5 px-2 border border-ink/5">
-                    <ShieldCheck className="h-3.5 w-3.5 text-brand-600 shrink-0" />
-                    <span className="font-semibold">12-Mo Warranty</span>
+                {/* Trust Badges: 12-Month Warranty & Same-Day Service (single line) */}
+                <div className="grid grid-cols-2 gap-2 pt-0.5">
+                  <div className="flex items-center justify-center gap-1.5 rounded-lg bg-[#ecfdf5] py-2 px-2 border border-[#a7f3d0]/60">
+                    <ShieldCheck className="h-4 w-4 text-[#126f4c] shrink-0 stroke-[2.2]" />
+                    <span className="text-[10.5px] font-bold text-[#126f4c] whitespace-nowrap">
+                      12-Month Warranty
+                    </span>
                   </div>
-                  <div className="flex items-center justify-center gap-1.5 rounded-lg bg-cream/60 py-1.5 px-2 border border-ink/5">
-                    <Clock className="h-3.5 w-3.5 text-brand-600 shrink-0" />
-                    <span className="font-semibold">Same-Day Visit</span>
+                  <div className="flex items-center justify-center gap-1.5 rounded-lg bg-[#ecfdf5] py-2 px-2 border border-[#a7f3d0]/60">
+                    <Clock className="h-4 w-4 text-[#126f4c] shrink-0 stroke-[2.2]" />
+                    <span className="text-[10.5px] font-bold text-[#126f4c] whitespace-nowrap">
+                      Same-Day Service
+                    </span>
                   </div>
                 </div>
 
-                {/* Submit Action Button */}
+                {/* Primary CTA Submit Button */}
                 <button
                   type="submit"
                   disabled={status === "submitting"}
-                  className="mt-1 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-600 via-brand-700 to-brand-800 py-3 text-sm font-bold text-white shadow-lg shadow-brand-600/30 transition-all hover:from-brand-500 hover:to-brand-700 active:scale-[0.99] disabled:opacity-75"
+                  className="mt-0.5 flex w-full items-center justify-center gap-1.5 rounded-lg bg-[#158058] hover:bg-[#126f4c] active:bg-[#0e5c3e] py-2.5 px-3.5 text-sm font-bold text-white shadow-md shadow-[#158058]/20 transition-all disabled:opacity-75 cursor-pointer"
                 >
                   {status === "submitting" ? (
                     <>
                       <Loader2 className="h-4 w-4 animate-spin" />
-                      Connecting Specialist...
+                      <span>Connecting Specialist...</span>
                     </>
                   ) : (
                     <>
-                      <span>Request Callback</span>
-                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      <span>Request Free Inspection</span>
+                      <ArrowRight className="h-4 w-4 stroke-[2.5]" />
                     </>
                   )}
                 </button>
               </form>
 
               {/* Confidential Privacy Reassurance */}
-              <p className="mt-3 text-center text-[10.5px] text-ink/50 font-medium">
-                🔒 100% Confidential. Zero spam or third-party sharing.
-              </p>
+              <div className="mt-2.5 flex items-center justify-center gap-1.5 text-[10.5px] text-slate-500 font-medium">
+                <Lock className="h-3 w-3 text-[#158058] shrink-0" />
+                <span>Your information is 100% confidential. No spam.</span>
+              </div>
             </div>
           )}
         </div>
