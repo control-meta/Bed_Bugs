@@ -29,6 +29,7 @@ import {
   History,
   Sliders,
   ShieldCheck,
+  Mail,
 } from "lucide-react";
 import { useCalendarContext, BlogPlan } from "../CalendarContext";
 import type { AutoPublishConfig, AutoPublishLog } from "@/lib/auto-publish-service";
@@ -83,6 +84,7 @@ export default function CalendarPage() {
   const [autoPublishToast, setAutoPublishToast] = useState<{ title: string; slug: string } | null>(null);
   const [selectedProductionFreq, setSelectedProductionFreq] = useState<"6h" | "12h" | "24h" | "daily">("6h");
   const [dailyTimeInput, setDailyTimeInput] = useState("09:00");
+  const [isSendingTestEmail, setIsSendingTestEmail] = useState(false);
   const isTriggeringRef = useRef(false);
 
   const isTestTimerRunning = Boolean(autoPublishConfig?.enabled && autoPublishConfig?.frequency === "1min");
@@ -252,6 +254,22 @@ export default function CalendarPage() {
       });
     } finally {
       setIsUpdatingConfig(false);
+    }
+  };
+
+  // Handle test email trigger
+  const handleTestEmail = async () => {
+    setIsSendingTestEmail(true);
+    setModalFeedback(null);
+    try {
+      const res = await fetch("/api/admin/email-test", { method: "POST" });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to send test email");
+      setModalFeedback({ type: "success", message: "Test email sent successfully! Check your inbox." });
+    } catch (err: any) {
+      setModalFeedback({ type: "error", message: err.message || "Failed to send test email" });
+    } finally {
+      setIsSendingTestEmail(false);
     }
   };
 
@@ -1273,6 +1291,25 @@ export default function CalendarPage() {
                               <>
                                 <Zap className="h-4 w-4 text-emerald-600" />
                                 Run Now (Instant Test)
+                              </>
+                            )}
+                          </button>
+
+                          {/* TEST EMAIL BUTTON */}
+                          <button
+                            onClick={handleTestEmail}
+                            disabled={isSendingTestEmail}
+                            className="flex items-center justify-center gap-2 rounded-2xl border border-blue-200 bg-blue-50 hover:bg-blue-100 px-5 py-3.5 text-sm font-bold text-blue-800 transition active:scale-[0.98] shadow-xs cursor-pointer"
+                          >
+                            {isSendingTestEmail ? (
+                              <>
+                                <Loader2 className="h-4 w-4 animate-spin" />
+                                Sending...
+                              </>
+                            ) : (
+                              <>
+                                <Mail className="h-4 w-4 text-blue-600" />
+                                Send Test Email
                               </>
                             )}
                           </button>

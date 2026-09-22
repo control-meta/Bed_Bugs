@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getBlogById, saveBlog, deleteBlog } from "@/lib/blog-db";
+import { sendBlogPublishedEmail } from "@/lib/email";
+
 
 export async function GET(
   _request: NextRequest,
@@ -38,6 +40,17 @@ export async function PUT(
     };
 
     const { blog, backend } = await saveBlog(updated);
+
+    // Trigger email if the blog was just published
+    if (existing.status !== "published" && blog.status === "published") {
+      sendBlogPublishedEmail({
+        id: blog.id,
+        slug: blog.slug,
+        title: blog.title,
+        topic: blog.topic,
+      }).catch((err) => console.error("Async email failed:", err));
+    }
+
     return NextResponse.json({ success: true, blog, backend });
   } catch (err: any) {
     console.error("[api/admin/blogs/[id]] PUT error:", err);

@@ -7,6 +7,7 @@ import {
   sanitizeString,
   validateIndianMobile,
 } from "@/lib/security";
+import { sendNewEnquiryEmail } from "@/lib/email";
 
 export async function POST(request: NextRequest) {
   try {
@@ -75,6 +76,18 @@ export async function POST(request: NextRequest) {
       status: "new",
       notes: null,
     });
+
+    // 6. Send email notification asynchronously
+    sendNewEnquiryEmail({
+      id: String(newEnquiry.id),
+      name,
+      phone,
+      email: email || null,
+      city: city || null,
+      property_type: property_type || null,
+      message: message || null,
+      source,
+    }).catch(err => console.error("Async email failed:", err));
 
     return NextResponse.json(
       {

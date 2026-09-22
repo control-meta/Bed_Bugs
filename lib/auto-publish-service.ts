@@ -6,6 +6,8 @@ import { saveBlog, BlogItem } from "./blog-db";
 import { injectBlogImages } from "./blog/image-selector";
 import { generateFreshBlogImages } from "./blog/ai-image-generator";
 import { runBlogPipeline } from "./blog/pipeline";
+import { sendBlogPublishedEmail } from "./email";
+
 
 export interface AutoPublishLog {
   id: string;
@@ -317,6 +319,14 @@ export async function executeAutoPublish(): Promise<{
 
     const { blog } = await saveBlog(updatedBlog);
     console.log(`[auto-publish] ✅ Successfully updated & published blog: /${blog.slug}`);
+
+    // Send email notification for auto-published blog
+    sendBlogPublishedEmail({
+      id: blog.id,
+      slug: blog.slug,
+      title: blog.title,
+      topic: blog.topic,
+    }).catch((err) => console.error("Async email failed:", err));
 
     // Update calendar plan item to generated
     try {
