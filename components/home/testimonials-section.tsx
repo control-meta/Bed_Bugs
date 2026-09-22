@@ -220,7 +220,7 @@ export function TestimonialsSection({
               </span>
               <div className="min-w-0">
                 <p className="font-display text-xs font-bold text-ink leading-tight">
-                  Trusted by Homeowners across India
+                  Trusted by Property Owners across India
                 </p>
                 <p className="mt-0.5">
                   <span className="font-display text-lg font-extrabold text-brand-600 lg:text-xl">
