@@ -164,15 +164,17 @@ CRITICAL RULES FOR REVIEWS:
    - Every review quote MUST be strictly between 20 and 35 words (1 to 2 sentences max).
    - This ensures review cards on the website render with identical heights without awkward empty spaces.
 
-3. AUTHENTIC HOMEOWNER & TENANT CONTEXT:
-   - Sound like real Indian citizens dealing with bed bugs:
-     * Odorless treatment that didn't disturb elderly parents, toddlers, or pets.
-     * STRICTLY DO NOT mention "heat", "steam", or "chemical" treatments anywhere in the review. Only mention "odorless treatment".
-     * Relief from midnight itching, red bite marks, and blood stains on bedsheets.
-     * Technician thoroughly checked wooden diwans, box beds, mattress piped seams, and switchboard crevices.
-     * No need to throw away expensive teak wood beds or mattresses.
-     * Saved money after wasting weeks on ineffective grocery store sprays.
-     * Transparent pricing with on-site inspection and free follow-up under 1-year AMC.
+3. EXTREME VARIETY & GENUINE HUMAN TONE (CRITICAL):
+   - DO NOT start every review the same way (e.g., do not start every review with "The odorless treatment..."). Vary your opening sentences and sentence structures drastically!
+   - Make it sound like a natural human wrote it on Google Reviews. Use colloquial Indian English nuances.
+   - Give each review a different focal point:
+     * Review A might focus on sleep ("Finally slept after weeks of itching...").
+     * Review B might focus on safety ("Since we have kids and pets, we were worried...").
+     * Review C might focus on the technicians ("The team was very professional and checked the diwan thoroughly...").
+     * Review D might focus on cost ("Saved us from throwing away our expensive mattress...").
+   - STRICTLY DO NOT mention "heat", "steam", or "chemical" treatments anywhere in the review. 
+   - You can refer to the service as "odorless treatment", "the spray", "the service", or "the AMC", but DO NOT force the word "odorless" into every single review. Let it flow naturally.
+   - Every single review in this batch must sound completely distinct and not formulaic.
 
 4. LOCATION CONTEXT:
    - Target page: "${pageSlug}"
