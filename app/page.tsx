@@ -9,8 +9,7 @@ import { CtaSection } from "@/components/home/cta-section";
 import { TreatmentOptionsSection } from "@/components/treatment-options-section";
 import { getPageSeo, getAllImageAltMap } from "@/lib/seo-db";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 60;
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getPageSeo("/");
@@ -54,7 +53,7 @@ export default async function Home() {
     <>
       <Script
         id="seo-alt-map"
-        strategy="beforeInteractive"
+        strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: `window.__SEO_ALT_MAP__ = ${JSON.stringify(altMap)};`,
         }}

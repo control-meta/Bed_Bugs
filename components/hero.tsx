@@ -126,6 +126,9 @@ export function Hero({ altMap }: { altMap?: Record<string, string> } = {}) {
               "Certified pest control technician treating mattress and bed frame for bed bugs"
             }
             fill
+            priority
+            unoptimized={true}
+            fetchPriority="high"
             sizes="(min-width: 1024px) 46vw, 1px"
             className="object-cover object-center"
           />
@@ -189,6 +192,7 @@ export function Hero({ altMap }: { altMap?: Record<string, string> } = {}) {
                 }
                 fill
                 priority
+                unoptimized={true}
                 fetchPriority="high"
                 sizes="(max-width: 639px) calc(100vw - 2rem), (max-width: 1023px) 600px, 1px"
                 className="object-cover object-center"
@@ -202,7 +206,8 @@ export function Hero({ altMap }: { altMap?: Record<string, string> } = {}) {
                   "Magnified view of adult bed bug for pest identification and eradication"
                 }
                 fill
-                loading="eager"
+                loading="lazy"
+                fetchPriority="low"
                 sizes="160px"
                 className="object-cover"
               />

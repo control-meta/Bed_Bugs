@@ -1,8 +1,7 @@
 import { locations } from "@/lib/locations";
 import { getSitemapBlogs } from "@/lib/blog-db";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 3600;
+export const revalidate = 60;
 
 function escapeXml(unsafe: string): string {
   return unsafe.replace(/[<>&'"]/g, (c) => {
@@ -98,7 +97,6 @@ ${xmlEntries}
     status: 200,
     headers: {
       "Content-Type": "application/xml; charset=utf-8",
-      "Cache-Control": "public, max-age=3600, stale-while-revalidate=86400",
     },
   });
 }

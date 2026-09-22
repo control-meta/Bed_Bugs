@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   allowedDevOrigins: ["192.168.29.7", "192.168.162.189"],
-  compress: false,
+  compress: true,
   poweredByHeader: false,
 
   images: {
@@ -43,17 +43,13 @@ const nextConfig = {
             key: "Cache-Control",
             value: "public, max-age=86400, stale-while-revalidate=604800",
           },
-        ],
-      },
-      {
-        source: "/llms.txt",
-        headers: [
           {
-            key: "Cache-Control",
-            value: "public, max-age=300, stale-while-revalidate=86400",
+            key: "Content-Type",
+            value: "text/plain; charset=utf-8",
           },
         ],
       },
+
     ];
   },
   async redirects() {
