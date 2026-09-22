@@ -4,35 +4,65 @@
   "dailyTime": "09:00",
   "logs": [
     {
-      "id": "log_1789934995616",
+      "id": "blog_c60c6138-53b8-4fb9-b979-913a5d806ebc",
       "date": "2026-09-22",
-      "topic": "The Ultimate Guide to Bed Bug Prevention in Indian Homes",
-      "slug": "bed-bug-prevention-indian-homes",
+      "topic": "Mattress Inspection Checklist for Hidden Bed Bugs",
+      "slug": "mattress-inspection-bed-bugs-bangalore-guide",
       "status": "success",
-      "message": "Published successfully as \"Shield Your Home: The Essential Guide to Bed Bug Prevention for Indian Families\".",
-      "timestamp": "2026-09-20T20:09:55.616Z",
-      "blogId": "1345841b-935f-4039-8693-2581c26f9621"
+      "message": "Published successfully as \"Mattress Inspection for Bed Bugs in Bangalore: A Complete Guide\".",
+      "timestamp": "2026-09-22T18:42:13.280Z",
+      "blogId": "c60c6138-53b8-4fb9-b979-913a5d806ebc"
     },
     {
-      "id": "log_1789933703290",
+      "id": "blog_85985266-3ad6-47d3-8225-33b306eafe76",
+      "date": "2026-09-22",
+      "topic": "Bed Bug Treatment Cost in Pune: What Homeowners Should Know",
+      "slug": "bed-bug-treatment-cost-in-pune",
+      "status": "success",
+      "message": "Published successfully as \"Understanding Bed Bug Treatment Costs and Options in Pune\".",
+      "timestamp": "2026-09-22T12:18:01.509Z",
+      "blogId": "85985266-3ad6-47d3-8225-33b306eafe76"
+    },
+    {
+      "id": "blog_ffeeab31-f514-4faa-aaba-88a411b1d3dd",
+      "date": "2026-09-22",
+      "topic": "How to Identify Bed Bug Bites Before They Spread",
+      "slug": "identify-bed-bug-bites-before-they-spread",
+      "status": "success",
+      "message": "Published successfully as \"Identify Bed Bug Bites Before They Spread\".",
+      "timestamp": "2026-09-22T10:55:28.496Z",
+      "blogId": "ffeeab31-f514-4faa-aaba-88a411b1d3dd"
+    },
+    {
+      "id": "blog_221b51bc-999f-497b-8a21-75e792506cf6",
+      "date": "2026-09-22",
+      "topic": "Room-by-Room Bed Bug Inspection Guide for Indian Homes",
+      "slug": "bed-bug-inspection-guide-indian-homes",
+      "status": "success",
+      "message": "Published successfully as \"Room-by-Room Bed Bug Inspection Guide for Indian Homes\".",
+      "timestamp": "2026-09-22T04:09:18.673Z",
+      "blogId": "221b51bc-999f-497b-8a21-75e792506cf6"
+    },
+    {
+      "id": "blog_d17f9cf1-7fb0-437d-9e7f-4fc9a4831ba4",
+      "date": "2026-09-22",
+      "topic": "Effective Bed Bug Treatments at Home",
+      "slug": "effective-bed-bug-treatments-at-home",
+      "status": "success",
+      "message": "Published successfully as \"Effective Bed Bug Treatments at Home\".",
+      "timestamp": "2026-09-22T02:26:46.037Z",
+      "blogId": "d17f9cf1-7fb0-437d-9e7f-4fc9a4831ba4"
+    },
+    {
+      "id": "blog_3934ad76-c7b3-4260-b572-1dc3afc5c203",
       "date": "2026-09-21",
-      "topic": "Effective Bed Bug Treatment Methods",
-      "slug": "effective-bed-bug-treatment-methods",
+      "topic": "How to Identify Bed Bug Bites: A Comprehensive Guide for Indian Homes",
+      "slug": "identify-bed-bug-bites-india",
       "status": "success",
-      "message": "Published successfully as \"Uncovering the Best Bed Bug Treatment Methods for Indian Homes\".",
-      "timestamp": "2026-09-20T19:48:23.290Z",
-      "blogId": "b2204460-64fa-4154-bd75-81fb62fbc61b"
-    },
-    {
-      "id": "log_1789932408221",
-      "date": "2026-09-20",
-      "topic": "How to Identify Bed Bug Bites: Symptoms and Signs",
-      "slug": "identify-bed-bug-bites-symptoms",
-      "status": "success",
-      "message": "Published successfully as \"Spotting the Unseen: How to Identify Bed Bug Bites and Their Symptoms\".",
-      "timestamp": "2026-09-20T19:26:48.221Z",
-      "blogId": "75fc7ac0-c4a3-443a-af04-caabf15f35ac"
+      "message": "Published successfully as \"How to Identify Bed Bug Bites\".",
+      "timestamp": "2026-09-21T18:00:00.000Z",
+      "blogId": "3934ad76-c7b3-4260-b572-1dc3afc5c203"
     }
   ],
-  "lastRunAt": "2026-09-20T20:09:55.616Z"
+  "lastRunAt": "2026-09-22T18:42:13.280Z"
 }

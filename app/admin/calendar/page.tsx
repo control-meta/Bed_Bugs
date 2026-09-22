@@ -612,7 +612,10 @@ export default function CalendarPage() {
           {/* Auto-Publish Status & Control Button */}
           <div className="flex items-center gap-1.5">
             <button
-              onClick={() => setIsAutoPublishModalOpen(true)}
+              onClick={() => {
+                setIsAutoPublishModalOpen(true);
+                fetchAutoPublishState();
+              }}
               className={`flex items-center gap-2 rounded-xl px-3.5 py-2 text-xs font-bold transition shadow-xs border ${
                 isTestTimerRunning
                   ? "bg-amber-500/10 border-amber-500/30 text-amber-800 hover:bg-amber-500/20"
@@ -1117,6 +1120,7 @@ export default function CalendarPage() {
                 onClick={() => {
                   setModalTab("logs");
                   setModalFeedback(null);
+                  fetchAutoPublishState();
                 }}
                 className={`flex items-center gap-2 px-4 py-2.5 text-xs font-bold transition-all border-b-2 ${
                   modalTab === "logs"
@@ -1554,9 +1558,19 @@ export default function CalendarPage() {
                     <span className="text-xs font-bold uppercase tracking-wider text-neutral-700">
                       Auto-Publish History
                     </span>
-                    <span className="text-[11px] text-neutral-400">
-                      {autoPublishConfig?.logs?.length || 0} total events
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => fetchAutoPublishState()}
+                        className="inline-flex items-center gap-1 text-[11px] font-semibold text-neutral-500 hover:text-emerald-700 bg-neutral-100 hover:bg-neutral-200/80 px-2 py-0.5 rounded-md transition cursor-pointer"
+                        title="Refresh Activity Logs"
+                      >
+                        <RefreshCw className="h-3 w-3" />
+                        Refresh
+                      </button>
+                      <span className="text-[11px] text-neutral-400">
+                        {autoPublishConfig?.logs?.length || 0} total events
+                      </span>
+                    </div>
                   </div>
 
                   <div className="rounded-2xl border border-neutral-200 bg-white overflow-hidden max-h-60 overflow-y-auto divide-y divide-neutral-100">

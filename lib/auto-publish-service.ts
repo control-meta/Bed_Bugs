@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import OpenAI from "openai";
 import { getCalendarPlans, saveCalendarPlans, BlogPlan } from "./calendar-db";
-import { saveBlog, BlogItem } from "./blog-db";
+import { saveBlog, BlogItem, getAllBlogs } from "./blog-db";
 import { injectBlogImages } from "./blog/image-selector";
 import { generateFreshBlogImages } from "./blog/ai-image-generator";
 import { runBlogPipeline } from "./blog/pipeline";
@@ -53,6 +53,73 @@ export function getAutoPublishConfig(): AutoPublishConfig {
     console.error("[auto-publish] Error reading config:", err);
   }
   return { ...DEFAULT_CONFIG };
+}
+
+/**
+ * Retrieves the auto-publish configuration merged with live published blog events from Supabase/database.
+ * Ensures the Activity Logs tab always reflects newly published articles with valid working links.
+ */
+export async function getAutoPublishConfigWithLiveLogs(): Promise<AutoPublishConfig> {
+  const baseConfig = getAutoPublishConfig();
+
+  try {
+    // 1. Fetch recent published blogs from database
+    const blogs = await getAllBlogs({ status: "published" });
+
+    // 2. Convert published blogs into standardized activity logs
+    const blogLogs: AutoPublishLog[] = blogs.map((b) => ({
+      id: "blog_" + b.id,
+      date: (b.createdAt || new Date().toISOString()).slice(0, 10),
+      topic: b.topic || b.title,
+      slug: b.slug,
+      status: "success" as const,
+      message: `Published successfully as "${b.title}".`,
+      timestamp: b.createdAt || b.updatedAt || new Date().toISOString(),
+      blogId: b.id,
+    }));
+
+    // 3. Keep any system/worker error logs from config file
+    const errorLogs = (baseConfig.logs || []).filter((l) => l.status === "error");
+
+    // 4. Merge error logs and real published blog logs (de-duplicate by slug or blogId)
+    const seen = new Set<string>();
+    const mergedLogs: AutoPublishLog[] = [];
+
+    for (const errLog of errorLogs) {
+      mergedLogs.push(errLog);
+    }
+
+    for (const bLog of blogLogs) {
+      const key = bLog.slug || bLog.blogId || bLog.topic;
+      if (!seen.has(key)) {
+        seen.add(key);
+        mergedLogs.push(bLog);
+      }
+    }
+
+    // Sort newest first
+    mergedLogs.sort(
+      (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+    );
+
+    return {
+      ...baseConfig,
+      logs: mergedLogs.slice(0, 50),
+    };
+  } catch (err) {
+    console.error("[auto-publish] Error merging live blog logs:", err);
+    return baseConfig;
+  }
+}
+
+export function recordAutoPublishLog(log: AutoPublishLog): void {
+  try {
+    const config = getAutoPublishConfig();
+    config.logs = [log, ...(config.logs || []).filter((l) => l.id !== log.id)].slice(0, 50);
+    saveAutoPublishConfig(config);
+  } catch (err) {
+    console.warn("[auto-publish] Warning recording log:", err);
+  }
 }
 
 export function saveAutoPublishConfig(config: AutoPublishConfig): void {

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
   getAutoPublishConfig,
+  getAutoPublishConfigWithLiveLogs,
   saveAutoPublishConfig,
   calculateNextRunTime,
   getNextPlannedPost,
@@ -11,7 +12,7 @@ import {
 
 export async function GET() {
   try {
-    const config = getAutoPublishConfig();
+    const config = await getAutoPublishConfigWithLiveLogs();
     const nextPlanned = await getNextPlannedPost();
 
     let timeRemainingSeconds = 0;
@@ -66,6 +67,7 @@ export async function POST(req: NextRequest) {
       stopAutoPublishServerWorker();
     }
     const nextPlanned = await getNextPlannedPost();
+    const liveConfig = await getAutoPublishConfigWithLiveLogs();
 
     let timeRemainingSeconds = 0;
     if (updated.enabled && updated.nextRunAt) {
@@ -75,7 +77,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      config: updated,
+      config: liveConfig,
       nextPlannedPost: nextPlanned,
       timeRemainingSeconds,
     });
