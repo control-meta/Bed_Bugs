@@ -299,7 +299,7 @@ export function BlogGeneratorProvider({ children }: { children: React.ReactNode 
                 if ("Notification" in window && Notification.permission === "granted") {
                   new Notification("Blog Generation Complete!", {
                     body: "Your AI article is ready to be reviewed.",
-                    icon: "/favicon.ico"
+                    icon: "/images/favicon.png"
                   });
                 }
               }

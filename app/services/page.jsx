@@ -233,7 +233,7 @@ const plans = [
   },
   {
     title: '1-Year Bed Bug AMC',
-    subtitle: '3 Visits Over 12 Months',
+    subtitle: 'Long-term warranty coverage',
     action: 'Book 1-Year AMC via WhatsApp',
     popular: true,
     items: [

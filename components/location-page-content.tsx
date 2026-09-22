@@ -784,7 +784,7 @@ export function LocationPageContent({
                     <EditableItem
                       id="plan2_sub"
                       label="Plan 2 Subtitle"
-                      value={customStyles?.plan2_sub || "3 Visits Over 12 Months"}
+                      value={customStyles?.plan2_sub || "Long-term warranty coverage"}
                       as="p"
                       className="mt-0.5 text-xs text-[#a3e2c9] sm:text-sm"
                     />
@@ -1154,7 +1154,7 @@ export function LocationPageContent({
                       label="CTA Title"
                       value={
                         customStyles?.ctaTitle &&
-                        !customStyles.ctaTitle.includes("Same-day service available across")
+                          !customStyles.ctaTitle.includes("Same-day service available across")
                           ? customStyles.ctaTitle
                           : "Take Back Your Home From Bed Bugs."
                       }
@@ -1162,8 +1162,8 @@ export function LocationPageContent({
                       className="[&>span:last-child]:text-brand-300"
                     >
                       {customStyles?.ctaTitle &&
-                      customStyles.ctaTitle !== "Take Back Your Home From Bed Bugs." &&
-                      !customStyles.ctaTitle.includes("Same-day service available across") ? (
+                        customStyles.ctaTitle !== "Take Back Your Home From Bed Bugs." &&
+                        !customStyles.ctaTitle.includes("Same-day service available across") ? (
                         customStyles.ctaTitle
                       ) : (
                         <>
@@ -1180,8 +1180,8 @@ export function LocationPageContent({
                     label="CTA Description"
                     value={
                       customStyles?.ctaDesc &&
-                      !customStyles.ctaDesc.includes("Schedule your Targeted bed bug treatment across") &&
-                      !customStyles.ctaDesc.includes("Targeted bed bug treatment across Mumbai")
+                        !customStyles.ctaDesc.includes("Schedule your Targeted bed bug treatment across") &&
+                        !customStyles.ctaDesc.includes("Targeted bed bug treatment across Mumbai")
                         ? customStyles.ctaDesc
                         : `Professional, odorless treatment designed to target bed bugs in mattresses, bed frames, furniture, cracks, and other hiding areas.`
                     }

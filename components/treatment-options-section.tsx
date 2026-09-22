@@ -132,7 +132,7 @@ export function TreatmentOptionsSection({
                   1-Year Bed Bug AMC
                 </h3>
                 <p className="mt-0.5 text-xs text-white/85 sm:text-sm">
-                  3 Visits Over 12 Months
+                  Long-term warranty coverage
                 </p>
               </div>
             </div>
