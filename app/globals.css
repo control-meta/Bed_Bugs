@@ -827,6 +827,10 @@ select:disabled,
 
   /* Optional: font size for the city name on mobile (defaults to the same size) */
   --location-title-mobile-city-font-size: var(--location-title-mobile-font-size);
+
+  /* Desktop font size for the location title heading (single line) */
+  --location-title-desktop-font-size: clamp(1.85rem, 3vw, 2.75rem);
+  --location-title-desktop-line-height: 1.2;
 }
 
 /* Location Page Hero Heading - strictly 2 lines on mobile preview */
@@ -849,8 +853,43 @@ select:disabled,
     font-size: var(--location-title-mobile-city-font-size) !important;
   }
 
-  .location-hero-heading br {
+  .location-hero-heading br,
+  .location-hero-break {
     display: block !important;
+  }
+}
+
+/* Location Page Hero Heading - strictly single line on desktop preview */
+@media (min-width: 640px) {
+
+  .location-hero-heading,
+  .location-hero-heading *,
+  [data-field-id="heroHeading"],
+  [data-field-id="heroHeading"] * {
+    font-size: var(--location-title-desktop-font-size) !important;
+    line-height: var(--location-title-desktop-line-height) !important;
+  }
+
+  .location-hero-heading,
+  [data-field-id="heroHeading"] {
+    white-space: nowrap !important;
+  }
+
+  .location-hero-heading br,
+  .location-hero-break,
+  [data-field-id="heroHeading"] br {
+    display: none !important;
+  }
+
+  .location-hero-prefix {
+    display: inline !important;
+    white-space: nowrap !important;
+  }
+
+  .location-hero-city {
+    display: inline !important;
+    white-space: nowrap !important;
+    margin-left: 0.28em !important;
   }
 }
 

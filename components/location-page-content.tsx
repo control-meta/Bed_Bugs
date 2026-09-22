@@ -70,7 +70,7 @@ export function formatLocationHeroHeading(
   cityName: string
 ): string {
   if (!raw || typeof raw !== "string") {
-    return `<span class="location-hero-prefix inline-block max-sm:whitespace-nowrap">Bed Bug Treatment in</span><br/><span class="location-hero-city text-brand-600" style="color: rgb(0, 140, 90);">${cityName}</span>`;
+    return `<span class="location-hero-prefix inline-block max-sm:whitespace-nowrap">Bed Bug Treatment in</span><br class="location-hero-break sm:hidden" /> <span class="location-hero-city text-brand-600" style="color: rgb(0, 140, 90);">${cityName}</span>`;
   }
 
   let cleaned = raw.replace(/&nbsp;/g, " ").trim();
@@ -92,17 +92,20 @@ export function formatLocationHeroHeading(
   // Strip trailing br tags
   cleaned = cleaned.replace(/<br\s*\/?>\s*$/i, "").trim();
 
+  // Normalize existing br tags to have sm:hidden class and a space
+  cleaned = cleaned.replace(/<br\s*\/?>/gi, '<br class="location-hero-break sm:hidden" /> ');
+
   // Ensure <br/> is positioned right before the city span or city name
-  if (!/<br\s*\/?>/i.test(cleaned)) {
+  if (!cleaned.includes("location-hero-break")) {
     if (/(Bed Bug\s+[A-Za-z]+\s+in)\s*(<span[^>]*>.*?<\/span>)/i.test(cleaned)) {
       cleaned = cleaned.replace(
         /(Bed Bug\s+[A-Za-z]+\s+in)\s*(<span[^>]*>.*?<\/span>)/i,
-        "$1<br/>$2"
+        '$1<br class="location-hero-break sm:hidden" /> $2'
       );
     } else if (cityName && new RegExp(`(Bed Bug\\s+[A-Za-z]+\\s+in)\\s*(${cityName})`, "i").test(cleaned)) {
       cleaned = cleaned.replace(
         new RegExp(`(Bed Bug\\s+[A-Za-z]+\\s+in)\\s*(${cityName})`, "i"),
-        `$1<br/><span class="location-hero-city text-brand-600" style="color: rgb(0, 140, 90);">$2</span>`
+        `$1<br class="location-hero-break sm:hidden" /> <span class="location-hero-city text-brand-600" style="color: rgb(0, 140, 90);">$2</span>`
       );
     }
   }
@@ -464,7 +467,7 @@ export function LocationPageContent({
                       location.name
                     )}
                     as="h1"
-                    className="location-hero-heading font-display text-[1.65rem] font-extrabold leading-[1.22] tracking-tight text-ink sm:text-4xl md:text-5xl lg:text-[3rem] sm:leading-tight"
+                    className="location-hero-heading font-display text-[1.65rem] font-extrabold leading-[1.22] tracking-tight text-ink sm:text-3xl md:text-4xl lg:text-[2.65rem] xl:text-[2.85rem] sm:leading-tight"
                   />
                 </div>
 
