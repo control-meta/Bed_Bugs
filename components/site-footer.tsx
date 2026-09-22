@@ -135,11 +135,23 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="flex flex-col items-center gap-2.5 py-6 text-center text-xs text-white/45">
+        <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-6 text-center text-xs text-white/50 sm:flex-row sm:text-left">
           <p>
-            © {site.foundedYear}–{new Date().getFullYear()} {site.legalName}. All
-            Rights Reserved.
+            © {site.foundedYear}–{new Date().getFullYear()} {site.legalName}. All Rights Reserved.
           </p>
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-white/60">
+            <Link href="/sitemap" className="transition hover:text-white">
+              Sitemap
+            </Link>
+            <span className="text-white/20">•</span>
+            <a href="/sitemap.xml" target="_blank" rel="noopener noreferrer" className="transition hover:text-white">
+              XML Sitemap
+            </a>
+            <span className="text-white/20">•</span>
+            <a href="/llms.txt" target="_blank" rel="noopener noreferrer" className="transition hover:text-white">
+              LLMs.txt
+            </a>
+          </div>
         </div>
       </div>
     </footer>
