@@ -75,26 +75,26 @@
         "duration": "1 Hour",
         "warranty": "12 Months",
         "propertyType": "1 RK / Studio Flat",
-        "startingPrice": "₹1,199"
+        "startingPrice": "\u20b91,199"
       },
       {
         "duration": "1.5 Hours",
         "warranty": "12 Months",
         "propertyType": "1 BHK Apartment",
-        "startingPrice": "₹1,499"
+        "startingPrice": "\u20b91,499"
       },
       {
         "popular": true,
         "duration": "2 Hours",
         "warranty": "12 Months",
         "propertyType": "2 BHK Apartment",
-        "startingPrice": "₹1,999"
+        "startingPrice": "\u20b91,999"
       },
       {
         "duration": "2.5 Hours",
         "warranty": "12 Months",
         "propertyType": "3 BHK Apartment",
-        "startingPrice": "₹2,599"
+        "startingPrice": "\u20b92,599"
       },
       {
         "duration": "Tailored",
@@ -213,7 +213,9 @@
       "heroTitleWeight": "font-extrabold",
       "methodologyDesc": "Our scientific, dual-action extermination strategy kills adult bugs instantly and neutralizes eggs so they never hatch again.",
       "methodologyTitle": "<h2 class=\"transition-all duration-150 cursor-text outline-none max-w-3xl font-display font-extrabold tracking-tight mt-3 text-2xl sm:text-3xl lg:text-4xl text-ink outline outline-2 outline-emerald-600 outline-offset-2 ring-2 ring-emerald-500/20 bg-emerald-50/25 rounded-sm\" title=\"Click to edit: Methodology Section Title\" style=\"margin: 12px 0px 0px; font-size: 36px; font-weight: 800; max-width: 768px; border-radius: 4px; background-color: oklab(0.978997 -0.020394 0.0050624 / 0.25); font-family: Poppins, &quot;Poppins Fallback&quot;, ui-sans-serif, system-ui, sans-serif; line-height: 1.11111; --tw-font-weight: 800; --tw-tracking: -.025em; letter-spacing: -0.9px; color: rgb(16, 25, 21); --tw-ring-shadow: 0 0 0 calc(2px + 0px) color-mix(in oklab, lab(66.9756% -58.27 19.5419) 20%, transparent); box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.695996 -0.162107 0.0511875 / 0.2) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px; --tw-ring-color: color-mix(in oklab, lab(66.9756% -58.27 19.5419) 20%, transparent); outline: lab(55.0481 -49.9246 15.93) none 2px; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); --tw-duration: .15s; --tw-outline-style: none;\">How we eliminate bed bugs in Bangalore</h2>",
-      "methodologyEyebrow": "Our Proven Methodology"
+      "methodologyEyebrow": "Our Proven Methodology",
+      "plan1_btn": "Book One-Time Treatment via WhatsApp",
+      "plan2_btn": "Book 1-Year AMC via WhatsApp"
     },
     "updatedAt": "2026-09-19T08:50:55.760Z",
     "createdAt": "2026-09-18T05:38:22.741743+00:00",
@@ -292,26 +294,26 @@
     "pricing": [
       {
         "propertyType": "1 RK / Room",
-        "startingPrice": "₹1,199",
+        "startingPrice": "\u20b91,199",
         "duration": "1 Hour",
         "warranty": "12 Months"
       },
       {
         "propertyType": "1 BHK Floor / Flat",
-        "startingPrice": "₹1,499",
+        "startingPrice": "\u20b91,499",
         "duration": "1.5 Hours",
         "warranty": "12 Months"
       },
       {
         "propertyType": "2 BHK Builder Floor",
-        "startingPrice": "₹1,999",
+        "startingPrice": "\u20b91,999",
         "duration": "2 Hours",
         "warranty": "12 Months",
         "popular": true
       },
       {
         "propertyType": "3 BHK Builder Floor",
-        "startingPrice": "₹2,699",
+        "startingPrice": "\u20b92,699",
         "duration": "2.5 Hours",
         "warranty": "12 Months"
       },
@@ -424,7 +426,9 @@
       "fontFamily": "var(--font-poppins)",
       "heroTitleSize": "text-4xl lg:text-[3rem]",
       "heroTitleWeight": "font-extrabold",
-      "accentColor": "#1f8055"
+      "accentColor": "#1f8055",
+      "plan1_btn": "Book One-Time Treatment via WhatsApp",
+      "plan2_btn": "Book 1-Year AMC via WhatsApp"
     },
     "updatedAt": "2026-09-17T13:30:14.777Z",
     "createdAt": "2026-09-17T13:30:14.777Z"
@@ -505,26 +509,26 @@
     "pricing": [
       {
         "propertyType": "1 RK / Compact Flat",
-        "startingPrice": "₹1,299",
+        "startingPrice": "\u20b91,299",
         "duration": "1 Hour",
         "warranty": "12 Months"
       },
       {
         "propertyType": "1 BHK Apartment",
-        "startingPrice": "₹1,599",
+        "startingPrice": "\u20b91,599",
         "duration": "1.5 Hours",
         "warranty": "12 Months"
       },
       {
         "propertyType": "2 BHK Apartment",
-        "startingPrice": "₹2,199",
+        "startingPrice": "\u20b92,199",
         "duration": "2 Hours",
         "warranty": "12 Months",
         "popular": true
       },
       {
         "propertyType": "3 BHK Apartment",
-        "startingPrice": "₹2,799",
+        "startingPrice": "\u20b92,799",
         "duration": "2.5 Hours",
         "warranty": "12 Months"
       },
@@ -637,7 +641,9 @@
       "fontFamily": "var(--font-poppins)",
       "heroTitleSize": "text-4xl lg:text-[3rem]",
       "heroTitleWeight": "font-extrabold",
-      "accentColor": "#1f8055"
+      "accentColor": "#1f8055",
+      "plan1_btn": "Book One-Time Treatment via WhatsApp",
+      "plan2_btn": "Book 1-Year AMC via WhatsApp"
     },
     "updatedAt": "2026-09-17T13:30:14.777Z",
     "createdAt": "2026-09-17T13:30:14.777Z"
@@ -712,26 +718,26 @@
     "pricing": [
       {
         "propertyType": "Studio / 1 RK Flat",
-        "startingPrice": "₹1,199",
+        "startingPrice": "\u20b91,199",
         "duration": "1 Hour",
         "warranty": "12 Months"
       },
       {
         "propertyType": "1 BHK High-Rise Flat",
-        "startingPrice": "₹1,499",
+        "startingPrice": "\u20b91,499",
         "duration": "1.5 Hours",
         "warranty": "12 Months"
       },
       {
         "propertyType": "2 BHK High-Rise Flat",
-        "startingPrice": "₹1,999",
+        "startingPrice": "\u20b91,999",
         "duration": "2 Hours",
         "warranty": "12 Months",
         "popular": true
       },
       {
         "propertyType": "3 BHK High-Rise Flat",
-        "startingPrice": "₹2,599",
+        "startingPrice": "\u20b92,599",
         "duration": "2.5 Hours",
         "warranty": "12 Months"
       },
@@ -844,7 +850,9 @@
       "fontFamily": "var(--font-poppins)",
       "heroTitleSize": "text-4xl lg:text-[3rem]",
       "heroTitleWeight": "font-extrabold",
-      "accentColor": "#1f8055"
+      "accentColor": "#1f8055",
+      "plan1_btn": "Book One-Time Treatment via WhatsApp",
+      "plan2_btn": "Book 1-Year AMC via WhatsApp"
     },
     "updatedAt": "2026-09-17T13:30:14.777Z",
     "createdAt": "2026-09-17T13:30:14.777Z"
@@ -927,26 +935,26 @@
         "duration": "1 Hour",
         "warranty": "12 Months",
         "propertyType": "1 RK / Studio",
-        "startingPrice": "₹1,199"
+        "startingPrice": "\u20b91,199"
       },
       {
         "duration": "1.5 Hours",
         "warranty": "12 Months",
         "propertyType": "1 BHK Apartment",
-        "startingPrice": "₹1,499"
+        "startingPrice": "\u20b91,499"
       },
       {
         "popular": true,
         "duration": "2 Hours",
         "warranty": "12 Months",
         "propertyType": "2 BHK Apartment",
-        "startingPrice": "₹1,999"
+        "startingPrice": "\u20b91,999"
       },
       {
         "duration": "2.5 Hours",
         "warranty": "12 Months",
         "propertyType": "3 BHK Apartment",
-        "startingPrice": "₹2,599"
+        "startingPrice": "\u20b92,599"
       },
       {
         "duration": "Tailored",
@@ -1062,7 +1070,9 @@
       "methodologyDesc": "Our scientific, dual-action extermination strategy kills adult bugs instantly and neutralizes eggs so they never hatch again.",
       "methodologyTitle": "How we eliminate bed bugs in Pune",
       "step3_title": "Deep Egg Eradication",
-      "methodologyEyebrow": "Our Proven Methodology"
+      "methodologyEyebrow": "Our Proven Methodology",
+      "plan1_btn": "Book One-Time Treatment via WhatsApp",
+      "plan2_btn": "Book 1-Year AMC via WhatsApp"
     },
     "updatedAt": "2026-09-19T08:50:12.239Z",
     "createdAt": "2026-09-18T05:38:22.741743+00:00",

@@ -222,7 +222,7 @@ const plans = [
   {
     title: 'One-Time Bed Bug Treatment',
     subtitle: 'For immediate treatment needs',
-    action: 'Book One-Time Service',
+    action: 'Book One-Time Treatment via WhatsApp',
     items: [
       'Inspection of common bed bug hiding areas',
       'Targeted treatment of affected areas',
@@ -234,7 +234,7 @@ const plans = [
   {
     title: '1-Year Bed Bug AMC',
     subtitle: '3 Visits Over 12 Months',
-    action: 'Choose 1-Year AMC',
+    action: 'Book 1-Year AMC via WhatsApp',
     popular: true,
     items: [
       'Initial inspection and treatment',

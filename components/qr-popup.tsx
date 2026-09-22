@@ -53,15 +53,16 @@ export function QrPopup() {
               <X className="h-4 w-4" />
             </button>
             <Image
-              src="/QR/QR.jpeg"
-              alt="QR Code"
+              src="/QR/qr-code.png"
+              alt="Payment QR Code"
               width={600}
               height={600}
-              className="h-auto w-full rounded-xl"
+              unoptimized
+              className="h-auto w-full rounded-xl bg-white"
             />
             <a
-              href="/QR/QR.jpeg"
-              download="qr-code.jpeg"
+              href="/QR/qr-code.png"
+              download="qr-code.png"
               className="mt-3 flex w-full items-center justify-center gap-2 rounded-full bg-brand-500 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-600"
             >
               <Download className="h-4 w-4" />

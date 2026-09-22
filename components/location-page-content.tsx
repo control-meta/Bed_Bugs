@@ -1148,22 +1148,29 @@ export function LocationPageContent({
                       as="span"
                     />
                   </p>
-                  <div className="mt-4 font-display text-2xl font-extrabold leading-tight tracking-tight text-white max-sm:mt-3 max-sm:text-[1.4rem] sm:text-3xl lg:text-[2.25rem]">
+                  <div className="mt-4 font-display text-xl font-extrabold leading-tight tracking-tight text-white max-sm:mt-3 max-sm:text-[1.2rem] sm:text-2xl lg:text-[1.95rem] xl:text-[2.2rem]">
                     <EditableItem
                       id="ctaTitle"
                       label="CTA Title"
                       value={
-                        customStyles?.ctaTitle || "Take Back Your Home From Bed Bugs."
+                        customStyles?.ctaTitle &&
+                        !customStyles.ctaTitle.includes("Same-day service available across")
+                          ? customStyles.ctaTitle
+                          : "Take Back Your Home From Bed Bugs."
                       }
                       as="span"
                       className="[&>span:last-child]:text-brand-300"
                     >
-                      {customStyles?.ctaTitle ? (
+                      {customStyles?.ctaTitle &&
+                      customStyles.ctaTitle !== "Take Back Your Home From Bed Bugs." &&
+                      !customStyles.ctaTitle.includes("Same-day service available across") ? (
                         customStyles.ctaTitle
                       ) : (
                         <>
-                          Take Back Your Home From{" "}
-                          <span className="whitespace-nowrap text-brand-300">Bed Bugs.</span>
+                          <span className="block whitespace-nowrap">Take Back Your</span>
+                          <span className="block whitespace-nowrap">
+                            Home From <span className="text-brand-300">Bed Bugs.</span>
+                          </span>
                         </>
                       )}
                     </EditableItem>
@@ -1172,8 +1179,11 @@ export function LocationPageContent({
                     id="ctaDesc"
                     label="CTA Description"
                     value={
-                      customStyles?.ctaDesc ||
-                      `Professional, odorless treatment designed to target bed bugs in mattresses, bed frames, furniture, cracks, and other hiding areas.`
+                      customStyles?.ctaDesc &&
+                      !customStyles.ctaDesc.includes("Schedule your Targeted bed bug treatment across") &&
+                      !customStyles.ctaDesc.includes("Targeted bed bug treatment across Mumbai")
+                        ? customStyles.ctaDesc
+                        : `Professional, odorless treatment designed to target bed bugs in mattresses, bed frames, furniture, cracks, and other hiding areas.`
                     }
                     as="p"
                     className="mt-4 max-w-lg text-sm leading-relaxed text-white/85 max-sm:mx-auto max-sm:mt-3 max-sm:text-[0.8rem]"

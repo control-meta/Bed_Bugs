@@ -114,7 +114,7 @@ export function TreatmentOptionsSection({
                 rel="noopener noreferrer"
                 className={buttonClass}
               >
-                Book One-Time Treatment
+                Book One-Time Treatment via WhatsApp
               </a>
             </div>
           </article>
@@ -157,7 +157,7 @@ export function TreatmentOptionsSection({
                 rel="noopener noreferrer"
                 className={buttonClass}
               >
-                Choose 1-Year AMC
+                Book 1-Year AMC via WhatsApp
               </a>
             </div>
           </article>

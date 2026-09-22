@@ -49,9 +49,11 @@ export function CtaSection({
                 <span className="h-px w-8 bg-brand-500" />
                 BOOK YOUR BED BUG TREATMENT
               </p>
-              <h2 className="mt-4 font-display text-2xl font-extrabold leading-tight tracking-tight text-white max-sm:mt-3 max-sm:text-[1.4rem] sm:text-3xl lg:text-[2.25rem]">
-                Take Back Your Home From{" "}
-                <span className="whitespace-nowrap text-brand-300">Bed Bugs.</span>
+              <h2 className="mt-4 font-display text-xl font-extrabold leading-tight tracking-tight text-white max-sm:mt-3 max-sm:text-[1.2rem] sm:text-2xl lg:text-[1.95rem] xl:text-[2.2rem]">
+                <span className="block whitespace-nowrap">Take Back Your</span>
+                <span className="block whitespace-nowrap">
+                  Home From <span className="text-brand-300">Bed Bugs.</span>
+                </span>
               </h2>
               <p className="mt-4 max-w-lg text-sm leading-relaxed text-white/85 max-sm:mx-auto max-sm:mt-3 max-sm:text-[0.8rem]">
                 Professional, odorless treatment designed to target bed bugs in mattresses, bed frames, furniture, cracks, and other hiding areas.
