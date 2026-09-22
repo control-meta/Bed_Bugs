@@ -6,7 +6,7 @@ import { homeFaqs, site } from "@/lib/site";
 
 export function FaqSection() {
   return (
-    <section id="faq" className="bg-cream py-10 max-sm:pb-4 lg:py-14">
+    <section id="faq" className="cv-auto bg-cream py-10 max-sm:pb-4 lg:py-14">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:items-start lg:gap-14">
           <div className="lg:sticky lg:top-24 lg:self-start">

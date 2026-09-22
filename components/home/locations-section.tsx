@@ -5,7 +5,7 @@ import { cities, site } from "@/lib/site";
 
 export function LocationsSection() {
   return (
-    <section id="locations" className="bg-cream py-10 lg:py-14">
+    <section id="locations" className="cv-auto bg-cream py-10 lg:py-14">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           size="compact"

@@ -42,7 +42,7 @@ export function TestimonialsSection({
   title = "What Our Customers Say About Our Bed Bug Treatment",
   description = "See what customers across India say about their experience with our bed bug treatment service.",
   id = "reviews",
-  className = "relative overflow-hidden bg-white py-6 sm:py-8 lg:py-9",
+  className = "cv-auto relative overflow-hidden bg-white py-6 sm:py-8 lg:py-9",
   cardBg = "bg-brand-50/50",
   rating = site.rating,
   reviewCount = site.reviewCount,
@@ -89,6 +89,7 @@ export function TestimonialsSection({
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let paused = false;
+    let isIntersecting = false;
     let raf = 0;
     let last = performance.now();
 
@@ -105,6 +106,10 @@ export function TestimonialsSection({
     };
 
     const tick = (now: number) => {
+      if (!isIntersecting) {
+        raf = 0;
+        return;
+      }
       const dt = Math.min((now - last) / 1000, 0.1);
       last = now;
       const s = state.current;
@@ -114,7 +119,18 @@ export function TestimonialsSection({
       track.style.transform = `translate3d(${s.offset}px, 0, 0)`;
       raf = requestAnimationFrame(tick);
     };
-    raf = requestAnimationFrame(tick);
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isIntersecting = entry.isIntersecting;
+        if (isIntersecting && !raf) {
+          last = performance.now();
+          raf = requestAnimationFrame(tick);
+        }
+      },
+      { rootMargin: "100px" }
+    );
+    observer.observe(track);
 
     const onEnter = () => {
       paused = true;
@@ -126,7 +142,8 @@ export function TestimonialsSection({
     track.addEventListener("pointerleave", onLeave);
 
     return () => {
-      cancelAnimationFrame(raf);
+      observer.disconnect();
+      if (raf) cancelAnimationFrame(raf);
       track.removeEventListener("pointerenter", onEnter);
       track.removeEventListener("pointerleave", onLeave);
     };

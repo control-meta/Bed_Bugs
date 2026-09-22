@@ -853,3 +853,9 @@ select:disabled,
     display: block !important;
   }
 }
+
+/* Core Web Vitals performance optimization: defer rendering of offscreen sections */
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 650px;
+}

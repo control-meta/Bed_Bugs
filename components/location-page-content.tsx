@@ -634,8 +634,7 @@ export function LocationPageContent({
                         `Certified bed bug treatment specialists operating in ${location.name}`
                       }
                       fill
-                      priority
-                      sizes="(min-width: 1024px) 40vw, 90vw"
+                      sizes="(min-width: 1024px) 40vw, 1px"
                       className="object-cover object-center transition-transform duration-700 hover:scale-105"
                     />
                   )}

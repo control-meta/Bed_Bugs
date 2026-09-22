@@ -58,7 +58,7 @@ export function TreatmentOptionsSection({
   const finalAmcHref = amcHref || defaultAmcHref;
 
   return (
-    <section id={id} className={`bg-white pt-3 pb-3 sm:pt-4 sm:pb-4 lg:pt-6 lg:pb-4 scroll-mt-16 ${className}`}>
+    <section id={id} className={`cv-auto bg-white pt-3 pb-3 sm:pt-4 sm:pb-4 lg:pt-6 lg:pb-4 scroll-mt-16 ${className}`}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center">

@@ -108,7 +108,6 @@ export async function sendBlogPublishedEmail(params: BlogPublishedNotificationPa
       <tr><th align="left" width="30%">Title</th><td>${params.title}</td></tr>
       <tr><th align="left">Topic</th><td>${params.topic}</td></tr>
       <tr><th align="left">Slug</th><td>/${params.slug}</td></tr>
-      <tr><th align="left">AI Score</th><td>${params.score ? params.score + '/100' : 'N/A'}</td></tr>
       <tr><th align="left">Tokens Used</th><td>${params.tokenUse ? params.tokenUse.toLocaleString() : 'N/A'}</td></tr>
       <tr><th align="left">Live Link</th><td><a href="${liveLink}">${liveLink}</a></td></tr>
     </table>

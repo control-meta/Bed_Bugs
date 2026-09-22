@@ -37,7 +37,7 @@ export function CtaSection({
   altMap?: Record<string, string>;
 }) {
   return (
-    <section className={`bg-white ${className}`}>
+    <section className={`cv-auto bg-white ${className}`}>
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <div className="relative overflow-hidden rounded-[2rem] bg-ink max-sm:rounded-[1.5rem] max-sm:ring-1 max-sm:ring-white/10">
           <div className="absolute inset-0 bg-[radial-gradient(110%_140%_at_15%_10%,#14532d_0%,#0b2e1f_45%,#08160f_80%)]" />

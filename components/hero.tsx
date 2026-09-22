@@ -68,7 +68,7 @@ export function Hero({ altMap }: { altMap?: Record<string, string> } = {}) {
         <div className="absolute inset-0 bg-[radial-gradient(90%_80%_at_12%_0%,#f1faf5_0%,#fdf7f4_45%,#ffffff_100%)]" />
 
         {/* Animated Moving Mesh Gradients (BEHIND the blur layer) */}
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden hidden sm:block">
           {/* Gradient Blob 1 - Lush Emerald Green */}
           <div className="absolute -left-20 -top-16 h-[34rem] w-[34rem] rounded-full bg-gradient-to-tr from-brand-500 via-emerald-400 to-teal-300 opacity-20 blur-3xl animate-gradient-blob-1" />
 
@@ -83,13 +83,13 @@ export function Hero({ altMap }: { altMap?: Record<string, string> } = {}) {
         </div>
 
         {/* Frosted Glass Blur Layer */}
-        <div className="pointer-events-none absolute inset-0 backdrop-blur-[64px] bg-cream/75 sm:bg-cream/70" />
+        <div className="pointer-events-none absolute inset-0 backdrop-blur-[64px] bg-cream/75 sm:bg-cream/70 hidden sm:block" />
 
         {/* Minimal Soft Ambient Sunlight Shimmer (No lines, pure soft light wash) */}
-        <div className="pointer-events-none absolute -left-20 -top-20 h-[150%] w-80 -rotate-12 bg-gradient-to-r from-transparent via-white/45 to-transparent blur-3xl animate-shimmer-slide" />
+        <div className="pointer-events-none absolute -left-20 -top-20 h-[150%] w-80 -rotate-12 bg-gradient-to-r from-transparent via-white/45 to-transparent blur-3xl animate-shimmer-slide hidden sm:block" />
 
         {/* Minimal Ambient Floating Particles (Zero lines, soft luminous dots drifting in air) */}
-        <div className="pointer-events-none absolute inset-0">
+        <div className="pointer-events-none absolute inset-0 hidden md:block">
           {/* Left/Center Cluster */}
           <span className="absolute left-[14%] top-[26%] h-2.5 w-2.5 rounded-full bg-brand-400/60 shadow-[0_0_10px_rgba(47,158,108,0.7)] animate-[float_5s_ease-in-out_infinite_0s]" />
           <span className="absolute left-[36%] top-[18%] h-2 w-2 rounded-full bg-emerald-400/70 shadow-[0_0_8px_rgba(52,211,153,0.75)] animate-[float_6s_ease-in-out_infinite_1s]" />
@@ -126,8 +126,7 @@ export function Hero({ altMap }: { altMap?: Record<string, string> } = {}) {
               "Certified pest control technician treating mattress and bed frame for bed bugs"
             }
             fill
-            priority
-            sizes="(min-width: 1280px) 46vw, 44vw"
+            sizes="(min-width: 1024px) 46vw, 1px"
             className="object-cover object-center"
           />
         </div>
@@ -190,7 +189,8 @@ export function Hero({ altMap }: { altMap?: Record<string, string> } = {}) {
                 }
                 fill
                 priority
-                sizes="(min-width: 640px) calc(100vw - 3rem), calc(100vw - 2rem)"
+                fetchPriority="high"
+                sizes="(max-width: 639px) calc(100vw - 2rem), (max-width: 1023px) 600px, 1px"
                 className="object-cover object-center"
               />
             </div>
@@ -202,6 +202,7 @@ export function Hero({ altMap }: { altMap?: Record<string, string> } = {}) {
                   "Magnified view of adult bed bug for pest identification and eradication"
                 }
                 fill
+                loading="eager"
                 sizes="160px"
                 className="object-cover"
               />
@@ -262,7 +263,7 @@ export function Hero({ altMap }: { altMap?: Record<string, string> } = {}) {
                   src={category.image}
                   alt={`${category.title} bed bug treatment and extermination service`}
                   fill
-                  sizes="(min-width: 1024px) 22vw, 50vw"
+                  sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, calc(100vw - 2rem)"
                   className="scale-[1.14] object-cover object-right opacity-60"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-brand-50 from-45% via-brand-50/90 to-brand-50/15" />
