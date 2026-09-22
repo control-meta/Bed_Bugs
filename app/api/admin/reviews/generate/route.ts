@@ -7,7 +7,7 @@ import { getReviews, createReview } from "@/lib/reviews";
 const ReviewItemSchema = z.object({
   name: z.string().describe("100% Unique authentic Indian citizen name with both first and last name, or first name + initial."),
   city: z.string().describe("Indian city or locality matching the target page context"),
-  service: z.string().describe("Specific bed bug treatment service (e.g., 'Odorless Bed Bug Eradication', '1-Year Bed Bug AMC', 'Mattress & Cot Deep Chemical Spray', 'Bed Bug Steam & odorless treatment')"),
+  service: z.string().describe("Specific bed bug treatment service (e.g., 'Odorless Bed Bug Eradication', '1-Year Bed Bug AMC', 'Odorless Mattress Treatment')"),
   rating: z.number().int().min(4).max(5).describe("Customer rating: 5 or 4"),
   quote: z.string().describe("Short, highly authentic customer review of exactly 20 to 35 words (1-2 sentences)."),
 });
@@ -167,6 +167,7 @@ CRITICAL RULES FOR REVIEWS:
 3. AUTHENTIC HOMEOWNER & TENANT CONTEXT:
    - Sound like real Indian citizens dealing with bed bugs:
      * Odorless treatment that didn't disturb elderly parents, toddlers, or pets.
+     * STRICTLY DO NOT mention "heat", "steam", or "chemical" treatments anywhere in the review. Only mention "odorless treatment".
      * Relief from midnight itching, red bite marks, and blood stains on bedsheets.
      * Technician thoroughly checked wooden diwans, box beds, mattress piped seams, and switchboard crevices.
      * No need to throw away expensive teak wood beds or mattresses.
