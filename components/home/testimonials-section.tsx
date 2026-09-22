@@ -62,8 +62,11 @@ export function TestimonialsSection({
     } else {
       url += `?page_slug=/`; // default to home page reviews if on home page or global if not specified
     }
+    
+    // Add cache buster
+    url += `&t=${Date.now()}`;
 
-    fetch(url)
+    fetch(url, { cache: 'no-store' })
       .then((res) => res.json())
       .then((data) => {
         if (data.success && data.reviews) {

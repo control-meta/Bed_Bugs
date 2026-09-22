@@ -155,48 +155,8 @@ export const locations: LocationInfo[] = [
         answer: "Contact the bed bug treatment team to discuss your situation, arrange an inspection and select a suitable treatment option for your Pune property.",
       },
     ],
-    reviews: [
-      {
-        name: "Sanjay Deshmukh",
-        locality: "Kothrud",
-        city: "Pune",
-        rating: 5,
-        quote:
-          "Suffered from bed bug bites for nearly 3 weeks. Called their Pune team in the morning and technicians arrived in Kothrud within 2 hours. Completely odorless chemical spray and steaming. Slept peacefully for the first time!",
-      },
-      {
-        name: "Pooja Kulkarni",
-        locality: "Hinjewadi Phase 1",
-        city: "Pune",
-        rating: 5,
-        quote:
-          "We manage an IT PG hostel in Hinjewadi. Bed bugs were spreading between bunk beds. Their team performed an intensive thermal and deep crevice treatment on Saturday. Zero complaints since 6 months.",
-      },
-      {
-        name: "Anil Joshi",
-        locality: "Wakad",
-        city: "Pune",
-        rating: 5,
-        quote:
-          "Very professional team in PCMC. They showed me where the bed bugs and tiny eggs were hiding inside the wooden headboard. Done cleanly with zero chemical smell. Highly recommended in Wakad.",
-      },
-      {
-        name: "Deepak Shinde",
-        locality: "Baner",
-        city: "Pune",
-        rating: 5,
-        quote:
-          "Prompt same-day response in Baner. They gave an official 12-month stamped warranty certificate. One free follow-up inspection was completed on time. Truly 5-star service.",
-      },
-      {
-        name: "Sunita Gaikwad",
-        locality: "Viman Nagar",
-        city: "Pune",
-        rating: 5,
-        quote:
-          "Had infant twins at home so I was very worried about toxic chemicals. Their eco-safe certified spray eliminated every bug without any lingering odor.",
-      },
-    ],
+    reviews: [],
+
   },
   {
     slug: "mumbai",
@@ -308,48 +268,8 @@ export const locations: LocationInfo[] = [
         answer: "Contact the bed bug treatment team to discuss your infestation, arrange an inspection and understand suitable treatment options for your Mumbai property.",
       },
     ],
-    reviews: [
-      {
-        name: "Rajesh Mehta",
-        locality: "Andheri West",
-        city: "Mumbai",
-        rating: 5,
-        quote:
-          "Dealing with bed bugs in an old Mumbai apartment building was exhausting. Other pest controllers failed twice. This team used deep steam and odorless micro-emulsion. Completely bug-free now!",
-      },
-      {
-        name: "Sneha Fernandez",
-        locality: "Bandra West",
-        city: "Mumbai",
-        rating: 5,
-        quote:
-          "Booked urgent inspection for our 3 BHK flat in Bandra. The technician arrived on time, was extremely polite, and treated all mattress seams and sofa crevices. Great experience.",
-      },
-      {
-        name: "Vikram Shah",
-        locality: "Powai",
-        city: "Mumbai",
-        rating: 5,
-        quote:
-          "Fast service in Hiranandani Powai. Took about 2 hours for our apartment, completely odorless spray. No need to throw out expensive mattresses or vacate for days.",
-      },
-      {
-        name: "Kavita Nair",
-        locality: "Borivali East",
-        city: "Mumbai",
-        rating: 5,
-        quote:
-          "I had severe bite marks and sleepless nights. Their Mumbai technicians inspected every corner and did a double round of treatment. Haven't seen a single bug since 8 months.",
-      },
-      {
-        name: "Amitabh Sen",
-        locality: "Thane West",
-        city: "Mumbai",
-        rating: 5,
-        quote:
-          "100% genuine 12-month warranty. Technicians came for a scheduled follow-up check without any hassle. Reliable, courteous, and honest pest control service across MMR.",
-      },
-    ],
+    reviews: [],
+
   },
   {
     slug: "bangalore",
@@ -461,48 +381,8 @@ export const locations: LocationInfo[] = [
         answer: "Contact the bed bug treatment team to discuss your requirements, arrange an inspection and understand suitable treatment options for your Bengaluru property.",
       },
     ],
-    reviews: [
-      {
-        name: "Karthik Rao",
-        locality: "Whitefield",
-        city: "Bangalore",
-        rating: 5,
-        quote:
-          "Brought bed bugs home from a business hotel. Technicians came to our Whitefield villa within 2 hours of calling. Modern equipment, targeted treatment, and clear preventive instructions.",
-      },
-      {
-        name: "Divya Sundaram",
-        locality: "Koramangala",
-        city: "Bangalore",
-        rating: 5,
-        quote:
-          "Living in a rented apartment in Koramangala, the infestation was getting out of hand. The team was punctual, respectful of furniture, and completely eliminated bugs in a single visit.",
-      },
-      {
-        name: "Arun Prasath",
-        locality: "HSR Layout",
-        city: "Bangalore",
-        rating: 5,
-        quote:
-          "I was skeptical about odorless chemicals actually working, but it's been 5 months and our bedroom in HSR Layout is completely bed bug-free. Excellent work by the Bangalore team.",
-      },
-      {
-        name: "Swati Mukherjee",
-        locality: "Indiranagar",
-        city: "Bangalore",
-        rating: 5,
-        quote:
-          "Top-notch customer support and transparent pricing. No hidden fees or upselling. The technician explained the egg cycle and did a comprehensive targeted spray treatment.",
-      },
-      {
-        name: "Naveen Reddy",
-        locality: "Electronic City",
-        city: "Bangalore",
-        rating: 5,
-        quote:
-          "Best pest control company in Bangalore for bed bugs. Treated our 4-bedroom flat and sofas. Safe for our golden retriever as well with zero residue.",
-      },
-    ],
+    reviews: [],
+
   },
   {
     slug: "delhi",
@@ -614,48 +494,8 @@ export const locations: LocationInfo[] = [
         answer: "Contact the bed bug treatment team to discuss your requirements, arrange an inspection and understand suitable treatment options for your New Delhi property.",
       },
     ],
-    reviews: [
-      {
-        name: "Manish Sharma",
-        locality: "Rohini Sector 9",
-        city: "Delhi",
-        rating: 5,
-        quote:
-          "Bed bugs were rampant in the master bedroom bed frame. The Delhi team came fully equipped with high-temperature steam machines and odorless spray. Problem solved permanently!",
-      },
-      {
-        name: "Preeti Aggarwal",
-        locality: "Dwarka Sector 12",
-        city: "Delhi",
-        rating: 5,
-        quote:
-          "Booked same-day service for my parents' home in Dwarka. Very respectful and thorough technicians. They moved wardrobes and checked skirting boards meticulously.",
-      },
-      {
-        name: "Gaurav Chawla",
-        locality: "Saket",
-        city: "Delhi",
-        rating: 5,
-        quote:
-          "Honest and dependable service in South Delhi. Gave a written 1-year warranty certificate. It has been over 7 months without a single bite. Definitely recommend them.",
-      },
-      {
-        name: "Harpreet Kaur",
-        locality: "Janakpuri",
-        city: "Delhi",
-        rating: 5,
-        quote:
-          "Affordable pricing compared to big corporate pest companies, but far superior quality. Technicians were on time, wore shoe covers, and left the rooms tidy.",
-      },
-      {
-        name: "Ritu Mathur",
-        locality: "Laxmi Nagar",
-        city: "Delhi",
-        rating: 5,
-        quote:
-          "Solved our months-long bed bug crisis in Laxmi Nagar. The targeted and odorless chemical method neutralized all bugs and eggs. Very grateful!",
-      },
-    ],
+    reviews: [],
+
   },
   {
     slug: "noida",
@@ -767,48 +607,8 @@ export const locations: LocationInfo[] = [
         answer: "Contact the bed bug treatment team to discuss your situation, arrange an inspection and understand suitable treatment options for your Noida property.",
       },
     ],
-    reviews: [
-      {
-        name: "Vikas Tyagi",
-        locality: "Sector 62",
-        city: "Noida",
-        rating: 5,
-        quote:
-          "Bed bug infestation was spreading across our high-rise apartment in Sector 62. Their team arrived promptly, inspected all bedrooms, and treated the furniture thoroughly. Zero odor.",
-      },
-      {
-        name: "Shikha Verma",
-        locality: "Sector 137",
-        city: "Noida",
-        rating: 5,
-        quote:
-          "Living in an expressway society, we struggled with recurring bites. This team's steam treatment wiped out the hidden eggs. Free follow-up inspection was also honored smoothly.",
-      },
-      {
-        name: "Mohit Gupta",
-        locality: "Greater Noida West",
-        city: "Noida",
-        rating: 5,
-        quote:
-          "Quick booking via WhatsApp and technician reached our flat in Greater Noida West within 90 minutes. Professional service with a valid 1-year warranty card.",
-      },
-      {
-        name: "Priyanka Singh",
-        locality: "Sector 76",
-        city: "Noida",
-        rating: 5,
-        quote:
-          "Safe for our toddler. They used eco-friendly certified solutions and pressurized steam. Technicians were patient and explained all safety precautions clearly.",
-      },
-      {
-        name: "Rahul Bhatnagar",
-        locality: "Indirapuram",
-        city: "Noida",
-        rating: 5,
-        quote:
-          "Remarkable results! Tried DIY sprays earlier which only made bed bugs scatter. This professional service eliminated them from the roots in one session.",
-      },
-    ],
+    reviews: [],
+
   },
 ];
 
