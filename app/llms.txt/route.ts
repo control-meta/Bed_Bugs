@@ -1,17 +1,32 @@
 import { locations } from "@/lib/locations";
-import { getAllBlogs } from "@/lib/blog-db";
+import { getAllBlogs, readLocalBlogs } from "@/lib/blog-db";
 
 export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 300;
 
 export async function GET() {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://bedbugstreatment.co.in";
 
   let blogs: any[] = [];
   try {
-    blogs = await getAllBlogs({ status: "published" });
+    const fetchPromise = getAllBlogs({ status: "published" });
+    const timeoutPromise = new Promise<any[]>((resolve) =>
+      setTimeout(() => {
+        try {
+          const local = readLocalBlogs().filter((b) => b.status === "published");
+          resolve(local);
+        } catch {
+          resolve([]);
+        }
+      }, 750)
+    );
+    blogs = await Promise.race([fetchPromise, timeoutPromise]);
   } catch (err) {
-    console.error("[llms.txt] Failed to fetch published blogs:", err);
+    try {
+      blogs = readLocalBlogs().filter((b) => b.status === "published");
+    } catch {
+      blogs = [];
+    }
   }
 
   const lines: string[] = [
@@ -43,7 +58,7 @@ export async function GET() {
   return new Response(lines.join("\n"), {
     headers: {
       "Content-Type": "text/plain; charset=utf-8",
-      "Cache-Control": "public, max-age=0, must-revalidate",
+      "Cache-Control": "public, max-age=300, stale-while-revalidate=86400",
     },
   });
 }
