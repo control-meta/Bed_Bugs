@@ -251,7 +251,11 @@ export function EditableItem({
 
   if (!isEditing) {
     const cleaned = cleanHtml(typeof value === "string" ? value : typeof children === "string" ? children : "");
-    const hasHtml = Boolean(cleaned && cleaned.includes("<") && cleaned.includes(">"));
+    const hasHtml = Boolean(
+      cleaned &&
+        ((cleaned.includes("<") && cleaned.includes(">")) ||
+          /&(?:nbsp|amp|quot|lt|gt|#\d+|#x[0-9a-f]+);/i.test(cleaned))
+    );
 
     return (
       <EffectiveComponent
@@ -726,8 +730,8 @@ export function LocationPageContent({
                       className="mt-2 text-sm leading-relaxed text-ink/70"
                     />
                   </div>
-                  <div className="mt-4 flex items-center justify-center gap-1.5 text-xs font-semibold text-brand-700 sm:justify-start">
-                    <CheckCircle2 className="h-4 w-4 text-brand-600" />
+                  <div className="mt-4 flex items-center justify-center gap-1.5 text-xs font-semibold text-brand-700 sm:justify-start whitespace-nowrap">
+                    <CheckCircle2 className="h-4 w-4 shrink-0 text-brand-600" />
                     <EditableItem
                       id={`highlight-${idx}-guarantee`}
                       label={`Highlight #${idx + 1} Guarantee`}
@@ -736,6 +740,7 @@ export function LocationPageContent({
                         `Guaranteed in ${location.name}`
                       }
                       as="span"
+                      className="whitespace-nowrap text-[11px] sm:text-xs"
                     />
                   </div>
                 </div>

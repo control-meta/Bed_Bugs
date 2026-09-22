@@ -893,6 +893,11 @@ select:disabled,
   }
 }
 
+/* Location Highlights Guarantee Badges - always stay in single line */
+[data-field-id*="guarantee"] {
+  white-space: nowrap !important;
+}
+
 /* Core Web Vitals performance optimization: defer rendering of offscreen sections */
 .cv-auto {
   content-visibility: auto;
