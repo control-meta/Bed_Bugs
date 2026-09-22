@@ -75,26 +75,26 @@
         "duration": "1 Hour",
         "warranty": "12 Months",
         "propertyType": "1 RK / Studio Flat",
-        "startingPrice": "\u20b91,199"
+        "startingPrice": "₹1,199"
       },
       {
         "duration": "1.5 Hours",
         "warranty": "12 Months",
         "propertyType": "1 BHK Apartment",
-        "startingPrice": "\u20b91,499"
+        "startingPrice": "₹1,499"
       },
       {
         "popular": true,
         "duration": "2 Hours",
         "warranty": "12 Months",
         "propertyType": "2 BHK Apartment",
-        "startingPrice": "\u20b91,999"
+        "startingPrice": "₹1,999"
       },
       {
         "duration": "2.5 Hours",
         "warranty": "12 Months",
         "propertyType": "3 BHK Apartment",
-        "startingPrice": "\u20b92,599"
+        "startingPrice": "₹2,599"
       },
       {
         "duration": "Tailored",
@@ -205,7 +205,7 @@
       "fontFamily": "var(--font-poppins)",
       "step3_desc": "Targeted deep treatment penetrates fabric fibers and furniture joints to destroy hidden egg clusters.",
       "accentColor": "#1f8055",
-      "heroHeading": "Bed Bug Treatment in <span style=\"color: rgb(0, 140, 90);\">Bangalore</span>",
+      "heroHeading": "<span class=\"location-hero-prefix inline-block max-sm:whitespace-nowrap\">Bed Bug Treatment in</span><br/><span style=\"color: rgb(0, 140, 90);\">Bangalore</span>",
       "step2_title": "Targeted Odorless Treatment",
       "step3_title": "Deep Egg Eradication",
       "step4_title": "12-Month Warranty Protection",
@@ -220,7 +220,7 @@
     "updatedAt": "2026-09-19T08:50:55.760Z",
     "createdAt": "2026-09-18T05:38:22.741743+00:00",
     "id": "fdf1c213-f051-47c2-83f1-763e620c9e4c",
-    "heroHeading": "Bed Bug Treatment in <span style=\"color: rgb(0, 140, 90);\">Bangalore</span>"
+    "heroHeading": "<span class=\"location-hero-prefix inline-block max-sm:whitespace-nowrap\">Bed Bug Treatment in</span><br/><span style=\"color: rgb(0, 140, 90);\">Bangalore</span>"
   },
   {
     "slug": "delhi",
@@ -294,26 +294,26 @@
     "pricing": [
       {
         "propertyType": "1 RK / Room",
-        "startingPrice": "\u20b91,199",
+        "startingPrice": "₹1,199",
         "duration": "1 Hour",
         "warranty": "12 Months"
       },
       {
         "propertyType": "1 BHK Floor / Flat",
-        "startingPrice": "\u20b91,499",
+        "startingPrice": "₹1,499",
         "duration": "1.5 Hours",
         "warranty": "12 Months"
       },
       {
         "propertyType": "2 BHK Builder Floor",
-        "startingPrice": "\u20b91,999",
+        "startingPrice": "₹1,999",
         "duration": "2 Hours",
         "warranty": "12 Months",
         "popular": true
       },
       {
         "propertyType": "3 BHK Builder Floor",
-        "startingPrice": "\u20b92,699",
+        "startingPrice": "₹2,699",
         "duration": "2.5 Hours",
         "warranty": "12 Months"
       },
@@ -428,10 +428,12 @@
       "heroTitleWeight": "font-extrabold",
       "accentColor": "#1f8055",
       "plan1_btn": "Book One-Time Treatment via WhatsApp",
-      "plan2_btn": "Book 1-Year AMC via WhatsApp"
+      "plan2_btn": "Book 1-Year AMC via WhatsApp",
+      "heroHeading": "<span class=\"location-hero-prefix inline-block max-sm:whitespace-nowrap\">Bed Bug Treatment in</span><br/><span style=\"color: rgb(0, 140, 90);\">Delhi</span>"
     },
     "updatedAt": "2026-09-17T13:30:14.777Z",
-    "createdAt": "2026-09-17T13:30:14.777Z"
+    "createdAt": "2026-09-17T13:30:14.777Z",
+    "heroHeading": "<span class=\"location-hero-prefix inline-block max-sm:whitespace-nowrap\">Bed Bug Treatment in</span><br/><span style=\"color: rgb(0, 140, 90);\">Delhi</span>"
   },
   {
     "slug": "mumbai",
@@ -509,26 +511,26 @@
     "pricing": [
       {
         "propertyType": "1 RK / Compact Flat",
-        "startingPrice": "\u20b91,299",
+        "startingPrice": "₹1,299",
         "duration": "1 Hour",
         "warranty": "12 Months"
       },
       {
         "propertyType": "1 BHK Apartment",
-        "startingPrice": "\u20b91,599",
+        "startingPrice": "₹1,599",
         "duration": "1.5 Hours",
         "warranty": "12 Months"
       },
       {
         "propertyType": "2 BHK Apartment",
-        "startingPrice": "\u20b92,199",
+        "startingPrice": "₹2,199",
         "duration": "2 Hours",
         "warranty": "12 Months",
         "popular": true
       },
       {
         "propertyType": "3 BHK Apartment",
-        "startingPrice": "\u20b92,799",
+        "startingPrice": "₹2,799",
         "duration": "2.5 Hours",
         "warranty": "12 Months"
       },
@@ -643,10 +645,12 @@
       "heroTitleWeight": "font-extrabold",
       "accentColor": "#1f8055",
       "plan1_btn": "Book One-Time Treatment via WhatsApp",
-      "plan2_btn": "Book 1-Year AMC via WhatsApp"
+      "plan2_btn": "Book 1-Year AMC via WhatsApp",
+      "heroHeading": "<span class=\"location-hero-prefix inline-block max-sm:whitespace-nowrap\">Bed Bug Treatment in</span><br/><span style=\"color: rgb(0, 140, 90);\">Mumbai</span>"
     },
     "updatedAt": "2026-09-17T13:30:14.777Z",
-    "createdAt": "2026-09-17T13:30:14.777Z"
+    "createdAt": "2026-09-17T13:30:14.777Z",
+    "heroHeading": "<span class=\"location-hero-prefix inline-block max-sm:whitespace-nowrap\">Bed Bug Treatment in</span><br/><span style=\"color: rgb(0, 140, 90);\">Mumbai</span>"
   },
   {
     "slug": "noida",
@@ -718,26 +722,26 @@
     "pricing": [
       {
         "propertyType": "Studio / 1 RK Flat",
-        "startingPrice": "\u20b91,199",
+        "startingPrice": "₹1,199",
         "duration": "1 Hour",
         "warranty": "12 Months"
       },
       {
         "propertyType": "1 BHK High-Rise Flat",
-        "startingPrice": "\u20b91,499",
+        "startingPrice": "₹1,499",
         "duration": "1.5 Hours",
         "warranty": "12 Months"
       },
       {
         "propertyType": "2 BHK High-Rise Flat",
-        "startingPrice": "\u20b91,999",
+        "startingPrice": "₹1,999",
         "duration": "2 Hours",
         "warranty": "12 Months",
         "popular": true
       },
       {
         "propertyType": "3 BHK High-Rise Flat",
-        "startingPrice": "\u20b92,599",
+        "startingPrice": "₹2,599",
         "duration": "2.5 Hours",
         "warranty": "12 Months"
       },
@@ -852,10 +856,12 @@
       "heroTitleWeight": "font-extrabold",
       "accentColor": "#1f8055",
       "plan1_btn": "Book One-Time Treatment via WhatsApp",
-      "plan2_btn": "Book 1-Year AMC via WhatsApp"
+      "plan2_btn": "Book 1-Year AMC via WhatsApp",
+      "heroHeading": "<span class=\"location-hero-prefix inline-block max-sm:whitespace-nowrap\">Bed Bug Treatment in</span><br/><span style=\"color: rgb(0, 140, 90);\">Noida</span>"
     },
     "updatedAt": "2026-09-17T13:30:14.777Z",
-    "createdAt": "2026-09-17T13:30:14.777Z"
+    "createdAt": "2026-09-17T13:30:14.777Z",
+    "heroHeading": "<span class=\"location-hero-prefix inline-block max-sm:whitespace-nowrap\">Bed Bug Treatment in</span><br/><span style=\"color: rgb(0, 140, 90);\">Noida</span>"
   },
   {
     "slug": "pune",
@@ -935,26 +941,26 @@
         "duration": "1 Hour",
         "warranty": "12 Months",
         "propertyType": "1 RK / Studio",
-        "startingPrice": "\u20b91,199"
+        "startingPrice": "₹1,199"
       },
       {
         "duration": "1.5 Hours",
         "warranty": "12 Months",
         "propertyType": "1 BHK Apartment",
-        "startingPrice": "\u20b91,499"
+        "startingPrice": "₹1,499"
       },
       {
         "popular": true,
         "duration": "2 Hours",
         "warranty": "12 Months",
         "propertyType": "2 BHK Apartment",
-        "startingPrice": "\u20b91,999"
+        "startingPrice": "₹1,999"
       },
       {
         "duration": "2.5 Hours",
         "warranty": "12 Months",
         "propertyType": "3 BHK Apartment",
-        "startingPrice": "\u20b92,599"
+        "startingPrice": "₹2,599"
       },
       {
         "duration": "Tailored",
@@ -1072,10 +1078,12 @@
       "step3_title": "Deep Egg Eradication",
       "methodologyEyebrow": "Our Proven Methodology",
       "plan1_btn": "Book One-Time Treatment via WhatsApp",
-      "plan2_btn": "Book 1-Year AMC via WhatsApp"
+      "plan2_btn": "Book 1-Year AMC via WhatsApp",
+      "heroHeading": "<span class=\"location-hero-prefix inline-block max-sm:whitespace-nowrap\">Bed Bug Treatment in</span><br/><span style=\"color: rgb(0, 140, 90);\">Pune</span>"
     },
     "updatedAt": "2026-09-19T08:50:12.239Z",
     "createdAt": "2026-09-18T05:38:22.741743+00:00",
-    "id": "76bdf97d-0214-4871-9dde-aa4a3cdd1d9a"
+    "id": "76bdf97d-0214-4871-9dde-aa4a3cdd1d9a",
+    "heroHeading": "<span class=\"location-hero-prefix inline-block max-sm:whitespace-nowrap\">Bed Bug Treatment in</span><br/><span style=\"color: rgb(0, 140, 90);\">Pune</span>"
   }
 ]

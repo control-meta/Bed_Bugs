@@ -39,6 +39,51 @@ const nextConfig = {
   async redirects() {
     return [
       {
+        source: "/about-us",
+        destination: "/about",
+        permanent: true,
+      },
+      {
+        source: "/bed-bug-treatment",
+        destination: "/services",
+        permanent: true,
+      },
+      {
+        source: "/frequently-asked-questions",
+        destination: "/faq",
+        permanent: true,
+      },
+      {
+        source: "/contact-us",
+        destination: "/contact",
+        permanent: true,
+      },
+      {
+        source: "/bed-bug-treatment-in-bangalore",
+        destination: "/bangalore",
+        permanent: true,
+      },
+      {
+        source: "/bed-bugs-treatment-in-mumbai",
+        destination: "/mumbai",
+        permanent: true,
+      },
+      {
+        source: "/bed-bugs-control-in-pune",
+        destination: "/pune",
+        permanent: true,
+      },
+      {
+        source: "/bed-bugs-control-in-delhi",
+        destination: "/delhi",
+        permanent: true,
+      },
+      {
+        source: "/bed-bug-treatment-in-noida",
+        destination: "/noida",
+        permanent: true,
+      },
+      {
         source: "/locations/:city",
         destination: "/:city",
         permanent: true,

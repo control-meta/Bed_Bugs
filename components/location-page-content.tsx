@@ -59,6 +59,76 @@ const CustomStylesContext = React.createContext<CustomStylesContextType>({
 });
 
 /**
+ * Ensures the hero heading on location pages is formatted for clean responsive display:
+ * - Strips messy nested font-size spans created by rich-text editors.
+ * - Ensures a clean 2-line structure:
+ *     Line 1: "Bed Bug Treatment in" (nowrap on mobile)
+ *     Line 2: "[City Name]" (highlighted in emerald brand color)
+ */
+export function formatLocationHeroHeading(
+  raw: string | undefined,
+  cityName: string
+): string {
+  if (!raw || typeof raw !== "string") {
+    return `<span class="location-hero-prefix inline-block max-sm:whitespace-nowrap">Bed Bug Treatment in</span><br/><span class="location-hero-city text-brand-600" style="color: rgb(0, 140, 90);">${cityName}</span>`;
+  }
+
+  let cleaned = raw.replace(/&nbsp;/g, " ").trim();
+
+  // Strip all nested font-size spans and font tags
+  while (/<span\s+style=["'][^"']*font-size:[^"']*["']>/i.test(cleaned)) {
+    cleaned = cleaned.replace(
+      /<span\s+style=["'][^"']*font-size:[^"']*["']>([\s\S]*?)<\/span>/gi,
+      "$1"
+    );
+  }
+  while (/<font\s+size=["'][^"']*["']>/i.test(cleaned)) {
+    cleaned = cleaned.replace(/<font\s+size=["'][^"']*["']>([\s\S]*?)<\/font>/gi, "$1");
+  }
+
+  // Strip empty spans
+  cleaned = cleaned.replace(/<span[^>]*>\s*<\/span>/gi, "").trim();
+
+  // Strip trailing br tags
+  cleaned = cleaned.replace(/<br\s*\/?>\s*$/i, "").trim();
+
+  // Ensure <br/> is positioned right before the city span or city name
+  if (!/<br\s*\/?>/i.test(cleaned)) {
+    if (/(Bed Bug\s+[A-Za-z]+\s+in)\s*(<span[^>]*>.*?<\/span>)/i.test(cleaned)) {
+      cleaned = cleaned.replace(
+        /(Bed Bug\s+[A-Za-z]+\s+in)\s*(<span[^>]*>.*?<\/span>)/i,
+        "$1<br/>$2"
+      );
+    } else if (cityName && new RegExp(`(Bed Bug\\s+[A-Za-z]+\\s+in)\\s*(${cityName})`, "i").test(cleaned)) {
+      cleaned = cleaned.replace(
+        new RegExp(`(Bed Bug\\s+[A-Za-z]+\\s+in)\\s*(${cityName})`, "i"),
+        `$1<br/><span class="location-hero-city text-brand-600" style="color: rgb(0, 140, 90);">$2</span>`
+      );
+    }
+  }
+
+  // Ensure city span has location-hero-city class for easy targeted styling
+  if (!cleaned.includes("location-hero-city")) {
+    cleaned = cleaned.replace(
+      /<span\s+(style=["'][^"']*color:[^"']*["'])/i,
+      '<span class="location-hero-city" $1'
+    );
+  }
+
+  // Wrap Line 1 prefix in .location-hero-prefix if not wrapped
+  if (!cleaned.includes("location-hero-prefix")) {
+    if (/(Bed Bug\s+[A-Za-z]+\s+in)/i.test(cleaned)) {
+      cleaned = cleaned.replace(
+        /(Bed Bug\s+[A-Za-z]+\s+in)/i,
+        '<span class="location-hero-prefix inline-block max-sm:whitespace-nowrap">$1</span>'
+      );
+    }
+  }
+
+  return cleaned;
+}
+
+/**
  * Direct inline editable text component.
  * - When isEditing = false: Renders clean, production HTML.
  * - When isEditing = true: contentEditable, directly clickable & typeable in-place.
@@ -122,7 +192,9 @@ export function EditableItem({
   let fontSizeCss: string | undefined = undefined;
   if (customSize) {
     const s = String(customSize).trim();
-    fontSizeCss = s.endsWith("px") || s.endsWith("rem") || s.endsWith("em") ? s : `${s}px`;
+    if (/^\d+(\.\d+)?(px|rem|em|pt|vh|vw)?$/i.test(s)) {
+      fontSizeCss = /^[a-z]+$/i.test(s) ? s : s.endsWith("px") || s.endsWith("rem") || s.endsWith("em") ? s : `${s}px`;
+    }
   }
 
   const mergedStyle: React.CSSProperties = {
@@ -180,6 +252,7 @@ export function EditableItem({
 
     return (
       <EffectiveComponent
+        data-field-id={id}
         className={className}
         style={mergedStyle}
         suppressHydrationWarning={true}
@@ -194,6 +267,7 @@ export function EditableItem({
   // No dangerouslySetInnerHTML or React children here so React reconciler never destroys active text selection
   return (
     <EffectiveComponent
+      data-field-id={id}
       ref={elementRef}
       contentEditable={true}
       suppressContentEditableWarning={true}
@@ -385,13 +459,12 @@ export function LocationPageContent({
                   <EditableItem
                     id="heroHeading"
                     label="Hero Heading"
-                    value={
-                      customStyles?.heroHeading ||
-                      location.heroHeading ||
-                      `Bed Bug Treatment in <br/><span class="text-brand-600">${location.name}</span>`
-                    }
+                    value={formatLocationHeroHeading(
+                      customStyles?.heroHeading || location.heroHeading,
+                      location.name
+                    )}
                     as="h1"
-                    className="font-display text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl md:text-5xl lg:text-[3rem]"
+                    className="location-hero-heading font-display text-[1.65rem] font-extrabold leading-[1.22] tracking-tight text-ink sm:text-4xl md:text-5xl lg:text-[3rem] sm:leading-tight"
                   />
                 </div>
 

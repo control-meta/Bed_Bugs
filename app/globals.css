@@ -66,10 +66,13 @@
   --animate-shimmer-slide: shimmer-slide 14s ease-in-out infinite;
 
   @keyframes shimmer-slide {
-    0%, 100% {
+
+    0%,
+    100% {
       transform: translate3d(-20%, -15%, 0) rotate(-12deg);
       opacity: 0.25;
     }
+
     50% {
       transform: translate3d(25%, 15%, 0) rotate(-12deg);
       opacity: 0.65;
@@ -77,52 +80,68 @@
   }
 
   @keyframes gradient-blob-1 {
-    0%, 100% {
+
+    0%,
+    100% {
       transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
     }
+
     33% {
       transform: translate3d(60px, -45px, 0) scale(1.15) rotate(45deg);
     }
+
     66% {
       transform: translate3d(-35px, 50px, 0) scale(0.92) rotate(90deg);
     }
   }
 
   @keyframes gradient-blob-2 {
-    0%, 100% {
+
+    0%,
+    100% {
       transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
     }
+
     33% {
       transform: translate3d(-55px, 50px, 0) scale(0.9) rotate(-60deg);
     }
+
     66% {
       transform: translate3d(50px, -40px, 0) scale(1.12) rotate(-120deg);
     }
   }
 
   @keyframes gradient-blob-3 {
-    0%, 100% {
+
+    0%,
+    100% {
       transform: translate3d(0, 0, 0) scale(1);
     }
+
     50% {
       transform: translate3d(55px, -50px, 0) scale(1.12);
     }
   }
 
   @keyframes gradient-blob-4 {
-    0%, 100% {
+
+    0%,
+    100% {
       transform: translate3d(0, 0, 0) scale(0.94);
     }
+
     50% {
       transform: translate3d(-45px, 40px, 0) scale(1.18);
     }
   }
 
   @keyframes float {
+
     0%,
     100% {
       transform: translateY(0);
     }
+
     50% {
       transform: translateY(-16px);
     }
@@ -141,13 +160,16 @@
   }
 
   @keyframes drift {
+
     0%,
     100% {
       transform: translate3d(0, 0, 0) scale(1);
     }
+
     33% {
       transform: translate3d(38px, -32px, 0) scale(1.08);
     }
+
     66% {
       transform: translate3d(-28px, 24px, 0) scale(0.96);
     }
@@ -158,10 +180,12 @@
       transform: scale(0.85);
       opacity: 0.55;
     }
+
     70% {
       transform: scale(1.35);
       opacity: 0;
     }
+
     100% {
       transform: scale(0.85);
       opacity: 0;
@@ -169,11 +193,13 @@
   }
 
   @keyframes beam-pulse {
+
     0%,
     100% {
       opacity: 0.5;
       transform: scaleX(0.94);
     }
+
     50% {
       opacity: 1;
       transform: scaleX(1);
@@ -181,23 +207,27 @@
   }
 
   @keyframes scan {
+
     0%,
     100% {
       top: 6%;
       opacity: 0;
     }
+
     15% {
       opacity: 0.9;
     }
+
     50% {
       top: 94%;
       opacity: 0.9;
     }
+
     85% {
       opacity: 0;
     }
   }
-  
+
   @keyframes flow-dash {
     to {
       stroke-dashoffset: -32;
@@ -205,10 +235,13 @@
   }
 
   @keyframes pulse-glow {
-    0%, 100% {
+
+    0%,
+    100% {
       opacity: 0.6;
       transform: scale(0.98);
     }
+
     50% {
       opacity: 1;
       transform: scale(1.02);
@@ -220,12 +253,15 @@
       transform: translateY(-50%);
       opacity: 0;
     }
+
     15% {
       opacity: 0.9;
     }
+
     85% {
       opacity: 0.9;
     }
+
     100% {
       transform: translateY(180%);
       opacity: 0;
@@ -237,10 +273,12 @@
       transform: scale(0.95);
       box-shadow: 0 0 0 0 rgba(200, 57, 44, 0.5);
     }
+
     70% {
       transform: scale(1);
       box-shadow: 0 0 0 16px rgba(200, 57, 44, 0);
     }
+
     100% {
       transform: scale(0.95);
       box-shadow: 0 0 0 0 rgba(200, 57, 44, 0);
@@ -252,18 +290,22 @@
       opacity: 0;
       transform: translateX(16%) scale(1.08);
     }
+
     4% {
       opacity: 1;
       transform: translateX(0) scale(1);
     }
+
     25% {
       opacity: 1;
       transform: translateX(0) scale(1);
     }
+
     30% {
       opacity: 0;
       transform: translateX(-12%) scale(1.06);
     }
+
     100% {
       opacity: 0;
       transform: translateX(16%) scale(1.08);
@@ -271,16 +313,19 @@
   }
 
   @keyframes cta-bar {
+
     0%,
     4% {
       opacity: 0.3;
       transform: scaleX(0.3);
     }
+
     6%,
     24% {
       opacity: 1;
       transform: scaleX(1);
     }
+
     30%,
     100% {
       opacity: 0.3;
@@ -298,6 +343,7 @@
     0% {
       transform: translate3d(0, 0, 0);
     }
+
     100% {
       transform: translate3d(-50%, 0, 0);
     }
@@ -307,6 +353,7 @@
     0% {
       transform: translate3d(-50%, 0, 0);
     }
+
     100% {
       transform: translate3d(0, 0, 0);
     }
@@ -322,6 +369,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .animate-cta-marquee,
   .animate-cta-marquee-reverse {
     animation: none !important;
@@ -457,18 +505,35 @@ select:disabled,
 
 /* --- Blog Pipeline Animation Keyframes --- */
 @keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(200%); }
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(200%);
+  }
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
 }
 
 @keyframes progress {
-  0% { width: 20%; }
-  100% { width: 90%; }
+  0% {
+    width: 20%;
+  }
+
+  100% {
+    width: 90%;
+  }
 }
 
 /* --- Research workflow animation --- */
@@ -482,11 +547,25 @@ select:disabled,
   pointer-events: none;
 }
 
-.research-stage-search { animation: research-stage-search 12s ease-in-out infinite; }
-.research-stage-gather { animation: research-stage-gather 12s ease-in-out infinite; }
-.research-stage-analyse { animation: research-stage-analyse 12s ease-in-out infinite; }
-.research-stage-write { animation: research-stage-write 12s ease-in-out infinite; }
-.research-stage-verify { animation: research-stage-verify 12s ease-in-out infinite; }
+.research-stage-search {
+  animation: research-stage-search 12s ease-in-out infinite;
+}
+
+.research-stage-gather {
+  animation: research-stage-gather 12s ease-in-out infinite;
+}
+
+.research-stage-analyse {
+  animation: research-stage-analyse 12s ease-in-out infinite;
+}
+
+.research-stage-write {
+  animation: research-stage-write 12s ease-in-out infinite;
+}
+
+.research-stage-verify {
+  animation: research-stage-verify 12s ease-in-out infinite;
+}
 
 .research-source,
 .research-evidence,
@@ -525,71 +604,197 @@ select:disabled,
   animation: research-orb-two 11s ease-in-out infinite;
 }
 
-.research-typing { animation: research-typing 1s step-end infinite; }
-.research-caret { animation: blink 1s step-end infinite; }
-.research-check-ring { animation: research-check 2.4s ease-in-out infinite; }
+.research-typing {
+  animation: research-typing 1s step-end infinite;
+}
+
+.research-caret {
+  animation: blink 1s step-end infinite;
+}
+
+.research-check-ring {
+  animation: research-check 2.4s ease-in-out infinite;
+}
 
 @keyframes research-stage-search {
-  0%, 18% { opacity: 0; transform: translate(-50%, 10px); }
-  4%, 14% { opacity: 1; transform: translate(-50%, 0); }
-  20%, 100% { opacity: 0; transform: translate(-50%, -5px); }
+
+  0%,
+  18% {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+
+  4%,
+  14% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  20%,
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -5px);
+  }
 }
 
 @keyframes research-stage-gather {
-  0%, 19% { opacity: 0; transform: translate(-50%, 10px); }
-  23%, 35% { opacity: 1; transform: translate(-50%, 0); }
-  39%, 100% { opacity: 0; transform: translate(-50%, -5px); }
+
+  0%,
+  19% {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+
+  23%,
+  35% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  39%,
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -5px);
+  }
 }
 
 @keyframes research-stage-analyse {
-  0%, 38% { opacity: 0; transform: translate(-50%, 10px); }
-  42%, 54% { opacity: 1; transform: translate(-50%, 0); }
-  58%, 100% { opacity: 0; transform: translate(-50%, -5px); }
+
+  0%,
+  38% {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+
+  42%,
+  54% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  58%,
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -5px);
+  }
 }
 
 @keyframes research-stage-write {
-  0%, 57% { opacity: 0; transform: translate(-50%, 10px); }
-  61%, 74% { opacity: 1; transform: translate(-50%, 0); }
-  78%, 100% { opacity: 0; transform: translate(-50%, -5px); }
+
+  0%,
+  57% {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+
+  61%,
+  74% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  78%,
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -5px);
+  }
 }
 
 @keyframes research-stage-verify {
-  0%, 77% { opacity: 0; transform: translate(-50%, 10px); }
-  81%, 94% { opacity: 1; transform: translate(-50%, 0); }
-  98%, 100% { opacity: 0; transform: translate(-50%, -5px); }
+
+  0%,
+  77% {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+
+  81%,
+  94% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  98%,
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -5px);
+  }
 }
 
 @keyframes research-rise {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes research-fill {
-  from { transform: scaleX(.45); }
-  to { transform: scaleX(1); }
+  from {
+    transform: scaleX(.45);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
 }
 
 @keyframes research-typing {
-  0%, 100% { opacity: .45; }
-  50% { opacity: 1; }
+
+  0%,
+  100% {
+    opacity: .45;
+  }
+
+  50% {
+    opacity: 1;
+  }
 }
 
 @keyframes research-check {
-  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-  50% { transform: scale(1.06); box-shadow: 0 0 0 10px rgba(16, 185, 129, .08); }
+
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+
+  50% {
+    transform: scale(1.06);
+    box-shadow: 0 0 0 10px rgba(16, 185, 129, .08);
+  }
 }
 
 @keyframes research-orb-one {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(-2rem, 1.5rem) scale(1.15); }
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate(-2rem, 1.5rem) scale(1.15);
+  }
 }
 
 @keyframes research-orb-two {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(2rem, -1rem) scale(1.1); }
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(2rem, -1rem) scale(1.1);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .research-stage,
   .research-orb,
   .research-source,
@@ -602,5 +807,49 @@ select:disabled,
     animation: none !important;
   }
 
-  .research-stage-search { opacity: 1; }
+  .research-stage-search {
+    opacity: 1;
+  }
+}
+
+/* ==========================================================================
+   LOCATION PAGES - MOBILE TITLE FONT SIZE CONTROLS
+   --------------------------------------------------------------------------
+   Change these variables to adjust the font size on mobile screens (< 640px).
+   You can use standard px values (e.g. 26px), rem values, or clamp():
+   ========================================================================== */
+:root {
+  /* Mobile font size for the location title heading */
+  --location-title-mobile-font-size: clamp(2rem, 5.8vw, 1.75rem);
+
+  /* Mobile line height (vertical spacing between the 2 lines) */
+  --location-title-mobile-line-height: 1.25;
+
+  /* Optional: font size for the city name on mobile (defaults to the same size) */
+  --location-title-mobile-city-font-size: var(--location-title-mobile-font-size);
+}
+
+/* Location Page Hero Heading - strictly 2 lines on mobile preview */
+@media (max-width: 639px) {
+
+  .location-hero-heading,
+  .location-hero-heading *,
+  [data-field-id="heroHeading"],
+  [data-field-id="heroHeading"] * {
+    font-size: var(--location-title-mobile-font-size) !important;
+    line-height: var(--location-title-mobile-line-height) !important;
+  }
+
+  .location-hero-prefix {
+    white-space: nowrap !important;
+    display: inline-block !important;
+  }
+
+  .location-hero-city {
+    font-size: var(--location-title-mobile-city-font-size) !important;
+  }
+
+  .location-hero-heading br {
+    display: block !important;
+  }
 }
