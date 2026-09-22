@@ -126,8 +126,7 @@ export function Hero({ altMap }: { altMap?: Record<string, string> } = {}) {
               "Certified pest control technician treating mattress and bed frame for bed bugs"
             }
             fill
-            loading="eager"
-            fetchPriority="high"
+            priority
             sizes="(min-width: 1280px) 46vw, 44vw"
             className="object-cover object-center"
           />
@@ -190,8 +189,7 @@ export function Hero({ altMap }: { altMap?: Record<string, string> } = {}) {
                   "Professional exterminator applying targeted bed bug spray treatment to bed frame"
                 }
                 fill
-                loading="eager"
-                fetchPriority="high"
+                priority
                 sizes="(min-width: 640px) calc(100vw - 3rem), calc(100vw - 2rem)"
                 className="object-cover object-center"
               />
