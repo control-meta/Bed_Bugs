@@ -124,10 +124,10 @@
           .stat-box {
             background-color: rgba(255, 255, 255, 0.12);
             backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             border-radius: 12px;
-            padding: 12px 20px;
-            display: flex;
+            padding: 12px 22px;
+            display: inline-flex;
             align-items: center;
             gap: 12px;
           }
@@ -135,6 +135,7 @@
             font-size: 24px;
             font-weight: 800;
             color: #ffffff;
+            line-height: 1;
           }
           .stat-label {
             font-size: 13px;
@@ -150,8 +151,8 @@
           }
           .search-input {
             width: 100%;
-            padding: 12px 16px;
-            padding-left: 42px;
+            padding: 14px 18px;
+            padding-left: 44px;
             font-size: 14px;
             border: 1px solid #d1d5db;
             border-radius: 12px;
@@ -166,11 +167,12 @@
           }
           .search-icon {
             position: absolute;
-            left: 14px;
+            left: 16px;
             top: 50%;
             transform: translateY(-50%);
             color: #9ca3af;
             font-size: 16px;
+            pointer-events: none;
           }
           .table-card {
             background-color: #ffffff;
@@ -237,6 +239,7 @@
             border-radius: 6px;
             text-transform: uppercase;
             letter-spacing: 0.03em;
+            white-space: nowrap;
           }
           .badge-priority-high { background-color: #dcf3e6; color: #144330; font-weight: 800; }
           .badge-priority-med { background-color: #f3f4f6; color: #374151; font-weight: 600; }
@@ -244,11 +247,6 @@
             color: #6b7280;
             font-variant-numeric: tabular-nums;
             font-size: 12px;
-          }
-          .freq-cell {
-            color: #4b5563;
-            font-weight: 500;
-            text-transform: capitalize;
           }
           .no-results {
             text-align: center;
@@ -303,7 +301,7 @@
           <div class="toolbar">
             <div class="search-wrap">
               <span class="search-icon">&#128269;</span>
-              <input type="text" id="sitemap-search" class="search-input" placeholder="Filter by URL or keyword (e.g. bangalore, cost, inspection)..." />
+              <input type="text" id="sitemap-search" class="search-input" oninput="if(window.filterSitemap)window.filterSitemap();" onkeyup="if(window.filterSitemap)window.filterSitemap();" placeholder="Filter by URL or keyword (e.g. bangalore, cost, inspection)..." />
             </div>
           </div>
 
@@ -315,7 +313,6 @@
                     <th style="width: 48px;">#</th>
                     <th>URL</th>
                     <th>Priority</th>
-                    <th>Frequency</th>
                     <th>Last Modified</th>
                   </tr>
                 </thead>
@@ -341,9 +338,6 @@
                           </xsl:otherwise>
                         </xsl:choose>
                       </td>
-                      <td class="freq-cell">
-                        <xsl:value-of select="sitemap:changefreq"/>
-                      </td>
                       <td class="date-cell">
                         <xsl:value-of select="substring(sitemap:lastmod, 1, 10)"/>
                       </td>
@@ -365,28 +359,30 @@
           </div>
         </div>
 
-        <script>
+        <script type="text/javascript">
           <![CDATA[
           (function() {
-            var searchInput = document.getElementById('sitemap-search');
-            var table = document.getElementById('sitemap-table');
-            if (!table) return;
-            var tbody = table.getElementsByTagName('tbody')[0];
-            if (!tbody) return;
-            var rows = tbody.getElementsByTagName('tr');
-            var noResults = document.getElementById('no-results');
-
-            function filterRows() {
-              var query = (searchInput.value || '').toLowerCase().trim();
+            function filterSitemap() {
+              var input = document.getElementById('sitemap-search');
+              var query = (input ? input.value : '').toLowerCase().trim();
+              var table = document.getElementById('sitemap-table');
+              if (!table) return;
+              var tbody = table.getElementsByTagName('tbody')[0];
+              if (!tbody) return;
+              var rows = tbody.getElementsByTagName('tr');
+              var noResults = document.getElementById('no-results');
               var visibleCount = 0;
 
-              for (var j = 0; j < rows.length; j++) {
-                var row = rows[j];
+              for (var i = 0; i !== rows.length; i++) {
+                var row = rows[i];
                 var url = (row.getAttribute('data-url') || '').toLowerCase();
+                var text = (row.textContent || row.innerText || '').toLowerCase();
 
-                var matchesSearch = !query || (url.indexOf(query) > -1);
+                var matchUrl = url.indexOf(query) !== -1;
+                var matchText = text.indexOf(query) !== -1;
+                var matches = !query || matchUrl || matchText;
 
-                if (matchesSearch) {
+                if (matches) {
                   row.style.display = '';
                   visibleCount++;
                 } else {
@@ -395,12 +391,30 @@
               }
 
               if (noResults) {
-                noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+                if (visibleCount === 0) {
+                  noResults.style.display = 'block';
+                } else {
+                  noResults.style.display = 'none';
+                }
               }
             }
 
-            if (searchInput) {
-              searchInput.addEventListener('input', filterRows);
+            window.filterSitemap = filterSitemap;
+
+            function initSearch() {
+              var input = document.getElementById('sitemap-search');
+              if (input) {
+                input.addEventListener('input', filterSitemap);
+                input.addEventListener('keyup', filterSitemap);
+                input.addEventListener('change', filterSitemap);
+                input.addEventListener('paste', filterSitemap);
+              }
+            }
+
+            if (document.readyState === 'loading') {
+              document.addEventListener('DOMContentLoaded', initSearch);
+            } else {
+              initSearch();
             }
           })();
           ]]>

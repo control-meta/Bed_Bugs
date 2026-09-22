@@ -26,7 +26,20 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: seo.title,
       description: seo.description,
-      images: seo.ogImage ? [{ url: seo.ogImage }] : undefined,
+      images: [
+        {
+          url: seo.ogImage || "/images/og-share.jpg",
+          width: 1200,
+          height: 630,
+          alt: seo.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: seo.title,
+      description: seo.description,
+      images: [seo.ogImage || "/images/og-share.jpg"],
     },
     verification: {
       google: "WSCksZqN235FUmro6h6sNEW0VRcCF0yDhXzkr-jK-TA",

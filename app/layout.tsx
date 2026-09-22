@@ -63,6 +63,21 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_IN",
     siteName: site.name,
+    images: [
+      {
+        url: "/images/og-share.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Bed Bug Treatment India - Professional Odorless Pest Control",
+        type: "image/jpeg",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Bed Bug Treatment — Sleep Peacefully Again",
+    description: site.description,
+    images: ["/images/og-share.jpg"],
   },
 };
 

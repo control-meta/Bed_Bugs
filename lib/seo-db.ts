@@ -40,7 +40,7 @@ function getDefaultPagesSeed(): Record<string, PageSeoItem> {
       description:
         "Professional odorless bed bug treatment for homes & hotels across India. Same-day inspection, safe methods & 12-month warranty. Call +91 97693 21234.",
       keywords: ["bed bug treatment", "bed bug control", "pest control india", "odorless bed bug treatment"],
-      ogImage: "/images/hero.webp",
+      ogImage: "/images/og-share.jpg",
       canonical: "https://bedbugstreatment.co.in/",
       updatedAt: new Date().toISOString(),
     },
@@ -73,7 +73,7 @@ function getDefaultPagesSeed(): Record<string, PageSeoItem> {
       description:
         "Book your same-day bed bug inspection. Call +91 97693 21234, chat on WhatsApp or request a quote for fast service in Pune, Mumbai, Bangalore & Delhi.",
       keywords: ["contact pest control", "book bed bug inspection", "pest control customer support"],
-      ogImage: "/images/hero.webp",
+      ogImage: "/images/og-share.jpg",
       canonical: "https://bedbugstreatment.co.in/contact",
       updatedAt: new Date().toISOString(),
     },

@@ -1,5 +1,5 @@
 import { locations } from "@/lib/locations";
-import { getAllBlogs, readLocalBlogs } from "@/lib/blog-db";
+import { getSitemapBlogs } from "@/lib/blog-db";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 3600;
@@ -21,6 +21,16 @@ function escapeXml(unsafe: string): string {
         return c;
     }
   });
+}
+
+function safeIsoDate(d: string | undefined | null, fallback: string): string {
+  if (!d) return fallback;
+  try {
+    const parsed = new Date(d);
+    return isNaN(parsed.getTime()) ? fallback : parsed.toISOString();
+  } catch {
+    return fallback;
+  }
 }
 
 export async function GET() {
@@ -45,7 +55,7 @@ export async function GET() {
     priority: "0.9",
   }));
 
-  // Published blog articles with timeout safeguard
+  // Published blog articles
   let blogRoutes: Array<{
     url: string;
     lastmod: string;
@@ -54,36 +64,15 @@ export async function GET() {
   }> = [];
 
   try {
-    const fetchPromise = getAllBlogs({ status: "published" });
-    const timeoutPromise = new Promise<any[]>((resolve) =>
-      setTimeout(() => {
-        try {
-          const local = readLocalBlogs().filter((b) => b.status === "published");
-          resolve(local);
-        } catch {
-          resolve([]);
-        }
-      }, 750)
-    );
-    const blogs = await Promise.race([fetchPromise, timeoutPromise]);
-    blogRoutes = (blogs || []).map((blog) => ({
+    const blogs = await getSitemapBlogs();
+    blogRoutes = blogs.map((blog) => ({
       url: `${baseUrl}/${blog.slug}`,
-      lastmod: blog.updatedAt || blog.createdAt || currentDate,
+      lastmod: safeIsoDate(blog.lastmod, currentDate),
       changefreq: "monthly",
       priority: "0.7",
     }));
   } catch (err) {
-    try {
-      const local = readLocalBlogs().filter((b) => b.status === "published");
-      blogRoutes = local.map((blog) => ({
-        url: `${baseUrl}/${blog.slug}`,
-        lastmod: blog.updatedAt || blog.createdAt || currentDate,
-        changefreq: "monthly",
-        priority: "0.7",
-      }));
-    } catch {
-      blogRoutes = [];
-    }
+    console.error("[sitemap.xml] Error generating blog routes:", err);
   }
 
   const allRoutes = [...coreRoutes, ...locationRoutes, ...blogRoutes];
@@ -92,7 +81,7 @@ export async function GET() {
     .map(
       (entry) => `  <url>
     <loc>${escapeXml(entry.url)}</loc>
-    <lastmod>${new Date(entry.lastmod).toISOString()}</lastmod>
+    <lastmod>${safeIsoDate(entry.lastmod, currentDate)}</lastmod>
     <changefreq>${entry.changefreq}</changefreq>
     <priority>${entry.priority}</priority>
   </url>`

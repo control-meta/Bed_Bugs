@@ -208,6 +208,68 @@ export async function getAllBlogs(options?: {
   return filtered;
 }
 
+export type SitemapBlogItem = {
+  slug: string;
+  lastmod: string;
+};
+
+// Fast, lightweight query for sitemap generation without downloading heavy HTML/markdown payloads
+export async function getSitemapBlogs(): Promise<SitemapBlogItem[]> {
+  const supabase = getSupabase();
+  const now = new Date().toISOString();
+
+  if (supabase) {
+    try {
+      const { data, error } = await supabase
+        .from("blogs")
+        .select("slug, status, updated_at, created_at")
+        .order("created_at", { ascending: false });
+
+      if (!error && data && data.length > 0) {
+        return data
+          .filter((row: any) => !row.status || row.status === "published")
+          .map((row: any) => ({
+            slug: (row.slug || "").replace(/^\/|\/$/g, ""),
+            lastmod: row.updated_at || row.created_at || now,
+          }))
+          .filter((item: SitemapBlogItem) => item.slug.length > 0);
+      }
+
+      // Fallback to blog_articles table if used
+      const { data: artData, error: artError } = await supabase
+        .from("blog_articles")
+        .select("slug, status, updated_at, created_at")
+        .order("created_at", { ascending: false });
+
+      if (!artError && artData && artData.length > 0) {
+        return artData
+          .filter((row: any) => !row.status || row.status === "published")
+          .map((row: any) => ({
+            slug: (row.slug || "").replace(/^\/|\/$/g, ""),
+            lastmod: row.updated_at || row.created_at || now,
+          }))
+          .filter((item: SitemapBlogItem) => item.slug.length > 0);
+      }
+    } catch (err) {
+      console.warn("[blog-db] Supabase sitemap query failed, falling back to local store:", err);
+    }
+  }
+
+  // Fallback to local store
+  try {
+    const local = readLocalBlogs();
+    return local
+      .filter((b) => !b.status || b.status === "published")
+      .map((b) => ({
+        slug: (b.slug || "").replace(/^\/|\/$/g, ""),
+        lastmod: b.updatedAt || b.createdAt || now,
+      }))
+      .filter((item) => item.slug.length > 0);
+  } catch {
+    return [];
+  }
+}
+
 // Get single blog by ID
 export async function getBlogById(id: string): Promise<BlogItem | null> {
   const supabase = getSupabase();
