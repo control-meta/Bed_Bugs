@@ -35,7 +35,6 @@ export async function GET() {
     { url: `${baseUrl}/faq`, lastmod: currentDate, changefreq: "monthly", priority: "0.8" },
     { url: `${baseUrl}/contact`, lastmod: currentDate, changefreq: "monthly", priority: "0.8" },
     { url: `${baseUrl}/blog`, lastmod: currentDate, changefreq: "weekly", priority: "0.8" },
-    { url: `${baseUrl}/sitemap`, lastmod: currentDate, changefreq: "monthly", priority: "0.7" },
   ];
 
   // City location landing pages

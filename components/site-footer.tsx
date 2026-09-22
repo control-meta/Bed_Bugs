@@ -140,12 +140,8 @@ export function SiteFooter() {
             © {site.foundedYear}–{new Date().getFullYear()} {site.legalName}. All Rights Reserved.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-white/60">
-            <Link href="/sitemap" className="transition hover:text-white">
-              Sitemap
-            </Link>
-            <span className="text-white/20">•</span>
             <a href="/sitemap.xml" target="_blank" rel="noopener noreferrer" className="transition hover:text-white">
-              XML Sitemap
+              Sitemap.xml
             </a>
             <span className="text-white/20">•</span>
             <a href="/llms.txt" target="_blank" rel="noopener noreferrer" className="transition hover:text-white">
