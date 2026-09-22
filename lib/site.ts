@@ -75,75 +75,9 @@ export const processSteps = [
   },
 ];
 
-export const testimonials = [
-  {
-    name: "Ramesh K",
-    city: "Bangalore",
-    quote:
-      "Excellent service! The team inspected every corner of my flat and treated the infestation effectively. I've been bed bug-free for months now.",
-  },
-  {
-    name: "Neha Patil",
-    city: "Mumbai",
-    quote:
-      "The Mumbai team handled my 2 BHK infestation superbly. Quick, effective and safe treatment with no chemical smell.",
-  },
-  {
-    name: "Rahul Pawar",
-    city: "Pune",
-    quote:
-      "Fantastic service in Pune. The technicians were thorough and followed up properly. No bed bugs since. Highly satisfied.",
-  },
-  {
-    name: "Meera Iyer",
-    city: "Delhi",
-    quote:
-      "Very professional team. They explained the process clearly, used safe solutions and solved a problem others could not.",
-  },
-];
+export const testimonials = [];
 
-export const serviceReviews = [
-  {
-    name: "Ananya Roy",
-    service: "Bed & Mattress Deep Treatment",
-    city: "Mumbai",
-    rating: 5,
-    quote:
-      "Booked the Intensive Bed & Mattress Treatment for our 3 BHK. The odorless micro-spray destroyed all bugs and eggs without damaging our memory foam mattress.",
-  },
-  {
-    name: "Rohit Singhania",
-    service: "Commercial Hotel Bed Bug Elimination",
-    city: "Bangalore",
-    rating: 5,
-    quote:
-      "Contracted their commercial team for our 45-room boutique hotel. Discreet after-hours execution, zero downtime for guests, and complete documentation provided for our records.",
-  },
-  {
-    name: "Kavita Deshpande",
-    service: "Hostel & PG Eradication",
-    city: "Pune",
-    rating: 5,
-    quote:
-      "Managing a 60-bed student hostel with recurring bed bug complaints was tough. Their scheduled room-by-room eradication and quarterly monitoring solved the issue permanently.",
-  },
-  {
-    name: "Aditya Varma",
-    service: "Odorless Chemical Spray Treatment",
-    city: "Delhi",
-    rating: 5,
-    quote:
-      "The 100% Odorless odorless treatment was a lifesaver. We didn't have to vacate the house for days or deal with unbearable fumes. Completely bed bug free for over 7 months.",
-  },
-  {
-    name: "Meenakshi Sundaram",
-    service: "Eco-Safe Family & Pet Safe Treatment",
-    city: "Noida",
-    rating: 5,
-    quote:
-      "We have two cats and an elderly parent, so safety was our top priority. Their eco-safe certified solution was gentle on the home environment while 100% lethal to bed bugs.",
-  },
-];
+export const serviceReviews = [];
 
 export const homeFaqs = [
   {

@@ -52,9 +52,7 @@ export function TestimonialsSection({
   const trackRef = useRef<HTMLDivElement>(null);
   const state = useRef({ offset: 0, target: 0 });
 
-  const [reviewList, setReviewList] = useState<TestimonialItem[]>(() =>
-    items && items.length > 0 ? items : testimonials
-  );
+  const [reviewList, setReviewList] = useState<TestimonialItem[]>(items || []);
   const [reviewOpen, setReviewOpen] = useState(false);
 
   useEffect(() => {
@@ -68,21 +66,18 @@ export function TestimonialsSection({
     fetch(url)
       .then((res) => res.json())
       .then((data) => {
-        if (data.success && data.reviews && data.reviews.length > 0) {
+        if (data.success && data.reviews) {
           setReviewList(data.reviews);
-        } else if (items && items.length > 0) {
-          setReviewList(items);
         }
       })
       .catch((err) => {
         console.error("Failed to fetch live reviews:", err);
-        if (items && items.length > 0) setReviewList(items);
       });
-  }, [pageSlug, items]);
+  }, [pageSlug]);
 
-  const safeItems: TestimonialItem[] = reviewList.length > 0 ? reviewList : testimonials;
-  const repeatCount = Math.max(4, Math.ceil(16 / safeItems.length));
-  const loop: TestimonialItem[] = Array.from({ length: repeatCount }).flatMap((): TestimonialItem[] => safeItems);
+  const safeItems: TestimonialItem[] = reviewList;
+  const repeatCount = safeItems.length > 0 ? Math.max(4, Math.ceil(16 / safeItems.length)) : 0;
+  const loop: TestimonialItem[] = safeItems.length > 0 ? Array.from({ length: repeatCount }).flatMap((): TestimonialItem[] => safeItems) : [];
   const pitch = safeItems.length * CARD_STEP;
 
   useEffect(() => {
@@ -160,56 +155,65 @@ export function TestimonialsSection({
       <div className="mx-auto mt-5 max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row lg:items-center gap-4">
           {/* Carousel Track: flex-1 min-w-0 guarantees zero overlap with the right card */}
-          <div className="relative min-w-0 flex-1">
-            <div className="overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_3%,black_97%,transparent)]">
-              <div ref={trackRef} className="flex w-max will-change-transform">
-                {loop.map((testimonial, index) => {
-                  const place = testimonial.city || testimonial.locality;
-
-                  return (
-                    <figure
-                      key={`${testimonial.name}-${index}`}
-                      style={{ width: `${CARD_WIDTH}px`, height: "180px" }}
-                      className={`relative mr-3 flex shrink-0 flex-col justify-between rounded-xl border border-brand-600/10 ${cardBg} p-3.5 transition hover:border-brand-600/25 hover:shadow-lg`}
-                    >
-                      <div className="flex items-center gap-1 shrink-0">
-                        {Array.from({ length: testimonial.rating ?? 5 }).map((_, i) => (
-                          <Star
-                            key={i}
-                            className="h-3.5 w-3.5 fill-amber-400 text-amber-400"
-                          />
-                        ))}
-                      </div>
-                      <blockquote className="my-auto text-xs leading-relaxed text-ink/75 line-clamp-4">
-                        &ldquo;{testimonial.quote}&rdquo;
-                      </blockquote>
-                      <figcaption className="shrink-0 text-[11px] font-medium text-ink/55 truncate">
-                        &mdash;{" "}
-                        <span className="font-bold text-ink">{testimonial.name}</span>
-                        {place ? `, ${place}` : ""}
-                      </figcaption>
-                    </figure>
-                  );
-                })}
+          <div className="relative min-w-0 flex-1 flex flex-col justify-center">
+            {safeItems.length === 0 ? (
+              <div className="flex flex-col items-center justify-center p-8 text-center bg-brand-50/30 rounded-xl border border-dashed border-brand-200 h-[180px] mr-3">
+                <p className="text-sm font-medium text-ink/70">No reviews yet.</p>
+                <p className="text-xs text-ink/50 mt-1">Be the first to share your experience!</p>
               </div>
-            </div>
+            ) : (
+              <>
+                <div className="overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_3%,black_97%,transparent)]">
+                  <div ref={trackRef} className="flex w-max will-change-transform">
+                    {loop.map((testimonial, index) => {
+                      const place = testimonial.city || testimonial.locality;
 
-            <button
-              type="button"
-              onClick={() => move(-1)}
-              aria-label="Previous reviews"
-              className="absolute left-1 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-ink/10 bg-white/95 text-ink/70 shadow-md backdrop-blur transition hover:bg-brand-600 hover:text-white"
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </button>
-            <button
-              type="button"
-              onClick={() => move(1)}
-              aria-label="Next reviews"
-              className="absolute right-1 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-ink/10 bg-white/95 text-ink/70 shadow-md backdrop-blur transition hover:bg-brand-600 hover:text-white"
-            >
-              <ChevronRight className="h-4 w-4" />
-            </button>
+                      return (
+                        <figure
+                          key={`${testimonial.name}-${index}`}
+                          style={{ width: `${CARD_WIDTH}px`, height: "180px" }}
+                          className={`relative mr-3 flex shrink-0 flex-col justify-between rounded-xl border border-brand-600/10 ${cardBg} p-3.5 transition hover:border-brand-600/25 hover:shadow-lg`}
+                        >
+                          <div className="flex items-center gap-1 shrink-0">
+                            {Array.from({ length: testimonial.rating ?? 5 }).map((_, i) => (
+                              <Star
+                                key={i}
+                                className="h-3.5 w-3.5 fill-amber-400 text-amber-400"
+                              />
+                            ))}
+                          </div>
+                          <blockquote className="my-auto text-xs leading-relaxed text-ink/75 line-clamp-4">
+                            &ldquo;{testimonial.quote}&rdquo;
+                          </blockquote>
+                          <figcaption className="shrink-0 text-[11px] font-medium text-ink/55 truncate">
+                            &mdash;{" "}
+                            <span className="font-bold text-ink">{testimonial.name}</span>
+                            {place ? `, ${place}` : ""}
+                          </figcaption>
+                        </figure>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => move(-1)}
+                  aria-label="Previous reviews"
+                  className="absolute left-1 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-ink/10 bg-white/95 text-ink/70 shadow-md backdrop-blur transition hover:bg-brand-600 hover:text-white"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => move(1)}
+                  aria-label="Next reviews"
+                  className="absolute right-1 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-ink/10 bg-white/95 text-ink/70 shadow-md backdrop-blur transition hover:bg-brand-600 hover:text-white"
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </button>
+              </>
+            )}
           </div>
 
           {/* Right-side Badge Card */}
