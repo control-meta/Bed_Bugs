@@ -137,6 +137,27 @@ export function normalizeBlogImageModel(model?: string): string {
     : DEFAULT_BLOG_IMAGE_MODEL;
 }
 
+const DEMOGRAPHICS = [
+  "a young Indian man in his 20s",
+  "a middle-aged Indian woman",
+  "an Indian father",
+  "an elderly Indian couple",
+  "a young Indian woman in professional workwear",
+  "a young Indian male student",
+  "an Indian mother",
+  "a middle-aged Indian man in a formal shirt",
+  "a young Indian couple",
+  "an Indian grandmother",
+  "a professional pest control technician"
+];
+
+const CLOTHING_COLORS = [
+  "wearing red", "wearing a blue shirt", "wearing green clothing", 
+  "wearing yellow", "wearing purple", "wearing neutral tones", 
+  "wearing bright traditional clothes", "wearing casual grey clothes",
+  "wearing a white top", "wearing dark colors"
+];
+
 export function buildOpenAIImageRequest(
   topic: string,
   keywords: string[],
@@ -146,6 +167,9 @@ export function buildOpenAIImageRequest(
 ): ImageGenerateParamsNonStreaming {
   const exactLabel = cleanInlineText(spec.label, 105);
   const keywordContext = keywords.map((keyword) => cleanInlineText(keyword, 50)).filter(Boolean).join(", ");
+  
+  const randomDemographic = DEMOGRAPHICS[Math.floor(Math.random() * DEMOGRAPHICS.length)];
+  const randomColor = CLOTHING_COLORS[Math.floor(Math.random() * CLOTHING_COLORS.length)];
 
   return {
     model: normalizeBlogImageModel(model),
@@ -155,7 +179,7 @@ export function buildOpenAIImageRequest(
       keywordContext ? `Relevant article keywords: ${keywordContext}.` : "",
       `Visual direction: ${spec.visualFocus}`,
       `This is the ${spec.role === "top" ? "lead hero" : "in-article section"} image, so make the scene immediately useful and specific to the quoted content.`,
-      "Use a realistic modern Indian home or apartment where relevant. Keep bed bugs anatomically plausible and small; avoid giant insects, gore, fear imagery, logos, watermarks, or unrelated pests.",
+      `Use a realistic modern Indian home or apartment where relevant. If the scene includes people, explicitly feature ${randomDemographic} ${randomColor} to ensure visual variety. Keep bed bugs anatomically plausible and small; avoid giant insects, gore, fear imagery, logos, watermarks, or unrelated pests.`,
       "Compose the photograph with a naturally uncluttered upper third, such as a plain wall or softly out-of-focus room background, so a headline can be placed directly over the photo. Keep the main people, insects, tools, and evidence below or to the right of that space.",
       "The photograph must remain continuous from edge to edge. Do not create a banner, title card, white strip, solid panel, frame, border, or divider anywhere in the image.",
       `The application will add the exact headline "${exactLabel}" after generation. Do not render letters, words, numbers, signs, labels, logos, captions, or watermarks anywhere in the image.`,

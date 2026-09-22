@@ -9,7 +9,7 @@ const ReviewItemSchema = z.object({
   city: z.string().describe("Indian city or locality matching the target page context"),
   service: z.string().describe("Specific bed bug treatment service (e.g., 'Odorless Bed Bug Eradication', '1-Year Bed Bug AMC', 'Odorless Mattress Treatment')"),
   rating: z.number().int().min(4).max(5).describe("Customer rating: 5 or 4"),
-  quote: z.string().describe("Short, highly authentic customer review of exactly 20 to 35 words (1-2 sentences)."),
+  quote: z.string().describe("Highly authentic customer review of EXACTLY 35 to 40 words to ensure uniform 4-line height."),
 });
 
 const ReviewListSchema = z.object({
@@ -160,9 +160,9 @@ CRITICAL RULES FOR REVIEWS:
    - Both male and female names.
    - You can format names as either "Firstname Lastname" (e.g., "Ananya Deshpande", "Karthik Hegde") or "Firstname Initial." (e.g., "Swati R.", "Arjun K.").
 
-2. UNIFORM CONTENT LENGTH:
-   - Every review quote MUST be strictly between 20 and 35 words (1 to 2 sentences max).
-   - This ensures review cards on the website render with identical heights without awkward empty spaces.
+2. UNIFORM CONTENT LENGTH (CRITICAL):
+   - Every review quote MUST be EXACTLY between 35 and 40 words. No more, no less.
+   - This ensures review cards on the website render with identical heights (exactly 4 to 5 lines of text) without awkward empty spaces.
 
 3. EXTREME VARIETY & GENUINE HUMAN TONE (CRITICAL):
    - DO NOT start every review the same way (e.g., do not start every review with "The odorless treatment..."). Vary your opening sentences and sentence structures drastically!
@@ -190,7 +190,7 @@ CRITICAL RULES FOR REVIEWS:
         { role: "system", content: systemPrompt },
         {
           role: "user",
-          content: `Generate ${count} completely unique, authentic Indian customer reviews for page "${pageSlug}". Every person's name MUST be completely unique and never used before. Strictly 20 to 35 words per review.`,
+          content: `Generate ${count} completely unique, authentic Indian customer reviews for page "${pageSlug}". Every person's name MUST be completely unique and never used before. Strictly EXACTLY 35 to 40 words per review to ensure uniform height.`,
         },
       ],
       response_format: zodResponseFormat(ReviewListSchema, "reviews_data"),

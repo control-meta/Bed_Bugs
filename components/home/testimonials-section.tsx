@@ -174,10 +174,10 @@ export function TestimonialsSection({
                       return (
                         <figure
                           key={`${testimonial.name}-${index}`}
-                          style={{ width: `${CARD_WIDTH}px`, height: "180px" }}
+                          style={{ width: `${CARD_WIDTH}px`, minHeight: "180px", height: "auto" }}
                           className={`relative mr-3 flex shrink-0 flex-col justify-between rounded-xl border border-brand-600/10 ${cardBg} p-3.5 transition hover:border-brand-600/25 hover:shadow-lg`}
                         >
-                          <div className="flex items-center gap-1 shrink-0">
+                          <div className="flex items-center gap-1 shrink-0 pb-3">
                             {Array.from({ length: testimonial.rating ?? 5 }).map((_, i) => (
                               <Star
                                 key={i}
@@ -185,7 +185,7 @@ export function TestimonialsSection({
                               />
                             ))}
                           </div>
-                          <blockquote className="my-auto text-xs leading-relaxed text-ink/75 line-clamp-4">
+                          <blockquote className="my-auto text-xs leading-relaxed text-ink/75 pb-3">
                             &ldquo;{testimonial.quote}&rdquo;
                           </blockquote>
                           <figcaption className="shrink-0 text-[11px] font-medium text-ink/55 truncate">

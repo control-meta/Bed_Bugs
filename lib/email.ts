@@ -16,6 +16,8 @@ interface BlogPublishedNotificationParams {
   slug: string;
   title: string;
   topic: string;
+  score?: number;
+  tokenUse?: number;
 }
 
 /**
@@ -96,7 +98,7 @@ export async function sendBlogPublishedEmail(params: BlogPublishedNotificationPa
   const transporter = getTransporter();
   if (!transporter) return;
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://yourwebsite.com";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://bedbugstreatment.co.in";
   const liveLink = `${appUrl}/${params.slug}`;
 
   const htmlContent = `
@@ -106,6 +108,8 @@ export async function sendBlogPublishedEmail(params: BlogPublishedNotificationPa
       <tr><th align="left" width="30%">Title</th><td>${params.title}</td></tr>
       <tr><th align="left">Topic</th><td>${params.topic}</td></tr>
       <tr><th align="left">Slug</th><td>/${params.slug}</td></tr>
+      <tr><th align="left">AI Score</th><td>${params.score ? params.score + '/100' : 'N/A'}</td></tr>
+      <tr><th align="left">Tokens Used</th><td>${params.tokenUse ? params.tokenUse.toLocaleString() : 'N/A'}</td></tr>
       <tr><th align="left">Live Link</th><td><a href="${liveLink}">${liveLink}</a></td></tr>
     </table>
     <br/>

@@ -326,6 +326,8 @@ export async function executeAutoPublish(): Promise<{
       slug: blog.slug,
       title: blog.title,
       topic: blog.topic,
+      score: pipelineResult.audit.overallPublishingConfidence,
+      tokenUse: pipelineResult.usage.totalTokens,
     }).catch((err) => console.error("Async email failed:", err));
 
     // Update calendar plan item to generated
