@@ -958,7 +958,7 @@ export function LocationPageContent({
           reviewCount={location.reviewCount}
           testimonials={location.reviews}
           city={location.name}
-          pageSlug={location.slug}
+          pageSlug={`/${location.slug}`}
         />
 
         {/* 7. Local FAQs Section (Original Accordion with In-Place Editable Content) */}

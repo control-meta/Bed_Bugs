@@ -41,10 +41,6 @@ const CITY_PAGE_PATHS = [
   "/pune",
   "/delhi",
   "/noida",
-  "/gurgaon",
-  "/hyderabad",
-  "/chennai",
-  "/kolkata",
 ];
 
 const EXCLUDED_REVIEW_PAGE_PATHS = ["/about", "/contact", "/blog", "/faq"];
