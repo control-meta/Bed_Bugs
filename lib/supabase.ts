@@ -59,6 +59,11 @@ export function getSupabase(): SupabaseClient | null {
       realtime: {
         transport: globalThis.WebSocket || DisabledRealtimeTransport,
       },
+      global: {
+        fetch: (url, options) => {
+          return fetch(url, { ...options, cache: "no-store" });
+        },
+      },
     });
   }
   return supabaseInstance;
