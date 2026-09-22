@@ -1,0 +1,17 @@
+# Bed Bug Treatment India - LLM Context File
+This file provides a directory of all available pages and blog posts on bedbugstreatment.co.in for LLM consumption.
+
+## Core Pages
+- [Homepage](https://bedbugstreatment.co.in)
+- [Services Page](https://bedbugstreatment.co.in/services)
+- [About Us](https://bedbugstreatment.co.in/about)
+- [Frequently Asked Questions](https://bedbugstreatment.co.in/faq)
+- [Contact Us](https://bedbugstreatment.co.in/contact)
+- [Blog Index](https://bedbugstreatment.co.in/blog)
+
+## Service Locations
+- [Bed Bug Treatment in Bangalore](https://bedbugstreatment.co.in/bangalore)
+- [Bed Bug Treatment in Delhi](https://bedbugstreatment.co.in/delhi)
+- [Bed Bug Treatment in Mumbai](https://bedbugstreatment.co.in/mumbai)
+- [Bed Bug Treatment in Noida](https://bedbugstreatment.co.in/noida)
+- [Bed Bug Treatment in Pune](https://bedbugstreatment.co.in/pune)
