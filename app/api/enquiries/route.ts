@@ -87,6 +87,7 @@ export async function POST(request: NextRequest) {
       property_type: property_type || null,
       message: message || null,
       source,
+      source_url: source_url || null,
     }).catch(err => console.error("Async email failed:", err));
 
     return NextResponse.json(
