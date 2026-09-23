@@ -213,12 +213,29 @@ export function calculateNextRunTime(
       return new Date(now + 24 * 60 * 60 * 1000).toISOString();
     case "daily": {
       const [hours, minutes] = dailyTime.split(":").map((v) => parseInt(v, 10) || 0);
-      const target = new Date(baseDate);
-      target.setHours(hours, minutes, 0, 0);
+      
+      // Calculate today's date in IST
+      const istFormatter = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'Asia/Kolkata',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      });
+      
+      const parts = istFormatter.formatToParts(baseDate);
+      const year = parts.find(p => p.type === 'year')!.value;
+      const month = parts.find(p => p.type === 'month')!.value;
+      const day = parts.find(p => p.type === 'day')!.value;
+      
+      // Construct ISO string for the target time in IST (UTC+05:30)
+      const istString = `${year}-${month}-${day}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:00+05:30`;
+      let target = new Date(istString);
+      
       // If time today has already passed, schedule for tomorrow
       if (target.getTime() <= now) {
-        target.setDate(target.getDate() + 1);
+        target = new Date(target.getTime() + 24 * 60 * 60 * 1000);
       }
+      
       return target.toISOString();
     }
     default:
