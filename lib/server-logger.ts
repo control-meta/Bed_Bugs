@@ -20,6 +20,12 @@ export function initializeSystemLogger() {
   function appendLog(chunk: string) {
     try {
       const cleanChunk = stripAnsiCodes(chunk);
+      
+      // Ignore harmless Next.js dev server memory leak warnings on Gzip streams
+      if (cleanChunk.includes("MaxListenersExceededWarning") || cleanChunk.includes("node --trace-warnings")) {
+        return;
+      }
+      
       fs.appendFileSync(LOG_FILE_PATH, cleanChunk, "utf8");
 
       // Rotate log file occasionally
