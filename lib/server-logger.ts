@@ -22,7 +22,12 @@ export function initializeSystemLogger() {
       const cleanChunk = stripAnsiCodes(chunk);
       
       // Ignore harmless Next.js dev server memory leak warnings on Gzip streams
-      if (cleanChunk.includes("MaxListenersExceededWarning") || cleanChunk.includes("node --trace-warnings")) {
+      // and harmless lifecycle shutdown errors (like 'Server is not running' when PM2/Hostinger restarts)
+      if (
+        cleanChunk.includes("MaxListenersExceededWarning") || 
+        cleanChunk.includes("node --trace-warnings") ||
+        cleanChunk.includes("Error: Server is not running.")
+      ) {
         return;
       }
       
