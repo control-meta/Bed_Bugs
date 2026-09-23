@@ -27,6 +27,7 @@ import {
   Square,
   Calendar,
   History,
+  Terminal,
   Sliders,
   ShieldCheck,
   Mail,
@@ -71,7 +72,9 @@ export default function CalendarPage() {
 
   // Auto-Publish feature state
   const [isAutoPublishModalOpen, setIsAutoPublishModalOpen] = useState(false);
-  const [modalTab, setModalTab] = useState<"test" | "schedule" | "logs">("test");
+  const [modalTab, setModalTab] = useState<"test" | "schedule" | "logs" | "terminal">("test");
+  const [terminalLogs, setTerminalLogs] = useState<string>("");
+  const terminalRef = useRef<HTMLPreElement>(null);
   const [modalFeedback, setModalFeedback] = useState<{
     type: "success" | "error" | "info";
     message: string;
@@ -123,6 +126,25 @@ export default function CalendarPage() {
       }
     } catch (err) {
       console.warn("Error fetching auto-publish status:", err);
+    }
+  };
+
+  const fetchTerminalLogs = async () => {
+    try {
+      const res = await fetch("/api/admin/system-logs");
+      if (!res.ok) return;
+      const text = await res.text();
+      setTerminalLogs(text);
+      if (terminalRef.current) {
+        // scroll to bottom smoothly or instantly
+        setTimeout(() => {
+          if (terminalRef.current) {
+            terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
+          }
+        }, 50);
+      }
+    } catch (err) {
+      console.warn("Error fetching terminal logs:", err);
     }
   };
 
@@ -1136,6 +1158,21 @@ export default function CalendarPage() {
                   </span>
                 )}
               </button>
+              <button
+                onClick={() => {
+                  setModalTab("terminal");
+                  setModalFeedback(null);
+                  fetchTerminalLogs();
+                }}
+                className={`flex items-center gap-2 px-4 py-2.5 text-xs font-bold transition-all border-b-2 ${
+                  modalTab === "terminal"
+                    ? "border-emerald-600 text-emerald-700 bg-white rounded-t-xl shadow-xs"
+                    : "border-transparent text-neutral-500 hover:text-neutral-900"
+                }`}
+              >
+                <Terminal className="h-3.5 w-3.5" />
+                Terminal Logs
+              </button>
             </div>
 
             {/* Modal Body */}
@@ -1589,11 +1626,13 @@ export default function CalendarPage() {
                             <div className="min-w-0">
                               <p className="font-semibold text-neutral-900 truncate">{log.topic}</p>
                               <p className="text-[10px] text-neutral-400">
-                                {new Date(log.timestamp).toLocaleTimeString([], {
+                                {new Date(log.timestamp).toLocaleString([], {
                                   hour: "2-digit",
                                   minute: "2-digit",
-                                })}{" "}
-                                • {log.date}
+                                  month: "short",
+                                  day: "numeric",
+                                  year: "numeric"
+                                })}
                               </p>
                             </div>
                           </div>
@@ -1615,6 +1654,37 @@ export default function CalendarPage() {
                       </div>
                     )}
                   </div>
+                </div>
+              )}
+
+              {/* TAB 4: TERMINAL LOGS */}
+              {modalTab === "terminal" && (
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold uppercase tracking-wider text-neutral-700">
+                      Live Terminal Output
+                    </span>
+                    <button
+                      onClick={() => fetchTerminalLogs()}
+                      className="inline-flex items-center gap-1 text-[11px] font-semibold text-neutral-500 hover:text-emerald-700 bg-neutral-100 hover:bg-neutral-200/80 px-2 py-0.5 rounded-md transition cursor-pointer"
+                      title="Refresh Terminal Logs"
+                    >
+                      <RefreshCw className="h-3 w-3" />
+                      Refresh
+                    </button>
+                  </div>
+                  
+                  <div className="rounded-2xl border border-neutral-700 bg-neutral-900 overflow-hidden shadow-inner flex flex-col h-72">
+                    <pre 
+                      ref={terminalRef}
+                      className="p-4 text-[11px] text-emerald-400 font-mono whitespace-pre-wrap overflow-y-auto leading-relaxed flex-1 select-text"
+                    >
+                      {terminalLogs || "No logs available yet..."}
+                    </pre>
+                  </div>
+                  <p className="text-[10px] text-neutral-400">
+                    Displays raw standard output from the backend auto-publish pipeline. Useful for tracking AI generation progress, errors, and system warnings.
+                  </p>
                 </div>
               )}
             </div>

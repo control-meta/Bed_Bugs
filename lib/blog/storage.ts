@@ -86,7 +86,13 @@ export async function saveBlogArticle(
   const supabase = getSupabase();
 
   if (supabase) {
-    const { error } = await supabase.from("blog_articles").insert(toDatabaseRow(stored));
+    let { error } = await supabase.from("blogs").insert(toDatabaseRow(stored));
+    if (error) {
+      console.warn("[blog-storage] Insert to 'blogs' failed, falling back to 'blog_articles':", error.message);
+      const fallbackResult = await supabase.from("blog_articles").insert(toDatabaseRow(stored));
+      error = fallbackResult.error;
+    }
+
     if (!error) {
       if (stored.evidence.length) {
         const { error: evidenceError } = await supabase.from("blog_evidence").insert(
@@ -124,11 +130,22 @@ export async function saveBlogArticle(
 export async function getPublishedBlogPages(): Promise<ExistingPage[]> {
   const supabase = getSupabase();
   if (supabase) {
-    const { data, error } = await supabase
-      .from("blog_articles")
+    let { data, error } = await supabase
+      .from("blogs")
       .select("slug,title,topic")
       .eq("status", "published")
       .limit(500);
+      
+    if (error) {
+      const fallback = await supabase
+        .from("blog_articles")
+        .select("slug,title,topic")
+        .eq("status", "published")
+        .limit(500);
+      data = fallback.data;
+      error = fallback.error;
+    }
+
     if (!error) {
       return (data || []).map((article) => ({
         url: `/${article.slug}`,
@@ -137,7 +154,7 @@ export async function getPublishedBlogPages(): Promise<ExistingPage[]> {
         source: "database" as const,
       }));
     }
-    console.error("[blog-storage] Published page lookup failed; using local fallback", error.message);
+    console.error("[blog-storage] Published page lookup failed; using local fallback", error?.message);
   }
 
   return readLocalArticles()

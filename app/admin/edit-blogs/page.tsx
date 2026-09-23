@@ -286,10 +286,13 @@ export default function EditBlogsPage() {
                         </span>
                         <span className="text-[11px]">
                           {blog.status === "draft" ? "Draft saved: " : "Published: "}
-                          {new Date(blog.createdAt).toLocaleDateString("en-IN", {
+                          {new Date(blog.createdAt).toLocaleString("en-IN", {
                             month: "short",
                             day: "numeric",
                             year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            hour12: true,
                           })}
                         </span>
                       </div>

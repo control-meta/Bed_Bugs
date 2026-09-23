@@ -65,46 +65,29 @@ export async function getAutoPublishConfigWithLiveLogs(): Promise<AutoPublishCon
   try {
     // 1. Fetch recent published blogs from database
     const blogs = await getAllBlogs({ status: "published" });
+    const publishedBlogIds = new Set(blogs.map((b) => b.id));
+    const publishedBlogSlugs = new Set(blogs.map((b) => b.slug));
 
-    // 2. Convert published blogs into standardized activity logs
-    const blogLogs: AutoPublishLog[] = blogs.map((b) => ({
-      id: "blog_" + b.id,
-      date: (b.createdAt || new Date().toISOString()).slice(0, 10),
-      topic: b.topic || b.title,
-      slug: b.slug,
-      status: "success" as const,
-      message: `Published successfully as "${b.title}".`,
-      timestamp: b.createdAt || b.updatedAt || new Date().toISOString(),
-      blogId: b.id,
-    }));
+    // 2. Filter baseConfig.logs to ONLY include auto-publish execution logs
+    // (Ensure success logs still point to blogs that haven't been deleted manually)
+    const verifiedLogs = (baseConfig.logs || []).filter((log) => {
+      if (log.status === "error") return true; // keep all errors
+      
+      // if it's a success log, verify the blog still exists in the DB
+      if (log.blogId && publishedBlogIds.has(log.blogId)) return true;
+      if (log.slug && publishedBlogSlugs.has(log.slug)) return true;
+      
+      return false; // blog was deleted or un-published manually
+    });
 
-    // 3. Keep any system/worker error logs from config file
-    const errorLogs = (baseConfig.logs || []).filter((l) => l.status === "error");
-
-    // 4. Merge error logs and real published blog logs (de-duplicate by slug or blogId)
-    const seen = new Set<string>();
-    const mergedLogs: AutoPublishLog[] = [];
-
-    for (const errLog of errorLogs) {
-      mergedLogs.push(errLog);
-    }
-
-    for (const bLog of blogLogs) {
-      const key = bLog.slug || bLog.blogId || bLog.topic;
-      if (!seen.has(key)) {
-        seen.add(key);
-        mergedLogs.push(bLog);
-      }
-    }
-
-    // Sort newest first
-    mergedLogs.sort(
+    // 3. Sort newest first
+    verifiedLogs.sort(
       (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
     );
 
     return {
       ...baseConfig,
-      logs: mergedLogs.slice(0, 50),
+      logs: verifiedLogs.slice(0, 50),
     };
   } catch (err) {
     console.error("[auto-publish] Error merging live blog logs:", err);
