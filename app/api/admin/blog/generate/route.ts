@@ -249,7 +249,7 @@ STRICT FAIL-CLOSED RULES:
 5. INTRO: Skip generic fluff ("Dealing with bed bugs can be frustrating"). Start immediately with the answer, checklist, or decision guidance the topic requires (normally 60-140 words).
 6. SECTIONS: Use actionable checklists, comparison tables, room-by-room steps, or decision matrices only when they directly support this topic.
 7. INFORMATION DENSITY: Preserve useful depth, but do not pad sections or force irrelevant biology, room-by-room protocols, city references, tables, or FAQs. Every section must help fulfil the title promise.
-8. CITATIONS: Cite only URLs present in the evidence contract, next to the important claim they actually support. Do not invent or substitute URLs merely to hit a source-count target. Use a clean References section only for sources actually used.
+8. CITATIONS: Cite only URLs present in the evidence contract, next to the important claim they actually support. Do not invent or substitute URLs merely to hit a source-count target. DO NOT include a References section at the end; the system will append one automatically based on your citations.
 9. FORMATTING: Markdown tables must start flush with the left margin. Use tables only when they improve a real comparison or task.
 ${skipImages ? "10. SKIP IMAGES: Strictly do not include any image placeholders, visual placement tags, or markdown image links in the article.\n" : ""}11. STRICT LINKING RULE: In the interlinks step of the blog generator, strictly include 4 to 5 contextual internal links (interlinks) ${allowExternalLinks ? "and strictly ONLY ONE (1) high-authority external link" : "and ABSOLUTELY NO external links"} across the entire article. Do not add multiple external links.
 
