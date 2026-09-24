@@ -22,7 +22,7 @@ For each post, include:
 
 2. DIVERSE CONTENT ANGLES:
     - Focus heavily on practical, location-specific situations ONLY for Pune, Mumbai, and Bangalore.
-    - Create a monthly plan allocating approximately 10 days for Pune topics, 10 days for Bangalore topics, and 10 days for Mumbai topics, as operations are limited to these three cities.
+    - Create a monthly plan strictly allocating days 1-10 for Pune, days 11-20 for Mumbai, days 21-30 for Bangalore, and a general topic for day 31.
     - Mix different types of content day by day (how-to guides, cost breakdowns, DIY myth-busting vs professional treatment, diwan and box-bed inspections, tenant checklists).
     - Every title must be materially different from every other title. Never repeat generic titles such as "Effective Bed Bug Treatment Methods" or change only the city name.
     - Use one distinct search intent per day: bites, cost, mattress inspection, eggs, odorless treatment, steam, prevention, travel, tenants, hotels, children and pets, DIY myths, treatment preparation, warranty, and related angles.
@@ -65,41 +65,41 @@ Output EXACTLY a JSON array of 3 strings. Example: ["Bed Bug Treatment Cost", "B
 No markdown, no markdown blocks.`;
 
 const UNIQUE_TITLE_TEMPLATES = [
-  "How to Identify Bed Bug Bites Before They Spread",
+  "How to Identify Bed Bug Bites Before They Spread in {location}",
   "Bed Bug Treatment Cost in {location}: What Homeowners Should Know",
-  "Mattress Inspection Checklist for Hidden Bed Bugs",
-  "DIY Bed Bug Removal Mistakes That Make Infestations Worse",
-  "Odorless Bed Bug Treatment: Process, Safety, and Results",
-  "How to Remove Bed Bug Eggs from Mattresses and Furniture",
-  "Bed Bug Chemical Spray vs Steam: Which Works Better?",
-  "Bed Bug Prevention Tips for Tenants Moving into a New Home",
-  "Signs of Bed Bugs in Sofas, Diwans, and Box Beds",
-  "How Long Does Professional Bed Bug Treatment Take?",
-  "Bed Bug Bites vs Mosquito Bites: Key Differences",
-  "Best Bed Bug Spray for Indoor Home Treatment in India",
-  "Bed Bug Infestation Checklist for Hotels and Guest Houses",
-  "When to Call a Professional Bed Bug Exterminator",
-  "How to Check Second-Hand Furniture for Bed Bugs",
-  "Bed Bug Treatment for Children and Pets: Safety Guide",
-  "Can Bed Bugs Survive in Clothes, Luggage, and Bedding?",
-  "Steam Cleaning for Bed Bugs: What It Can and Cannot Do",
-  "Bed Bug Powder, Spray, or Steam: Comparing Treatment Options",
-  "How to Prepare Your Home for Professional Bed Bug Treatment",
-  "Bed Bug Warranty and Follow-Up Visits: What to Expect",
-  "Emergency Bed Bug Treatment After a Hotel Stay",
-  "How Bed Bugs Enter Apartments and Shared Buildings",
-  "Bed Bug Life Cycle: Eggs, Nymphs, and Adult Bugs Explained",
-  "How to Prevent Bed Bugs During Travel and Relocation",
-  "Bed Bug Treatment for Rental Homes: Tenant and Landlord Guide",
-  "Do Bed Bug Foggers Work? Safer Alternatives Explained",
-  "How to Find Bed Bugs in Mattress Seams and Bed Frames",
-  "Monsoon Bed Bug Prevention for Indian Homes",
-  "Bed Bug Treatment for Hostels, PGs, and Student Rooms",
-  "How to Stop Bed Bugs from Returning After Treatment",
-  "Bed Bug Inspection Before Buying or Renting a Home",
-  "Professional Bed Bug Treatment for Office and Commercial Spaces",
-  "Natural Bed Bug Remedies: What Helps and What Does Not",
-  "Bed Bug Control for Wooden Beds, Cabinets, and Cracks",
+  "Mattress Inspection Checklist for Hidden Bed Bugs in {location}",
+  "DIY Bed Bug Removal Mistakes That Make Infestations Worse in {location}",
+  "Odorless Bed Bug Treatment in {location}: Process, Safety, and Results",
+  "How to Remove Bed Bug Eggs from Mattresses and Furniture in {location}",
+  "{location} Bed Bug Chemical Spray vs Steam: Which Works Better?",
+  "Bed Bug Prevention Tips for {location} Tenants Moving into a New Home",
+  "Signs of Bed Bugs in Sofas, Diwans, and Box Beds in {location} Homes",
+  "How Long Does Professional Bed Bug Treatment Take in {location}?",
+  "Bed Bug Bites vs Mosquito Bites: Key Differences for {location} Residents",
+  "Best Bed Bug Spray for Indoor Home Treatment in {location}",
+  "Bed Bug Infestation Checklist for {location} Hotels and Guest Houses",
+  "When to Call a Professional Bed Bug Exterminator in {location}",
+  "How to Check Second-Hand Furniture for Bed Bugs in {location}",
+  "Bed Bug Treatment for Children and Pets: Safety Guide for {location} Families",
+  "Can Bed Bugs Survive in Clothes, Luggage, and Bedding in {location} Weather?",
+  "Steam Cleaning for Bed Bugs in {location}: What It Can and Cannot Do",
+  "Bed Bug Powder, Spray, or Steam: Comparing Treatment Options in {location}",
+  "How to Prepare Your {location} Home for Professional Bed Bug Treatment",
+  "Bed Bug Warranty and Follow-Up Visits: What to Expect in {location}",
+  "Emergency Bed Bug Treatment After a Hotel Stay in {location}",
+  "How Bed Bugs Enter Apartments and Shared Buildings in {location}",
+  "Bed Bug Life Cycle: Eggs, Nymphs, and Adult Bugs Explained in {location}",
+  "How to Prevent Bed Bugs During Travel and Relocation in {location}",
+  "Bed Bug Treatment for Rental Homes: Tenant and Landlord Guide in {location}",
+  "Do Bed Bug Foggers Work? Safer Alternatives for {location} Homes",
+  "How to Find Bed Bugs in Mattress Seams and Bed Frames in {location}",
+  "Monsoon Bed Bug Prevention for {location} Homes",
+  "Bed Bug Treatment for Hostels, PGs, and Student Rooms in {location}",
+  "How to Stop Bed Bugs from Returning After Treatment in {location}",
+  "Bed Bug Inspection Before Buying or Renting a Home in {location}",
+  "Professional Bed Bug Treatment for Office and Commercial Spaces in {location}",
+  "Natural Bed Bug Remedies: What Helps and What Does Not in {location}",
+  "Bed Bug Control for Wooden Beds, Cabinets, and Cracks in {location}",
 ];
 
 const FORBIDDEN_PESTS = ["cockroach", "termite", "rodent", "ant", "mosquito", "rat", "lizard", "spider", "wasp", "fly", "beetle", "flea", "tick"];
@@ -232,10 +232,18 @@ function ensureUniqueTopics(posts: BlogPlan[]): void {
     const isDuplicate = acceptedTitles.some((title) => titlesAreTooSimilar(title, post.topic));
 
     if (isDuplicate) {
-      const location = SEO_LOCATIONS[index % SEO_LOCATIONS.length];
-      const candidates = UNIQUE_TITLE_TEMPLATES.map((template) =>
-        template.replace("{location}", location),
-      );
+      const dayOfMonth = parseInt(post.date.split("-")[2], 10);
+      let location = "";
+      if (dayOfMonth <= 10) location = "Pune";
+      else if (dayOfMonth <= 20) location = "Mumbai";
+      else if (dayOfMonth <= 30) location = "Bangalore";
+
+      const candidates = UNIQUE_TITLE_TEMPLATES.map((template) => {
+        if (!location) {
+          return template.replace(/ in {location}| for {location} Homes| for {location} Residents| for {location} Families| in {location} Weather|{location} /g, "");
+        }
+        return template.replace("{location}", location);
+      });
 
       const replacement = candidates.find(
         (candidate) => !acceptedTitles.some((title) => titlesAreTooSimilar(title, candidate)),
@@ -244,7 +252,11 @@ function ensureUniqueTopics(posts: BlogPlan[]): void {
       if (replacement) {
         post.topic = replacement;
       } else {
-        post.topic = `${UNIQUE_TITLE_TEMPLATES[index % UNIQUE_TITLE_TEMPLATES.length].replace("{location}", location)} — ${post.date}`;
+        const fallbackTemplate = UNIQUE_TITLE_TEMPLATES[index % UNIQUE_TITLE_TEMPLATES.length];
+        const formattedFallback = !location 
+          ? fallbackTemplate.replace(/ in {location}| for {location} Homes| for {location} Residents| for {location} Families| in {location} Weather|{location} /g, "")
+          : fallbackTemplate.replace("{location}", location);
+        post.topic = `${formattedFallback} — ${post.date}`;
       }
     }
 
@@ -358,7 +370,15 @@ CRITICAL REQUIREMENTS:
 - Generate topics ONLY for the CURRENT DAY and UPCOMING DAYS: from ${startDateStr} (Day ${startDay}) to ${endDateStr} (Day ${endDay}) inclusive.
 - There must be exactly ${totalDaysToGenerate} posts in your "plan" array — one for each day in this range.
 - Each item must specify "date" matching the exact YYYY-MM-DD within ${startDateStr} to ${endDateStr}.
-- STRICT KEYWORD RULE: EVERY keyword in the "keywords" array must be specifically and strictly about BED BUGS only (e.g., "bed bug treatment", "bed bug spray", "bed bug bites", "khatmal control"). Absolutely NO generic pests or non-bed-bug keywords!
+
+STRICT CITY ALLOCATION RULE (10-10-10-1):
+- The FIRST 10 days of the month MUST target "Pune". The word "Pune" MUST appear in both the topic and the keywords.
+- The NEXT 10 days of the month (Days 11-20) MUST target "Mumbai". The word "Mumbai" MUST appear in both the topic and the keywords.
+- The NEXT 10 days of the month (Days 21-30) MUST target "Bangalore" (or "Bengaluru"). The word "Bangalore" MUST appear in both the topic and the keywords.
+- If there is a 31st day in the month, that 1 single post MUST be a "General/India" post with NO city mentioned in the title.
+- Do NOT generate generic topics for days 1-30. Every title from Day 1 to 30 MUST explicitly include its assigned city name.
+
+- STRICT KEYWORD RULE: EVERY keyword in the "keywords" array must be specifically and strictly about BED BUGS only (e.g., "bed bug treatment Pune", "bed bug spray Mumbai", "bed bug bites Bangalore"). Absolutely NO generic pests or non-bed-bug keywords!
 - Return exactly 5 keywords for each day. All 5 must be distinct, high-intent SEO queries covering different intents, and no keyword may be reused on another day in this plan.
 - Do not create near-duplicates by changing only the city, adding a year, or rearranging words. Build a genuinely different keyword cluster for every date.
 - Every title must be materially different from all other titles. Do not repeat a title or reuse the same title structure with only a city/location changed.
