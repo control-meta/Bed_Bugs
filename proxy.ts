@@ -3,6 +3,31 @@ import type { NextRequest } from "next/server";
 import { SESSION_COOKIE_NAME, verifyAdminToken, createAdminToken } from "@/lib/session";
 
 export async function proxy(request: NextRequest) {
+  const url = request.nextUrl.clone();
+  
+  // Domain Canonicalization & HTTPS Redirects
+  const hostname = request.headers.get("host") || url.hostname;
+  const forwardedProto = request.headers.get("x-forwarded-proto");
+  const protocol = forwardedProto || url.protocol.replace(":", "");
+  let shouldRedirect = false;
+
+  if (hostname.startsWith("www.")) {
+    url.hostname = hostname.replace("www.", "");
+    if (url.hostname === "bedbugstreatment.co.in") url.protocol = "https:";
+    url.port = "";
+    shouldRedirect = true;
+  }
+  
+  if (!shouldRedirect && hostname === "bedbugstreatment.co.in" && protocol === "http") {
+    url.protocol = "https:";
+    url.port = "";
+    shouldRedirect = true;
+  }
+
+  if (shouldRedirect) {
+    return NextResponse.redirect(url, 301);
+  }
+
   const { pathname } = request.nextUrl;
   const isLoginPage = pathname === "/admin/login";
   const isAdminPage = pathname.startsWith("/admin");

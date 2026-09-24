@@ -47,9 +47,23 @@ export function CalendarProvider({ children }: { children: ReactNode }) {
         body: JSON.stringify({ month, year }),
       });
 
+      const contentType = res.headers.get("content-type") || "";
+
       if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || "Failed to generate plan");
+        let errorMsg = `Server error (${res.status})`;
+        if (contentType.includes("application/json")) {
+          try {
+            const data = await res.json();
+            errorMsg = data.error || errorMsg;
+          } catch {}
+        } else {
+          errorMsg = `Server error (${res.status}: ${res.statusText || "Request Timeout or Server Error"}). Please try again.`;
+        }
+        throw new Error(errorMsg);
+      }
+
+      if (!contentType.includes("application/json")) {
+        throw new Error(`Unexpected server response (${res.status}). Expected JSON.`);
       }
 
       const data = await res.json();

@@ -17,6 +17,8 @@ import {
   SearchCheck,
   ChevronLeft,
   ChevronRight,
+  ChevronDown,
+  MoreHorizontal,
   BookOpen,
 } from "lucide-react";
 import { CalendarProvider } from "./CalendarContext";
@@ -31,6 +33,7 @@ export default function AdminLayout({
   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isMoreOpen, setIsMoreOpen] = useState(false);
   const [timeStr, setTimeStr] = useState<string>("");
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
@@ -115,6 +118,15 @@ export default function AdminLayout({
       active: pathname === "/admin/calendar",
     },
     {
+      label: "Customer Reviews",
+      href: "/admin/reviews",
+      icon: MessageSquare,
+      active: pathname === "/admin/reviews",
+    },
+  ];
+
+  const moreItems = [
+    {
       label: "Edit Pages",
       href: "/admin/edit-pages",
       icon: Globe,
@@ -126,13 +138,15 @@ export default function AdminLayout({
       icon: SearchCheck,
       active: pathname.startsWith("/admin/seo"),
     },
-    {
-      label: "Customer Reviews",
-      href: "/admin/reviews",
-      icon: MessageSquare,
-      active: pathname === "/admin/reviews",
-    },
   ];
+
+  const isMoreActive = moreItems.some((item) => item.active);
+
+  useEffect(() => {
+    if (isMoreActive) {
+      setIsMoreOpen(true);
+    }
+  }, [isMoreActive]);
 
   const getHeaderInfo = (path: string) => {
     if (path === "/admin/blog-generator") {
@@ -295,6 +309,100 @@ export default function AdminLayout({
               </Link>
             );
           })}
+
+          {/* More Collapsible Section */}
+          <div className="pt-1">
+            <button
+              type="button"
+              onClick={() => {
+                if (isCollapsed) {
+                  setIsCollapsed(false);
+                  try {
+                    localStorage.setItem("admin_sidebar_collapsed", "false");
+                  } catch {}
+                  setIsMoreOpen(true);
+                } else {
+                  setIsMoreOpen((prev) => !prev);
+                }
+              }}
+              title="More"
+              className={`group relative flex w-full items-center rounded-xl transition-all duration-150 cursor-pointer ${
+                isCollapsed
+                  ? "h-11 w-11 mx-auto justify-center"
+                  : "justify-between px-3 py-2 text-xs"
+              } ${
+                isMoreActive && !isMoreOpen
+                  ? "bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200/90 shadow-xs"
+                  : isMoreOpen
+                  ? "bg-neutral-100/90 text-neutral-900 font-medium"
+                  : "text-neutral-600 hover:bg-neutral-100/80 hover:text-neutral-900"
+              }`}
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                {isMoreActive && !isMoreOpen && !isCollapsed && (
+                  <span className="absolute left-0 top-1.5 bottom-1.5 w-1 rounded-r-full bg-emerald-600" />
+                )}
+
+                <MoreHorizontal
+                  className={`h-4.5 w-4.5 shrink-0 transition-transform duration-150 group-hover:scale-105 ${
+                    isMoreActive
+                      ? "text-emerald-700"
+                      : "text-neutral-400 group-hover:text-neutral-700"
+                  }`}
+                />
+
+                {!isCollapsed && (
+                  <span className="truncate font-medium">More</span>
+                )}
+              </div>
+
+              {!isCollapsed && (
+                <ChevronDown
+                  className={`h-3.5 w-3.5 text-neutral-400 transition-transform duration-200 shrink-0 ${
+                    isMoreOpen ? "rotate-180 text-neutral-700" : "group-hover:text-neutral-600"
+                  }`}
+                />
+              )}
+
+              {isCollapsed && isMoreActive && (
+                <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-emerald-600 ring-2 ring-white" />
+              )}
+            </button>
+
+            {/* Collapsible Submenu */}
+            {isMoreOpen && !isCollapsed && (
+              <div className="mt-1 ml-4 pl-2.5 border-l-2 border-neutral-200 space-y-1 py-0.5">
+                {moreItems.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      title={item.label}
+                      className={`group relative flex items-center rounded-lg gap-2 px-2.5 py-1.5 text-xs transition-all duration-150 ${
+                        item.active
+                          ? "bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200/90 shadow-xs"
+                          : "text-neutral-600 hover:bg-neutral-100/80 hover:text-neutral-900"
+                      }`}
+                    >
+                      {item.active && (
+                        <span className="absolute -left-[12px] top-1.5 bottom-1.5 w-0.5 rounded-r-full bg-emerald-600" />
+                      )}
+                      <Icon
+                        className={`h-4 w-4 shrink-0 transition-transform duration-150 group-hover:scale-105 ${
+                          item.active
+                            ? "text-emerald-700"
+                            : "text-neutral-400 group-hover:text-neutral-700"
+                        }`}
+                      />
+                      <span className="truncate font-medium">{item.label}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Bottom Expand / Collapse Bar */}

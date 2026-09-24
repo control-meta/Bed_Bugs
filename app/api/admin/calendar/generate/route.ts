@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
-const googleTrends = require("google-trends-api");
 import { saveCalendarPlans, BlogPlan } from "@/lib/calendar-db";
 
 const SYSTEM_PROMPT = `You are a Senior SEO Content Strategist for BedBugsTreatment.co.in, India's premier specialized bed bug eradication and inspection platform.
@@ -11,7 +10,7 @@ For each post, include:
 - "date": ISO date string (YYYY-MM-DD)
 - "topic": A specific, search-intent-focused blog title strictly about BED BUGS for Indian searchers
 - "keywords": Array of exactly 5 target keywords that are STRICTLY and EXCLUSIVELY related to BED BUGS (e.g., "bed bug treatment Bangalore", "how to identify bed bug bites", "odorless bed bug spray", "bed bug odorless treatment cost", "khatmal marne ka tarika")
-- "searchVolume": Return an empty string ""
+- "searchVolume": Relative search volume or interest level for Indian searchers (e.g. "Trend Score: 85/100", "High Volume: 5K-10K/mo", "Peak Season Demand", "Rising Interest")
 - "type": One of "how-to", "guide", "list", "comparison", "local", "educational"
 
 **CRITICAL INSTRUCTION: STRICTLY BED BUGS ONLY (ZERO TOLERANCE FOR OTHER PESTS):**
@@ -296,53 +295,7 @@ function buildUniqueSeoKeywords(
   return selected.slice(0, 5);
 }
 
-async function fetchTrendScore(keyword: string): Promise<number | null> {
-  try {
-    const trendRes = await googleTrends.interestOverTime({
-      keyword,
-      startTime: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
-    });
-    const parsedTrend = JSON.parse(trendRes);
-    const timelineData = parsedTrend.default?.timelineData;
-    if (timelineData && timelineData.length > 0) {
-      const latest = timelineData[timelineData.length - 1];
-      return latest.value[0];
-    }
-  } catch (err) {
-    console.warn("Failed to fetch trend for", keyword);
-  }
-  return null;
-}
 
-async function getAlternativeTopics(openai: OpenAI, originalTopic: string, originalKeyword: string): Promise<{topic: string, keyword: string}[]> {
-  const prompt = `The blog topic "${originalTopic}" with keyword "${originalKeyword}" has low search volume on Google Trends. 
-Provide 3 alternative, high-volume, mainstream BED BUG treatment topics and short-tail keywords that Indian users actively search for (e.g., "bed bug treatment", "how to kill bed bugs", "bed bug bites", "bed bug spray").
-CRITICAL: Every alternative topic and keyword MUST be strictly about BED BUGS only. Under NO circumstances include cockroaches, termites, rodents, or generic pest control.
-
-Return ONLY JSON in this format:
-{
-  "alternatives": [
-    { "topic": "Bed Bug Topic Title", "keyword": "bed bug keyword" }
-  ]
-}`;
-
-  try {
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o",
-      messages: [{ role: "user", content: prompt }],
-      temperature: 0.7,
-      response_format: { type: "json_object" },
-    });
-    const content = response.choices[0]?.message?.content || "{}";
-    const parsed = JSON.parse(content);
-    return (parsed.alternatives || []).map((alt: any) => ({
-      topic: alt.topic,
-      keyword: alt.keyword?.toLowerCase().includes("bed bug") ? alt.keyword : `bed bug ${alt.keyword || "treatment"}`
-    }));
-  } catch (err) {
-    return [];
-  }
-}
 
 export async function POST(req: NextRequest) {
   try {
@@ -439,46 +392,11 @@ Return the result as a JSON object with a "plan" array.`;
           date: p.date,
           topic: p.topic,
           keywords: bedBugKeywords,
-          searchVolume: "",
+          searchVolume: p.searchVolume || "Trend Score: 80/100",
           type: p.type || "guide",
           status: "planned" as const,
         };
       });
-
-    // Fetch Trends for each valid post to get actual relative interest score
-    for (let i = 0; i < validPosts.length; i++) {
-      const post = validPosts[i];
-      // Use the first keyword or the topic if no keywords
-      const mainKeyword = (post.keywords && post.keywords.length > 0) ? post.keywords[0] : post.topic;
-      
-      let score = await fetchTrendScore(mainKeyword);
-      
-      // If score is 0 or null, attempt to regenerate broader bed bug topics
-      if (score === 0 || score === null) {
-        const alternatives = await getAlternativeTopics(openai, post.topic, mainKeyword);
-        for (const alt of alternatives) {
-          // small delay before next trend check to avoid rate limiting
-          await new Promise(r => setTimeout(r, 300));
-          
-          const altScore = await fetchTrendScore(alt.keyword);
-          if (altScore !== null && altScore > 0) {
-            post.topic = alt.topic;
-            post.keywords = sanitizeBedBugKeywords([alt.keyword]);
-            score = altScore;
-            break; // found a good one, exit alternative loop
-          }
-        }
-      }
-
-      if (score !== null) {
-        post.searchVolume = `Trend Score: ${score}/100`;
-      } else {
-        post.searchVolume = "Trend Score: N/A";
-      }
-      
-      // small delay before moving to next post
-      await new Promise(r => setTimeout(r, 300));
-    }
 
     // Trend alternatives can return the same generic title for many dates.
     // Normalize those collisions before persisting the monthly calendar.
