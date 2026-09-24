@@ -39,6 +39,8 @@ const CITY_PAGE_PATHS = [
   "/bangalore",
   "/mumbai",
   "/pune",
+  "/delhi",
+  "/noida",
 ];
 
 const EXCLUDED_REVIEW_PAGE_PATHS = ["/about", "/contact", "/blog", "/faq"];
@@ -713,6 +715,8 @@ export default function AdminReviewsPage() {
                         <option value="/bangalore">Bangalore (/bangalore)</option>
                         <option value="/mumbai">Mumbai (/mumbai)</option>
                         <option value="/pune">Pune (/pune)</option>
+                        <option value="/delhi">Delhi (/delhi)</option>
+                        <option value="/noida">Noida (/noida)</option>
                       </optgroup>
                       <optgroup label="Other Website Pages">
                         {pages
