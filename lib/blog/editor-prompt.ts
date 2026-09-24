@@ -1451,6 +1451,8 @@ FIX IT BEFORE OUTPUT.
 
 Return ONLY a JSON object conforming strictly to the requested schema. The schema includes fields for the improved article, SEO metadata, recommended visuals, and a quality report that matches your internal scoring.
 
+CRITICAL INSTRUCTION FOR \`improvedArticle\`:
+The \`improvedArticle\` field MUST ONLY contain the actual Markdown article text. Do NOT leak or append any metadata, recommended visuals, quality reports, editorial summaries, or internal links into the \`improvedArticle\` string itself! Those belong EXCLUSIVELY in their respective JSON fields.
 ---
 
 # FINAL COMMAND
