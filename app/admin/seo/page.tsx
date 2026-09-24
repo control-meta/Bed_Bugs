@@ -435,9 +435,9 @@ export default function GlobalSeoAdminPage() {
           /* ==================================================================== */
           /* TAB 1: PAGES SEO & METADATA                                          */
           /* ==================================================================== */
-          <div className="flex flex-1 min-h-0 overflow-hidden">
+          <div className="flex flex-col md:flex-row flex-1 min-h-0 overflow-hidden">
             {/* Left Sidebar: Pages Explorer List */}
-            <aside className="w-80 sm:w-96 border-r border-neutral-200 bg-white flex flex-col shrink-0 min-h-0">
+            <aside className="w-full md:w-80 border-b md:border-b-0 md:border-r border-neutral-200 bg-white flex flex-col shrink-0 min-h-0 h-[40vh] md:h-auto">
               {/* Search & Filter Bar */}
               <div className="p-3 border-b border-neutral-100 space-y-2">
                 <div className="relative">

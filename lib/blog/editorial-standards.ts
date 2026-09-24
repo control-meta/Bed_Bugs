@@ -3,6 +3,7 @@ EDITORIAL STANDARD:
 - Improve and refine useful material instead of blindly expanding or rewriting it.
 - Answer the primary search intent immediately. Put the most useful answer, checklist, decision aid, or definition near the beginning.
 - Let usefulness determine length. Never add sections, FAQs, city references, biology, or examples merely to reach a word count.
+- If practical location-specific context is needed, restrict references strictly to Pune, Mumbai, or Bangalore, as operations are limited to these three cities.
 - Preserve strong material; remove repetition, generic introductions, keyword stuffing, vague transitions, exaggerated claims, and AI-sounding language.
 - Write in clear, natural Indian English, as an experienced pest-control professional explaining the subject to a homeowner.
 - Use H2 and H3 headings in a logical order. Use tables and lists only when they make a task or comparison easier to follow.

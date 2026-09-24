@@ -91,7 +91,10 @@ export async function POST(req: NextRequest) {
           if (req.signal.aborted || isCancelled) return;
           try {
             controller.enqueue(encoder.encode(JSON.stringify({ type, data }) + "\n"));
-          } catch {}
+          } catch (err) {
+            markCancelled();
+            throw err;
+          }
         }
 
         try {
@@ -110,7 +113,7 @@ export async function POST(req: NextRequest) {
             "Professional Bed Bug Extermination: What to Expect and How to Prepare",
             "Bed Bug Prevention Tips for Frequent Travellers in India",
             "How to Check Hotel Rooms for Bed Bugs Before Sleeping",
-            "Bed Bug Control in Delhi NCR: Climate, Density and Treatment Challenges",
+            "Bed Bug Control in Pune: Climate, Density and Treatment Challenges",
             "Why Bed Bug Infestations Are Rising in Indian Cities",
             "Steam Treatment for Bed Bugs: Effectiveness, Equipment and Safety",
             "Bed Bug Mattress Encasements: Do They Really Work?",
@@ -125,7 +128,7 @@ export async function POST(req: NextRequest) {
             "Integrated Pest Management for Bed Bugs in Residential Buildings",
             "Bed Bug Bites on Children: Identification, Health Risks and Treatment",
             "How to Get Rid of Bed Bugs in Hostel and Dormitory Settings",
-            "Bed Bug Control in Chennai: Humidity, Monsoon and Treatment Timing",
+            "Bed Bug Control in Mumbai: Humidity, Monsoon and Treatment Timing",
             "Post-Treatment Bed Bug Monitoring: How to Know the Infestation Is Gone",
             "Bed Bugs vs Other Household Pests: How to Tell the Difference",
             "Natural and Non-Chemical Bed Bug Control Methods: What Works",
@@ -137,17 +140,17 @@ export async function POST(req: NextRequest) {
             "Diatomaceous Earth for Bed Bugs: Application Guide for Indian Homes",
             "Bed Bug Treatment Cost in India: What Factors Affect the Price",
             "How Bed Bugs Hide During Daytime: Harborage Sites Explained",
-            "Bed Bug Control in Hyderabad: Challenges in High-Density Housing",
+            "Bed Bug Control in Bangalore: Challenges in High-Density Housing",
             "Can Bed Bugs Live in Wooden Furniture? Treatment Methods",
             "Bed Bug Infestation After Moving to a New Home: Checklist",
             "Bed Bug Bites vs Scabies vs Fleas: Comparison Guide",
             "Bed Bug Prevention for Students Living in Shared Accommodation",
             "Does Washing Clothes Kill Bed Bugs? Temperature and Cycle Guide",
-            "Bed Bug Control in Kolkata: Heritage Buildings and Treatment Challenges",
+            "Bed Bug Control in Mumbai: Heritage Buildings and Treatment Challenges",
             "How to Inspect Second-Hand Beds and Sofas for Bed Bugs",
             "Bed Bug Fecal Spots, Cast Skins and Blood Stains: Identification Guide",
             "Room-by-Room Bed Bug Inspection Guide for Indian Homes",
-            "Bed Bug Control in Ahmedabad: Local Considerations and Solutions",
+            "Bed Bug Control in Pune: Local Considerations and Solutions",
             "How Effective Is Vacuuming for Bed Bug Control?",
             "Bed Bug Treatment Preparation Guide: 48-Hour Checklist for Indian Homes",
           ];

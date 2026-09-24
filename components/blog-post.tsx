@@ -62,7 +62,7 @@ export function BlogPostArticle({ blog }: { blog: BlogItem }) {
 
       <div className="relative overflow-hidden">
         <FloatingBubblesBg />
-        <article className="relative z-10 min-h-screen pb-16 pt-16 sm:pt-20 lg:pt-24">
+        <article className="relative z-10 min-h-screen pb-16 pt-24 sm:pt-28 lg:pt-32">
         <div className="container mx-auto max-w-4xl px-4 sm:px-6">
 
           {/* Title */}

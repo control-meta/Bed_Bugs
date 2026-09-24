@@ -136,14 +136,14 @@ export function BlogGeneratorProvider({ children }: { children: React.ReactNode 
     // Abort the network request first so the server receives the disconnect immediately.
     if (abortControllerRef.current) {
       try {
-        abortControllerRef.current.abort("User cancelled generation");
+        abortControllerRef.current.abort();
       } catch {}
       abortControllerRef.current = null;
     }
 
     if (readerRef.current) {
       try {
-        readerRef.current.cancel("User cancelled generation").catch(() => {});
+        readerRef.current.cancel().catch(() => {});
       } catch {}
       readerRef.current = null;
     }

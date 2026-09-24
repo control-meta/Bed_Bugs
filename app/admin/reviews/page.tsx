@@ -357,7 +357,7 @@ export default function AdminReviewsPage() {
           </div>
         ) : (
           <div className="overflow-auto min-h-0 flex-1 relative custom-scrollbar">
-            <table className="w-full text-left text-xs whitespace-nowrap">
+            <table className="w-full min-w-[800px] text-left text-xs whitespace-nowrap">
               <thead className="sticky top-0 bg-neutral-50 border-b border-neutral-200 shadow-sm z-10">
                 <tr>
                   <th className="px-4 py-3 font-semibold text-neutral-500 uppercase tracking-wider w-[20%]">Customer</th>
@@ -433,7 +433,7 @@ export default function AdminReviewsPage() {
                       </p>
                     </td>
                     <td className="px-4 py-3 align-top text-right">
-                      <div className="flex items-center justify-end gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="flex items-center justify-end gap-1.5 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
                         {review.status === "pending" && (
                           <>
                             <button

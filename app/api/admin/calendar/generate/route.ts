@@ -22,7 +22,8 @@ For each post, include:
    - Approved keywords: "bed bug treatment cost in Delhi", "signs of bed bugs in mattress", "odorless bed bug odorless treatment", "bed bug inspection checklist", "how to kill bed bugs permanently", "bed bug bites vs mosquito bites", "steam treatment for bed bugs".
 
 2. DIVERSE CONTENT ANGLES:
-    - Focus heavily on practical, location-specific Indian situations (Bangalore, Mumbai, Delhi, Pune, Hyderabad, Chennai, Gurgaon, Noida).
+    - Focus heavily on practical, location-specific situations ONLY for Pune, Mumbai, and Bangalore.
+    - Create a monthly plan allocating approximately 10 days for Pune topics, 10 days for Bangalore topics, and 10 days for Mumbai topics, as operations are limited to these three cities.
     - Mix different types of content day by day (how-to guides, cost breakdowns, DIY myth-busting vs professional treatment, diwan and box-bed inspections, tenant checklists).
     - Every title must be materially different from every other title. Never repeat generic titles such as "Effective Bed Bug Treatment Methods" or change only the city name.
     - Use one distinct search intent per day: bites, cost, mattress inspection, eggs, odorless treatment, steam, prevention, travel, tenants, hotels, children and pets, DIY myths, treatment preparation, warranty, and related angles.
@@ -156,16 +157,9 @@ function sanitizeBedBugKeywords(keywords: string[]): string[] {
 }
 
 const SEO_LOCATIONS = [
-  "Bangalore",
-  "Mumbai",
-  "Delhi",
   "Pune",
-  "Hyderabad",
-  "Chennai",
-  "Gurgaon",
-  "Noida",
-  "Kolkata",
-  "India",
+  "Mumbai",
+  "Bangalore",
 ];
 
 const SEO_ANGLES = [

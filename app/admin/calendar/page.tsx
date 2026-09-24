@@ -739,35 +739,36 @@ export default function CalendarPage() {
       </div>
 
       {/* Calendar Grid */}
-      <div className="flex flex-1 min-h-0 flex-col overflow-hidden rounded-xl border border-neutral-200/80 bg-white shadow-sm">
-        {/* Day headers */}
-        <div className="grid grid-cols-7 border-b border-neutral-200 shrink-0 bg-neutral-50/50">
-          {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
-            <div
-              key={d}
-              className="py-2.5 text-center text-[11px] font-semibold uppercase tracking-wider text-neutral-500"
-            >
-              {d}
-            </div>
-          ))}
-        </div>
+      <div className="flex flex-1 min-h-0 flex-col overflow-x-auto rounded-xl border border-neutral-200/80 bg-white shadow-sm custom-scrollbar">
+        <div className="flex flex-col min-w-[800px] h-full flex-1 min-h-0">
+          {/* Day headers */}
+          <div className="grid grid-cols-7 border-b border-neutral-200 shrink-0 bg-neutral-50/50">
+            {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
+              <div
+                key={d}
+                className="py-2.5 text-center text-[11px] font-semibold uppercase tracking-wider text-neutral-500"
+              >
+                {d}
+              </div>
+            ))}
+          </div>
 
-        {/* Calendar cells */}
-        <div className="flex-1 overflow-y-auto min-h-0 relative">
-          {/* Empty state notice */}
-          {plan.length === 0 && !isGenerating && !isLoadingDb && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10 bg-white/60 backdrop-blur-[2px]">
-              <CalendarDays className="h-12 w-12 text-neutral-400 mb-3" />
-              <p className="text-base font-bold text-neutral-700">No plan yet for this month</p>
-              <p className="text-sm font-medium text-neutral-500 mt-1">
-                {isPastMonth
-                  ? "This month is in the past."
-                  : 'Click "Generate AI Plan" to generate topics for current and upcoming days.'}
-              </p>
-            </div>
-          )}
+          {/* Calendar cells */}
+          <div className="flex-1 overflow-y-auto min-h-0 relative custom-scrollbar">
+            {/* Empty state notice */}
+            {plan.length === 0 && !isGenerating && !isLoadingDb && (
+              <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10 bg-white/60 backdrop-blur-[2px]">
+                <CalendarDays className="h-12 w-12 text-neutral-400 mb-3" />
+                <p className="text-base font-bold text-neutral-700">No plan yet for this month</p>
+                <p className="text-sm font-medium text-neutral-500 mt-1">
+                  {isPastMonth
+                    ? "This month is in the past."
+                    : 'Click "Generate AI Plan" to generate topics for current and upcoming days.'}
+                </p>
+              </div>
+            )}
 
-          <div className="grid grid-cols-7 h-full">
+            <div className="grid grid-cols-7 h-full">
             {weeks.map((week, wi) =>
               week.map((day, di) => {
                 const blog = day ? planByDate[day] : undefined;
@@ -857,6 +858,7 @@ export default function CalendarPage() {
             )}
           </div>
         </div>
+      </div>
       </div>
 
       {/* Blog Detail Side Panel */}
