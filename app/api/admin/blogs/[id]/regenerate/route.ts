@@ -51,6 +51,7 @@ INSTRUCTIONS:
 4. DO NOT include a References section at the end; references are handled separately by the system.
 ${skipImages ? "5. IMPORTANT: SKIP ALL IMAGES. Do NOT include any markdown images, image placeholders, or visual placement tags." : "5. You may suggest 1-2 relevant visual aids using markdown notes where helpful."}
 6. DO NOT generate any horizontal lines (---) anywhere in your markdown output.
+7. STRICT CITY ISOLATION: If the topic or title mentions a specific city (e.g., Pune, Mumbai, Bangalore, Delhi), you MUST NOT mention any other city in the content. For example, a Pune blog must never mention Mumbai. If no city is specified, keep it entirely general and do not invent city names.
 
 Ensure the output is clean, formatted Markdown starting directly with:
 # ${chosenTitle}

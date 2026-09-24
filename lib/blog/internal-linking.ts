@@ -494,8 +494,19 @@ export async function processInternalLinksAndCTA(
   const existingLinks = parseMarkdownLinks(content, baseUrl).filter((l) => l.isInternal);
   const usedPaths = new Set<string>(existingLinks.map((l) => normalizeUrlPath(l.url, baseUrl)));
 
-  // Score published blog pages by relevance
-  const publishedBlogs = inventory.filter((p) => p.source === "database");
+  // Enforce strict city isolation for internal links
+  const CITIES = ["mumbai", "pune", "bangalore", "bengaluru", "delhi", "noida", "gurgaon", "hyderabad", "chennai", "kolkata"];
+  const currentCities = CITIES.filter(city => topicLower.includes(city));
+
+  const publishedBlogs = inventory.filter((p) => {
+    if (p.source !== "database") return false;
+    const pageStr = `${p.url} ${p.title || ""} ${p.topic || ""}`.toLowerCase();
+    const pageCities = CITIES.filter(city => pageStr.includes(city));
+    for (const pc of pageCities) {
+      if (!currentCities.includes(pc)) return false;
+    }
+    return true;
+  });
   const contentLower = content.toLowerCase();
 
   const scoredBlogs = publishedBlogs.map((page) => {

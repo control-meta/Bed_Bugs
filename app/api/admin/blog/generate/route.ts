@@ -253,6 +253,7 @@ STRICT FAIL-CLOSED RULES:
 9. FORMATTING: Markdown tables must start flush with the left margin. Use tables only when they improve a real comparison or task.
 ${skipImages ? "10. SKIP IMAGES: Strictly do not include any image placeholders, visual placement tags, or markdown image links in the article.\n" : ""}11. STRICT LINKING RULE: In the interlinks step of the blog generator, strictly include 4 to 5 contextual internal links (interlinks) ${allowExternalLinks ? "and strictly ONLY ONE (1) high-authority external link" : "and ABSOLUTELY NO external links"} across the entire article. Do not add multiple external links.
 12. NO HORIZONTAL RULES: DO NOT generate any horizontal lines (---) anywhere in your markdown output. The system handles all visual dividers.
+13. STRICT CITY ISOLATION: If the topic or title mentions a specific city (e.g., Pune, Mumbai, Bangalore, Delhi), you MUST NOT mention any other city in the content. For example, a Pune blog must never mention Mumbai. If no city is specified, keep it entirely general and do not invent city names.
 
 ${editorialRequirements}
 
