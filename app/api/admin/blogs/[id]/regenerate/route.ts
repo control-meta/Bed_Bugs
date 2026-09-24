@@ -50,6 +50,7 @@ INSTRUCTIONS:
 3. Include an FAQ section with 4-6 detailed questions and answers.
 4. DO NOT include a References section at the end; references are handled separately by the system.
 ${skipImages ? "5. IMPORTANT: SKIP ALL IMAGES. Do NOT include any markdown images, image placeholders, or visual placement tags." : "5. You may suggest 1-2 relevant visual aids using markdown notes where helpful."}
+6. DO NOT generate any horizontal lines (---) anywhere in your markdown output.
 
 Ensure the output is clean, formatted Markdown starting directly with:
 # ${chosenTitle}

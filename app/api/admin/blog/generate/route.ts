@@ -252,6 +252,7 @@ STRICT FAIL-CLOSED RULES:
 8. CITATIONS: Cite only URLs present in the evidence contract, next to the important claim they actually support. Do not invent or substitute URLs merely to hit a source-count target. DO NOT include a References section at the end; the system will append one automatically based on your citations.
 9. FORMATTING: Markdown tables must start flush with the left margin. Use tables only when they improve a real comparison or task.
 ${skipImages ? "10. SKIP IMAGES: Strictly do not include any image placeholders, visual placement tags, or markdown image links in the article.\n" : ""}11. STRICT LINKING RULE: In the interlinks step of the blog generator, strictly include 4 to 5 contextual internal links (interlinks) ${allowExternalLinks ? "and strictly ONLY ONE (1) high-authority external link" : "and ABSOLUTELY NO external links"} across the entire article. Do not add multiple external links.
+12. NO HORIZONTAL RULES: DO NOT generate any horizontal lines (---) anywhere in your markdown output. The system handles all visual dividers.
 
 ${editorialRequirements}
 
