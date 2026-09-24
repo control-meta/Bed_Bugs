@@ -119,18 +119,6 @@ export async function POST(request: NextRequest) {
       cityHint = "Pune (mention localities like Baner, Wakad, Kothrud, Viman Nagar, Hadapsar, or Hinjewadi)";
     } else if (cleanSlug.includes("mumbai")) {
       cityHint = "Mumbai (mention localities like Andheri West, Thane, Borivali, Powai, Bandra, or Kandivali)";
-    } else if (cleanSlug.includes("delhi")) {
-      cityHint = "Delhi NCR (mention localities like Dwarka, Rohini, South Extension, Vasant Kunj, or Saket)";
-    } else if (cleanSlug.includes("noida")) {
-      cityHint = "Noida / Greater Noida (mention sectors like Sector 62, Sector 18, Sector 137, or Sector 76)";
-    } else if (cleanSlug.includes("hyderabad")) {
-      cityHint = "Hyderabad (mention localities like Gachibowli, Madhapur, Kukatpally, Banjara Hills, or Kondapur)";
-    } else if (cleanSlug.includes("chennai")) {
-      cityHint = "Chennai (mention localities like Velachery, Anna Nagar, T Nagar, Adyar, or OMR)";
-    } else if (cleanSlug.includes("gurgaon")) {
-      cityHint = "Gurgaon (mention Cyber City, Sector 56, Golf Course Road, or Sohna Road)";
-    } else if (cleanSlug.includes("kolkata")) {
-      cityHint = "Kolkata (mention Salt Lake, New Town, Ballygunge, Park Street, or Behala)";
     } else if (cleanSlug.includes("services")) {
       cityHint = "Across metropolitan Indian apartments and homes (mention thorough mattress seam inspection, odorless spray, and 1-year warranty)";
     }
