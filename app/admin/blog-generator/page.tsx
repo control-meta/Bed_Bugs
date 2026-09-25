@@ -634,9 +634,9 @@ export default function BlogGeneratorPage() {
   const pubColor = data?.publicationStatus === "READY" ? "emerald" : "red";
 
   return (
-    <div className="flex h-full flex-col lg:flex-row gap-4 min-h-0 overflow-hidden relative">
+    <div className="flex h-full flex-col lg:flex-row gap-4 min-h-0 overflow-y-auto lg:overflow-hidden relative pb-10 lg:pb-0">
       {/* LEFT SIDEBAR */}
-      <div className="w-full lg:w-80 shrink-0 flex flex-col bg-white rounded-xl border border-neutral-200 shadow-sm overflow-hidden min-h-0">
+      <div className="w-full lg:w-80 shrink-0 flex flex-col bg-white rounded-xl border border-neutral-200 shadow-sm lg:overflow-hidden min-h-0">
         <div className="p-4 border-b border-neutral-100 bg-neutral-50/50">
           <div className="flex items-center gap-2 mb-1">
             <div className="flex h-7 w-7 items-center justify-center rounded-md bg-emerald-100 text-emerald-600">
@@ -913,7 +913,7 @@ export default function BlogGeneratorPage() {
       </div>
 
       {/* RIGHT PANE: Tabs & Preview */}
-      <div className="flex-1 flex flex-col bg-white rounded-xl border border-neutral-200 shadow-sm min-w-0 overflow-hidden">
+      <div className="flex-1 flex flex-col bg-white rounded-xl border border-neutral-200 shadow-sm min-w-0 overflow-hidden shrink-0 min-h-[800px] lg:min-h-0 lg:shrink">
         {/* Editor Toolbar */}
         <div className="flex items-center justify-between border-b border-neutral-100 px-4 py-3 shrink-0 bg-neutral-50/30 overflow-x-auto">
           <div className="flex items-center gap-1 bg-neutral-100/80 p-0.5 rounded-lg border border-neutral-200/50 shrink-0">
