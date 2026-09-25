@@ -97,6 +97,19 @@ export async function POST(req: NextRequest) {
           }
         }
 
+        const keepAliveTimer = setInterval(() => {
+          if (req.signal.aborted || isCancelled) {
+            clearInterval(keepAliveTimer);
+            return;
+          }
+          try {
+            controller.enqueue(encoder.encode(JSON.stringify({ type: "ping", data: "keep-alive" }) + "\n"));
+          } catch (err) {
+            clearInterval(keepAliveTimer);
+            markCancelled();
+          }
+        }, 15000);
+
         try {
           if (req.signal.aborted || isCancelled) return;
           let totalTokens = 0;
@@ -543,6 +556,7 @@ CRITICAL PUBLICATION REQUIREMENT:
           }
           emitEvent("error", error.message || "Pipeline execution failed.");
         } finally {
+          clearInterval(keepAliveTimer);
           try {
             controller.close();
           } catch {}
@@ -557,6 +571,8 @@ CRITICAL PUBLICATION REQUIREMENT:
       headers: {
         "Content-Type": "application/x-ndjson",
         "Cache-Control": "no-cache, no-transform",
+        "Content-Encoding": "none",
+        "X-Accel-Buffering": "no",
       },
     });
 
