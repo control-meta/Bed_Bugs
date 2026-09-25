@@ -264,7 +264,7 @@ STRICT FAIL-CLOSED RULES:
 7. INFORMATION DENSITY: Preserve useful depth, but do not pad sections or force irrelevant biology, room-by-room protocols, city references, tables, or FAQs. Every section must help fulfil the title promise.
 8. CITATIONS: Cite only URLs present in the evidence contract, next to the important claim they actually support. Do not invent or substitute URLs merely to hit a source-count target. DO NOT include a References section at the end; the system will append one automatically based on your citations.
 9. FORMATTING: Markdown tables must start flush with the left margin. Use tables only when they improve a real comparison or task.
-${skipImages ? "10. SKIP IMAGES: Strictly do not include any image placeholders, visual placement tags, or markdown image links in the article.\n" : ""}11. STRICT LINKING RULE: In the interlinks step of the blog generator, strictly include 4 to 5 contextual internal links (interlinks) ${allowExternalLinks ? "and strictly ONLY ONE (1) high-authority external link" : "and ABSOLUTELY NO external links"} across the entire article. Do not add multiple external links.
+${skipImages ? "10. SKIP IMAGES: Strictly do not include any image placeholders, visual placement tags, or markdown image links in the article.\n" : ""}11. STRICT LINKING RULE: In the interlinks step of the blog generator, strictly include 4 to 5 contextual internal links (interlinks) ${allowExternalLinks ? "and strictly ONLY ONE (1) high-authority external link" : "and ABSOLUTELY NO external links"} across the entire article. DO NOT add an "Internal Links:" or "External Source:" section at the bottom of the article. All links MUST be naturally woven into the body paragraphs.
 12. NO HORIZONTAL RULES: DO NOT generate any horizontal lines (---) anywhere in your markdown output. The system handles all visual dividers.
 13. STRICT CITY ISOLATION: If the topic or title mentions a specific city (e.g., Pune, Mumbai, Bangalore, Delhi), you MUST NOT mention any other city in the content. For example, a Pune blog must never mention Mumbai. If no city is specified, keep it entirely general and do not invent city names.
 
@@ -345,7 +345,7 @@ ${editorialRequirements}
 CRITICAL PUBLICATION REQUIREMENT:
 - Preserve strong, useful passages while removing repetition, filler, unnatural wording, keyword stuffing, and off-intent sections.
 - Add missing practical detail only where it helps the reader complete the task or make a safe decision.
-- STRICT LINKING: In the interlinks step of the blog generator, strictly enforce 4 to 5 contextual internal links (interlinks) ${allowExternalLinks ? "and strictly ONLY ONE (1) high-authority external link" : "and ZERO external links"} across the entire article. Mention all other evidence and citations as plain text without external hyperlinks.
+- STRICT LINKING: In the interlinks step of the blog generator, strictly enforce 4 to 5 contextual internal links (interlinks) ${allowExternalLinks ? "and strictly ONLY ONE (1) high-authority external link" : "and ZERO external links"} across the entire article. Mention all other evidence and citations as plain text without external hyperlinks. DO NOT create an "Internal Links:" or "External Sources:" list at the bottom. All links MUST be woven naturally into the text.
 - Cite only sources in the verified evidence contract, and only where they support the exact nearby claim.
 - Never invent universal temperatures, pesticide instructions, re-entry times, treatment schedules, safety rules, prices, or results.
 - Keep Markdown tables flush with the left margin.
@@ -573,6 +573,7 @@ CRITICAL PUBLICATION REQUIREMENT:
         "Cache-Control": "no-cache, no-transform",
         "Content-Encoding": "none",
         "X-Accel-Buffering": "no",
+        "x-no-compression": "1",
       },
     });
 
