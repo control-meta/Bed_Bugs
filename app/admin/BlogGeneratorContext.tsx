@@ -332,6 +332,13 @@ export function BlogGeneratorProvider({ children }: { children: React.ReactNode 
       }
       if (generationIdRef.current !== generationId) return;
       setIsGenerating(false);
+      setData(prev => {
+        if (prev && (!prev.blogContent || prev.blogContent.trim() === "")) {
+          setError("Server disconnected before content could be generated. This is often caused by host timeouts. Please try again.");
+          return null;
+        }
+        return prev;
+      });
       if (isCurrentGeneration()) {
         setStreamStatus("");
       } else if (generationIdRef.current === generationId) {

@@ -26,7 +26,7 @@ import { getExistingPageInventory } from "./site-inventory";
 import { saveBlogArticle } from "./storage";
 
 const CORE_MODEL = process.env.OPENAI_BLOG_MODEL || "gpt-4o";
-const RESEARCH_MODEL = process.env.OPENAI_RESEARCH_MODEL || "gpt-5.5";
+const RESEARCH_MODEL = process.env.OPENAI_RESEARCH_MODEL || "gpt-4o";
 const MAX_REVISIONS = Math.max(0, Math.min(2, Number(process.env.BLOG_MAX_REVISIONS || 2)));
 
 const SOURCE_HIERARCHY = `
