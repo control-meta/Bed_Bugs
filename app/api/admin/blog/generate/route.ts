@@ -554,6 +554,7 @@ CRITICAL PUBLICATION REQUIREMENT:
           if (req.signal.aborted || isCancelled || error?.name === "AbortError") {
             return;
           }
+          console.error("[Blog Generator] Pipeline execution failed:", error);
           emitEvent("error", error.message || "Pipeline execution failed.");
         } finally {
           clearInterval(keepAliveTimer);

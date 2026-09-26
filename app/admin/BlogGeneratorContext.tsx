@@ -334,7 +334,7 @@ export function BlogGeneratorProvider({ children }: { children: React.ReactNode 
       setIsGenerating(false);
       setData(prev => {
         if (prev && (!prev.blogContent || prev.blogContent.trim() === "")) {
-          setError("Server disconnected before content could be generated. This is often caused by host timeouts. Please try again.");
+          setError(e => e ? e : "Server disconnected before content could be generated. This is often caused by host timeouts. Please try again.");
           return null;
         }
         return prev;
