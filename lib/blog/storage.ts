@@ -87,6 +87,15 @@ export async function saveBlogArticle(
 
   if (supabase) {
     let { error } = await supabase.from("blogs").insert(toDatabaseRow(stored));
+
+    if (error && error.message?.includes("blogs_slug_key")) {
+      console.warn(`[blog-storage] Duplicate slug '${stored.slug}' detected. Appending unique suffix...`);
+      const suffix = Math.random().toString(36).substring(2, 7);
+      stored = { ...stored, slug: `${stored.slug}-${suffix}` };
+      const retryResult = await supabase.from("blogs").insert(toDatabaseRow(stored));
+      error = retryResult.error;
+    }
+
     if (error) {
       console.warn("[blog-storage] Insert to 'blogs' failed, falling back to 'blog_articles':", error.message);
       const fallbackResult = await supabase.from("blog_articles").insert(toDatabaseRow(stored));
