@@ -325,6 +325,14 @@ export async function runBlogPipeline(input: { topic?: string; keywords?: string
       });
     }
 
+    if (allowedInternalUrls.has(`/${candidateDraft.metadata.urlSlug}`)) {
+      warnings.push({
+        code: "DUPLICATE_SLUG",
+        message: `The URL slug "/${candidateDraft.metadata.urlSlug}" is already taken by an existing article. You must rename the slug to a completely different, valid, descriptive URL path. Do NOT append random strings or numbers. Use a descriptive, intent-focused path instead (e.g., if "bed-bug-bites" is taken, use "bed-bug-bites-identification-guide").`,
+        risk: "HIGH",
+      });
+    }
+
     logStage(requestId, "fact_check.started");
     const factResponse = await openai.chat.completions.parse({
       model: CORE_MODEL,
