@@ -224,7 +224,8 @@ export type AuditWarning = {
     | "GENERIC_AI_LANGUAGE"
     | "UNSUPPORTED_LOCAL_CLAIM"
     | "MISSING_FAQ"
-    | "UNSUPPORTED_URL";
+    | "UNSUPPORTED_URL"
+    | "DUPLICATE_SLUG";
   message: string;
   risk: "LOW" | "MEDIUM" | "HIGH";
   excerpt?: string;
