@@ -261,7 +261,6 @@ export async function runBlogPipeline(input: { topic?: string; keywords?: string
     include: ["web_search_call.action.sources"],
     max_tool_calls: 8,
     max_output_tokens: 12000,
-    reasoning: { effort: "low" },
     instructions: `You are the evidence researcher, separate from the article writer. Search and open real sources. ${SOURCE_HIERARCHY}\nUse authoritative global sources for stable identification, biology, inspection, and control facts; India-specific sourcing is required only for genuinely India-specific regulatory, business, price, or local claims. Return only claims directly supported by a retrieved page. Copy the page URL and title from the retrieval result. evidenceExcerpt must be a short, faithful excerpt from the page, not a paraphrase. Set freshnessMatters to true only for prices, current statistics, current regulations, or recommendations likely to change; it is false for stable identification and biology. Do not invent a missing date, author, expert, quote, institution, document, price, statistic, or URL. Use null for an unavailable publication date. For current prices, prefer configured first-party data, which is absent here; do not infer market ranges.`,
     input: `Research this article plan:\n${JSON.stringify(researchBrief, null, 2)}\n\nFind sources only for the stated evidence needs. Also identify real related user questions based on research, without inventing keyword volumes.`,
     text: { format: zodTextFormat(evidenceResearchSchema, "verified_evidence_candidates") },

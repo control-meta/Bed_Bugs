@@ -4,6 +4,16 @@
   "dailyTime": "09:00",
   "logs": [
     {
+      "id": "log_1790586781589",
+      "date": "2026-09-28",
+      "topic": "Cost of Professional Bed Bug Treatment in Bangalore",
+      "slug": "bed-bug-treatment-cost-bangalore",
+      "status": "success",
+      "message": "Published successfully as \"Bed Bug Treatment Cost in Bangalore: What You Need to Know\".",
+      "timestamp": "2026-09-28T09:13:01.589Z",
+      "blogId": "ad11896a-b7a5-443e-81c1-07633d64a2f3"
+    },
+    {
       "id": "blog_c60c6138-53b8-4fb9-b979-913a5d806ebc",
       "date": "2026-09-22",
       "topic": "Mattress Inspection Checklist for Hidden Bed Bugs",
@@ -64,5 +74,5 @@
       "blogId": "3934ad76-c7b3-4260-b572-1dc3afc5c203"
     }
   ],
-  "lastRunAt": "2026-09-22T18:42:13.280Z"
+  "lastRunAt": "2026-09-28T09:13:01.589Z"
 }
