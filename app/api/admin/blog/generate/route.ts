@@ -6,10 +6,11 @@ import { getVerifiedEvidencePool, VerifiedEvidenceItem } from "@/lib/blog/eviden
 import { sanitizeTextContent, sanitizeFaqs, PublicationBlockers } from "@/lib/blog/section-sanitizer";
 import { buildInformationGainPlan } from "@/lib/blog/information-gain-planner";
 import { processInternalLinksAndCTA, enforceStrictLinkLimits } from "@/lib/blog/internal-linking";
-import { EditorResponseSchema, EDITOR_SYSTEM_PROMPT } from "@/lib/blog/editor-prompt";
+import { EditorResponseSchema, EDITOR_RUNTIME_PROMPT } from "@/lib/blog/editor-prompt";
 import { injectBlogImages } from "@/lib/blog/image-selector";
 import { generateFreshBlogImages } from "@/lib/blog/ai-image-generator";
 import { buildTopicEditorialRequirements } from "@/lib/blog/editorial-standards";
+import { BLOG_LENGTH_POLICY, countBlogWords, isPublishableBlogLength } from "@/lib/blog/length-policy";
 
 export const maxDuration = 300; // Allow 5 minutes execution
 
@@ -45,20 +46,24 @@ const Stage3DraftSchema = z.object({
     urlSlug: z.string(),
     h1: z.string(),
   }),
-  intro: z.string().describe("Direct, useful introduction that establishes the search intent without generic filler, normally 60-140 words"),
+  intro: z.string().describe("Direct, useful introduction, normally 90-130 words"),
   sections: z.array(z.object({
     heading: z.string(),
-    content: z.string().describe("Useful, evidence-bound section content. Depth should match the section purpose; do not pad to a minimum length."),
+    content: z.string().describe("Evidence-bound, practical section content. Add useful depth, not filler."),
     claims: z.array(z.object({
       text: z.string(),
       claimType: z.string(),
       evidenceIds: z.array(z.string())
     }))
-  })).min(5).max(14).describe("Focused sections that completely satisfy the title promise without padding"),
+  })).min(6).max(12).describe("Focused sections that completely satisfy the title promise"),
   faqs: z.array(z.object({
     question: z.string(),
     answer: z.string()
   })).min(3).max(8).describe("Non-repetitive FAQs that add information not already covered in the article body")
+});
+
+const ExpansionResponseSchema = z.object({
+  improvedArticle: z.string().describe("The complete expanded Markdown article, not a patch or summary."),
 });
 
 export async function POST(req: NextRequest) {
@@ -87,6 +92,7 @@ export async function POST(req: NextRequest) {
 
     const stream = new ReadableStream({
       async start(controller) {
+        let lastTotalTokens = 0;
         function emitEvent(type: string, data: any) {
           if (req.signal.aborted || isCancelled) return;
           try {
@@ -113,6 +119,13 @@ export async function POST(req: NextRequest) {
         try {
           if (req.signal.aborted || isCancelled) return;
           let totalTokens = 0;
+          const addUsage = (usage?: { total_tokens?: number | null }) => {
+            totalTokens += usage?.total_tokens || 0;
+            lastTotalTokens = totalTokens;
+            if (totalTokens > BLOG_LENGTH_POLICY.tokenBudget) {
+              throw new Error(`Generation exceeded the ${BLOG_LENGTH_POLICY.tokenBudget}-token budget.`);
+            }
+          };
 
           // ── Auto-topic pool: pick a random unique topic when none provided ──
           const AUTO_TOPIC_POOL = [
@@ -208,16 +221,17 @@ CRITICAL OUTLINE REQUIREMENTS:
             messages: [
               {
                 role: "system",
-                content: "You are the Senior SEO Strategist for BedBugsTreatment.co.in. Plan intent-matched, practical content with high information density. Let the reader's task determine the structure and depth; never force a generic template or a word-count target."
+                content: "You are a senior SEO strategist. Plan accurate, intent-matched, practical content. Keep the plan concise and let the topic determine the structure."
               },
               { role: "user", content: stage1Prompt }
             ],
             response_format: zodResponseFormat(Stage1IntentSchema, "research_brief"),
             temperature: 0.9,
+            max_completion_tokens: 700,
           }, { signal: req.signal });
 
           const researchBrief = stage1Response.choices[0]?.message?.parsed;
-          totalTokens += stage1Response.usage?.total_tokens || 0;
+          addUsage(stage1Response.usage);
 
           if (!researchBrief) throw new Error("Stage 1 failed to generate research brief.");
 
@@ -232,15 +246,12 @@ CRITICAL OUTLINE REQUIREMENTS:
           emitEvent("status", { stage: 2, message: "Assembling Immutable Evidence Contract..." });
 
           const evidencePool = getVerifiedEvidencePool();
+          // Prompts only need the closed-set mapping. Full source metadata stays
+          // server-side for deterministic validation and reference generation.
           const evidenceContract = evidencePool.map((e) => ({
             id: e.id,
             claim: e.claim,
-            category: e.category,
-            sourceTitle: e.sourceTitle,
             sourceUrl: e.sourceUrl,
-            publisher: e.publisher,
-            verified: true,
-            confidence: e.confidence
           }));
 
           // -------------------------------------------------------------
@@ -252,18 +263,19 @@ CRITICAL OUTLINE REQUIREMENTS:
 Session ID (IMPORTANT: use this to write a UNIQUE article — vary phrasing, examples, intro angle, and section emphasis from any previous generation): ${uniqueSeed}
 
 IMMUTABLE EVIDENCE CONTRACT (YOU MUST USE ONLY THESE EVIDENCE IDs):
-${JSON.stringify(evidenceContract, null, 2)}
+${JSON.stringify(evidenceContract)}
 
 STRICT FAIL-CLOSED RULES:
 1. EVIDENCE BOUND: You CANNOT invent evidence IDs. Every factual claim about prices, biology, health, remedies, or temperatures MUST reference an existing ID from the contract above.
-2. PRICING: NEVER state specific numbers (e.g. ₹2,000–₹10,000). State clearly that exact pricing depends on property size, severity, and number of visits, and requires an on-site inspection.
-3. HOME REMEDIES: Do NOT claim turmeric, baking soda, neem oil, or lavender kill bed bugs. Explain clearly that they lack scientific backing.
-4. NO FAKE SOURCES OR STATS: Do NOT cite ICMR, unverified studies, or invented statistics (e.g. "cases rising 20% annually").
-5. INTRO: Skip generic fluff ("Dealing with bed bugs can be frustrating"). Start immediately with the answer, checklist, or decision guidance the topic requires (normally 60-140 words).
-6. SECTIONS: Use actionable checklists, comparison tables, room-by-room steps, or decision matrices only when they directly support this topic.
-7. INFORMATION DENSITY: Preserve useful depth, but do not pad sections or force irrelevant biology, room-by-room protocols, city references, tables, or FAQs. Every section must help fulfil the title promise.
-8. CITATIONS: Cite only URLs present in the evidence contract, next to the important claim they actually support. Do not invent or substitute URLs merely to hit a source-count target. DO NOT include a References section at the end; the system will append one automatically based on your citations.
-9. FORMATTING: Markdown tables must start flush with the left margin. Use tables only when they improve a real comparison or task.
+2. LENGTH & SEO: The article MUST be ${BLOG_LENGTH_POLICY.targetMinimumWords}-${BLOG_LENGTH_POLICY.targetMaximumWords} reader-visible words (hard limits ${BLOG_LENGTH_POLICY.minimumWords}-${BLOG_LENGTH_POLICY.maximumWords}; shorter drafts are rejected). Use 6-8 H2 sections of ~180-250 words each plus 4-5 FAQs of ~50-80 words each. Put the primary keyword in the H1, intro, and one H2; use question-style headings and short 2-4 sentence paragraphs. Earn length through topic-specific explanations, steps, limitations, decisions, and non-repetitive FAQs; never pad or keyword-stuff.
+3. PRICING: NEVER state specific numbers (e.g. ₹2,000–₹10,000). State clearly that exact pricing depends on property size, severity, and number of visits, and requires an on-site inspection.
+4. HOME REMEDIES: Do NOT claim turmeric, baking soda, neem oil, or lavender kill bed bugs. Explain clearly that they lack scientific backing.
+5. NO FAKE SOURCES OR STATS: Do NOT cite ICMR, unverified studies, or invented statistics (e.g. "cases rising 20% annually").
+6. INTRO: Skip generic fluff. Start immediately with the answer, checklist, or decision guidance the topic requires.
+7. SECTIONS: Use actionable checklists, comparison tables, room-by-room steps, or decision matrices only when they directly support this topic.
+8. INFORMATION DENSITY: Preserve useful depth, but do not pad sections or force irrelevant material.
+9. CITATIONS: Cite only URLs present in the evidence contract, next to the important claim they support. Do not invent URLs.
+10. FORMATTING: Markdown tables must start flush with the left margin.
 ${skipImages ? "10. SKIP IMAGES: Strictly do not include any image placeholders, visual placement tags, or markdown image links in the article.\n" : ""}11. STRICT LINKING RULE: In the interlinks step of the blog generator, strictly include 4 to 5 contextual internal links (interlinks) ${allowExternalLinks ? "and strictly ONLY ONE (1) high-authority external link" : "and ABSOLUTELY NO external links"} across the entire article. DO NOT add an "Internal Links:" or "External Source:" section at the bottom of the article. All links MUST be naturally woven into the body paragraphs.
 12. NO HORIZONTAL RULES: DO NOT generate any horizontal lines (---) anywhere in your markdown output. The system handles all visual dividers.
 13. STRICT CITY ISOLATION: If the topic or title mentions a specific city (e.g., Pune, Mumbai, Bangalore, Delhi), you MUST NOT mention any other city in the content. For example, a Pune blog must never mention Mumbai. If no city is specified, keep it entirely general and do not invent city names.
@@ -285,10 +297,11 @@ ${JSON.stringify(researchBrief, null, 2)}`;
               { role: "user", content: stage3Prompt }
             ],
             response_format: zodResponseFormat(Stage3DraftSchema, "structured_draft"),
+            max_completion_tokens: 3900,
           }, { signal: req.signal });
 
           const rawDraft = stage3Response.choices[0]?.message?.parsed;
-          totalTokens += stage3Response.usage?.total_tokens || 0;
+          addUsage(stage3Response.usage);
 
           if (!rawDraft) throw new Error("Stage 3 failed to draft structured sections.");
 
@@ -338,9 +351,7 @@ INFORMATION GAIN PLAN:
 ${infoGainPlan.uniqueUsefulElements.join("; ")}
 
 VERIFIED EVIDENCE CONTRACT — CLOSED SET:
-${JSON.stringify(evidenceContract, null, 2)}
-
-${editorialRequirements}
+${JSON.stringify(evidenceContract)}
 
 CRITICAL PUBLICATION REQUIREMENT:
 - Preserve strong, useful passages while removing repetition, filler, unnatural wording, keyword stuffing, and off-intent sections.
@@ -356,19 +367,58 @@ CRITICAL PUBLICATION REQUIREMENT:
           const stage4Response = await openai.chat.completions.parse({
             model: "gpt-4o",
             messages: [
-              { role: "system", content: EDITOR_SYSTEM_PROMPT },
+              { role: "system", content: EDITOR_RUNTIME_PROMPT },
               { role: "user", content: editorUserPrompt }
             ],
             response_format: zodResponseFormat(EditorResponseSchema, "editorial_pass"),
             temperature: 0.3,
+            max_completion_tokens: 3900,
           }, { signal: req.signal });
 
           const editorialResult = stage4Response.choices[0]?.message?.parsed;
-          totalTokens += stage4Response.usage?.total_tokens || 0;
+          addUsage(stage4Response.usage);
 
           if (!editorialResult) throw new Error("Stage 4 failed to execute editorial pass.");
 
-          const articleToSanitize = editorialResult.improvedArticle;
+          let articleToSanitize = editorialResult.improvedArticle;
+
+          // A short editorial response is repaired once before sanitization. This
+          // avoids publishing a short article or failing after spending the API cost.
+          // Expand only when clearly short AND the remaining token budget can pay for
+          // a full rewrite (prompt ≈ article, completion ≈ article). Otherwise ship
+          // what we have; the final length gate still protects publication.
+          const initialWordCount = countBlogWords(articleToSanitize);
+          const approxArticleTokens = Math.ceil(initialWordCount * 1.5);
+          const canAffordExpansion = totalTokens + approxArticleTokens * 2 + 1500 < BLOG_LENGTH_POLICY.tokenBudget;
+          if (initialWordCount < BLOG_LENGTH_POLICY.expandBelowWords && canAffordExpansion) {
+            emitEvent("status", { stage: 4, message: "Expanding article with evidence-safe, topic-specific detail..." });
+            const expansionResponse = await openai.chat.completions.parse({
+              model: "gpt-4o",
+              messages: [
+                { role: "system", content: EDITOR_RUNTIME_PROMPT },
+                {
+                  role: "user",
+                  content: `Expand this article from ${initialWordCount} words to ${BLOG_LENGTH_POLICY.targetMinimumWords}-${BLOG_LENGTH_POLICY.targetMaximumWords} visible words. Return the COMPLETE article, not instructions or a summary.
+
+Rules:
+- Preserve all accurate existing content and its Markdown structure.
+- Add only useful, non-repetitive detail directly relevant to the topic: practical steps, decision guidance, limitations, preparation, aftercare, or genuinely new FAQs.
+- Do not add generic filler, keyword repetition, unsupported claims, prices, statistics, safety instructions, URLs, cities, or guarantees.
+- Preserve the article's existing evidence-bound claims; the deterministic safety pass will remove unsupported additions.
+
+ARTICLE TO EXPAND:
+${articleToSanitize}`,
+                },
+              ],
+              response_format: zodResponseFormat(ExpansionResponseSchema, "expanded_article"),
+              temperature: 0.2,
+              max_completion_tokens: 3900,
+            }, { signal: req.signal });
+            addUsage(expansionResponse.usage);
+            const expandedArticle = expansionResponse.choices[0]?.message?.parsed?.improvedArticle;
+            if (!expandedArticle) throw new Error("Article expansion did not return a valid article.");
+            articleToSanitize = expandedArticle;
+          }
 
           // -------------------------------------------------------------
           // STAGE 5: DETERMINISTIC DETECTION & SANITIZATION
@@ -423,6 +473,13 @@ CRITICAL PUBLICATION REQUIREMENT:
 
           // Strict final link limit guarantee:
           finalMarkdown = enforceStrictLinkLimits(finalMarkdown, allowExternalLinks);
+
+          const wordCount = countBlogWords(finalMarkdown);
+          if (!isPublishableBlogLength(wordCount)) {
+            throw new Error(
+              `Article length was ${wordCount} words; expected ${BLOG_LENGTH_POLICY.minimumWords}-${BLOG_LENGTH_POLICY.maximumWords} words.`,
+            );
+          }
 
           // -------------------------------------------------------------
           // STAGE 7: REQUIRED FRESH AI IMAGE GENERATION + TEXT OVERLAY
@@ -547,6 +604,7 @@ CRITICAL PUBLICATION REQUIREMENT:
             faqs: [], // FAQs are now embedded inside the markdown
             internalLinks: linkResult.injectedLinks,
             cta: linkResult.cta,
+            wordCount,
             usage: { totalTokens }
           });
 
@@ -555,6 +613,7 @@ CRITICAL PUBLICATION REQUIREMENT:
             return;
           }
           console.error("[Blog Generator] Pipeline execution failed:", error);
+          emitEvent("usage", { totalTokens: lastTotalTokens });
           emitEvent("error", error.message || "Pipeline execution failed.");
         } finally {
           clearInterval(keepAliveTimer);

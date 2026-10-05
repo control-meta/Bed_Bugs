@@ -404,6 +404,40 @@ function injectSingleExternalLink(content: string): string {
   return lines.join("\n");
 }
 
+/** Move generated guide links out of article paragraphs into the final guide block. */
+export function moveInternalLinksToRelatedGuides(content: string, baseUrl = "https://bedbugstreatment.co.in"): string {
+  let clean = content.replace(
+    /\n##\s+Related\s+(?:Reading|Guides)\s*\n[\s\S]*?(?=\n##\s+(?:References|Further Reading)\b|$)/i,
+    "\n",
+  );
+  const links = parseMarkdownLinks(clean, baseUrl).filter((link) => {
+    if (!link.isInternal) return false;
+    try {
+      const path = link.url.startsWith("/")
+        ? link.url.split(/[?#]/)[0].replace(/\/$/, "") || "/"
+        : new URL(link.url).pathname.replace(/\/$/, "") || "/";
+      return path !== "/contact";
+    } catch {
+      return false;
+    }
+  });
+  const uniqueLinks = links.filter(
+    (link, index, all) => all.findIndex((candidate) => candidate.url.toLowerCase() === link.url.toLowerCase()) === index,
+  );
+  if (!uniqueLinks.length) return clean.trim();
+
+  for (const link of [...uniqueLinks].sort((a, b) => b.index - a.index)) {
+    clean = clean.slice(0, link.index) + link.anchorText + clean.slice(link.index + link.fullMatch.length);
+  }
+
+  const relatedGuides = `\n\n## Related Guides\n\n${uniqueLinks
+    .map((link) => `- [${link.anchorText}](${link.url})`)
+    .join("\n")}\n`;
+  const referenceIndex = clean.search(/^##\s+(?:References|Further Reading)\b/im);
+  if (referenceIndex === -1) return `${clean.trim()}${relatedGuides}`;
+  return `${clean.slice(0, referenceIndex).trimEnd()}${relatedGuides}\n${clean.slice(referenceIndex)}`;
+}
+
 /**
  * Strictly enforce ONLY ONE external link across the entire markdown content.
  * 1. If > 1 external links exist, keep the first one and unwrap remaining [Anchor](url) to Anchor.
@@ -575,7 +609,7 @@ export async function processInternalLinksAndCTA(
     if (remaining.length > 0) {
       const relatedLines = [
         "",
-        "## Related Reading",
+        "## Related Guides",
         "",
         ...remaining.map((b) => `- [${b.title}](${baseUrl}${b.url})`),
         "",
@@ -625,14 +659,13 @@ export async function processInternalLinksAndCTA(
     usedPaths.add(contactNorm);
   }
 
-  const ctaBlock = `\n\n---\n\n### ${cta.heading}\n\n${cta.text}\n\n👉 [${cta.buttonText}](${cta.targetUrl})\n`;
-  if (!content.includes(contactFullUrl)) {
-    content += ctaBlock;
-    usedPaths.add(contactNorm);
-  }
+  // The CTA remains available as metadata for callers, but is not rendered in blog Markdown.
 
   // Step 6: Strictly enforce 5 to 6 internal links (prune if > 6)
   content = pruneInternalLinksToMax(content, 6, baseUrl);
+
+  // Keep the article body clean and place guide links at the end of the article.
+  content = moveInternalLinksToRelatedGuides(content, baseUrl);
 
   // Step 7: Strictly enforce ONLY ONE (1) external link
   content = enforceStrictlyOneExternalLink(content, baseUrl);

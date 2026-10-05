@@ -80,7 +80,8 @@ export function BlogPostArticle({ blog }: { blog: BlogItem }) {
                   fill
                   sizes="(max-width: 640px) 100vw, 576px"
                   quality={78}
-                  preload
+                  priority
+                  loading="eager"
                   className="w-full h-full object-cover object-top"
                 />
               </div>
@@ -102,7 +103,8 @@ export function BlogPostArticle({ blog }: { blog: BlogItem }) {
                         fill
                         sizes="(max-width: 640px) 100vw, 576px"
                         quality={78}
-                        preload={props.src === firstMarkdownImage}
+                        priority={props.src === firstMarkdownImage}
+                        loading={props.src === firstMarkdownImage ? "eager" : "lazy"}
                         className="w-full h-full object-cover object-top m-0"
                       />
                     </span>

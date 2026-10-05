@@ -432,10 +432,24 @@ export default function BlogGeneratorPage() {
 
 
 
+  const isPublished = publishedSuccess || !!data?.isPublished;
+  const activePublishedSlug = publishedSlug || data?.publishedSlug || null;
+
+  useEffect(() => {
+    if (isGenerating) {
+      setPublishedSuccess(false);
+      setPublishedSlug(null);
+      setDraftSuccess(false);
+    }
+  }, [isGenerating]);
+
   const handleDiscard = () => {
     if (confirm("Are you sure you want to discard the current generated blog?")) {
       setData(null);
       localStorage.removeItem("generatedBlogData");
+      setPublishedSuccess(false);
+      setPublishedSlug(null);
+      setDraftSuccess(false);
     }
   };
 
@@ -482,7 +496,17 @@ export default function BlogGeneratorPage() {
 
       setPublishedSuccess(true);
       setPublishedSlug(slug);
-      setTimeout(() => setPublishedSuccess(false), 6000);
+      setDraftSuccess(false);
+      setData((prev) =>
+        prev
+          ? {
+              ...prev,
+              isPublished: true,
+              publishedSlug: slug,
+              status: "published",
+            }
+          : prev
+      );
     } catch (err: any) {
       console.error("Publish error:", err);
       setError(err.message || "Failed to publish blog to website.");
@@ -529,6 +553,18 @@ export default function BlogGeneratorPage() {
       }
 
       setDraftSuccess(true);
+      setPublishedSuccess(false);
+      setPublishedSlug(null);
+      setData((prev) =>
+        prev
+          ? {
+              ...prev,
+              isPublished: false,
+              publishedSlug: undefined,
+              status: "draft",
+            }
+          : prev
+      );
       setTimeout(() => setDraftSuccess(false), 5000);
     } catch (err: any) {
       console.error("Draft error:", err);
@@ -851,16 +887,28 @@ export default function BlogGeneratorPage() {
                 type="button"
                 onClick={handlePublishBlog}
                 disabled={isPublishing || data.publicationStatus === "BLOCKED"}
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-emerald-700 disabled:opacity-50"
+                className={`flex w-full items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold text-white shadow-sm transition disabled:opacity-50 ${
+                  isPublished
+                    ? "bg-emerald-700 hover:bg-emerald-800"
+                    : "bg-emerald-600 hover:bg-emerald-700"
+                }`}
               >
                 {isPublishing ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
-                ) : publishedSuccess ? (
-                  <CheckCircle2 className="h-4 w-4 text-white" />
+                ) : isPublished ? (
+                  <CheckCircle2 className="h-4 w-4 text-emerald-200" />
                 ) : (
                   <Globe className="h-4 w-4" />
                 )}
-                <span>{publishedSuccess ? "Published to Website!" : isPublishing ? "Publishing..." : "Publish to Website"}</span>
+                <span>
+                  {isPublishing
+                    ? isPublished
+                      ? "Updating Website..."
+                      : "Publishing..."
+                    : isPublished
+                    ? "Published to Website"
+                    : "Publish to Website"}
+                </span>
               </button>
 
               <div className="grid grid-cols-2 gap-2">
@@ -889,6 +937,35 @@ export default function BlogGeneratorPage() {
                   <span className="truncate">Discard</span>
                 </button>
               </div>
+
+              {isPublished && activePublishedSlug && (
+                <div className="flex flex-col gap-1.5 rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-xs text-emerald-950 shadow-xs animate-in fade-in duration-200">
+                  <div className="flex items-center gap-1.5 font-bold text-emerald-900">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
+                    <span>Live on Website</span>
+                  </div>
+                  <p className="text-[11px] text-emerald-800 leading-snug">
+                    This article is published and live for readers.
+                  </p>
+                  <div className="mt-0.5 flex items-center gap-2.5">
+                    <a
+                      href={`/${activePublishedSlug}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 font-bold text-emerald-700 hover:text-emerald-800 text-[11px] underline"
+                    >
+                      <ExternalLink className="h-3 w-3" /> View Live Article &rarr;
+                    </a>
+                    <span className="text-emerald-300">·</span>
+                    <Link
+                      href="/admin/edit-blogs"
+                      className="inline-flex items-center gap-1 font-semibold text-neutral-600 hover:text-neutral-900 text-[11px]"
+                    >
+                      Manage in Blogs
+                    </Link>
+                  </div>
+                </div>
+              )}
 
               {draftSuccess && (
                 <div className="flex flex-col gap-1.5 rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs text-amber-900 shadow-xs animate-in fade-in duration-200">
@@ -998,9 +1075,9 @@ export default function BlogGeneratorPage() {
 
 
 
-            {publishedSlug && (
+            {activePublishedSlug && (
               <a
-                href={`/${publishedSlug}`}
+                href={`/${activePublishedSlug}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-1 rounded-lg border border-emerald-200 bg-emerald-50 px-2.5 py-1.5 text-xs font-semibold text-emerald-700 hover:bg-emerald-100 transition"

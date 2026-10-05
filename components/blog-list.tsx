@@ -43,7 +43,8 @@ export function BlogList({ blogs }: { blogs: BlogItem[] }) {
                   fill
                   sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"
                   quality={72}
-                  preload={index === 0}
+                  priority={index === 0}
+                  loading={index === 0 ? "eager" : "lazy"}
                   className="h-full w-full object-cover object-top transition-opacity duration-300 group-hover:opacity-95"
                 />
               ) : (

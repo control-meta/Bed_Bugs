@@ -24,10 +24,11 @@ import {
 import { collectWebSearchUrls, verifyEvidenceCandidates } from "./source-verification";
 import { getExistingPageInventory } from "./site-inventory";
 import { saveBlogArticle } from "./storage";
+import { BLOG_LENGTH_POLICY, countBlogWords, isPublishableBlogLength } from "./length-policy";
 
 const CORE_MODEL = process.env.OPENAI_BLOG_MODEL || "gpt-4o";
 const RESEARCH_MODEL = process.env.OPENAI_RESEARCH_MODEL || "gpt-4o";
-const MAX_REVISIONS = Math.max(0, Math.min(2, Number(process.env.BLOG_MAX_REVISIONS || 2)));
+const MAX_REVISIONS = Math.max(0, Math.min(1, Number(process.env.BLOG_MAX_REVISIONS || 0)));
 
 const SOURCE_HIERARCHY = `
 1. Government and regulatory sources
@@ -49,7 +50,7 @@ const WRITING_RULES = `
 - Copy source URLs exactly. Cite an important supported claim using a normal Markdown link to its supplied source. Do not create a References section; the application creates it from sources actually used.
 - In the interlinks step, strictly add 4 to 5 contextual internal links using only the supplied internal URLs. Strictly add ONLY ONE (1) high-authority external link across the entire article. All other evidence citations must remain plain text.
 - Build sections around search intent. Prefer useful inspection steps, decision aids, checklists, comparison tables, mistakes, preparation, aftercare, and topic-specific FAQs when they improve the answer.
-- Do not add sections only to increase length. Avoid keyword stuffing and repetitive transition words.
+- Write ${BLOG_LENGTH_POLICY.targetMinimumWords}-${BLOG_LENGTH_POLICY.targetMaximumWords} reader-visible words, accepting ${BLOG_LENGTH_POLICY.minimumWords}-${BLOG_LENGTH_POLICY.maximumWords}. Earn length with topic-specific decisions, steps, limitations and useful FAQs; never pad.
 - Return the FAQ content in both the markdown article and the structured faqs field.
 - Start markdown with one H1 matching metadata.h1. Use relative paths such as /services for internal links; never expand them to a made-up domain.
 - NEVER add captions, italicized descriptions, or any text below images. The images must stand alone without a descriptive line below them.
@@ -223,6 +224,12 @@ export async function runBlogPipeline(input: { topic?: string; keywords?: string
   const requestId = crypto.randomUUID();
   const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   let totalTokens = 0;
+  const addBudgetedUsage = (usage?: { total_tokens?: number | null } | null) => {
+    totalTokens = addUsage(totalTokens, usage);
+    if (totalTokens > BLOG_LENGTH_POLICY.tokenBudget) {
+      throw new Error(`Generation exceeded the ${BLOG_LENGTH_POLICY.tokenBudget}-token budget.`);
+    }
+  };
   const pageInventory = await getExistingPageInventory();
   const basePrompt = input.topic?.trim()
     ? `Topic: ${input.topic.trim()}\nTarget keywords supplied by the editor: ${input.keywords?.trim() || "none"}`
@@ -239,8 +246,9 @@ export async function runBlogPipeline(input: { topic?: string; keywords?: string
       { role: "user", content: basePrompt },
     ],
     response_format: zodResponseFormat(researchBriefSchema, "article_research_brief"),
+    max_completion_tokens: 700,
   });
-  totalTokens = addUsage(totalTokens, intentResponse.usage);
+  addBudgetedUsage(intentResponse.usage);
   const researchBrief = intentResponse.choices[0]?.message.parsed;
   if (!researchBrief) throw new Error("Intent analysis did not return a valid research brief.");
 
@@ -260,12 +268,12 @@ export async function runBlogPipeline(input: { topic?: string; keywords?: string
     }],
     include: ["web_search_call.action.sources"],
     max_tool_calls: 8,
-    max_output_tokens: 12000,
+    max_output_tokens: 4200,
     instructions: `You are the evidence researcher, separate from the article writer. Search and open real sources. ${SOURCE_HIERARCHY}\nUse authoritative global sources for stable identification, biology, inspection, and control facts; India-specific sourcing is required only for genuinely India-specific regulatory, business, price, or local claims. Return only claims directly supported by a retrieved page. Copy the page URL and title from the retrieval result. evidenceExcerpt must be a short, faithful excerpt from the page, not a paraphrase. Set freshnessMatters to true only for prices, current statistics, current regulations, or recommendations likely to change; it is false for stable identification and biology. Do not invent a missing date, author, expert, quote, institution, document, price, statistic, or URL. Use null for an unavailable publication date. For current prices, prefer configured first-party data, which is absent here; do not infer market ranges.`,
     input: `Research this article plan:\n${JSON.stringify(researchBrief, null, 2)}\n\nFind sources only for the stated evidence needs. Also identify real related user questions based on research, without inventing keyword volumes.`,
     text: { format: zodTextFormat(evidenceResearchSchema, "verified_evidence_candidates") },
   });
-  totalTokens = addUsage(totalTokens, researchResponse.usage);
+  addBudgetedUsage(researchResponse.usage);
   const evidenceResearch = researchResponse.output_parsed;
   if (!evidenceResearch) throw new Error("Web research did not return structured evidence candidates.");
   const discoveredUrls = collectWebSearchUrls(researchResponse);
@@ -296,8 +304,9 @@ export async function runBlogPipeline(input: { topic?: string; keywords?: string
       { role: "user", content: JSON.stringify(writerInput, null, 2) },
     ],
     response_format: zodResponseFormat(draftPackageSchema, "evidence_bound_article"),
+    max_completion_tokens: 3900,
   });
-  totalTokens = addUsage(totalTokens, draftResponse.usage);
+  addBudgetedUsage(draftResponse.usage);
   let draft = draftResponse.choices[0]?.message.parsed;
   if (!draft) throw new Error("The writer did not return a valid article package.");
 
@@ -344,8 +353,9 @@ export async function runBlogPipeline(input: { topic?: string; keywords?: string
         { role: "user", content: JSON.stringify({ article: markdown, verifiedFacts }, null, 2) },
       ],
       response_format: zodResponseFormat(factCheckSchema, "independent_fact_check"),
+      max_completion_tokens: 1400,
     });
-    totalTokens = addUsage(totalTokens, factResponse.usage);
+    addBudgetedUsage(factResponse.usage);
     const factChecks = normalizeFactChecks(factResponse.choices[0]?.message.parsed?.claims || [], verifiedFacts);
 
     logStage(requestId, "quality_audit.started");
@@ -371,8 +381,9 @@ export async function runBlogPipeline(input: { topic?: string; keywords?: string
         },
       ],
       response_format: zodResponseFormat(qualityAuditSchema, "independent_quality_audit"),
+      max_completion_tokens: 900,
     });
-    totalTokens = addUsage(totalTokens, qualityResponse.usage);
+    addBudgetedUsage(qualityResponse.usage);
     const qualityAudit = qualityResponse.choices[0]?.message.parsed;
     if (!qualityAudit) throw new Error("The independent quality audit did not return valid results.");
     const deterministicScores = calculateDeterministicScores({
@@ -424,8 +435,9 @@ export async function runBlogPipeline(input: { topic?: string; keywords?: string
         },
       ],
       response_format: zodResponseFormat(draftPackageSchema, "revised_evidence_bound_article"),
+      max_completion_tokens: 3900,
     });
-    totalTokens = addUsage(totalTokens, revisionResponse.usage);
+    addBudgetedUsage(revisionResponse.usage);
     const revised = revisionResponse.choices[0]?.message.parsed;
     if (!revised) break;
     draft = revised;
@@ -435,6 +447,12 @@ export async function runBlogPipeline(input: { topic?: string; keywords?: string
   }
 
   const schema = buildSchema(result.draft);
+  const wordCount = countBlogWords(result.markdown);
+  if (!isPublishableBlogLength(wordCount)) {
+    throw new Error(
+      `Article length was ${wordCount} words; expected ${BLOG_LENGTH_POLICY.minimumWords}-${BLOG_LENGTH_POLICY.maximumWords} words.`,
+    );
+  }
   result.draft.imageRecommendations = validImageRecommendations(result.draft, verifiedFacts);
   const stored = await saveBlogArticle({
     topic: researchBrief.topicalCoverage.primaryTopic,
@@ -481,12 +499,14 @@ export async function runBlogPipeline(input: { topic?: string; keywords?: string
       cannibalization,
       ...decision,
       revisionCount,
+      wordCount,
     },
     metadata: result.draft.metadata,
     faqs: result.draft.faqs,
     schema: { type: "BlogPosting", jsonLd: JSON.stringify(schema, null, 2) },
     internalLinks: result.draft.internalLinks,
     imageRecommendations: result.draft.imageRecommendations,
+    wordCount,
     usage: { totalTokens },
   };
 }

@@ -36,6 +36,9 @@ export type GeneratedData = {
   images?: any[];
   externalSourcesUsed?: Array<{ evidenceId: string; title: string; url: string }>;
   editorialChangeSummary?: string;
+  isPublished?: boolean;
+  publishedSlug?: string;
+  status?: string;
 };
 
 type BlogGeneratorContextType = {
@@ -302,7 +305,9 @@ export function BlogGeneratorProvider({ children }: { children: React.ReactNode 
                     icon: "/images/favicon.png"
                   });
                 }
-              }
+                }
+            } else if (event.type === "usage") {
+              if (isCurrentGeneration()) setUsage(event.data);
             } else if (event.type === "error") {
               throw new Error(String(event.data || "Blog generation failed."));
             }
