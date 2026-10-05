@@ -17,6 +17,7 @@ test("blog length policy accepts requested long-form range and rejects short or 
   assert.equal(BLOG_LENGTH_POLICY.minimumWords, 1500);
   assert.ok(isPublishableBlogLength(1780));
   assert.ok(isPublishableBlogLength(2034));
+  assert.ok(isPublishableBlogLength(2250));
   assert.ok(!isPublishableBlogLength(1499));
-  assert.ok(!isPublishableBlogLength(2101));
+  assert.ok(!isPublishableBlogLength(2401));
 });
