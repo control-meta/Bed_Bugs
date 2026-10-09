@@ -32,6 +32,9 @@ const CORE_MODEL = process.env.OPENAI_BLOG_MODEL || "gpt-4o";
 const RESEARCH_MODEL = process.env.OPENAI_RESEARCH_MODEL || "gpt-4o";
 const MAX_REVISIONS = Math.max(0, Math.min(1, Number(process.env.BLOG_MAX_REVISIONS || 0)));
 const AUTO_BLOG_TOKEN_BUDGET = 60000;
+// Web search was consuming ~35k tokens with eight medium-context calls,
+// leaving too little of the run budget for the required fact and quality audits.
+const RESEARCH_MAX_TOOL_CALLS = 3;
 const SectionAdditionsSchema = z.object({
   additions: z.array(z.object({
     sectionIndex: z.number().int().nonnegative(),
@@ -278,10 +281,12 @@ export async function runBlogPipeline(input: { topic?: string; keywords?: string
   const requestId = crypto.randomUUID();
   const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   let totalTokens = 0;
-  const addBudgetedUsage = (usage?: { total_tokens?: number | null } | null) => {
+  const addBudgetedUsage = (stage: string, usage?: { total_tokens?: number | null } | null) => {
+    const stageTokens = usage?.total_tokens || 0;
     totalTokens = addUsage(totalTokens, usage);
+    logStage(requestId, `${stage}.usage`, { stageTokens, totalTokens, remainingTokens: AUTO_BLOG_TOKEN_BUDGET - totalTokens });
     if (totalTokens > AUTO_BLOG_TOKEN_BUDGET) {
-      throw new Error(`Generation exceeded the ${AUTO_BLOG_TOKEN_BUDGET}-token budget.`);
+      throw new Error(`Generation exceeded the ${AUTO_BLOG_TOKEN_BUDGET}-token budget after ${stage} (${totalTokens} tokens used).`);
     }
   };
   const pageInventory = await getExistingPageInventory();
@@ -302,7 +307,7 @@ export async function runBlogPipeline(input: { topic?: string; keywords?: string
     response_format: zodResponseFormat(researchBriefSchema, "article_research_brief"),
     max_completion_tokens: maxCompletionTokens,
   }));
-  addBudgetedUsage(intentResponse.usage);
+  addBudgetedUsage("intent", intentResponse.usage);
   const researchBrief = intentResponse.choices[0]?.message.parsed;
   if (!researchBrief) throw new Error("Intent analysis did not return a valid research brief.");
 
@@ -318,17 +323,17 @@ export async function runBlogPipeline(input: { topic?: string; keywords?: string
     tool_choice: "required",
     tools: [{
       type: "web_search",
-      search_context_size: "medium",
+      search_context_size: "low",
       user_location: { type: "approximate", country: "IN", timezone: "Asia/Kolkata" },
     }],
     include: ["web_search_call.action.sources"],
-    max_tool_calls: 8,
+    max_tool_calls: RESEARCH_MAX_TOOL_CALLS,
     max_output_tokens: 4200,
     instructions: `You are the evidence researcher, separate from the article writer. Search and open real sources. ${SOURCE_HIERARCHY}\nUse authoritative global sources for stable identification, biology, inspection, and control facts; India-specific sourcing is required only for genuinely India-specific regulatory, business, price, or local claims. Seek several authoritative HTML pages; PDF files cannot be verified by this system. For scientific, health, safety, regulatory, price, expert, and statistical claims, industry and other sources are insufficient. Return only claims directly supported by a retrieved page. Copy the page URL and title from the retrieval result. evidenceExcerpt must be a short, faithful excerpt from the page, not a paraphrase. Set freshnessMatters to true only for prices, current statistics, current regulations, or recommendations likely to change; it is false for stable identification and biology. Do not invent a missing date, author, expert, quote, institution, document, price, statistic, or URL. Use null for an unavailable publication date. For current prices, prefer configured first-party data, which is absent here; do not infer market ranges.`,
-    input: `Research this article plan:\n${JSON.stringify(researchBrief, null, 2)}\n\nFind sources only for the stated evidence needs. Also identify real related user questions based on research, without inventing keyword volumes.`,
+    input: `Topic: ${researchBrief.topicalCoverage.primaryTopic}\nEvidence needs: ${JSON.stringify(researchBrief.evidenceNeeds)}\nFind several authoritative HTML sources for these needs only. Also identify related user questions without inventing keyword volumes.`,
     text: { format: zodTextFormat(evidenceResearchSchema, "verified_evidence_candidates") },
   });
-  addBudgetedUsage(researchResponse.usage);
+  addBudgetedUsage("research", researchResponse.usage);
   const evidenceResearch = researchResponse.output_parsed;
   if (!evidenceResearch) throw new Error("Web research did not return structured evidence candidates.");
   const discoveredUrls = collectWebSearchUrls(researchResponse);
@@ -375,7 +380,7 @@ export async function runBlogPipeline(input: { topic?: string; keywords?: string
     response_format: zodResponseFormat(draftPackageSchema, "evidence_bound_article"),
     max_completion_tokens: maxCompletionTokens,
   }));
-  addBudgetedUsage(draftResponse.usage);
+  addBudgetedUsage("draft", draftResponse.usage);
   let draft = draftResponse.choices[0]?.message.parsed;
   if (!draft) throw new Error("The writer did not return a valid article package.");
   logStage(requestId, "draft.completed", {
@@ -410,7 +415,7 @@ export async function runBlogPipeline(input: { topic?: string; keywords?: string
         max_completion_tokens: maxCompletionTokens,
       }))
     ));
-    for (const response of repairResponses) addBudgetedUsage(response.usage);
+    for (const [index, response] of repairResponses.entries()) addBudgetedUsage(`draft.length_repair.${index + 1}`, response.usage);
     const additions = repairResponses.flatMap((response) => response.choices[0]?.message.parsed?.additions || []);
     if (!additions.length) throw new Error("The length repair did not return section additions.");
     draft = { ...draftToExpand, markdown: addDepthToSections(draftToExpand.markdown, additions) };
@@ -462,13 +467,14 @@ export async function runBlogPipeline(input: { topic?: string; keywords?: string
           role: "system",
           content: `You are an independent fact checker. Extract every important externally checkable claim from the article, including claims in FAQs, tables, and calls to action. Classify each and compare it only with the verified evidence objects. Model knowledge is not evidence. A claim is VERIFIED only when a supplied evidence object directly supports it; return that exact sourceId. Be especially strict with scientific, health, safety, regulatory, price, expert, and statistical claims. Ordinary advice may be GENERAL_KNOWLEDGE, but specific numbers, efficacy, safety, local, and business claims are not. A non-numeric statement that treatment cost varies with property or infestation factors is the permitted fallback when verified pricing is unavailable; mark it LOW risk and KEEP.`,
         },
-        { role: "user", content: JSON.stringify({ article: markdown, verifiedFacts }, null, 2) },
+        { role: "user", content: JSON.stringify({ article: removeModelReferences(markdown), verifiedFacts }) },
       ],
       response_format: zodResponseFormat(factCheckSchema, "independent_fact_check"),
       max_completion_tokens: maxCompletionTokens,
     }));
-    addBudgetedUsage(factResponse.usage);
+    addBudgetedUsage("fact_check", factResponse.usage);
     const factChecks = normalizeFactChecks(factResponse.choices[0]?.message.parsed?.claims || [], verifiedFacts);
+    logStage(requestId, "fact_check.completed", { claims: factChecks.length, totalTokens });
 
     logStage(requestId, "quality_audit.started");
     const qualityResponse = await parseWithLengthRetry(requestId, "quality_audit", 1500, 2400, (maxCompletionTokens) => openai.chat.completions.parse({
@@ -482,22 +488,23 @@ export async function runBlogPipeline(input: { topic?: string; keywords?: string
           role: "user",
           content: JSON.stringify({
             searchIntent: researchBrief.searchIntent,
-            article: markdown,
+            article: removeModelReferences(markdown),
             metadata: candidateDraft.metadata,
             verifiedEvidenceCount: verifiedFacts.length,
             factChecks,
             warnings,
             internalLinks,
             availableInternalUrls: [...allowedInternalUrls],
-          }, null, 2),
+          }),
         },
       ],
       response_format: zodResponseFormat(qualityAuditSchema, "independent_quality_audit"),
       max_completion_tokens: maxCompletionTokens,
     }));
-    addBudgetedUsage(qualityResponse.usage);
+    addBudgetedUsage("quality_audit", qualityResponse.usage);
     const qualityAudit = qualityResponse.choices[0]?.message.parsed;
     if (!qualityAudit) throw new Error("The independent quality audit did not return valid results.");
+    logStage(requestId, "quality_audit.completed", { totalTokens });
     const deterministicScores = calculateDeterministicScores({
       markdown,
       metadata: candidateDraft.metadata,
@@ -549,7 +556,7 @@ export async function runBlogPipeline(input: { topic?: string; keywords?: string
       response_format: zodResponseFormat(draftPackageSchema, "revised_evidence_bound_article"),
       max_completion_tokens: maxCompletionTokens,
     }));
-    addBudgetedUsage(revisionResponse.usage);
+    addBudgetedUsage("revision", revisionResponse.usage);
     const revised = revisionResponse.choices[0]?.message.parsed;
     if (!revised) break;
     if (!isPublishableBlogLength(countBlogWords(revised.markdown))) {
