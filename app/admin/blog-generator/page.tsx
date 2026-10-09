@@ -1117,7 +1117,8 @@ export default function BlogGeneratorPage() {
                     <div>
                       <h3 className="text-lg font-bold text-red-900">Publication Blocked</h3>
                       <p className="text-sm text-red-700 mt-1">
-                        This article failed the strict quality and fact-checking gates. It contains unverified claims, hallucinated prices, or dangerous home remedies. 
+                        {data.audit?.evaluationNotes?.find((note: string) => note.startsWith("Article has ")) ||
+                          "This article failed the publication quality or fact-checking checks."}
                         Review the <strong>Quality & Claims</strong> tab.
                       </p>
                     </div>

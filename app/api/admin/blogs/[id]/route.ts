@@ -39,7 +39,9 @@ export async function PUT(
       slug: body.slug ? body.slug.replace(/^\/|\/$/g, "") : existing.slug,
     };
 
-    const { blog, backend } = await saveBlog(updated);
+    const { blog, backend } = await saveBlog(updated, {
+      requireDurable: updated.status === "published" && process.env.NODE_ENV === "production",
+    });
 
     // Trigger email if the blog was just published
     if (existing.status !== "published" && blog.status === "published") {

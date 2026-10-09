@@ -85,18 +85,31 @@ function excerptCoverage(excerpt: string, pageText: string): number {
 }
 
 async function retrieveSource(value: string): Promise<RetrievedPage> {
-  await assertPublicUrl(value);
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), SOURCE_TIMEOUT_MS);
   try {
-    const response = await fetch(value, {
-      redirect: "follow",
-      signal: controller.signal,
-      headers: {
-        Accept: "text/html,application/xhtml+xml,text/plain;q=0.9",
-        "User-Agent": "BedBugsTreatmentContentVerifier/1.0",
-      },
-    });
+    let currentUrl = value;
+    let response: Response | undefined;
+    // Validate each redirect before fetching it; an external page must not
+    // send the verifier into a private-network address.
+    for (let redirects = 0; redirects <= 3; redirects += 1) {
+      await assertPublicUrl(currentUrl);
+      response = await fetch(currentUrl, {
+        redirect: "manual",
+        signal: controller.signal,
+        headers: {
+          Accept: "text/html,application/xhtml+xml,text/plain;q=0.9",
+          "User-Agent": "BedBugsTreatmentContentVerifier/1.0",
+        },
+      });
+      if (![301, 302, 303, 307, 308].includes(response.status)) break;
+      const location = response.headers.get("location");
+      if (!location) throw new Error("Source redirect had no destination");
+      if (redirects === 3) throw new Error("Source redirected too many times");
+      currentUrl = new URL(location, currentUrl).toString();
+      await response.body?.cancel();
+    }
+    if (!response) throw new Error("Source could not be retrieved");
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const contentType = response.headers.get("content-type") || "";
     if (!/(?:text\/html|application\/xhtml\+xml|text\/plain)/i.test(contentType)) {
@@ -109,7 +122,7 @@ async function retrieveSource(value: string): Promise<RetrievedPage> {
     const title = titleMatch ? htmlToText(titleMatch[1]) : "";
     const text = contentType.includes("text/plain") ? html : htmlToText(html);
     if (text.length < 200) throw new Error("Source page did not expose enough readable text");
-    return { finalUrl: response.url, title, text };
+    return { finalUrl: currentUrl, title, text };
   } finally {
     clearTimeout(timeout);
   }
@@ -161,6 +174,7 @@ export function collectWebSearchUrls(response: { output?: unknown[] }): Set<stri
 export async function verifyEvidenceCandidates(
   candidates: EvidenceCandidate[],
   discoveredUrls: Set<string>,
+  allowSourceListFallback = false,
 ): Promise<{ verifiedFacts: VerifiedFact[]; rejectedEvidence: RejectedEvidence[] }> {
   const accessedDate = new Date().toISOString().slice(0, 10);
   const uniqueCandidates = candidates.filter(
@@ -173,7 +187,10 @@ export async function verifyEvidenceCandidates(
   const results = await Promise.all(
     uniqueCandidates.slice(0, 16).map(async (candidate, index) => {
       const normalizedCandidateUrl = normalizeUrl(candidate.sourceUrl);
-      if (!discoveredUrls.has(normalizedCandidateUrl)) {
+      // Some completed web-search calls return no source list even when the
+      // response used the tool. In that case, require a live HTTPS fetch plus
+      // the same title and excerpt checks below instead of rejecting all facts.
+      if (!discoveredUrls.has(normalizedCandidateUrl) && !allowSourceListFallback) {
         return { rejected: { claim: candidate.claim, sourceUrl: candidate.sourceUrl, reason: "URL was not present in web-search results" } };
       }
       if (highRiskClaimCategories.has(candidate.category) && ["industry", "other"].includes(candidate.sourceType)) {
@@ -185,7 +202,7 @@ export async function verifyEvidenceCandidates(
       try {
         const page = await retrieveSource(candidate.sourceUrl);
         const finalUrl = normalizeUrl(page.finalUrl);
-        if (finalUrl !== normalizedCandidateUrl && !discoveredUrls.has(finalUrl)) {
+        if (finalUrl !== normalizedCandidateUrl && !discoveredUrls.has(finalUrl) && !allowSourceListFallback) {
           throw new Error("Source redirected to a URL outside the research result set");
         }
         const titleMatched = similarity(candidate.sourceTitle, page.title) >= 0.45;
@@ -205,7 +222,7 @@ export async function verifyEvidenceCandidates(
           sourceType: candidate.sourceType,
           evidenceExcerpt: candidate.evidenceExcerpt,
           verification: {
-            discoveredByWebSearch: true,
+            discoveredByWebSearch: discoveredUrls.has(normalizedCandidateUrl),
             urlAccessible: true,
             titleMatched: true,
             excerptMatched: true,

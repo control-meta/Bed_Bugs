@@ -35,7 +35,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Title and slug are required" }, { status: 400 });
     }
 
-    const { blog, backend } = await saveBlog(body);
+    const { blog, backend } = await saveBlog(body, {
+      requireDurable: body.status === "published" && process.env.NODE_ENV === "production",
+    });
     return NextResponse.json({ success: true, blog, backend });
   } catch (err: any) {
     console.error("[api/admin/blogs] POST error:", err);

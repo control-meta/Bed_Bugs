@@ -5,9 +5,9 @@ export const BLOG_LENGTH_POLICY = {
   targetMaximumWords: 1950,
   maximumWords: 2400,
   /** Run a repair/expansion pass only if the edited article is below this. */
-  expandBelowWords: 1520,
+  expandBelowWords: 1700,
   /** Hard cap on total tokens (prompt + completion) across all calls. */
-  tokenBudget: 16900,
+  tokenBudget: 22000,
 } as const;
 
 /** Count words visible to a reader, excluding Markdown syntax and URLs. */

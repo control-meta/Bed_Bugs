@@ -297,7 +297,7 @@ ${JSON.stringify(researchBrief, null, 2)}`;
               { role: "user", content: stage3Prompt }
             ],
             response_format: zodResponseFormat(Stage3DraftSchema, "structured_draft"),
-            max_completion_tokens: 3900,
+            max_completion_tokens: 4500,
           }, { signal: req.signal });
 
           const rawDraft = stage3Response.choices[0]?.message?.parsed;
@@ -372,7 +372,7 @@ CRITICAL PUBLICATION REQUIREMENT:
             ],
             response_format: zodResponseFormat(EditorResponseSchema, "editorial_pass"),
             temperature: 0.3,
-            max_completion_tokens: 3900,
+            max_completion_tokens: 5000,
           }, { signal: req.signal });
 
           const editorialResult = stage4Response.choices[0]?.message?.parsed;
@@ -389,7 +389,7 @@ CRITICAL PUBLICATION REQUIREMENT:
           // what we have; the final length gate still protects publication.
           const initialWordCount = countBlogWords(articleToSanitize);
           const approxArticleTokens = Math.ceil(initialWordCount * 1.5);
-          const canAffordExpansion = totalTokens + approxArticleTokens * 2 + 1500 < BLOG_LENGTH_POLICY.tokenBudget;
+          const canAffordExpansion = totalTokens + approxArticleTokens + 5000 < BLOG_LENGTH_POLICY.tokenBudget;
           if (initialWordCount < BLOG_LENGTH_POLICY.expandBelowWords && canAffordExpansion) {
             emitEvent("status", { stage: 4, message: "Expanding article with evidence-safe, topic-specific detail..." });
             const expansionResponse = await openai.chat.completions.parse({
@@ -412,7 +412,7 @@ ${articleToSanitize}`,
               ],
               response_format: zodResponseFormat(ExpansionResponseSchema, "expanded_article"),
               temperature: 0.2,
-              max_completion_tokens: 3900,
+              max_completion_tokens: 5000,
             }, { signal: req.signal });
             addUsage(expansionResponse.usage);
             const expandedArticle = expansionResponse.choices[0]?.message?.parsed?.improvedArticle;
@@ -475,10 +475,9 @@ ${articleToSanitize}`,
           finalMarkdown = enforceStrictLinkLimits(finalMarkdown, allowExternalLinks);
 
           const wordCount = countBlogWords(finalMarkdown);
-          if (!isPublishableBlogLength(wordCount)) {
-            throw new Error(
-              `Article length was ${wordCount} words; expected ${BLOG_LENGTH_POLICY.minimumWords}-${BLOG_LENGTH_POLICY.maximumWords} words.`,
-            );
+          const lengthIssue = !isPublishableBlogLength(wordCount);
+          if (lengthIssue) {
+            console.warn(`[Blog Generator] Generated ${wordCount} words outside ${BLOG_LENGTH_POLICY.minimumWords}-${BLOG_LENGTH_POLICY.maximumWords}; returning a reviewable draft.`);
           }
 
           // -------------------------------------------------------------
@@ -489,7 +488,7 @@ ${articleToSanitize}`,
             : [];
           let generatedImages: Awaited<ReturnType<typeof generateFreshBlogImages>> | null = null;
 
-          if (!skipImages) {
+          if (!skipImages && !lengthIssue) {
             emitEvent("status", { stage: 7, message: "Generating two fresh, article-specific AI images with text..." });
             generatedImages = await generateFreshBlogImages({
               openai,
@@ -511,12 +510,12 @@ ${articleToSanitize}`,
             finalMarkdown,
             chosenTopic,
             imageKeywords,
-            Boolean(skipImages),
+            Boolean(skipImages || lengthIssue),
             generatedImages?.topImage,
             generatedImages?.midImage
           );
 
-          if (!skipImages) {
+          if (!skipImages && !lengthIssue) {
             const generatedPaths = [imagePlacement.topImage?.url, imagePlacement.midImage?.url];
             const hasOnlyFreshAiAssets = generatedPaths.every((url) => url?.startsWith("/images/blogs/ai/"));
             if (!hasOnlyFreshAiAssets || generatedPaths[0] === generatedPaths[1]) {
@@ -535,13 +534,13 @@ ${articleToSanitize}`,
           // -------------------------------------------------------------
           emitEvent("status", { stage: 8, message: "Computing SEO score and formatting metadata..." });
 
-          const publicationStatus = isBlocked ? "BLOCKED" : "READY";
+          const publicationStatus = isBlocked || lengthIssue ? "BLOCKED" : "READY";
 
           if (req.signal.aborted || isCancelled) return;
 
           const realisticScore = (value: number, maximum: number, dimension: string) => {
             const normalized = Math.max(0, Math.min(100, Math.round((value / maximum) * 100)));
-            if (isBlocked || normalized < 95) return normalized;
+            if (publicationStatus === "BLOCKED" || normalized < 95) return normalized;
 
             // Keep excellent articles high without making every audit look machine-perfect.
             const seed = `${chosenTopic}:${dimension}`.split("").reduce((sum, character) => sum + character.charCodeAt(0), 0);
@@ -569,6 +568,7 @@ ${articleToSanitize}`,
               isBlocked
                 ? `HARD PUBLICATION BLOCKERS DETECTED: Contains unverified claims.`
                 : `Publication Status: ${editorialResult.qualityReport.publicationStatus}`,
+              ...(lengthIssue ? [`Article has ${wordCount} words; publication requires ${BLOG_LENGTH_POLICY.minimumWords}-${BLOG_LENGTH_POLICY.maximumWords} words. Regenerate or edit the draft before publishing.`] : []),
               `Required Elements Passed: ${editorialResult.qualityReport.requiredElementsPassed}`,
               `Critical Issues: ${editorialResult.qualityReport.criticalReliabilityIssues}`,
               `Required Evidence: ${editorialResult.qualityReport.requiredEvidence}`,
@@ -598,7 +598,7 @@ ${articleToSanitize}`,
               ...(imagePlacement.topImage ? [{ url: imagePlacement.topImage.url, alt: imagePlacement.topImage.alt, title: imagePlacement.topImage.caption }] : []),
               ...(imagePlacement.midImage ? [{ url: imagePlacement.midImage.url, alt: imagePlacement.midImage.alt, title: imagePlacement.midImage.caption }] : []),
             ],
-            recommendedVisuals: skipImages ? [] : editorialResult.recommendedVisuals,
+            recommendedVisuals: skipImages || lengthIssue ? [] : editorialResult.recommendedVisuals,
             externalSourcesUsed: verifiedExternalSources,
             editorialChangeSummary: editorialResult.editorialChangeSummary,
             faqs: [], // FAQs are now embedded inside the markdown

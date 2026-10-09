@@ -307,24 +307,37 @@ export async function executeAutoPublish(): Promise<{
       timestamp: new Date().toISOString(),
     };
     config.logs = [errorLog, ...config.logs.slice(0, 49)];
-    config.nextRunAt = calculateNextRunTime(config.frequency, config.dailyTime);
+    if (config.frequency === "1min") {
+      config.enabled = false;
+      config.nextRunAt = undefined;
+    } else {
+      config.nextRunAt = calculateNextRunTime(config.frequency, config.dailyTime);
+    }
     saveAutoPublishConfig(config);
     return { success: false, message: "No planned posts available in calendar." };
   }
 
   const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) {
-    return { success: false, message: "OPENAI_API_KEY is not configured on server." };
-  }
-
   try {
+    if (!apiKey) throw new Error("OPENAI_API_KEY is not configured on server.");
     console.log(`[auto-publish] Running rigorous AI pipeline for: "${planItem.topic}" (${planItem.date})...`);
     
     // 1. Run the advanced multi-stage pipeline (Intent -> Research -> Draft -> Audit -> Revise)
     const pipelineResult = await runBlogPipeline({
       topic: planItem.topic,
-      keywords: planItem.keywords.join(", ")
+      keywords: planItem.keywords.join(", "),
+      persistDraft: false,
     });
+
+    if (!pipelineResult.audit.autoPublishEligible || pipelineResult.audit.status !== "READY") {
+      const reasons = [
+        ...pipelineResult.audit.warnings.map((warning) => warning.message),
+        ...pipelineResult.audit.weaknesses,
+      ].filter(Boolean).slice(0, 3);
+      throw new Error(
+        `Blog did not pass the publication audit (${pipelineResult.audit.status}). ${reasons.join("; ") || "Review the article and its evidence before publishing."}`,
+      );
+    }
 
     let finalMarkdown = pipelineResult.blogContent;
     let topImage;
@@ -364,7 +377,6 @@ export async function executeAutoPublish(): Promise<{
 
     // 3. Save the final updated blog and mark as published
     const updatedBlog = {
-      id: pipelineResult.articleId,
       slug: pipelineResult.metadata.urlSlug,
       title: pipelineResult.metadata.h1,
       topic: planItem.topic,
@@ -380,11 +392,18 @@ export async function executeAutoPublish(): Promise<{
       status: "published" as const,
       publicationStatus: pipelineResult.audit.status,
       autoPublishEligible: pipelineResult.audit.autoPublishEligible,
+      research: pipelineResult.research,
+      evidence: pipelineResult.research.evidence.verifiedFacts,
+      factChecks: pipelineResult.audit.factChecks,
+      warnings: pipelineResult.audit.warnings,
+      qualityAudit: pipelineResult.audit,
+      cannibalization: pipelineResult.audit.cannibalization,
+      revisionCount: pipelineResult.audit.revisionCount,
       author: "Bed Bug Treatment Team",
       readTime: "9 min read", 
     };
 
-    const { blog } = await saveBlog(updatedBlog);
+    const { blog } = await saveBlog(updatedBlog, { requireDurable: true });
     console.log(`[auto-publish] ✅ Successfully updated & published blog: /${blog.slug}`);
 
     // Send email notification for auto-published blog
@@ -445,7 +464,14 @@ export async function executeAutoPublish(): Promise<{
     console.error("[auto-publish] Execution failed:", err);
     const nowIso = new Date().toISOString();
     config.lastRunAt = nowIso;
-    config.nextRunAt = calculateNextRunTime(config.frequency, config.dailyTime);
+    if (config.frequency === "1min") {
+      // Test mode is one attempt, including failures. Repeating every minute
+      // spent API tokens on the same error without any user action.
+      config.enabled = false;
+      config.nextRunAt = undefined;
+    } else {
+      config.nextRunAt = calculateNextRunTime(config.frequency, config.dailyTime);
+    }
 
     const errorLog: AutoPublishLog = {
       id: "log_" + Date.now(),

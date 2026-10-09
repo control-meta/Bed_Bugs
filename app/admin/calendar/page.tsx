@@ -1636,6 +1636,11 @@ export default function CalendarPage() {
                                   year: "numeric"
                                 })}
                               </p>
+                              {log.status === "error" && (
+                                <p className="mt-1 text-[11px] leading-snug text-rose-600 break-words">
+                                  {log.message}
+                                </p>
+                              )}
                             </div>
                           </div>
 

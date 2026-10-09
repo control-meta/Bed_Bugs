@@ -308,6 +308,7 @@ export async function getBlogBySlug(slug: string): Promise<BlogItem | null> {
 // Save or update blog
 export async function saveBlog(
   blog: Partial<BlogItem> & { title: string; slug: string },
+  options: { requireDurable?: boolean } = {},
 ): Promise<{ blog: BlogItem; backend: "supabase" | "local" }> {
   const now = new Date().toISOString();
   const existing = blog.id ? await getBlogById(blog.id) : await getBlogBySlug(blog.slug);
@@ -348,6 +349,10 @@ export async function saveBlog(
   let backend: "supabase" | "local" = "local";
   const supabase = getSupabase();
 
+  if (options.requireDurable && !supabase) {
+    throw new Error("Publishing requires Supabase credentials for durable blog storage.");
+  }
+
   if (supabase) {
     try {
       const row = blogToRow(complete);
@@ -355,11 +360,25 @@ export async function saveBlog(
       if (!error) {
         backend = "supabase";
       } else {
+        if (options.requireDurable) {
+          throw new Error(`Could not publish to Supabase blogs: ${error.message}`);
+        }
         const { error: artError } = await supabase.from("blog_articles").upsert(row, { onConflict: "slug" });
         if (!artError) backend = "supabase";
       }
     } catch (err) {
+      if (options.requireDurable) throw err;
       console.warn("[blog-db] Supabase upsert failed:", err);
+    }
+  }
+
+  if (options.requireDurable) {
+    const { data: stored, error } = await supabase!.from("blogs")
+      .select("id,status")
+      .eq("slug", complete.slug)
+      .single();
+    if (error || !stored || stored.id !== complete.id || stored.status !== "published") {
+      throw new Error(`Blog was not visible as published in Supabase: /${complete.slug}`);
     }
   }
 

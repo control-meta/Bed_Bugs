@@ -95,7 +95,9 @@ Ensure the output is clean, formatted Markdown starting directly with:
       // Keep existing featured image unless explicitly asked, but markdown has no image tags
     };
 
-    const { blog: saved, backend } = await saveBlog(updated);
+    const { blog: saved, backend } = await saveBlog(updated, {
+      requireDurable: updated.status === "published" && process.env.NODE_ENV === "production",
+    });
 
     return NextResponse.json({
       success: true,

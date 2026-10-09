@@ -76,6 +76,17 @@ test("a long cited treatment sentence maps to its verified evidence URL", () => 
   assert.ok(!warnings.some((warning) => warning.code === "UNVERIFIED_TECHNICAL_CLAIM"));
 });
 
+test("a technical claim keeps its cited URL when the domain contains periods", () => {
+  const sourceUrl = "https://www.epa.gov/bedbugs/controlling-bed-bugs-using-integrated-pest-management";
+  const evidence = [{
+    sourceUrl,
+    claim: "Steam may control bed bug infestations when used correctly.",
+  }];
+  const markdown = `# Treatment\n\nSteam is effective against bed bugs according to [EPA guidance](${sourceUrl}).\n\n## FAQ\n\n### What next?\n\nSee our [contact page](/contact).`;
+  const warnings = scanHallucinations(markdown, evidence, ["/contact"]);
+  assert.ok(!warnings.some((warning) => warning.code === "UNVERIFIED_TECHNICAL_CLAIM"));
+});
+
 test("near-duplicate topics receive a high cannibalization risk", () => {
   const result = calculateCannibalization("Bed Bug Treatment in Pune", [{
     url: "/pune",

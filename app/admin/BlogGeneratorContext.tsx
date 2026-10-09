@@ -231,6 +231,7 @@ export function BlogGeneratorProvider({ children }: { children: React.ReactNode 
       let buffer = "";
       let tempContent = "";
       let tempResearch: ResearchData | undefined;
+      let receivedComplete = false;
 
        if (!isCurrentGeneration()) return;
        setData({ blogContent: "" });
@@ -293,6 +294,7 @@ export function BlogGeneratorProvider({ children }: { children: React.ReactNode 
               }
             } else if (event.type === "complete") {
               if (isCurrentGeneration()) {
+                receivedComplete = true;
                 setData(event.data);
                 if (event.data.usage) setUsage(event.data.usage);
                 setStreamStatus("");
@@ -314,6 +316,9 @@ export function BlogGeneratorProvider({ children }: { children: React.ReactNode 
           }
         }
       }
+      if (isCurrentGeneration() && !receivedComplete) {
+        throw new Error("Blog generation connection closed before the article was complete. Check the server log and try again.");
+      }
     } catch (err: any) {
       if (
         err?.name === 'AbortError' ||
@@ -327,6 +332,7 @@ export function BlogGeneratorProvider({ children }: { children: React.ReactNode 
       } else {
         setError(err?.message || "Something went wrong.");
         setStreamStatus("");
+        setData(null);
       }
     } finally {
       if (generationIdRef.current === generationId && readerRef.current) {
