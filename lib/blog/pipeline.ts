@@ -23,6 +23,7 @@ import {
   supportSimilarity,
 } from "./safety";
 import { selectCuratedEvidence, supportsCuratedParaphrase } from "./curated-evidence";
+import { buildEditorialRewritePayload } from "./rewrite-request";
 import { getExistingPageInventory } from "./site-inventory";
 import { saveBlogArticle } from "./storage";
 import { BLOG_LENGTH_POLICY, countBlogWords, isPublishableBlogLength } from "./length-policy";
@@ -367,17 +368,16 @@ export async function runBlogPipeline(input: { topic?: string; keywords?: string
     logStage(requestId, "draft.editorial_rewrite.started", { preparedWords: preparedDraftWords });
     const rewrite = await requestStructured(
       "draft.editorial_rewrite", EditorialRewriteSchema, "evidence_bound_rewrite", [
-        { role: "system", content: `You are a meticulous editor. Rewrite the short draft as one cohesive, useful article. Do not add paragraphs to the existing structure. Remove repeated advice, generic filler, and any unsupported method, sign, or health assertion. Only the supplied verified facts support checkable claims. Do not introduce musty odor, steam, essential oils, diatomaceous earth, home heating, eradication promises, or treatment guarantees unless an exact supplied fact supports the claim. A local topic needs a practical local quote-comparison framework, never invented local prices or providers. Write ${BLOG_LENGTH_POLICY.targetMinimumWords}-${BLOG_LENGTH_POLICY.targetMaximumWords} reader-visible words, with at least six distinct H2 sections, one treatment or quote comparison table, a numbered decision process, and four specific FAQs. In each section, provide a different decision or step. Cite at least three distinct supplied source pages and add two contextual links to supplied internal pages. Return complete article Markdown and matching structured FAQs, without footnotes or a References section. The independent review will block unsupported or repetitive content.` },
-        { role: "user", content: JSON.stringify({
+        { role: "system", content: `You are a meticulous editor. Rewrite the short draft as one cohesive, useful article. Do not add paragraphs to the existing structure. Remove repeated advice, generic filler, and any unsupported method, sign, or health assertion. Only the supplied verified facts support checkable claims. Each fact's source ID maps to an exact URL in sources; cite that URL, never the ID. Do not introduce musty odor, steam, essential oils, diatomaceous earth, home heating, eradication promises, or treatment guarantees unless an exact supplied fact supports the claim. A local topic needs a practical local quote-comparison framework, never invented local prices or providers. Write ${BLOG_LENGTH_POLICY.targetMinimumWords}-${BLOG_LENGTH_POLICY.targetMaximumWords} reader-visible words, with at least six distinct H2 sections, one treatment or quote comparison table, a numbered decision process, and four specific FAQs. In each section, provide a different decision or step. Cite at least three distinct supplied source pages and add two contextual links to supplied internal pages. Return complete article Markdown and matching structured FAQs, without footnotes or a References section. The independent review will block unsupported or repetitive content.` },
+        { role: "user", content: JSON.stringify(buildEditorialRewritePayload({
           topic: researchBrief.topicalCoverage.primaryTopic,
           readerProblem: researchBrief.searchIntent.readerProblem,
           expectedAnswer: researchBrief.searchIntent.expectedAnswer,
           researchGaps,
-          verifiedFacts: compactFacts(verifiedFacts),
-          allowedInternalPages: relevantInternalPages,
-          metadata: draftToExpand.metadata,
-          shortDraft: draftToExpand.markdown,
-        }) },
+          facts: verifiedFacts,
+          internalPages: relevantInternalPages,
+          draft: draftToExpand,
+        })) },
       ], 4700, 3000, MIN_AUDIT_RESERVE,
     );
     draft = { ...draftToExpand, markdown: rewrite.markdown, faqs: rewrite.faqs };

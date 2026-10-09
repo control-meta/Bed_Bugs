@@ -14,7 +14,10 @@ export function completionAllowance(input: {
     AUTO_BLOG_TOKEN_BUDGET - input.usedTokens - estimatedInputTokens - (input.reserveAfterCall || 0),
   );
   if (limit < input.minimumCompletionTokens) {
-    throw new Error(`Not enough of the ${AUTO_BLOG_TOKEN_BUDGET}-token budget remains for this stage and its required review.`);
+    throw new Error(
+      `Not enough of the ${AUTO_BLOG_TOKEN_BUDGET}-token budget remains for this stage and its required review ` +
+      `(used=${input.usedTokens}, estimatedInput=${estimatedInputTokens}, reserved=${input.reserveAfterCall || 0}, availableCompletion=${Math.max(0, limit)}).`,
+    );
   }
   return limit;
 }
