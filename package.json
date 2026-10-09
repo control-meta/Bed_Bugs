@@ -21,7 +21,7 @@
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
-    "test:blog": "node --test tests/blog-safety.test.mjs && node --import tsx --test tests/blog-image-pipeline.test.ts tests/blog-editorial-standards.test.ts tests/blog-length-policy.test.ts tests/blog-internal-link-layout.test.ts"
+    "test:blog": "node --test tests/blog-safety.test.mjs && node --import tsx --test tests/blog-image-pipeline.test.ts tests/blog-editorial-standards.test.ts tests/blog-length-policy.test.ts tests/blog-internal-link-layout.test.ts tests/blog-curated-evidence.test.ts tests/blog-token-budget.test.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.116.0",

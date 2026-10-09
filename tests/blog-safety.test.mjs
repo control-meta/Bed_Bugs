@@ -7,6 +7,7 @@ import safetyModule from "../lib/blog/safety.js";
 
 const {
   calculateCannibalization,
+  removeUnsupportedProse,
   scanHallucinations,
 } = safetyModule;
 
@@ -85,6 +86,46 @@ test("a technical claim keeps its cited URL when the domain contains periods", (
   const markdown = `# Treatment\n\nSteam is effective against bed bugs according to [EPA guidance](${sourceUrl}).\n\n## FAQ\n\n### What next?\n\nSee our [contact page](/contact).`;
   const warnings = scanHallucinations(markdown, evidence, ["/contact"]);
   assert.ok(!warnings.some((warning) => warning.code === "UNVERIFIED_TECHNICAL_CLAIM"));
+});
+
+test("a cited source cannot justify a different treatment or an invented temperature", () => {
+  const sourceUrl = "https://www.epa.gov/bedbugs/example";
+  const evidence = [{
+    sourceUrl,
+    claim: "A high-temperature clothes dryer run for 30 minutes can kill bed bugs on suitable bedding and clothing.",
+  }];
+  const markdown = `# Treatment\n\nSteam at 130°F kills bed bugs ([EPA guidance](${sourceUrl})).\n\n## FAQ\n\n### What next?\n\nSee our [contact page](/contact).`;
+  const warnings = scanHallucinations(markdown, evidence, ["/contact"]);
+  assert.ok(warnings.some((warning) => warning.code === "UNVERIFIED_TECHNICAL_CLAIM"));
+});
+
+test("a source about controlling an infestation does not support an eradication guarantee", () => {
+  const sourceUrl = "https://www.epa.gov/bedbugs/example";
+  const evidence = [{ sourceUrl, claim: "Heat treatment can control bed bugs but leaves no residual protection." }];
+  const markdown = `# Treatment\n\nHeat treatment completely eradicates bed bugs ([EPA guidance](${sourceUrl})).\n\n## FAQ\n\n### What next?\n\nSee our [contact page](/contact).`;
+  const warnings = scanHallucinations(markdown, evidence, ["/contact"]);
+  assert.ok(warnings.some((warning) => warning.code === "UNVERIFIED_TECHNICAL_CLAIM"));
+});
+
+test("unsupported complete prose is removed without deleting table or heading content", () => {
+  const prose = "# Treatment\n\nHeat treatment completely eradicates bed bugs.\n\n| Method | Claim |\n| --- | --- |\n| Heat | Completely eradicates bed bugs |";
+  const warnings = [{ risk: "HIGH", excerpt: "Heat treatment completely eradicates bed bugs." }, { risk: "HIGH", excerpt: "| Heat | Completely eradicates bed bugs |" }];
+  const cleaned = removeUnsupportedProse(prose, warnings);
+  assert.ok(!cleaned.includes("Heat treatment completely eradicates bed bugs."));
+  assert.ok(cleaned.includes("| Heat | Completely eradicates bed bugs |"));
+});
+
+test("unsupported FAQ text stays visible to the publication gate", () => {
+  const markdown = "# Treatment\n\nA useful planning step.\n\n## FAQs\n\n### What signs matter?\n\nA musty odor confirms bed bugs.";
+  const warnings = scanHallucinations(markdown, [], []);
+  assert.ok(warnings.some((warning) => warning.code === "UNVERIFIED_TECHNICAL_CLAIM"));
+  assert.equal(removeUnsupportedProse(markdown, warnings), markdown);
+});
+
+test("unsupported natural remedy efficacy is flagged without explicit bed-bug words in its sentence", () => {
+  const markdown = "# Bed bugs\n\nDiatomaceous earth can help with control.\n\n## FAQ\n\n### What next?\n\nSee [contact](/contact).";
+  const warnings = scanHallucinations(markdown, [], ["/contact"]);
+  assert.ok(warnings.some((warning) => warning.code === "UNVERIFIED_TECHNICAL_CLAIM"));
 });
 
 test("near-duplicate topics receive a high cannibalization risk", () => {

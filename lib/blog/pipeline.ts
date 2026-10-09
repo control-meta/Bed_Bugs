@@ -1,10 +1,8 @@
 import OpenAI from "openai";
-import { LengthFinishReasonError } from "openai/error";
 import { z } from "zod";
-import { zodResponseFormat, zodTextFormat } from "openai/helpers/zod";
+import { zodResponseFormat } from "openai/helpers/zod";
 import {
   draftPackageSchema,
-  evidenceResearchSchema,
   factCheckSchema,
   highRiskClaimCategories,
   qualityAuditSchema,
@@ -20,50 +18,46 @@ import {
   calculateDeterministicScores,
   extractUrls,
   normalizeUrl,
+  removeUnsupportedProse,
   scanHallucinations,
   supportSimilarity,
 } from "./safety";
-import { collectWebSearchUrls, verifyEvidenceCandidates } from "./source-verification";
+import { selectCuratedEvidence, supportsCuratedParaphrase } from "./curated-evidence";
 import { getExistingPageInventory } from "./site-inventory";
 import { saveBlogArticle } from "./storage";
 import { BLOG_LENGTH_POLICY, countBlogWords, isPublishableBlogLength } from "./length-policy";
+import { AUTO_BLOG_TOKEN_BUDGET, completionAllowance, totalAfterUsage } from "./token-budget";
 
 const CORE_MODEL = process.env.OPENAI_BLOG_MODEL || "gpt-4o";
-const RESEARCH_MODEL = process.env.OPENAI_RESEARCH_MODEL || "gpt-4o";
 const MAX_REVISIONS = Math.max(0, Math.min(1, Number(process.env.BLOG_MAX_REVISIONS || 0)));
-const AUTO_BLOG_TOKEN_BUDGET = 60000;
-// Web search was consuming ~35k tokens with eight medium-context calls,
-// leaving too little of the run budget for the required fact and quality audits.
-const RESEARCH_MAX_TOOL_CALLS = 3;
-const SectionAdditionsSchema = z.object({
-  additions: z.array(z.object({
-    sectionIndex: z.number().int().nonnegative(),
-    content: z.string(),
-  })),
+const MIN_AUDIT_RESERVE = 6200;
+const EditorialRewriteSchema = z.object({
+  markdown: z.string(),
+  faqs: draftPackageSchema.shape.faqs,
 });
-
-const SOURCE_HIERARCHY = `
-1. Government and regulatory sources
-2. Universities and extension programs
-3. Public-health organizations
-4. Peer-reviewed scientific research
-5. Recognized professional organizations
-6. Established high-quality industry sources
-7. Other reliable sources
-`;
+const IndependentReviewSchema = z.object({
+  claims: factCheckSchema.shape.claims,
+  qualityAudit: qualityAuditSchema,
+});
 
 const WRITING_RULES = `
 - Begin by directly helping the reader recognize or solve the specific problem. Never begin with "This comprehensive guide aims to", "In today's world", "a growing concern", or similar filler.
 - Use a calm, natural voice. Do not use fear, false urgency, exaggerated efficacy, or "peace of mind depends on it" language.
 - Bed bugs are not evidence of poor hygiene. Cleaning and reducing clutter may support inspection and control, but sanitation alone is not eradication.
 - Use precise India context only when the brief or verified evidence makes it relevant. Do not invent state climate explanations, regulations, local behavior, service availability, or pricing.
+- For a city-specific topic without local source facts, make the city angle practical: explain which details the reader should give a local provider and which quote terms to compare. Never imply a particular provider, price, climate effect, or service promise exists there.
 - Never invent an expert, quote, institution, paper, journal, government document, statistic, URL, certification, award, business claim, price, temperature, duration, dosage, success rate, or treatment interval.
 - For SCIENTIFIC, HEALTH, SAFETY, REGULATORY, PRICE, EXPERT, and STATISTICAL claims, use only the verified evidence supplied below. If it is absent, omit the claim or use a non-specific explanation.
 - If no verified PRICE_CLAIM is supplied, give no numeric price, price range, or estimate. Discuss quote factors instead. Do not claim anything about Pune's climate without a verified local-climate source.
 - Do not claim any method kills, eliminates, or effectively treats bed bugs unless a verified fact supports that specific method and effect.
-- Copy source URLs exactly. Cite an important supported claim using a normal Markdown link to its supplied source. Do not create a References section; the application creates it from sources actually used.
-- In the interlinks step, strictly add 4 to 5 contextual internal links using only the supplied internal URLs. Strictly add ONLY ONE (1) high-authority external link across the entire article. All other evidence citations must remain plain text.
-- Build sections around search intent. Prefer useful inspection steps, decision aids, checklists, comparison tables, mistakes, preparation, aftercare, and topic-specific FAQs when they improve the answer.
+- The supplied facts are the complete list of claims you may make about infestation signs, treatment methods, biological effects, health, and safety. Do not add a musty-odor sign, plausible-sounding temperature, success promise, steam procedure, essential-oil remedy, whole-home heat claim, or chemical recommendation from memory.
+- Do not turn qualified evidence into a guarantee. "Can help with control" does not mean "eradicates an infestation"; dryer guidance for suitable fabrics does not apply to a whole room.
+- Keep each factual claim close to its evidence. If a requested angle has no supporting fact, explain what the reader should ask a provider rather than guessing the answer.
+- Copy source URLs exactly. Cite important supported claims using normal Markdown links to their supplied sources. Use at least three distinct source pages when the supplied facts support them. Do not create a References section; the application creates it from sources actually used.
+- Never use bracketed footnotes or fabricated source numbers such as [^1] or [^7^].
+- Add 2 to 4 contextual internal links using only supplied internal URLs. External citations must point only to supplied source URLs.
+- Build sections around search intent. Include a practical comparison table, one numbered decision process, and a short checklist using only supported claims and non-factual questions the reader can ask. Explain quote factors as questions, not asserted local prices or treatment effects.
+- Make at least six distinct H2 sections and four topic-specific FAQs. Answer the title's question in the opening paragraph. Avoid repeating the same tip in the body, table, and FAQs.
 - Write ${BLOG_LENGTH_POLICY.targetMinimumWords}-${BLOG_LENGTH_POLICY.targetMaximumWords} reader-visible words, accepting ${BLOG_LENGTH_POLICY.minimumWords}-${BLOG_LENGTH_POLICY.maximumWords}. Earn length with topic-specific decisions, steps, limitations and useful FAQs; never pad.
 - Return the FAQ content in both the markdown article and the structured faqs field.
 - Start markdown with one H1 matching metadata.h1. Use relative paths such as /services for internal links; never expand them to a made-up domain.
@@ -83,26 +77,19 @@ function logStage(requestId: string, stage: string, details: Record<string, unkn
   console.info(JSON.stringify({ scope: "blog-pipeline", requestId, stage, ...details }));
 }
 
-function addUsage(current: number, usage?: { total_tokens?: number | null } | null) {
-  return current + (usage?.total_tokens || 0);
+function compactFacts(facts: VerifiedFact[]) {
+  return facts.map(({ id, claim, category, sourceTitle, sourceUrl, evidenceExcerpt }) => ({
+    id, claim, category, sourceTitle, sourceUrl, evidenceExcerpt,
+  }));
 }
 
-/** A truncated structured response cannot be parsed or audited. Retry that
- * same stage once with more output room; every other error still fails closed. */
-async function parseWithLengthRetry<T>(
-  requestId: string,
-  stage: string,
-  firstLimit: number,
-  retryLimit: number,
-  parse: (maxCompletionTokens: number) => Promise<T>,
-): Promise<T> {
-  try {
-    return await parse(firstLimit);
-  } catch (error) {
-    if (!(error instanceof LengthFinishReasonError)) throw error;
-    logStage(requestId, `${stage}.length_retry`, { firstLimit, retryLimit });
-    return parse(retryLimit);
-  }
+function selectInternalPages(inventory: Awaited<ReturnType<typeof getExistingPageInventory>>, topic: string) {
+  const essentials = inventory.filter((page) => page.source === "route");
+  const related = inventory
+    .filter((page) => page.source !== "route")
+    .sort((a, b) => supportSimilarity(topic, b.topic) - supportSimilarity(topic, a.topic))
+    .slice(0, 10);
+  return [...essentials, ...related].map(({ url, title }) => ({ url, title }));
 }
 
 function ensureFaqSection(markdown: string, faqs: DraftPackage["faqs"]): string {
@@ -111,6 +98,15 @@ function ensureFaqSection(markdown: string, faqs: DraftPackage["faqs"]): string 
     .map((faq) => `### ${faq.question}\n\n${faq.answer}`)
     .join("\n\n");
   return `${markdown.trim()}\n\n## Frequently Asked Questions\n\n${faqMarkdown}`;
+}
+
+function ensureUsefulInternalLinks(markdown: string, allowedUrls: Set<string>): string {
+  if (/\[[^\]]+\]\(\/[^)\s]+\)/.test(markdown)) return markdown;
+  if (!allowedUrls.has("/services") || !allowedUrls.has("/contact")) return markdown;
+  const nextStep = "If you need a home-specific assessment, compare [bed bug treatment services](/services) and [request an inspection](/contact) using the questions above.";
+  const faqHeading = /^##\s+(?:FAQ|Frequently Asked Questions)/im.exec(markdown);
+  if (!faqHeading || faqHeading.index === undefined) return `${markdown.trim()}\n\n${nextStep}`;
+  return `${markdown.slice(0, faqHeading.index).trim()}\n\n${nextStep}\n\n${markdown.slice(faqHeading.index).trim()}`;
 }
 
 function removeModelReferences(markdown: string): string {
@@ -125,42 +121,21 @@ function removeHallucinatedVisuals(markdown: string): string {
   clean = clean.replace(/^\s*(?:\*|_)?(?:Image|Photo|Picture|Visual|Caption|Figure|Illustration)(?:\s*showing|\s*:|\s+of).*?(?:\*|_)?\s*$/gim, "");
   // 3. Strip any stray markdown caption lines that are just italics under where an image used to be (if they start with just italics)
   clean = clean.replace(/^\s*(?:\*|_)(?:A|An|Close-up|Close up|Macro).*?(?:\*|_)\s*$/gim, "");
+  clean = clean.replace(/\[\^\d+\^?\]/g, "");
   return clean.trim();
-}
-
-function expandableHeadings(markdown: string): string[] {
-  return [...markdown.matchAll(/^##\s+(.+)$/gm)]
-    .map((match) => match[1].trim())
-    .filter((heading) => !/^(?:faq|frequently asked questions|references|sources)$/i.test(heading));
-}
-
-function addDepthToSections(markdown: string, additions: Array<{ sectionIndex: number; content: string }>): string {
-  const lines = markdown.split("\n");
-  const headings = lines.flatMap((line, lineIndex) => {
-    const match = line.match(/^##\s+(.+)$/);
-    return match ? [{ lineIndex, heading: match[1].trim() }] : [];
-  });
-  const expandable = headings.filter(({ heading }) => !/^(?:faq|frequently asked questions|references|sources)$/i.test(heading));
-  const uniqueAdditions = new Map(additions
-    .filter(({ sectionIndex, content }) => sectionIndex < expandable.length && content.trim())
-    .map(({ sectionIndex, content }) => [sectionIndex, content.trim()]));
-
-  for (const [sectionIndex, content] of [...uniqueAdditions].sort((a, b) => b[0] - a[0])) {
-    const headingLine = expandable[sectionIndex].lineIndex;
-    const nextHeading = headings.find(({ lineIndex }) => lineIndex > headingLine);
-    lines.splice(nextHeading?.lineIndex ?? lines.length, 0, "", content, "");
-  }
-  return lines.join("\n");
 }
 
 function appendVerifiedReferences(markdown: string, evidence: VerifiedFact[]): string {
   const clean = removeModelReferences(markdown);
   const usedUrls = new Set(extractUrls(clean).map(normalizeUrl));
-  const usedSources = evidence.filter((fact) => usedUrls.has(normalizeUrl(fact.sourceUrl)));
+  const usedSources = evidence.filter((fact, index) =>
+    usedUrls.has(normalizeUrl(fact.sourceUrl)) &&
+    evidence.findIndex((candidate) => normalizeUrl(candidate.sourceUrl) === normalizeUrl(fact.sourceUrl)) === index,
+  );
   if (!usedSources.length) return clean;
   const entries = usedSources.map((fact) => {
     const date = fact.publicationDate ? `, ${fact.publicationDate}` : "";
-    return `- [${fact.sourceTitle}](${fact.sourceUrl}) — ${fact.publisher}${date}. Accessed ${fact.accessedDate}. Supports: ${fact.claim}`;
+    return `- [${fact.sourceTitle}](${fact.sourceUrl}) — ${fact.publisher}${date}. Accessed ${fact.accessedDate}.`;
   });
   return `${clean}\n\n## References\n\n${entries.join("\n")}`;
 }
@@ -209,7 +184,9 @@ function normalizeFactChecks(checks: FactCheck[], evidence: VerifiedFact[]): Fac
       };
     }
     const source = check.sourceId ? factById.get(check.sourceId) : undefined;
-    const supportMatches = source && supportSimilarity(check.claim, source.claim) >= 0.62;
+    const supportedParaphrase = source && source.category === check.category &&
+      supportsCuratedParaphrase(check.claim, source);
+    const supportMatches = source && (supportSimilarity(check.claim, source.claim) >= 0.62 || supportedParaphrase);
     if (check.verificationStatus === "VERIFIED" && (!source || !supportMatches)) {
       return {
         ...check,
@@ -283,11 +260,44 @@ export async function runBlogPipeline(input: { topic?: string; keywords?: string
   let totalTokens = 0;
   const addBudgetedUsage = (stage: string, usage?: { total_tokens?: number | null } | null) => {
     const stageTokens = usage?.total_tokens || 0;
-    totalTokens = addUsage(totalTokens, usage);
+    totalTokens = totalAfterUsage(totalTokens, usage);
     logStage(requestId, `${stage}.usage`, { stageTokens, totalTokens, remainingTokens: AUTO_BLOG_TOKEN_BUDGET - totalTokens });
     if (totalTokens > AUTO_BLOG_TOKEN_BUDGET) {
       throw new Error(`Generation exceeded the ${AUTO_BLOG_TOKEN_BUDGET}-token budget after ${stage} (${totalTokens} tokens used).`);
     }
+  };
+  const requestStructured = async <T>(
+    stage: string,
+    schema: z.ZodType<T>,
+    formatName: string,
+    messages: Array<{ role: "system" | "user"; content: string }>,
+    desiredCompletionTokens: number,
+    minimumCompletionTokens: number,
+    reserveAfterCall = 0,
+  ): Promise<T> => {
+    const responseFormat = zodResponseFormat(schema, formatName);
+    // Reserve a conservative estimate for the prompt, schema, and required later stages.
+    const completionLimit = completionAllowance({
+      usedTokens: totalTokens,
+      serializedRequest: JSON.stringify({ messages, responseFormat }),
+      desiredCompletionTokens,
+      minimumCompletionTokens,
+      reserveAfterCall,
+    });
+    const response = await openai.chat.completions.create({
+      model: CORE_MODEL,
+      messages,
+      response_format: responseFormat,
+      max_completion_tokens: completionLimit,
+    });
+    // Count usage before parsing so truncated/invalid structured responses are never free in the budget.
+    addBudgetedUsage(stage, response.usage);
+    const choice = response.choices[0];
+    if (choice?.finish_reason === "length") {
+      throw new Error(`${stage} was truncated at ${completionLimit} completion tokens; publication was blocked.`);
+    }
+    if (!choice?.message.content) throw new Error(`${stage} returned no structured content.`);
+    return schema.parse(JSON.parse(choice.message.content));
   };
   const pageInventory = await getExistingPageInventory();
   const basePrompt = input.topic?.trim()
@@ -295,21 +305,15 @@ export async function runBlogPipeline(input: { topic?: string; keywords?: string
     : "Choose one useful bed-bug topic for an Indian reader. Do not claim search volume without keyword-tool data.";
 
   logStage(requestId, "intent.started", { model: CORE_MODEL });
-  const intentResponse = await parseWithLengthRetry(requestId, "intent", 1800, 2800, (maxCompletionTokens) => openai.chat.completions.parse({
-    model: CORE_MODEL,
-    messages: [
+  const researchBrief = await requestStructured(
+    "intent", researchBriefSchema, "article_research_brief", [
       {
         role: "system",
         content: `You are a search-intent strategist. Plan a genuinely useful article before research. Separate meaningful India context from decorative localization. Identify every question that would require current or authoritative evidence. Do not answer research questions and do not invent facts.`,
       },
       { role: "user", content: basePrompt },
-    ],
-    response_format: zodResponseFormat(researchBriefSchema, "article_research_brief"),
-    max_completion_tokens: maxCompletionTokens,
-  }));
-  addBudgetedUsage("intent", intentResponse.usage);
-  const researchBrief = intentResponse.choices[0]?.message.parsed;
-  if (!researchBrief) throw new Error("Intent analysis did not return a valid research brief.");
+    ], 1800, 1200, 12000,
+  );
 
   const cannibalization = calculateCannibalization(
     `${researchBrief.topicalCoverage.primaryTopic} ${researchBrief.searchIntent.primaryKeyword}`,
@@ -317,111 +321,72 @@ export async function runBlogPipeline(input: { topic?: string; keywords?: string
   );
   logStage(requestId, "intent.completed", { cannibalizationRisk: cannibalization.risk, totalTokens });
 
-  logStage(requestId, "research.started", { model: RESEARCH_MODEL, evidenceNeeds: researchBrief.evidenceNeeds.length });
-  const researchResponse = await openai.responses.parse({
-    model: RESEARCH_MODEL,
-    tool_choice: "required",
-    tools: [{
-      type: "web_search",
-      search_context_size: "low",
-      user_location: { type: "approximate", country: "IN", timezone: "Asia/Kolkata" },
-    }],
-    include: ["web_search_call.action.sources"],
-    max_tool_calls: RESEARCH_MAX_TOOL_CALLS,
-    max_output_tokens: 4200,
-    instructions: `You are the evidence researcher, separate from the article writer. Search and open real sources. ${SOURCE_HIERARCHY}\nUse authoritative global sources for stable identification, biology, inspection, and control facts; India-specific sourcing is required only for genuinely India-specific regulatory, business, price, or local claims. Seek several authoritative HTML pages; PDF files cannot be verified by this system. For scientific, health, safety, regulatory, price, expert, and statistical claims, industry and other sources are insufficient. Return only claims directly supported by a retrieved page. Copy the page URL and title from the retrieval result. evidenceExcerpt must be a short, faithful excerpt from the page, not a paraphrase. Set freshnessMatters to true only for prices, current statistics, current regulations, or recommendations likely to change; it is false for stable identification and biology. Do not invent a missing date, author, expert, quote, institution, document, price, statistic, or URL. Use null for an unavailable publication date. For current prices, prefer configured first-party data, which is absent here; do not infer market ranges.`,
-    input: `Topic: ${researchBrief.topicalCoverage.primaryTopic}\nEvidence needs: ${JSON.stringify(researchBrief.evidenceNeeds)}\nFind several authoritative HTML sources for these needs only. Also identify related user questions without inventing keyword volumes.`,
-    text: { format: zodTextFormat(evidenceResearchSchema, "verified_evidence_candidates") },
-  });
-  addBudgetedUsage("research", researchResponse.usage);
-  const evidenceResearch = researchResponse.output_parsed;
-  if (!evidenceResearch) throw new Error("Web research did not return structured evidence candidates.");
-  const discoveredUrls = collectWebSearchUrls(researchResponse);
-  const completedWebSearch = researchResponse.output.some(
-    (item) => item.type === "web_search_call" && item.status === "completed",
-  );
-  const sourceListFallback = completedWebSearch && discoveredUrls.size === 0;
-  const { verifiedFacts, rejectedEvidence } = await verifyEvidenceCandidates(
-    evidenceResearch.candidates,
-    discoveredUrls,
-    sourceListFallback,
-  );
-  logStage(requestId, "research.completed", {
-    outputTypes: researchResponse.output.map((item) => item.type),
-    discoveredUrls: discoveredUrls.size,
-    sourceListFallback,
-    matchedCandidates: evidenceResearch.candidates.filter((item) => discoveredUrls.has(normalizeUrl(item.sourceUrl))).length,
-    candidates: evidenceResearch.candidates.length,
-    verified: verifiedFacts.length,
-    rejected: rejectedEvidence.length,
-    rejectionReasons: rejectedEvidence.map((item) => item.reason),
-    totalTokens,
-  });
+  const verifiedFacts = selectCuratedEvidence(researchBrief.topicalCoverage.primaryTopic);
+  const rejectedEvidence: Array<{ claim: string; sourceUrl: string; reason: string }> = [];
+  const researchGaps = researchBrief.evidenceNeeds
+    .filter((need) => need.required && !verifiedFacts.some((fact) =>
+      fact.category === need.category && supportSimilarity(need.question, fact.claim) >= 0.4,
+    ))
+    .map((need) => need.question);
+  logStage(requestId, "research.curated", { verified: verifiedFacts.length, researchGaps: researchGaps.length, totalTokens });
   if (!verifiedFacts.length && researchBrief.evidenceNeeds.some((need) => need.required)) {
     throw new Error("No research source passed live URL, title, and excerpt verification. The article was not published.");
   }
 
   const allowedInternalUrls = new Set(pageInventory.map((page) => page.url));
+  const relevantInternalPages = selectInternalPages(pageInventory, researchBrief.topicalCoverage.primaryTopic);
   const writerInput = {
-    researchBrief,
-    verifiedFacts,
-    relatedQuestions: evidenceResearch.relatedQuestions,
-    researchGaps: evidenceResearch.researchGaps,
-    allowedInternalPages: pageInventory,
+    searchIntent: researchBrief.searchIntent,
+    topic: researchBrief.topicalCoverage.primaryTopic,
+    outline: researchBrief.outline,
+    meaningfulLocalConsiderations: researchBrief.topicalCoverage.meaningfulLocalConsiderations,
+    informationGainOpportunities: researchBrief.topicalCoverage.informationGainOpportunities,
+    verifiedFacts: compactFacts(verifiedFacts),
+    relatedQuestions: researchBrief.searchIntent.likelyFollowUpQuestions,
+    researchGaps,
+    allowedInternalPages: relevantInternalPages,
   };
 
   logStage(requestId, "draft.started", { model: CORE_MODEL });
-  const draftResponse = await parseWithLengthRetry(requestId, "draft", 5500, 7500, (maxCompletionTokens) => openai.chat.completions.parse({
-    model: CORE_MODEL,
-    messages: [
+  const drafted = await requestStructured(
+    "draft", draftPackageSchema, "evidence_bound_article", [
       { role: "system", content: `You are the article writer. You cannot browse and must treat the supplied evidence and URL lists as closed sets.\n${WRITING_RULES}` },
-      { role: "user", content: JSON.stringify(writerInput, null, 2) },
-    ],
-    response_format: zodResponseFormat(draftPackageSchema, "evidence_bound_article"),
-    max_completion_tokens: maxCompletionTokens,
-  }));
-  addBudgetedUsage("draft", draftResponse.usage);
-  let draft = draftResponse.choices[0]?.message.parsed;
-  if (!draft) throw new Error("The writer did not return a valid article package.");
+      { role: "user", content: JSON.stringify(writerInput) },
+    ], 5500, 3300, 5800,
+  );
+  let draft = drafted;
   logStage(requestId, "draft.completed", {
     words: countBlogWords(draft.markdown),
     totalTokens,
   });
-  if (countBlogWords(draft.markdown) < BLOG_LENGTH_POLICY.minimumWords) {
+  const preparedDraftWords = countBlogWords(appendVerifiedReferences(ensureFaqSection(
+    removeModelReferences(removeHallucinatedVisuals(draft.markdown)), draft.faqs,
+  ), verifiedFacts));
+  if (preparedDraftWords < BLOG_LENGTH_POLICY.minimumWords) {
     const draftToExpand = draft;
-    const headings = expandableHeadings(draftToExpand.markdown).slice(0, 6);
-    if (!headings.length) throw new Error("The article has no sections that can be expanded safely.");
-    // The model tends to deliver fewer words than requested for additions.
-    // Ask with headroom while the final 1500-2400 gate remains authoritative.
-    const wordsPerSection = Math.max(200, Math.min(320,
-      Math.ceil((BLOG_LENGTH_POLICY.targetMinimumWords - countBlogWords(draftToExpand.markdown) + 100) / headings.length / 0.65),
-    ));
-    logStage(requestId, "draft.length_repair.started", { words: countBlogWords(draftToExpand.markdown), sections: headings.length });
-    const sectionBatches = [headings.slice(0, 3), headings.slice(3, 6)].filter((batch) => batch.length);
-    const repairResponses = await Promise.all(sectionBatches.map((batch, batchIndex) =>
-      parseWithLengthRetry(requestId, `draft.length_repair.${batchIndex + 1}`, 3000, 4500, (maxCompletionTokens) => openai.chat.completions.parse({
-        model: CORE_MODEL,
-        messages: [
-          { role: "system", content: "You are an evidence-bound editor adding useful depth to existing sections. Write only new paragraphs. Do not rewrite or summarize the article. Do not repeat existing points or invent claims, prices, statistics, safety advice, URLs, or business facts. Cite the exact supplied source URL immediately after any externally checkable claim. Omit a claim when no supplied fact supports it. The independent fact checker will reject unsupported additions." },
-          { role: "user", content: JSON.stringify({
-            task: `Write one addition of approximately ${wordsPerSection} words for EACH listed section. Give practical steps, decisions, examples, limitations or comparisons specific to that section. Return the sectionIndex and new paragraphs only. Use only supplied facts for externally checkable claims.`,
-            topic: researchBrief.topicalCoverage.primaryTopic,
-            sections: batch.map((heading, index) => ({ sectionIndex: batchIndex * 3 + index, heading })),
-            verifiedFacts,
-            existingMarkdown: draftToExpand.markdown,
-          }, null, 2) },
-        ],
-        response_format: zodResponseFormat(SectionAdditionsSchema, "section_additions"),
-        max_completion_tokens: maxCompletionTokens,
-      }))
-    ));
-    for (const [index, response] of repairResponses.entries()) addBudgetedUsage(`draft.length_repair.${index + 1}`, response.usage);
-    const additions = repairResponses.flatMap((response) => response.choices[0]?.message.parsed?.additions || []);
-    if (!additions.length) throw new Error("The length repair did not return section additions.");
-    draft = { ...draftToExpand, markdown: addDepthToSections(draftToExpand.markdown, additions) };
-    logStage(requestId, "draft.length_repair.completed", { words: countBlogWords(draft.markdown), totalTokens });
-    if (countBlogWords(draft.markdown) < BLOG_LENGTH_POLICY.minimumWords - 100) {
-      throw new Error(`Article remained too short after focused expansion (${countBlogWords(draft.markdown)} words); publication was blocked.`);
+    logStage(requestId, "draft.editorial_rewrite.started", { preparedWords: preparedDraftWords });
+    const rewrite = await requestStructured(
+      "draft.editorial_rewrite", EditorialRewriteSchema, "evidence_bound_rewrite", [
+        { role: "system", content: `You are a meticulous editor. Rewrite the short draft as one cohesive, useful article. Do not add paragraphs to the existing structure. Remove repeated advice, generic filler, and any unsupported method, sign, or health assertion. Only the supplied verified facts support checkable claims. Do not introduce musty odor, steam, essential oils, diatomaceous earth, home heating, eradication promises, or treatment guarantees unless an exact supplied fact supports the claim. A local topic needs a practical local quote-comparison framework, never invented local prices or providers. Write ${BLOG_LENGTH_POLICY.targetMinimumWords}-${BLOG_LENGTH_POLICY.targetMaximumWords} reader-visible words, with at least six distinct H2 sections, one treatment or quote comparison table, a numbered decision process, and four specific FAQs. In each section, provide a different decision or step. Cite at least three distinct supplied source pages and add two contextual links to supplied internal pages. Return complete article Markdown and matching structured FAQs, without footnotes or a References section. The independent review will block unsupported or repetitive content.` },
+        { role: "user", content: JSON.stringify({
+          topic: researchBrief.topicalCoverage.primaryTopic,
+          readerProblem: researchBrief.searchIntent.readerProblem,
+          expectedAnswer: researchBrief.searchIntent.expectedAnswer,
+          researchGaps,
+          verifiedFacts: compactFacts(verifiedFacts),
+          allowedInternalPages: relevantInternalPages,
+          metadata: draftToExpand.metadata,
+          shortDraft: draftToExpand.markdown,
+        }) },
+      ], 4700, 3000, MIN_AUDIT_RESERVE,
+    );
+    draft = { ...draftToExpand, markdown: rewrite.markdown, faqs: rewrite.faqs };
+    logStage(requestId, "draft.editorial_rewrite.completed", { words: countBlogWords(draft.markdown), totalTokens });
+    const repairedPreparedWords = countBlogWords(appendVerifiedReferences(ensureFaqSection(
+      removeModelReferences(removeHallucinatedVisuals(draft.markdown)), draft.faqs,
+    ), verifiedFacts));
+    if (repairedPreparedWords < BLOG_LENGTH_POLICY.minimumWords) {
+      throw new Error(`Article remained too short after editorial rewrite (${repairedPreparedWords} prepared words); publication was blocked.`);
     }
   }
 
@@ -431,8 +396,19 @@ export async function runBlogPipeline(input: { topic?: string; keywords?: string
     
     let cleanMarkdown = removeHallucinatedVisuals(candidateDraft.markdown);
     cleanMarkdown = removeModelReferences(cleanMarkdown);
-    let markdown = ensureFaqSection(cleanMarkdown, candidateDraft.faqs);
-    markdown = appendVerifiedReferences(markdown, verifiedFacts);
+    let prose = ensureUsefulInternalLinks(ensureFaqSection(cleanMarkdown, candidateDraft.faqs), allowedInternalUrls);
+    const preliminaryWarnings = scanHallucinations(prose, verifiedFacts, [...allowedInternalUrls]);
+    const prunedProse = removeUnsupportedProse(prose, preliminaryWarnings);
+    if (prunedProse !== prose) {
+      logStage(requestId, "draft.unsupported_prose_removed", { removedWarnings: preliminaryWarnings.filter((warning) => warning.risk === "HIGH").length });
+      prose = prunedProse;
+    }
+    candidateDraft = { ...candidateDraft, markdown: prose };
+    const markdown = appendVerifiedReferences(prose, verifiedFacts);
+    const preparedWordCount = countBlogWords(markdown);
+    if (!isPublishableBlogLength(preparedWordCount)) {
+      throw new Error(`Article length was ${preparedWordCount} words before review; expected ${BLOG_LENGTH_POLICY.minimumWords}-${BLOG_LENGTH_POLICY.maximumWords}.`);
+    }
     // References are generated from verified facts; scan article prose only.
     // Scanning the generated list double-counts its quoted claims as prose.
     const warnings = scanHallucinations(removeModelReferences(markdown), verifiedFacts, [...allowedInternalUrls]);
@@ -459,52 +435,33 @@ export async function runBlogPipeline(input: { topic?: string; keywords?: string
       });
     }
 
-    logStage(requestId, "fact_check.started");
-    const factResponse = await parseWithLengthRetry(requestId, "fact_check", 2400, 3600, (maxCompletionTokens) => openai.chat.completions.parse({
-      model: CORE_MODEL,
-      messages: [
+    logStage(requestId, "independent_review.started");
+    const review = await requestStructured(
+      "independent_review", IndependentReviewSchema, "independent_article_review", [
         {
           role: "system",
-          content: `You are an independent fact checker. Extract every important externally checkable claim from the article, including claims in FAQs, tables, and calls to action. Classify each and compare it only with the verified evidence objects. Model knowledge is not evidence. A claim is VERIFIED only when a supplied evidence object directly supports it; return that exact sourceId. Be especially strict with scientific, health, safety, regulatory, price, expert, and statistical claims. Ordinary advice may be GENERAL_KNOWLEDGE, but specific numbers, efficacy, safety, local, and business claims are not. A non-numeric statement that treatment cost varies with property or infestation factors is the permitted fallback when verified pricing is unavailable; mark it LOW risk and KEEP.`,
-        },
-        { role: "user", content: JSON.stringify({ article: removeModelReferences(markdown), verifiedFacts }) },
-      ],
-      response_format: zodResponseFormat(factCheckSchema, "independent_fact_check"),
-      max_completion_tokens: maxCompletionTokens,
-    }));
-    addBudgetedUsage("fact_check", factResponse.usage);
-    const factChecks = normalizeFactChecks(factResponse.choices[0]?.message.parsed?.claims || [], verifiedFacts);
-    logStage(requestId, "fact_check.completed", { claims: factChecks.length, totalTokens });
-
-    logStage(requestId, "quality_audit.started");
-    const qualityResponse = await parseWithLengthRetry(requestId, "quality_audit", 1500, 2400, (maxCompletionTokens) => openai.chat.completions.parse({
-      model: CORE_MODEL,
-      messages: [
-        {
-          role: "system",
-          content: "You are an independent content evaluator, separate from the writer and fact checker. Each rubric field is 0-10. Each named quality score is 0-100. Score strictly and use the full requested scale. Do not reward authoritative tone. E-E-A-T comes from useful content, transparent sourcing, and real authorship only. Explain concrete weaknesses that an editor can fix.",
+          content: "You are an independent fact checker and content evaluator, separate from the writer. First identify important checkable claims in the article, including FAQs, tables, and calls to action. Compare them only with the supplied verified facts: model knowledge is not evidence. Mark VERIFIED only when a fact directly supports the claim and return its exact sourceId. Unsupported scientific, health, safety, price, regulatory, local, expert, and statistical claims are high risk. Non-numeric explanations of quote factors are permitted. Then score the article strictly: rubric fields 0-10, named quality scores 0-100. Do not reward authoritative tone; give concrete weaknesses. E-E-A-T requires useful content, transparent sourcing, and real authorship.",
         },
         {
           role: "user",
           content: JSON.stringify({
-            searchIntent: researchBrief.searchIntent,
+            searchIntent: {
+              primaryKeyword: researchBrief.searchIntent.primaryKeyword,
+              readerProblem: researchBrief.searchIntent.readerProblem,
+              expectedAnswer: researchBrief.searchIntent.expectedAnswer,
+            },
             article: removeModelReferences(markdown),
             metadata: candidateDraft.metadata,
-            verifiedEvidenceCount: verifiedFacts.length,
-            factChecks,
-            warnings,
-            internalLinks,
-            availableInternalUrls: [...allowedInternalUrls],
+            verifiedFacts: compactFacts(verifiedFacts),
+            warnings: warnings.map(({ code, message, risk }) => ({ code, message, risk })),
+            allowedInternalUrls: relevantInternalPages.map((page) => page.url),
           }),
         },
-      ],
-      response_format: zodResponseFormat(qualityAuditSchema, "independent_quality_audit"),
-      max_completion_tokens: maxCompletionTokens,
-    }));
-    addBudgetedUsage("quality_audit", qualityResponse.usage);
-    const qualityAudit = qualityResponse.choices[0]?.message.parsed;
-    if (!qualityAudit) throw new Error("The independent quality audit did not return valid results.");
-    logStage(requestId, "quality_audit.completed", { totalTokens });
+      ], 4000, 2300,
+    );
+    const factChecks = normalizeFactChecks(review.claims, verifiedFacts);
+    const qualityAudit = review.qualityAudit;
+    logStage(requestId, "independent_review.completed", { claims: factChecks.length, totalTokens });
     const deterministicScores = calculateDeterministicScores({
       markdown,
       metadata: candidateDraft.metadata,
@@ -533,11 +490,14 @@ export async function runBlogPipeline(input: { topic?: string; keywords?: string
       .filter((issue) => !/cannibali[sz]ation|overlap with|recommended action/i.test(issue))
       .slice(0, 15);
     if (!issues.length) break;
+    if (AUTO_BLOG_TOKEN_BUDGET - totalTokens < 9000) {
+      logStage(requestId, "revision.skipped", { reason: "Insufficient budget for rewriting and independent review", totalTokens });
+      break;
+    }
     revisionCount += 1;
     logStage(requestId, "revision.started", { revisionCount, issues: issues.length });
-    const revisionResponse = await parseWithLengthRetry(requestId, "revision", 5500, 7500, (maxCompletionTokens) => openai.chat.completions.parse({
-      model: CORE_MODEL,
-      messages: [
+    const revised = await requestStructured(
+      "revision", draftPackageSchema, "revised_evidence_bound_article", [
         {
           role: "system",
           content: `You are a surgical content editor. Preserve sound sections and fix every supplied weakness. Remove unsupported claims instead of inventing support. Replace removed sentences with specific, non-factual decision guidance that helps the reader and keeps the article within the required word range. You cannot browse. Use the same closed evidence and internal URL sets.\n${WRITING_RULES}`,
@@ -547,18 +507,12 @@ export async function runBlogPipeline(input: { topic?: string; keywords?: string
           content: JSON.stringify({
             issues,
             currentDraft: result.draft,
-            researchBrief,
-            verifiedFacts,
-            allowedInternalPages: pageInventory,
-          }, null, 2),
+            verifiedFacts: compactFacts(verifiedFacts),
+            allowedInternalPages: relevantInternalPages,
+          }),
         },
-      ],
-      response_format: zodResponseFormat(draftPackageSchema, "revised_evidence_bound_article"),
-      max_completion_tokens: maxCompletionTokens,
-    }));
-    addBudgetedUsage("revision", revisionResponse.usage);
-    const revised = revisionResponse.choices[0]?.message.parsed;
-    if (!revised) break;
+      ], 5000, 3500, MIN_AUDIT_RESERVE,
+    );
     if (!isPublishableBlogLength(countBlogWords(revised.markdown))) {
       logStage(requestId, "revision.rejected", {
         reason: "Revised article does not meet the required word range",
@@ -621,7 +575,7 @@ export async function runBlogPipeline(input: { topic?: string; keywords?: string
       evidence: {
         verifiedFacts,
         rejectedEvidence,
-        researchGaps: evidenceResearch.researchGaps,
+        researchGaps,
       },
     },
     audit: {

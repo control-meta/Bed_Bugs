@@ -16,6 +16,7 @@ export function scanHallucinations(
   facts?: VerifiedFact[],
   allowedInternalUrls?: string[],
 ): AuditWarning[];
+export function removeUnsupportedProse(markdown: string, warnings: AuditWarning[]): string;
 export function calculateCannibalization(
   topic: string,
   pages: ExistingPage[],
